@@ -70,7 +70,6 @@
                     <div class="text-center">
                         <label for="">Status</label>
                         <input type="text" name="status" class="form-control">
-                        <input type="checkbox" id="chk_status" class="checkbox-inline">
                     </div>
                     <div class="text-center">
                         <label for="">Fecha de pago de factura</label>
@@ -79,7 +78,6 @@
                     <div class="text-center">
                         <label for="">Contrarecibo</label>
                         <input type="text" name="contrarecibo" class="form-control">
-                        <input type="checkbox" id="chk_contrar" class="checkbox-inline">
                     </div>
                 </div>
                 <div class="d-flex justify-content-between mt-3 mb-3">
@@ -135,14 +133,13 @@
                     <div class="text-center">
                         <label for="">Recibo de pago de factura McGreen</label>
                         <input type="text" name="recibo_pago_fac_mcgreen" class="form-control">
-                        <input type="checkbox" id="chk_recibo_mcgreen" class="checkbox-inline">
                     </div>
                     <div class="text-center">
                         <label for="">Fecha de recibo de pago</label>
                         <input type="date" name="fecha_r_pag" class="form-control">
                     </div>
                 </div>
-                <div class="d-flex justify-content-between mt-3">
+                <div class="d-flex justify-content-around mt-3">
                     <div class="text-center">
                         <label for="">Dólar</label>
                         <input type="number" name="dolares" class="form-control">
@@ -151,6 +148,9 @@
                         <label for="">Monto MXN pagado</label>
                         <input type="number" name="monto_mp_pagado" class="form-control">
                     </div>
+                </div>
+                <div class="alert alert-secondary text-center" role="alert">
+                    <p>Los campos <strong>status</strong>, <strong>contrarecibo</strong> y <strong>recibo de pago de factura McGreen</strong> no son campos requeridos</p>
                 </div>
                 <input type="submit" class="btn btn-dark mt-3" value="Registrar venta">
             </form>
@@ -164,19 +164,6 @@
                 
                 $('#precio_usd').val(parseFloat($this));
             });
-
-            if($("#chk_status").is(":checked")) {
-                    $("input[name='status']").val("Pendiente");
-                    console.log("Checked");
-                }
-            if($("#chk_contrar").is(":checked")) {
-                $("input[name='contrarecibo']").val("Pendiente");
-                console.log("Checked");
-            }
-            if($("#chk_recibo_mcgreen").is(":checked")) {
-                $("input[name='recibo_pago_fac_mcgreen']").val("Pendiente");
-                console.log("Checked");
-            }
         });
     </script>
 </body>

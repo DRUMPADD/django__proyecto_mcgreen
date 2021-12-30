@@ -106,9 +106,12 @@ def generar_cuenta_por_cobrar(request):
             cursor = connection.cursor()
             cursor.callproc("VENTA_MOD",[request.POST['email'],request.POST['status'],request.POST['fecha_pago_fac'],request.POST['contrarecibo'],request.POST['fecha_rec_pago'],request.POST['sp'],request.POST['oc'],request.POST['fecha'],sistema,request.POST['pozo'],request.POST['total_servicios'],request.POST['no_factura'],request.POST['fecha_de_fac'],request.POST['recibo_pago_fac_mcgreen'],request.POST['fecha_r_pag'],request.POST['dolares'],request.POST['monto_mp_pagado']])
             print(cursor.fetchone()[0])
-            if cursor.fetchone()[0] != 'CUENTA POR COBRAR AGREGADA CORRECTAMENTE VERIFIQUE LOS MOVIMIENTOS':
-                messages.error(request, "Ocurrió un error al realizar la venta")
-            messages.success(request, "Venta registrada")
+            if request.POST["fecha_pago_fac"] and request.POST["fecha_rec_pago"] and request.POST["sp"] and request.POST["oc"] and request.POST["fecha"] and request.POST["pozo"] and request.POST["total_servicios"] and request.POST["no_factura"] and request.POST["fecha_de_fac"] and request.POST["recibo_pago_fac_mcgreen"] and request.POST["fecha_r_pag"] and request.POST["dolares"] and request.POST["monto_mp_pagado"]:
+                if cursor.fetchone()[0] != 'CUENTA POR COBRAR AGREGADA CORRECTAMENTE VERIFIQUE LOS MOVIMIENTOS':
+                    messages.error(request, "Ocurrió un error al realizar la venta")
+                messages.success(request, "Venta registrada")
+            else:
+                messages.error(request, "Debe llenar los campos requeridos")
             cursor.close()
             return redirect("/Ventas")
 

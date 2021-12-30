@@ -128,7 +128,7 @@
                         <p {% if message.tags %} id="mensaje" class="alert-heading {{ message.tags }}"{% endif %}>{{ message }}</p>
                     </div>
                 {% else %}
-                    <div class="mt-3 d-flex justify-content-center alert alert-danger messages">
+                    <div id="caja_mensaje" class="mt-3 d-flex justify-content-center alert alert-danger messages">
                         <p {% if message.tags %} id="mensaje" class="alert-heading {{ message.tags }}"{% endif %}>{{ message }}</p>
                     </div>
                 {% endif %}
@@ -234,9 +234,8 @@
                 // $(this).addClass("clicked");
                 $("#form-actualizar").show();
 
-                if(document.getElementById("caja_mensaje")) {
-                    $("#caja_mensaje").hide();
-                }
+                $("#caja_mensaje").hide();
+                
 
                 $("input[name='id_']").val($(element).find("td").eq(0).text());
                 $("input[name='status']").val($(element).find("td").eq(1).text());
