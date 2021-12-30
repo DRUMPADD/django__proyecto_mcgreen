@@ -74,7 +74,7 @@
             </button>
         </form>
         <form action="" method="POST" id="form-actualizar" class="card card-body">
-            <button type="button" class="btn-close" name="closebtn" aria-label="Close"></button>
+            <button type="button" class="btn-close" id="closebtn" aria-label="Close"></button>
             {% csrf_token %}
             <div class="d-flex justify-content-around mb-3">
                 <input type="text" name="id_" style="display: none;" class="form-control">
@@ -121,6 +121,19 @@
             </div>
             <input type="submit" class="btn btn-success text-center mt-3" value="Actualizar">
         </form>
+        {% if messages %}
+            {% for message in messages %}
+                {% if message.tags == 'success' %}
+                    <div id="caja_mensaje" class="mt-3 d-flex justify-content-center alert alert-success messages">
+                        <p {% if message.tags %} id="mensaje" class="alert-heading {{ message.tags }}"{% endif %}>{{ message }}</p>
+                    </div>
+                {% else %}
+                    <div class="mt-3 d-flex justify-content-center alert alert-danger messages">
+                        <p {% if message.tags %} id="mensaje" class="alert-heading {{ message.tags }}"{% endif %}>{{ message }}</p>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
         <div class="table-wrapper-scroll-y my-custom-scrollbar text-center">
             <table id="table" class="table table-hover">
                 <thead>
@@ -221,6 +234,10 @@
                 // $(this).addClass("clicked");
                 $("#form-actualizar").show();
 
+                if(document.getElementById("caja_mensaje")) {
+                    $("#caja_mensaje").hide();
+                }
+
                 $("input[name='id_']").val($(element).find("td").eq(0).text());
                 $("input[name='status']").val($(element).find("td").eq(1).text());
                 $("input[name='fecha_pago_fac']").val($(element).find("td").eq(2).text());
@@ -233,7 +250,7 @@
                 e.preventDefault();
             });
 
-            $(".closebtn").on('click', function () {
+            $("#closebtn").on('click', function () {
                 $("#form-actualizar").hide();
             });
         });

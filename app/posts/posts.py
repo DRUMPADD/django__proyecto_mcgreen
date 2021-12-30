@@ -112,6 +112,19 @@ def generar_cuenta_por_cobrar(request):
             cursor.close()
             return redirect("/Ventas")
 
+def modificar_cuenta_por_cobrar(request):
+    if request.session.get('email'):
+        if request.method == 'POST':
+            cursor = connection.cursor()
+            cursor.callproc("MODIFICA_VENTA_MOD"[request.POST["id_"], request.POST["email"], request.POST["status"], request.POST["fecha_pago_fac"], request.POST["contrarecibo"], request.POST["fecha_rec_pago"], request.POST["fecha_de_fac"], request.POST["recibo_pago_fac_mcgreen"], request.POST["fecha_r_pag"], request.POST["monto_mn_pagado"]])
+            if cursor.fetchall()[0][0] != "CUENTA POR COBRAR MODIFICADA CORRECTAMENTE":
+                messages.error(request, "No se pudo realizar la modificación")
+            messages.success(request, "Cuenta por cobrar modificada correctamente")
+            return redirect("/Ver_cuentas_por_cobrar")
+        return redirect("/Ver_cuentas_por_cobrar")
+    return redirect("/cerrar_sesion")
+    
+
 def agregar_otros(request):
     if request.method == 'POST':
         cursor = connection.cursor()
