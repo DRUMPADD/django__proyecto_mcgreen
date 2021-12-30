@@ -26,6 +26,7 @@ urlpatterns = [
     path('generar_compra', posts.generar_compra, name="generar_compra"),
     path('generar_venta', posts.generar_venta, name="generar_venta"),
     path('cuenta_por_cobrar', posts.generar_cuenta_por_cobrar, name="cuenta_por_cobrar"),
+    path('modificar_cuenta', posts.modificar_cuenta_por_cobrar, name="modificar_cuenta"),
     path('inventario/agrega_producto', posts.agregar_producto, name="agregar_producto"),
     path('proveedores/agregar_proveedores', posts.agregar_proveedores, name="agregar_proveedores"),
     path('clientes/agregar_clientes', posts.agregar_clientes, name="agregar_clientes"),
