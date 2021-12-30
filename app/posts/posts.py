@@ -103,10 +103,10 @@ def generar_cuenta_por_cobrar(request):
     if request.session.get('email'):
         if request.method == 'POST':
             sistema = str(request.POST['sl_sistemas']).split(' ')[0]
-            cursor = connection.cursor()
-            cursor.callproc("VENTA_MOD",[request.POST['email'],request.POST['status'],request.POST['fecha_pago_fac'],request.POST['contrarecibo'],request.POST['fecha_rec_pago'],request.POST['sp'],request.POST['oc'],request.POST['fecha'],sistema,request.POST['pozo'],request.POST['total_servicios'],request.POST['no_factura'],request.POST['fecha_de_fac'],request.POST['recibo_pago_fac_mcgreen'],request.POST['fecha_r_pag'],request.POST['dolares'],request.POST['monto_mp_pagado']])
-            print(cursor.fetchone()[0])
-            if request.POST.get("fecha_pago_fac") is not None and request.POST.get("fecha_rec_pago") is not None and request.POST.get("sp") is not None and request.POST.get("oc") is not None and request.POST.get("fecha") is not None and request.POST.get("pozo") is not None and request.POST.get("total_servicios") is not None and request.POST.get("no_factura") is not None and request.POST.get("fecha_de_fac") is not None and request.POST.get("recibo_pago_fac_mcgreen") is not None and request.POST.get("fecha_r_pag") is not None and request.POST.get("dolares") is not None and request.POST.get("monto_mp_pagado") is not None:
+            if request.POST.get("sp") and request.POST.get("oc") and request.POST.get("fecha") and request.POST.get("pozo") and request.POST.get("total_servicios") and request.POST.get("no_factura") and request.POST.get("recibo_pago_fac_mcgreen") and request.POST.get("dolares") and request.POST.get("monto_mp_pagado"):
+                cursor = connection.cursor()
+                cursor.callproc("VENTA_MOD",[request.POST['email'],request.POST['status'],request.POST['fecha_pago_fac'],request.POST['contrarecibo'],request.POST['fecha_rec_pago'],request.POST['sp'],request.POST['oc'],request.POST['fecha'],sistema,request.POST['pozo'],request.POST['total_servicios'],request.POST['no_factura'],request.POST['fecha_de_fac'],request.POST['recibo_pago_fac_mcgreen'],request.POST['fecha_r_pag'],request.POST['dolares'],request.POST['monto_mp_pagado']])
+                print(cursor.fetchone()[0])
                 if cursor.fetchone()[0] != 'CUENTA POR COBRAR AGREGADA CORRECTAMENTE VERIFIQUE LOS MOVIMIENTOS':
                     messages.error(request, "Ocurrió un error al realizar la venta")
                 messages.success(request, "Venta registrada")
