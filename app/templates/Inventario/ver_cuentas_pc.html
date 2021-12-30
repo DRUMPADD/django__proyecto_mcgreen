@@ -73,7 +73,7 @@
                 </i>
             </button>
         </form>
-        <form action="/modificar_cuenta" method="POST" id="form-actualizar" class="card card-body">
+        <form action="/modificar_cuenta" method="POST" id="form-actualizar" class="card card-body" style="transition: .3s ease-out;">
             <button type="button" class="btn-close" id="closebtn" aria-label="Close"></button>
             {% csrf_token %}
             <div class="d-flex justify-content-around mb-3">
@@ -251,6 +251,7 @@
             });
 
             $("#closebtn").on('click', function () {
+                $("#form-actualizar").trigger("reset");
                 $("#form-actualizar").hide();
             });
         });
