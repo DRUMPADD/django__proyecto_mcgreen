@@ -20,6 +20,7 @@ def registra_usuario(request):
                 cursor.callproc("AGREGAR_USUARIO",[request.session.get("email"), formulario["matricula"].value(),formulario["nombre_usuario"].value(),formulario["ap_p"].value(),formulario["ap_m"].value(),formulario["sl_puestos"].value(),formulario["email"].value()+ext_email,formulario["contra"].value(),formulario["rol"].value()])
                 print(cursor.fetchall())
                 print(cursor.fetchone())
+                print(cursor.fetchmany(1))
                 # if cursor.fetchall()[0][0] == 'USUARIO CREADO':
                 #     messages.success(request, cursor.fetchall()[0])
                 # messages.error(request, cursor.fetchall()[0])
