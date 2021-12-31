@@ -12,15 +12,16 @@ from openpyxl.styles.borders import BORDER_THIN, Border, Side
 
 def registra_usuario(request):
     if request.session.get('email'):
-        cursor = connection.cursor()
         if request.method == 'POST':
             formulario = Formulario_registro(request.POST)
             if formulario.is_valid():
+                cursor = connection.cursor()
                 ext_email = formulario["slemail"].value()
                 cursor.callproc("AGREGAR_USUARIO",[request.session.get("email"), formulario["matricula"].value(),formulario["nombre_usuario"].value(),formulario["ap_p"].value(),formulario["ap_m"].value(),formulario["sl_puestos"].value(),formulario["email"].value()+ext_email,formulario["contra"].value(),formulario["rol"].value()])
                 if cursor.fetchall()[0][0] == 'USUARIO CREADO':
-                    messages.success(request, cursor.fetchall()[0][0])
-                messages.error(request, cursor.fetchall()[0][0])
+                    messages.success(request, cursor.fetchall()[0])
+                messages.error(request, cursor.fetchall()[0])
+                cursor.close()
                 return redirect("/Registro")
             else:
                 print(formulario.errors)
@@ -104,7 +105,7 @@ def generar_cuenta_por_cobrar(request):
         if request.method == 'POST':
             cursor = connection.cursor()
             sistema = str(request.POST['sl_sistemas']).split(' ')[0]
-            if request.POST.get("sp") and request.POST.get("oc") and request.POST.get("fecha") and request.POST.get("pozo") and request.POST.get("total_servicios") and request.POST.get("no_factura") and request.POST.get("recibo_pago_fac_mcgreen") and request.POST.get("dolares") and request.POST.get("monto_mp_pagado"):
+            if request.POST.get("sp") and request.POST.get("oc") and request.POST.get("fecha") and sistema is not None and request.POST.get("pozo") and request.POST.get("total_servicios") and request.POST.get("no_factura") and request.POST.get("dolares") and request.POST.get("monto_mp_pagado"):
                 cursor.callproc("VENTA_MOD",[request.POST['email'],request.POST['status'],request.POST['fecha_pago_fac'],request.POST['contrarecibo'],request.POST['fecha_rec_pago'],request.POST['sp'],request.POST['oc'],request.POST['fecha'],sistema,request.POST['pozo'],request.POST['total_servicios'],request.POST['no_factura'],request.POST['fecha_de_fac'],request.POST['recibo_pago_fac_mcgreen'],request.POST['fecha_r_pag'],request.POST['dolares'],request.POST['monto_mp_pagado']])
                 print(cursor.fetchone()[0])
                 if cursor.fetchone()[0] != 'CUENTA POR COBRAR AGREGADA CORRECTAMENTE VERIFIQUE LOS MOVIMIENTOS':
