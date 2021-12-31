@@ -19,7 +19,7 @@ def registra_usuario(request):
                 ext_email = formulario["slemail"].value()
                 cursor.callproc("AGREGAR_USUARIO",[request.session.get("email"), formulario["matricula"].value(),formulario["nombre_usuario"].value(),formulario["ap_p"].value(),formulario["ap_m"].value(),formulario["sl_puestos"].value(),formulario["email"].value()+ext_email,formulario["contra"].value(),formulario["rol"].value()])
                 print(cursor.fetchall())
-                print(cursor.fetchall()[0])
+                print(cursor.fetchone())
                 # if cursor.fetchall()[0][0] == 'USUARIO CREADO':
                 #     messages.success(request, cursor.fetchall()[0])
                 # messages.error(request, cursor.fetchall()[0])
@@ -27,7 +27,7 @@ def registra_usuario(request):
                 return redirect("/Registro")
             else:
                 print(formulario.errors)
-                return HttpResponse("Tu formulario está mal :v")
+                return HttpResponse("Debe llenar los campos de manera correcta")
         return HttpResponse("No hice nada")
 
 def agregar_producto(request):
