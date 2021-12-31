@@ -7,22 +7,25 @@ from .forms import formulario_cliente, formulario_proveedor, Formulario_registro
 # Create your views here.
 # ?? Sesiones
 def iniciar_sesion(request):
-    if request.method == 'POST':
-        try:
-            cursor = connection.cursor()
-            cursor.execute("Select privilegio_id from app_usuarios where email = %s",[request.POST["user"]])
-            privilegio = cursor.fetchone()
-            cursor.callproc("VERIFICAR_USUARIO",[request.POST["user"], request.POST["pass"]])
-            mensaje = cursor.fetchone()[0]
-            if mensaje == 'EXISTE':
-                request.session["email"] = request.POST["user"]
-                request.session["privilegio"] = privilegio[0]
-                return redirect("/Inventario_general")
-            else:
-                return HttpResponse("<h1>No existe el usuario</h1>")
-        finally:
-            cursor.close()
-    return render(request, 'login.html')
+    if request.session.get("email"):
+        return redirect("/Inventario_general")
+    else:
+        if request.method == 'POST':
+            try:
+                cursor = connection.cursor()
+                cursor.execute("Select privilegio_id from app_usuarios where email = %s",[request.POST["user"]])
+                privilegio = cursor.fetchone()
+                cursor.callproc("VERIFICAR_USUARIO",[request.POST["user"], request.POST["pass"]])
+                mensaje = cursor.fetchone()[0]
+                if mensaje == 'EXISTE':
+                    request.session["email"] = request.POST["user"]
+                    request.session["privilegio"] = privilegio[0]
+                    return redirect("/Inventario_general")
+                else:
+                    return HttpResponse("<h1>No existe el usuario</h1>")
+            finally:
+                cursor.close()
+        return render(request, 'login.html')
 
 def registro(request):
     if request.session.get('email'):
@@ -115,6 +118,7 @@ def compras(request):
 # ?? Ventas
 def ventas(request):
     if request.session.get('email'):
+
         if request.method != 'POST':
             cursor = connection.cursor()
             cursor.callproc('MOSTRAR_SISTEMAS_ACTIVOS')

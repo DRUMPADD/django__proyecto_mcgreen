@@ -21,8 +21,8 @@ def registra_usuario(request):
                 mensaje = cursor.fetchall()
                 print(mensaje[0][0])
                 if mensaje[0][0] == 'USUARIO CREADO':
-                    messages.success(request, cursor.fetchall())
-                messages.error(request, cursor.fetchall())
+                    messages.success(request, mensaje[0][0])
+                messages.error(request, mensaje[0][0])
                 cursor.close()
                 return redirect("/Registro")
             else:
