@@ -19,6 +19,7 @@ def registra_usuario(request):
                 ext_email = formulario["slemail"].value()
                 cursor.callproc("AGREGAR_USUARIO",[request.session.get("email"), formulario["matricula"].value(),formulario["nombre_usuario"].value(),formulario["ap_p"].value(),formulario["ap_m"].value(),formulario["sl_puestos"].value(),formulario["email"].value()+ext_email,formulario["contra"].value(),formulario["rol"].value()])
                 print(cursor.fetchall())
+                print(cursor.fetchall()[0])
                 # if cursor.fetchall()[0][0] == 'USUARIO CREADO':
                 #     messages.success(request, cursor.fetchall()[0])
                 # messages.error(request, cursor.fetchall()[0])
@@ -106,7 +107,7 @@ def generar_cuenta_por_cobrar(request):
         if request.method == 'POST':
             cursor = connection.cursor()
             sistema = str(request.POST['sl_sistemas']).split(' ')[0]
-            if request.POST.get("sp") and request.POST.get("oc") and request.POST.get("fecha") and sistema is not None and request.POST.get("pozo") and request.POST.get("total_servicios") and request.POST.get("no_factura") and request.POST.get("dolares") and request.POST.get("monto_mp_pagado"):
+            if request.POST.get("sp") is not None and request.POST.get("oc") is not None and request.POST.get("fecha") is not None and sistema is not None and request.POST.get("pozo") is not None and request.POST.get("total_servicios") is not None and request.POST.get("no_factura") is not None and request.POST.get("dolares") is not None and request.POST.get("monto_mp_pagado") is not None:
                 cursor.callproc("VENTA_MOD",[request.POST['email'],request.POST['status'],request.POST['fecha_pago_fac'],request.POST['contrarecibo'],request.POST['fecha_rec_pago'],request.POST['sp'],request.POST['oc'],request.POST['fecha'],sistema,request.POST['pozo'],request.POST['total_servicios'],request.POST['no_factura'],request.POST['fecha_de_fac'],request.POST['recibo_pago_fac_mcgreen'],request.POST['fecha_r_pag'],request.POST['dolares'],request.POST['monto_mp_pagado']])
                 print(cursor.fetchone()[0])
                 if cursor.fetchone()[0] != 'CUENTA POR COBRAR AGREGADA CORRECTAMENTE VERIFIQUE LOS MOVIMIENTOS':
@@ -116,6 +117,10 @@ def generar_cuenta_por_cobrar(request):
                 messages.error(request, "Debe llenar los campos requeridos")
             cursor.close()
             return redirect("/Ventas")
+        else:
+            return redirect("/Ventas")
+    else:
+        return redirect("/cerrar_sesion")
 
 def modificar_cuenta_por_cobrar(request):
     if request.session.get('email'):
@@ -125,6 +130,7 @@ def modificar_cuenta_por_cobrar(request):
             if cursor.fetchall()[0][0] != "CUENTA POR COBRAR MODIFICADA CORRECTAMENTE":
                 messages.error(request, "No se pudo realizar la modificación")
             messages.success(request, "Cuenta por cobrar modificada correctamente")
+            cursor.close()
             return redirect("/Ver_cuentas_por_cobrar")
         return redirect("/Ver_cuentas_por_cobrar")
     return redirect("/cerrar_sesion")
