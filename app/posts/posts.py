@@ -19,8 +19,8 @@ def registra_usuario(request):
                 ext_email = formulario["slemail"].value()
                 cursor.callproc("AGREGAR_USUARIO",[request.session.get("email"), formulario["matricula"].value(),formulario["nombre_usuario"].value(),formulario["ap_p"].value(),formulario["ap_m"].value(),formulario["sl_puestos"].value(),formulario["email"].value()+ext_email,formulario["contra"].value(),formulario["rol"].value()])
                 mensaje = cursor.fetchall()
-                print(mensaje[0])
-                if cursor.fetchall() == 'USUARIO CREADO':
+                print(mensaje[0][0])
+                if mensaje[0][0] == 'USUARIO CREADO':
                     messages.success(request, cursor.fetchall())
                 messages.error(request, cursor.fetchall())
                 cursor.close()
