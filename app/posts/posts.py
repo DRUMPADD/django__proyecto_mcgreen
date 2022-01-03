@@ -82,9 +82,6 @@ def generar_compra(request):
         if request.method == 'POST':
             cursor = connection.cursor()
             cursor.callproc("COMPRA",[request.POST["sl_productos"], request.POST["comprador"], request.POST["cantidad"], request.POST["p_u"], request.POST["fecha_compra"], request.POST["sl_proveedores"], request.POST["motivo"]])
-            print(cursor.fetchone())
-            print(cursor.nextset())
-            print(cursor.fetchone())
             if cursor.fetchone()[0] != 'FACTURA DISPONIBLE':
                 messages.error(request, "Ocurrió un error al realizar la compra")
             messages.success(request, "Compra registrada")
