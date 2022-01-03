@@ -95,9 +95,9 @@
                             <td>{{ compra.3 }}</td>
                             <td>{{ compra.4 }}</td>
                             <td>{{ compra.5|floatformat:0 }}</td>
-                            <td>$ {{ compra.6|floatformat:2 }}</td>
+                            <td>$ {{ compra.6|floatformat:2|intcomma }}</td>
                             <td>{{ compra.7 }}</td>
-                            <td>$ {{ compra.8|floatformat:2 }}</td>
+                            <td>$ {{ compra.8|floatformat:2|intcomma }}</td>
                         </tr>
                     {% endfor %}
                 </tbody>
