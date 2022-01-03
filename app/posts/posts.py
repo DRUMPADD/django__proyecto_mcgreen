@@ -82,9 +82,12 @@ def generar_compra(request):
         if request.method == 'POST':
             cursor = connection.cursor()
             cursor.callproc("COMPRA",[request.POST["sl_productos"], request.POST["comprador"], request.POST["cantidad"], request.POST["p_u"], request.POST["fecha_compra"], request.POST["sl_proveedores"], request.POST["motivo"]])
-            if cursor.fetchone()[0] != 'FACTURA DISPONIBLE':
+            mensaje = cursor.fetchone()[0]
+            print(mensaje)
+            if mensaje != 'FACTURA DISPONIBLE':
                 messages.error(request, "Ocurrió un error al realizar la compra")
-            messages.success(request, "Compra registrada")
+            else:
+                messages.success(request, "Compra registrada")
             cursor.close()
             return redirect("/Compras")
     else:
@@ -111,7 +114,8 @@ def generar_cuenta_por_cobrar(request):
                 print(mensaje)
                 if mensaje != 'CUENTA POR COBRAR AGREGADA CORRECTAMENTE VERIFIQUE LOS MOVIMIENTOS':
                     messages.error(request, "Ocurrió un error al realizar la venta")
-                messages.success(request, "Venta registrada")
+                else:
+                    messages.success(request, "Venta registrada")
             else:
                 messages.error(request, "Debe llenar los campos requeridos")
             cursor.close()
@@ -128,7 +132,8 @@ def modificar_cuenta_por_cobrar(request):
             cursor.callproc("MODIFICA_VENTA_MOD",[request.POST["id_"], request.POST["email"], request.POST["status"], request.POST["fecha_pago_fac"], request.POST["contrarecibo"], request.POST["fecha_rec_pago"], request.POST["fecha_de_fac"], request.POST["recibo_pago_fac_mcgreen"], request.POST["fecha_r_pag"], request.POST["monto_mn_pagado"]])
             if cursor.fetchall()[0][0] != "CUENTA POR COBRAR MODIFICADA CORRECTAMENTE":
                 messages.error(request, "No se pudo realizar la modificación")
-            messages.success(request, "Cuenta por cobrar modificada correctamente")
+            else:
+                messages.success(request, "Cuenta por cobrar modificada correctamente")
             cursor.close()
             return redirect("/Ver_cuentas_por_cobrar")
         return redirect("/Ver_cuentas_por_cobrar")
@@ -141,7 +146,8 @@ def agregar_otros(request):
         cursor.callproc("MOV_INV", [request.POST["sl_productos"], request.POST["email"], request.POST["cantidad"], request.POST["fecha_otro"], request.POST["motivo"], request.POST["sl_tipo_mov"], request.POST["org_des"]])
         if cursor.fetchall()[0][0] != 'FACTURA DISPONIBLE':
             messages.error(request, "Ocurrió un error al realizar la operación")
-        messages.success(request, "Operación realizada correctamente")
+        else:
+            messages.success(request, "Operación realizada correctamente")
         cursor.close()
         return redirect("/Otras_E_S")
 
@@ -182,9 +188,9 @@ def exportar_inventario_excel(request):
     if request.method == 'POST':
         cursor = connection.cursor()
         cursor.callproc("MOSTRAR_PRODUCTOS_ACTIVOS")
-        filas = cursor.fetchall()
+        filas_datos = cursor.fetchall()
         cont = 0
-        cont = [cont + 1 for row in filas]
+        cont = [cont + 1 for row in filas_datos]
         
         bordes = Border(left=Side(border_style=BORDER_THIN), top=Side(border_style=BORDER_THIN), right=Side(border_style=BORDER_THIN), bottom=Side(border_style=BORDER_THIN))
 
@@ -310,9 +316,9 @@ def exportar_compras_excel(request):
     if request.method == 'POST':
         cursor = connection.cursor()
         cursor.callproc("MOSTRAR_COMPRAS")
-        filas = cursor.fetchall()
+        filas_datos = cursor.fetchall()
         cont = 0
-        cont = [cont + 1 for row in filas]
+        cont = [cont + 1 for row in filas_datos]
 
         bordes = Border(left=Side(border_style=BORDER_THIN), top=Side(border_style=BORDER_THIN), right=Side(border_style=BORDER_THIN), bottom=Side(border_style=BORDER_THIN))
         
@@ -439,9 +445,9 @@ def exportar_ventas_excel(request):
     if request.method == 'POST':
         cursor = connection.cursor()
         cursor.callproc("MOSTRAR_VENTAS")
-        filas = cursor.fetchall()
+        filas_datos = cursor.fetchall()
         cont = 0
-        cont = [cont + 1 for row in filas]
+        cont = [cont + 1 for row in filas_datos]
         
         bordes = Border(left=Side(border_style=BORDER_THIN), top=Side(border_style=BORDER_THIN), right=Side(border_style=BORDER_THIN), bottom=Side(border_style=BORDER_THIN))
 
@@ -568,9 +574,9 @@ def exportar_diferentes_movimientos_excel(request):
     if request.method == 'POST':
         cursor = connection.cursor()
         cursor.callproc("MOSTRAR_MOV_IND")
-        filas = cursor.fetchall()
+        filas_datos = cursor.fetchall()
         cont = 0
-        cont = [cont + 1 for row in filas]
+        cont = [cont + 1 for row in filas_datos]
         
         bordes = Border(left=Side(border_style=BORDER_THIN), top=Side(border_style=BORDER_THIN), right=Side(border_style=BORDER_THIN), bottom=Side(border_style=BORDER_THIN))
 
