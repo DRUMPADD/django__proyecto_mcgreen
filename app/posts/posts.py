@@ -100,6 +100,10 @@ def generar_venta(request):
             cursor.callproc("VENTA_MOD",[request.POST["sl_sistemas"].split(' ')[0],request.POST["vendedor"],request.POST["cantidad"],request.POST["p_u"],request.POST["fecha"],request.POST["motivo"],request.POST["sl_clientes"],request.POST["articulo"]])
             cursor.close()
             return redirect("/Ventas")
+        else:
+            return redirect("/Ventas")
+    else:
+        return redirect("/cerrar_sesion")
 
 
 # ?? Sistemas.split
