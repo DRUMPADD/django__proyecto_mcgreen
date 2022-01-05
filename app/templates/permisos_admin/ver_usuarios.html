@@ -46,34 +46,32 @@
         <h1 class="text-center">Usuarios registrados</h1>
         <div class="row">
             {% for usuario in usuarios %}
-            <form class="actualizar">
-                <div class="col-sm-5 card card-body text-justify">
-                    <div class="form-row d-flex align-items-center justify-content-around">
-                        <div class="form-group col-md-3">
-                            <label class="col-form-label">Nombre</label>
-                            <input type="text" class="form-control nombre" value="{{ usuario.3 }}" readonly="true" style="background-color: rgb(253, 253, 253)!important;">
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label class="col-form-label">Apellido paterno</label>
-                            <input type="text" class="form-control ap_p" value="{{ usuario.4 }}" readonly="true" style="background-color: rgb(253, 253, 253)!important;">
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label class="col-form-label">Apellido materno</label>
-                            <input type="text" class="form-control ap_m" value="{{ usuario.5 }}" readonly="true" style="background-color: rgb(253, 253, 253)!important;">
-                        </div>
+            <form class="form-actualizar col-sm-5 card card-body text-justify">
+                <div class="form-row d-flex align-items-center justify-content-around">
+                    <div class="form-group col-md-3">
+                        <label class="col-form-label">Nombre</label>
+                        <input type="text" class="form-control" id="nombre" value="{{ usuario.3 }}" readonly="true" style="background-color: rgb(253, 253, 253)!important;">
                     </div>
-                    <div class="form-group">
-                        <label for="" class="col-form-label">Privilegio:</label>
-                        <input type="text" class="form-control privilegio" value="{{ usuario.2 }}" readonly="true" style="background-color: rgb(253, 253, 253)!important;">
+                    <div class="form-group col-md-4">
+                        <label class="col-form-label">Apellido paterno</label>
+                        <input type="text" class="form-control" id="ap_p" value="{{ usuario.4 }}" readonly="true" style="background-color: rgb(253, 253, 253)!important;">
                     </div>
-                    <div class="form-group">
-                        <label for="" class="col-form-label">Puesto:</label>
-                        <input type="text" class="form-control puesto" value="{{ usuario.7 }}" readonly="true" style="background-color: rgb(253, 253, 253)!important;">
+                    <div class="form-group col-md-4">
+                        <label class="col-form-label">Apellido materno</label>
+                        <input type="text" class="form-control" id="ap_m" value="{{ usuario.5 }}" readonly="true" style="background-color: rgb(253, 253, 253)!important;">
                     </div>
-                    <div class="d-flex justify-content-evenly mt-3">
-                        <input type="button" name="actualizar" class="btn btn-info col-sm-3" value="Actualizar">
-                        <input type="button" class="btn btn-danger col-sm-3 " value="ELiminar">
-                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-form-label">Privilegio:</label>
+                    <input type="text" class="form-control" id="privilegio" value="{{ usuario.2 }}" readonly="true" style="background-color: rgb(253, 253, 253)!important;">
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-form-label">Puesto:</label>
+                    <input type="text" class="form-control" id="puesto" value="{{ usuario.7 }}" readonly="true" style="background-color: rgb(253, 253, 253)!important;">
+                </div>
+                <div class="d-flex justify-content-evenly mt-3">
+                    <input type="button" name="actualizar" class="btn btn-info col-sm-3" value="Actualizar">
+                    <input type="button" class="btn btn-danger col-sm-3 " value="ELiminar">
                 </div>
             </form>
         {% endfor %}
@@ -90,12 +88,18 @@
     <script>
         $(document).ready(function() {
             $("input[name='actualizar']").on('click', function () {
-                const formulario = $(this)[0].activeElement.parentElement.parentElement.parentElement;
-                let nombre = $(".nombre").val();
-                let ap_p = $(".ap_p").val();
-                let ap_m = $(".ap_m").val();
-                let privilegio = $(".privilegio").val();
-                let puesto = $(".puesto").val();
+                let formulario = $(".form-actualizar");
+                $("#nombre").removeAttr("readonly");
+                $("#ap_p").removeAttr("readonly");
+                $("#ap_m").removeAttr("readonly");
+                $("#privilegio").removeAttr("readonly");
+                $("#puesto").removeAttr("readonly");
+
+                let nombre = $("#nombre").val();
+                let ap_p = $("#ap_p").val();
+                let ap_m = $("#ap_m").val();
+                let privilegio = $("#privilegio").val();
+                let puesto = $("#puesto").val();
 
                 console.log(formulario);
                 console.log(nombre);
