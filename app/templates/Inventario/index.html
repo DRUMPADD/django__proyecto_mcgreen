@@ -39,7 +39,7 @@
             <li class="nav-item"><a class="nav-link" href="/Inventario_general">Inventario general</a></li>
             {% if privilegio == 'ADM-IN1' %}
             <li class="nav-item"><a class="nav-link" href="/Compras">Entradas</a></li>
-            <li class="nav-item"><a class="nav-link" href="/Ventas">Cuentas por cobrar</a></li>
+            <li class="nav-item"><a class="nav-link" href="/Ventas">Ventas</a></li>
             <li class="nav-item"><a class="nav-link" href="/Otras_E_S">Otras E/S</a></li>
             <li class="nav-item"><a class="nav-link" href="/Movimientos">Movimientos de inventario</a></li>
             <li class="nav-item dropdown">
@@ -54,7 +54,7 @@
             <li class="nav-item"><a class="nav-link" href="/Auditoria">Auditoria</a></li>
             {% elif privilegio == 'JEFE' %}
             <li class="nav-item"><a class="nav-link" href="/Compras">Entradas</a></li>
-            <li class="nav-item"><a class="nav-link" href="/Ventas">Cuentas por cobrar</a></li>
+            <li class="nav-item"><a class="nav-link" href="/Ventas">Ventas</a></li>
             <li class="nav-item"><a class="nav-link" href="/Otras_E_S">Otras E/S</a></li>
             <li class="nav-item"><a class="nav-link" href="/Movimientos">Movimientos de inventario</a></li>
             <li class="nav-item"><a class="nav-link" href="/Auditoria">Auditoria</a></li>
@@ -71,6 +71,7 @@
             {% if privilegio != 'EMPLEADO' %}
                 <form action="{% url 'agregar_producto' %}" method="POST" id="form-pro" class="card card-body mt-4">
                     {% csrf_token %}
+                    <h1>Registro de nuevo producto</h1>
                     <div class="card card-body row col-lg-8 mx-auto">
                         <!--<div>
                             <label>Imagen:</label>
@@ -94,8 +95,9 @@
                                     <option value="ml">Miliitro</option>
                                     <option value="L">Litro</option>
                                     <option value="Unidad">Unidad</option>
-                                    <option value="LIMPIEZA">Limpieza</option>
-                                    <option value="10%">10%</option>
+                                    <option value="SERVICIO">Servicio</option>
+                                    <option value="PIEZA">Pieza</option>
+                                    <option value="PAR">Par</option>
                                 </select>
                             </div>
                         </div>

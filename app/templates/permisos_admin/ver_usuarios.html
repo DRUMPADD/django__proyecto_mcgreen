@@ -50,24 +50,24 @@
                 <div class="form-row d-flex align-items-center justify-content-around">
                     <div class="form-group col-md-3">
                         <label class="col-form-label">Nombre</label>
-                        <input type="text" class="form-control" id="nombre" value="{{ usuario.3 }}" readonly="true" style="background-color: rgb(253, 253, 253)!important;">
+                        <input type="text" class="form-control nombre" value="{{ usuario.3 }}" readonly="true" style="background-color: rgb(253, 253, 253)!important;">
                     </div>
                     <div class="form-group col-md-4">
                         <label class="col-form-label">Apellido paterno</label>
-                        <input type="text" class="form-control" id="ap_p" value="{{ usuario.4 }}" readonly="true" style="background-color: rgb(253, 253, 253)!important;">
+                        <input type="text" class="form-control ap_p" value="{{ usuario.4 }}" readonly="true" style="background-color: rgb(253, 253, 253)!important;">
                     </div>
                     <div class="form-group col-md-4">
                         <label class="col-form-label">Apellido materno</label>
-                        <input type="text" class="form-control" id="ap_m" value="{{ usuario.5 }}" readonly="true" style="background-color: rgb(253, 253, 253)!important;">
+                        <input type="text" class="form-control ap_m" value="{{ usuario.5 }}" readonly="true" style="background-color: rgb(253, 253, 253)!important;">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="" class="col-form-label">Privilegio:</label>
-                    <input type="text" class="form-control" id="privilegio" value="{{ usuario.2 }}" readonly="true" style="background-color: rgb(253, 253, 253)!important;">
+                    <input type="text" class="form-control privilegio" value="{{ usuario.2 }}" readonly="true" style="background-color: rgb(253, 253, 253)!important;">
                 </div>
                 <div class="form-group">
                     <label for="" class="col-form-label">Puesto:</label>
-                    <input type="text" class="form-control" id="puesto" value="{{ usuario.7 }}" readonly="true" style="background-color: rgb(253, 253, 253)!important;">
+                    <input type="text" class="form-control puesto" value="{{ usuario.7 }}" readonly="true" style="background-color: rgb(253, 253, 253)!important;">
                 </div>
                 <div class="d-flex justify-content-evenly mt-3">
                     <input type="button" name="actualizar" class="btn btn-info col-sm-3" value="Actualizar">
@@ -88,26 +88,28 @@
     <script>
         $(document).ready(function() {
             $("input[name='actualizar']").on('click', function () {
-                let formulario = $(".form-actualizar");
-                $("#nombre").removeAttr("readonly");
-                $("#ap_p").removeAttr("readonly");
-                $("#ap_m").removeAttr("readonly");
-                $("#privilegio").removeAttr("readonly");
-                $("#puesto").removeAttr("readonly");
-
-                let nombre = $("#nombre").val();
-                let ap_p = $("#ap_p").val();
-                let ap_m = $("#ap_m").val();
-                let privilegio = $("#privilegio").val();
-                let puesto = $("#puesto").val();
-
-                console.log(formulario);
-                console.log(nombre);
-                console.log(ap_p);
-                console.log(ap_m);
-                console.log(privilegio);
-                console.log(puesto);
-            })
+                $(this).each(function () {
+                    let formulario = $(this)[0].activeElement.parentElement.parentElement;
+                    console.log($(formulario).find(":input").eq(0).val());
+                    console.log($(formulario).find(":input").eq(1).val());
+                    console.log($(formulario).find(":input").eq(2).val());
+                    console.log($(formulario).find(":input").eq(3).val());
+                    console.log($(formulario).find(":input").eq(4).val());
+                    console.log($(formulario).find(":input").eq(5).val());
+                    console.log($(formulario).find(":input").eq(6).val());
+                    $(formulario).find(":input").eq(0).removeAttr("readonly");
+                    $(formulario).find(":input").eq(1).removeAttr("readonly");
+                    $(formulario).find(":input").eq(2).removeAttr("readonly");
+                    $(formulario).find(":input").eq(3).removeAttr("readonly");
+                    $(formulario).find(":input").eq(4).removeAttr("readonly");
+                    $(formulario).find(":input").eq(5).removeAttr("readonly");
+                    $(formulario).find(":input").eq(6).removeAttr("readonly");
+                    $(formulario).find(":input").eq(6).removeAttr("name");
+                    $(formulario).find(":input").eq(6).attr("name", "cancelar");
+                    $(formulario).find(":input").eq(6).val("Cancelar");
+                    console.log($(formulario).find(":input").eq(6).val());
+                });
+            });
         });
     </script>
 </body>
