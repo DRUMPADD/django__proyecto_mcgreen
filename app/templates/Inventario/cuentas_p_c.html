@@ -43,7 +43,29 @@
             <li class="nav-item"><a class="nav-link" href="{% url 'cerrar_sesion' %}">Cerrar sesión</a></li>
         </ul>
     </nav>
-
+    <div class="container">
+        <form action="{% url 'agregar_clientes' %}" method="POST" class="card card-body col-md-5">
+            <h2 class="card-title text-center">Agregar cliente</h2>
+            {% csrf_token %}
+            <div class="input-group">
+                <label for=""></label>
+                {{ form.Identificador }}
+            </div>
+            <div class="input-group">
+                <label for=""></label>
+                {{ form.cliente }}
+            </div>
+            <div class="input-group">
+                <label for=""></label>
+                {{ form.direccion }}
+            </div>
+            <div class="input-group">
+                <label for=""></label>
+                {{ form.telefono }}
+            </div>
+            <input type="submit" class="btn btn-success form-control mt-2" value="Agregar">
+        </form>
+    </div>
     <div class="container d-flex justify-content-center mt-2">
         <div class="col-md-12">
             {% if messages %}

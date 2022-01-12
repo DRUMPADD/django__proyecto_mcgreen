@@ -179,10 +179,19 @@ def agregar_clientes(request):
     if request.session.get('email'):
         if request.method == 'POST':
             form = formulario_cliente(request.POST)
-            if form.is_valid():
+            if not form.has_changed():
+                messages.error(request, "Debe llenar todos los campos")
+            elif form.is_valid():
                 cursor = connection.cursor()
                 cursor.callproc("Agrega_CLIENTE",[form["Identificador"].value(), form["cliente"].value(), form["direccion"].value(), form["telefono"].value(), form["email"].value()])
+                mensaje = cursor.fetchall()[0][0]
+                if mensaje == 'Cliente insertado correctamente':
+                    messages.success(request, "Nuevo cliente agregado")
+                else:
+                    messages.error(request, "No se pudo agregar el cliente")
                 cursor.close()
+            else:
+                messages.error(request, "Debe llenar los campos con la información que se le pide")
                 return redirect("/Compras")    
         return redirect("/Compras")
     else:

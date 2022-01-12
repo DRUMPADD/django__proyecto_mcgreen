@@ -71,7 +71,7 @@
             {% if privilegio != 'EMPLEADO' %}
                 <form action="{% url 'agregar_producto' %}" method="POST" id="form-pro" class="card card-body mt-4">
                     {% csrf_token %}
-                    <h1>Registro de nuevo producto</h1>
+                    <h1 class="text-center">Registro de nuevo producto</h1>
                     <div class="card card-body row col-lg-8 mx-auto">
                         <!--<div>
                             <label>Imagen:</label>
