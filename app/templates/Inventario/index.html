@@ -186,7 +186,7 @@
             </form>
             {% if privilegio == "ADM-IN1" %}
                 <div class="mt-3 table-wrapper-scroll-y my-custom-scrollbar">
-                    <table id="table" class="table table-hover table-dark col-sm-2 text-center overflow-auto">
+                    <table id="table" class="table table-hover table-dark text-center">
                         <thead style="font-size: 14px;">
                             <tr>
                                 {% for nombre in campos_inv %}
@@ -274,8 +274,8 @@
                     </table>
                 </div>
             {% else %}
-                <div class="mt-5 col-lg-10">
-                    <table class="table table-hover table-dark col-sm-2 text-center">
+                <div class="mt-5 col-lg-10 table-wrapper-scroll-y my-custom-scrollbar">
+                    <table id="table" class="table table-hover table-dark text-center">
                         <thead style="font-size:14px;">
                             <tr>
                                 {% for nombre in campos_inv %}
