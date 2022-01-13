@@ -43,7 +43,7 @@
             <li class="nav-item"><a class="nav-link" href="{% url 'cerrar_sesion' %}">Cerrar sesión</a></li>
         </ul>
     </nav>
-    <div class="container">
+    <div class="container d-flex justify-content-center align-items-center mt-3">
         <form action="{% url 'agregar_clientes' %}" method="POST" class="card card-body col-md-5">
             <h2 class="card-title text-center">Agregar cliente</h2>
             {% csrf_token %}

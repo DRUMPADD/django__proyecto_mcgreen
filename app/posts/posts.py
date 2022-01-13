@@ -179,19 +179,20 @@ def agregar_clientes(request):
     if request.session.get('email'):
         if request.method == 'POST':
             form = formulario_cliente(request.POST)
-            if request.POST.get("Identificador") is None and request.POST.get("cliente") is None and request.POST.get("direccion") is None and request.POST.get("telefono") is None and request.POST.get("email") is None:
-                messages.error(request, "Debe llenar todos los campos")
-            elif form.is_valid():
-                cursor = connection.cursor()
-                cursor.callproc("Agrega_CLIENTE",[form["Identificador"].value(), form["cliente"].value(), form["direccion"].value(), form["telefono"].value(), form["email"].value()])
-                mensaje = cursor.fetchall()[0][0]
-                if mensaje == 'Cliente insertado correctamente':
-                    messages.success(request, "Nuevo cliente agregado")
+            if request.POST.get("Identificador") is not None and request.POST.get("cliente") is not None and request.POST.get("direccion") is not None and request.POST.get("telefono") is not None and request.POST.get("email") is not None:
+                if form.is_valid():
+                    cursor = connection.cursor()
+                    cursor.callproc("Agrega_CLIENTE",[form["Identificador"].value(), form["cliente"].value(), form["direccion"].value(), form["telefono"].value(), form["email"].value()])
+                    mensaje = cursor.fetchall()[0][0]
+                    if mensaje == 'Cliente insertado correctamente':
+                        messages.success(request, "Nuevo cliente agregado")
+                    else:
+                        messages.error(request, "No se pudo agregar el cliente")
+                    cursor.close()
                 else:
-                    messages.error(request, "No se pudo agregar el cliente")
-                cursor.close()
+                    messages.error(request, "Debe llenar los campos con la información que se le pide")
             else:
-                messages.error(request, "Debe llenar los campos con la información que se le pide")
+                messages.error(request, "Debe llenar todos los campos")
                 return redirect("/Ventas")    
         return redirect("/Ventas")
     else:
