@@ -61,7 +61,6 @@ def Inventario_general(request):
                 "Precio unitario",
                 "Subtotal",
                 "Precio total",
-                "Estado",
                 "Tipo de cambio",
                 "Sucursal"
             ]
@@ -85,6 +84,7 @@ def Inventario_general(request):
                 "Precio unitario",
                 "Subtotal",
                 "Precio total",
+                "Estado",
                 "Tipo de cambio",
                 "Sucursal",
             ]
