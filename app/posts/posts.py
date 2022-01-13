@@ -179,7 +179,7 @@ def agregar_clientes(request):
     if request.session.get('email'):
         if request.method == 'POST':
             form = formulario_cliente(request.POST)
-            if not form.has_changed():
+            if request.POST.get("Identificador") is None and request.POST.get("cliente") is None and request.POST.get("direccion") is None and request.POST.get("telefono") is None and request.POST.get("email") is None:
                 messages.error(request, "Debe llenar todos los campos")
             elif form.is_valid():
                 cursor = connection.cursor()
@@ -192,8 +192,8 @@ def agregar_clientes(request):
                 cursor.close()
             else:
                 messages.error(request, "Debe llenar los campos con la información que se le pide")
-                return redirect("/Compras")    
-        return redirect("/Compras")
+                return redirect("/Ventas")    
+        return redirect("/Ventas")
     else:
         return redirect("/cerrar_sesion")
 
