@@ -34,14 +34,17 @@ def registra_usuario(request):
 def agregar_producto(request):
     if request.session.get('email'):
         if request.method == 'POST':
-            try:
-                cursor = connection.cursor()
-                cursor.callproc("Agrega_INV", [request.POST["producto"], request.POST["descripcion"], request.POST["cantidad"], request.POST["ddw_medidas"], request.POST["ddw_departamentos"], request.POST["precio"], request.session.get("email")])
-                if cursor.fetchall()[0][0] != 'FACTURA DISPONIBLE':
-                    messages.error(request, "Ocurrió un error al hacer la modificación")
-                messages.success(request, "Producto registrado con éxito")
-            finally:
-                cursor.close()
+            if request.POST.get("producto") is not None and request.POST.get("descripcion") is not None and request.POST.get("cantidad") is not None and request.POST.get("ddw_medidas") is not None and request.POST.get("ddw_departamentos") is not None and request.POST.get("precio") is not None and request.POST.get("sl_tipo_cambio") is not None and request.POST.get("sucursal") is not None and request.session.get("email") is not None:
+                try:
+                    cursor = connection.cursor()
+                    cursor.callproc("Agrega_INV", [request.POST["producto"], request.POST["descripcion"], request.POST["cantidad"], request.POST["ddw_medidas"], request.POST["ddw_departamentos"], request.POST["precio"], request.POST["sl_tipo_cambio"], request.POST["sucursal"], request.session.get("email")])
+                    if cursor.fetchall()[0][0] != 'FACTURA DISPONIBLE':
+                        messages.error(request, "Ocurrió un error al hacer la modificación")
+                    messages.success(request, "Producto registrado con éxito")
+                finally:
+                    cursor.close()
+            else:
+                messages.error(request, "Debe llenar todos los campos")
             return redirect("/Inventario_general")
 
 def modificar_producto(request):

@@ -61,6 +61,9 @@ def Inventario_general(request):
                 "Precio unitario",
                 "Subtotal",
                 "Precio total",
+                "Estado",
+                "Tipo de cambio",
+                "Sucursal"
             ]
             context = {
                 'departamentos': models.Departamento.objects.all(),
@@ -82,6 +85,8 @@ def Inventario_general(request):
                 "Precio unitario",
                 "Subtotal",
                 "Precio total",
+                "Tipo de cambio",
+                "Sucursal",
             ]
             context = {
                 'departamentos': models.Departamento.objects.all(),
