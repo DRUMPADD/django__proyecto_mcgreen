@@ -122,7 +122,7 @@ def ventas(request):
         if request.method != 'POST':
             cursor = connection.cursor()
             cursor.callproc('MOSTRAR_SISTEMAS_ACTIVOS')
-            form = formulario_cliente(initial={'email': request.session.get("email")})
+            form = formulario_cliente()
             context = {
                 'sistemas': cursor.fetchall(),
                 'clientes': models.Clientes.objects.all(),
