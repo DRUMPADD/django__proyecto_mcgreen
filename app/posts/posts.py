@@ -8,7 +8,7 @@ from openpyxl import Workbook
 from openpyxl.styles import Font
 from openpyxl.styles.alignment import Alignment
 from openpyxl.styles.borders import BORDER_THIN, Border, Side
-
+import xlwt
 
 def registra_usuario(request):
     if request.session.get('email'):
