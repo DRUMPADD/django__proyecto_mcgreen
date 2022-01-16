@@ -413,11 +413,11 @@ def exportar_inventario_xls(request):
         for col in range(0, 9):
             hoja_1.write(fila, col, u'%s' % resultado[row - 1][col], estilo_cuerpo)
         fila = 1 + fila
-    nombre_archivo ="Inventario.xlsx"
+    nombre_archivo ="Inventario.xls"
     response = HttpResponse(content_type="application/Excel") 
     contenido = "attachment; filename={0}".format(nombre_archivo)
     response["Content-Disposition"] = contenido
-    response["ContentType"] = "application/vnd.xlsx"
+    response["ContentType"] = "application/vnd.ms-excel"
     workbook.save(response)
     cursor.close()
     return response
