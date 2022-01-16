@@ -1135,7 +1135,7 @@ def exportar_diferentes_movimientos_xls(request):
     for row in range(1, len(resultado) + 1):
         for col in range(0, 7):
             hoja_1.write(fila, col, u'%s' % resultado[row - 1][col], estilo_cuerpo)
-    fila = 1 + fila
+        fila = 1 + fila
     nombre_archivo ="Movimientos.xls"
     response = HttpResponse(content_type="application/Excel") 
     contenido = "attachment; filename={0}".format(nombre_archivo)
