@@ -170,16 +170,29 @@
             <div class="container col-lg-4 mb-2 mt-3 card card-body">
                 <h3 class="text-center">Buscar producto</h3>
                 <input type="search" id="buscar" class="form-control" placeholder="Escribe el producto que deseas buscar..." />
-                <div class="mt-2 mb-2">
-                    <a href="convertir_inv_excel/" class="btn btn-success">
-                        Descargar
-                        <i class="bi bi-file-earmark-spreadsheet-fill">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-file-earmark-spreadsheet-fill" viewBox="0 0 16 16">
-                                <path d="M6 12v-2h3v2H6z"/>
-                                <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM3 9h10v1h-3v2h3v1h-3v2H9v-2H6v2H5v-2H3v-1h2v-2H3V9z"/>
-                            </svg>
-                        </i>
-                    </a>
+                <div class="container d-flex justify-content-around">
+                    <form action="descargar_inv_xls/" method="GET" class="mt-2 mb-2">
+                        <button type="submit" class="btn btn-success">
+                            Descargar xls
+                            <i class="bi bi-file-earmark-spreadsheet-fill">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-file-earmark-spreadsheet-fill" viewBox="0 0 16 16">
+                                    <path d="M6 12v-2h3v2H6z"/>
+                                    <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM3 9h10v1h-3v2h3v1h-3v2H9v-2H6v2H5v-2H3v-1h2v-2H3V9z"/>
+                                </svg>
+                            </i>
+                        </button>
+                    </form>
+                    <form action="descargar_inv_xlsx/" method="GET" class="mt-2 mb-2">
+                        <button type="submit" class="btn btn-success">
+                            Descargar xlsx
+                            <i class="bi bi-file-earmark-spreadsheet-fill">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-file-earmark-spreadsheet-fill" viewBox="0 0 16 16">
+                                    <path d="M6 12v-2h3v2H6z"/>
+                                    <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM3 9h10v1h-3v2h3v1h-3v2H9v-2H6v2H5v-2H3v-1h2v-2H3V9z"/>
+                                </svg>
+                            </i>
+                        </button>
+                    </form>
                 </div>
             </div>
             {% if privilegio == "ADM-IN1" %}
