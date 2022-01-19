@@ -1065,7 +1065,7 @@ def exportar_ventas_xlsx(request):
     titulo.set_align('vcenter')
 
     hoja.merge_range('A1:B4', "", estilo_cuerpo)
-    hoja.merge_range('A1:G2', "Fluidos McGreen de México S.A de C.V", titulo)
+    hoja.merge_range('C1:G2', "Fluidos McGreen de México S.A de C.V", titulo)
     hoja.merge_range('C3:G4', "CUENTAS POR COBRAR", titulo)
     hoja.write(0, 7, "Código:", estilo_cuerpo)
     hoja.write(1, 7, "Revisión:", estilo_cuerpo)
