@@ -399,8 +399,8 @@ def exportar_inventario_xls(request):
     border_celdas_vacias_pagina_xfs.borders = border_celdas_vacias
 
     hoja_1.write_merge(0, 3, 0, 1, "", titulo_xfs)
-    hoja_1.write_merge(0, 1, 2, 8, "Fluidos McGreen de México S.A de C.V", titulo_xfs)
-    hoja_1.write_merge(2, 3, 2, 8, "Inventario general", titulo_xfs)
+    hoja_1.write_merge(2, 1, 2, 6, "Fluidos McGreen de México S.A de C.V", titulo_xfs)
+    hoja_1.write_merge(2, 3, 2, 6, "Inventario general", titulo_xfs)
     hoja_1.write(0, 7, "Código:", estilo_encabezado)
     hoja_1.write(1, 7, "Revisión:", estilo_encabezado)
     hoja_1.write_merge(2, 3, 7, 7, "Página:", pagina_xfs)
@@ -448,7 +448,7 @@ def exportar_inventario_xlsx(request):
     titulo.set_align('vcenter')
 
     hoja.merge_range('A1:B4', "", estilo_cuerpo)
-    hoja.merge_range('A1:I2', "Fluidos McGreen de México S.A de C.V", titulo)
+    hoja.merge_range('C1:I2', "Fluidos McGreen de México S.A de C.V", titulo)
     hoja.merge_range('C3:I4', "Inventario general", titulo)
     hoja.write(0, 9, "Código:", estilo_cuerpo)
     hoja.write(1, 9, "Revisión:", estilo_cuerpo)
