@@ -399,18 +399,33 @@ def exportar_inventario_xls(request):
     border_celdas_vacias_pagina_xfs.borders = border_celdas_vacias
 
     hoja_1.write_merge(0, 3, 0, 1, "", titulo_xfs)
-    hoja_1.write_merge(2, 1, 2, 6, "Fluidos McGreen de México S.A de C.V", titulo_xfs)
-    hoja_1.write_merge(2, 3, 2, 6, "Inventario general", titulo_xfs)
-    hoja_1.write(0, 7, "Código:", estilo_encabezado)
-    hoja_1.write(1, 7, "Revisión:", estilo_encabezado)
-    hoja_1.write_merge(2, 3, 7, 7, "Página:", pagina_xfs)
-    hoja_1.write(0, 8, "", border_celdas_vacias_xfs)
-    hoja_1.write(1, 8, "", border_celdas_vacias_xfs)
-    hoja_1.write_merge(2, 3, 8, 8, "", border_celdas_vacias_pagina_xfs)
+    hoja_1.write_merge(0, 1, 2, 8, "Fluidos McGreen de México S.A de C.V", titulo_xfs)
+    hoja_1.write_merge(2, 3, 2, 8, "Inventario general", titulo_xfs)
+    hoja_1.write(0, 9, "Código:", estilo_encabezado)
+    hoja_1.write(1, 9, "Revisión:", estilo_encabezado)
+    hoja_1.write_merge(2, 3, 9, 9, "Página:", pagina_xfs)
+    hoja_1.write(0, 10, "", border_celdas_vacias_xfs)
+    hoja_1.write(1, 10, "", border_celdas_vacias_xfs)
+    hoja_1.write_merge(2, 3, 10, 10, "", border_celdas_vacias_pagina_xfs)
     # fin
-    fila = 4
+    
+    # campos del encabezado de la tabla
+    hoja_1.write(4, 0, "Identificador", estilo_cuerpo)
+    hoja_1.write(4, 1, "Nombre", estilo_cuerpo)
+    hoja_1.write(4, 2, "Descripción", estilo_cuerpo)
+    hoja_1.write(4, 3, "Cantidad", estilo_cuerpo)
+    hoja_1.write(4, 4, "Medida", estilo_cuerpo)
+    hoja_1.write(4, 5, "Departamento", estilo_cuerpo)
+    hoja_1.write(4, 6, "Precio unitario", estilo_cuerpo)
+    hoja_1.write(4, 7, "Subtotal", estilo_cuerpo)
+    hoja_1.write(4, 8, "Precio total", estilo_cuerpo)
+    hoja_1.write(4, 9, "Tipo de cambio", estilo_cuerpo)
+    hoja_1.write(4, 10, "Sucursal", estilo_cuerpo)
+    # fin
+    
+    fila = 5
     for row in range(1, len(resultado) + 1):
-        for col in range(0, 9):
+        for col in range(0, 11):
             hoja_1.write(fila, col, u'%s' % resultado[row - 1][col], estilo_cuerpo)
         fila = 1 + fila
     nombre_archivo ="Inventario.xls"
