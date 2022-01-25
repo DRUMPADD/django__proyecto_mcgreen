@@ -1,4 +1,4 @@
-import io
+import io, datetime
 from django.http.response import HttpResponse, JsonResponse
 from django.shortcuts import redirect
 from django.contrib import messages
@@ -203,131 +203,10 @@ def agregar_clientes(request):
     else:
         return redirect("/cerrar_sesion")
 
-# def exportar_inventario_excel(request):
-#     cursor = connection.cursor()
-#     cursor.callproc("MOSTRAR_PRODUCTOS_ACTIVOS")
-#     filas_datos = cursor.fetchall()
-#     cont = 0
-#     cont = [cont + 1 for row in filas_datos]
-    
-#     bordes = Border(left=Side(border_style=BORDER_THIN), top=Side(border_style=BORDER_THIN), right=Side(border_style=BORDER_THIN), bottom=Side(border_style=BORDER_THIN))
-
-#     wb = Workbook()
-#     ws = wb.active
-#     ws.merge_cells('A1:B4')
-#     fila_A1 = ws['A1']
-#     fila_A1.border = bordes
-
-#     filas_C1_G4 = ws['C1:G4']
-#     for fila in filas_C1_G4:
-#         fila[0].border = bordes
-
-#     ws['C1'] = 'PRODUCTOS EXISTENTES'
-#     ws.merge_cells('C1:G4')
-#     fila_C1 = ws['C1']
-#     fila_C1.font = Font(bold=True, color="00008000", size=20, name="Arial")
-#     fila_C1.alignment = Alignment(horizontal="center", vertical="center")
-#     fila_C1.border = bordes
-#     ws['H1'] = 'Código:'
-#     fila_H1 = ws['H1']
-#     fila_H1.font = Font(bold=True, color="00000000", size=12, name="Arial")
-#     fila_H1.alignment = Alignment(horizontal="left", vertical="center")
-#     fila_H1.border = bordes
-#     fila_I1 = ws['I1']
-#     fila_I1.font = Font(bold=True, color="00000000", size=12, name="Arial")
-#     fila_I1.alignment = Alignment(horizontal="left", vertical="center")
-#     fila_I1.border = bordes
-    
-#     ws['H2'] = 'Revisión:'
-#     fila_H2 = ws['H2']
-#     fila_H2.font = Font(bold=True, color="00000000", size=12, name="Arial")
-#     fila_H2.alignment = Alignment(horizontal="left", vertical="center")
-#     fila_H2.border = bordes
-#     fila_I2 = ws['I2']
-#     fila_I2.font = Font(bold=True, color="00000000", size=12, name="Arial")
-#     fila_I2.alignment = Alignment(horizontal="left", vertical="center")
-#     fila_I2.border = bordes
-    
-#     filas_H3_H4 = ws['H3:H4']
-#     for fila in filas_H3_H4:
-#         fila[0].border = bordes
-#     ws['H3'] = 'Página:'
-#     ws.merge_cells('H3:H4')
-#     fila_H3 = ws['H3']
-#     fila_H3.font = Font(bold=True, color="00000000", size=12, name="Arial")
-#     fila_H3.alignment = Alignment(horizontal="left", vertical="center")
-#     fila_H3.border = bordes
-#     filas_J3_J4 = ws['I3:J4']
-#     for fila in filas_J3_J4:
-#         fila[0].border = bordes
-#     ws.merge_cells('I3:I4')
-#     fila_H3 = ws['I3']
-#     fila_H3.font = Font(bold=True, color="00000000", size=12, name="Arial")
-#     fila_H3.alignment = Alignment(horizontal="left", vertical="center")
-#     fila_H3.border = bordes
-
-
-
-#     ws['A5'] = 'Identificador'
-#     ws['A5'].font = Font(name="Arial", size=12)
-#     ws['B5'] = 'Producto'
-#     ws['B5'].font = Font(name="Arial", size=12)
-#     ws['C5'] = 'Descripción'
-#     ws['C5'].font = Font(name="Arial", size=12)
-#     ws['D5'] = 'Cantidad'       
-#     ws['D5'].font = Font(name="Arial", size=12)
-#     ws['E5'] = 'Medida'
-#     ws['E5'].font = Font(name="Arial", size=12)
-#     ws['F5'] = 'Departamento'       
-#     ws['F5'].font = Font(name="Arial", size=12)
-#     ws['G5'] = 'Precio unitario'
-#     ws['G5'].font = Font(name="Arial", size=12)
-#     ws['H5'] = 'Subtotal'       
-#     ws['H5'].font = Font(name="Arial", size=12)
-#     ws['I5'] = 'Precio total'       
-#     ws['I5'].font = Font(name="Arial", size=14)
-#     filas = 6
-    
-#     for producto in cursor:
-#         ws.cell(row=filas,column=1).value = producto[0]
-#         ws.cell(row=filas,column=1).font = Font(name="Arial", size=11)
-#         ws.cell(row=filas,column=1).border = bordes
-#         ws.cell(row=filas,column=2).value = producto[1]
-#         ws.cell(row=filas,column=2).font = Font(name="Arial", size=11)
-#         ws.cell(row=filas,column=2).border = bordes
-#         ws.cell(row=filas,column=3).value = producto[2]
-#         ws.cell(row=filas,column=3).font = Font(name="Arial", size=11)
-#         ws.cell(row=filas,column=3).border = bordes
-#         ws.cell(row=filas,column=4).value = producto[3]
-#         ws.cell(row=filas,column=4).font = Font(name="Arial", size=11)
-#         ws.cell(row=filas,column=4).border = bordes
-#         ws.cell(row=filas,column=5).value = producto[4]
-#         ws.cell(row=filas,column=5).font = Font(name="Arial", size=11)
-#         ws.cell(row=filas,column=5).border = bordes
-#         ws.cell(row=filas,column=6).value = producto[5]
-#         ws.cell(row=filas,column=6).font = Font(name="Arial", size=11)
-#         ws.cell(row=filas,column=6).border = bordes
-#         ws.cell(row=filas,column=7).value = producto[6]
-#         ws.cell(row=filas,column=7).font = Font(name="Arial", size=11)
-#         ws.cell(row=filas,column=7).border = bordes
-#         ws.cell(row=filas,column=8).value = producto[7]
-#         ws.cell(row=filas,column=8).font = Font(name="Arial", size=11)
-#         ws.cell(row=filas,column=8).border = bordes
-#         ws.cell(row=filas,column=9).value = producto[8]
-#         ws.cell(row=filas,column=9).font = Font(name="Arial", size=11)
-#         ws.cell(row=filas,column=9).border = bordes
-#         if filas != cont * 2:
-#             filas = filas + 1
-
-#     nombre_archivo ="Inventario.xlsx"
-#     response = HttpResponse(content_type="application/Excel") 
-#     contenido = "attachment; filename={0}".format(nombre_archivo)
-#     response["Content-Disposition"] = contenido
-#     wb.save(response)
-#     cursor.close()
-#     return response
 
 def exportar_inventario_xls(request):
+    fecha_hoy = datetime.datetime.now()
+    hoy = str(fecha_hoy.month) + "-" + str(fecha_hoy.day) + "-" + str(fecha_hoy.year)
     cursor = connection.cursor()
     cursor.callproc("MOSTRAR_PRODUCTOS_ACTIVOS")
     resultado = cursor.fetchall()
@@ -397,16 +276,17 @@ def exportar_inventario_xls(request):
     border_celdas_vacias_pagina.top = 1
     border_celdas_vacias_pagina.bottom = 1
     border_celdas_vacias_pagina_xfs.borders = border_celdas_vacias
+    border_celdas_vacias_pagina_xfs.alignment = titulo_alineado
 
     hoja_1.write_merge(0, 3, 0, 1, "", titulo_xfs)
     hoja_1.write_merge(0, 1, 2, 8, "Fluidos McGreen de México S.A de C.V", titulo_xfs)
     hoja_1.write_merge(2, 3, 2, 8, "Inventario general", titulo_xfs)
     hoja_1.write(0, 9, "Código:", estilo_encabezado)
     hoja_1.write(1, 9, "Revisión:", estilo_encabezado)
-    hoja_1.write_merge(2, 3, 9, 9, "Página:", pagina_xfs)
-    hoja_1.write(0, 10, "", border_celdas_vacias_xfs)
-    hoja_1.write(1, 10, "", border_celdas_vacias_xfs)
-    hoja_1.write_merge(2, 3, 10, 10, "", border_celdas_vacias_pagina_xfs)
+    hoja_1.write_merge(2, 3, 9, 9, "Fecha de revisión:", pagina_xfs)
+    hoja_1.write(0, 10, "MG-FO-ADM-005", border_celdas_vacias_xfs)
+    hoja_1.write(1, 10, "00", border_celdas_vacias_xfs)
+    hoja_1.write_merge(2, 3, 10, 10, "01-02-2022", border_celdas_vacias_pagina_xfs)
     # fin
     
     # campos del encabezado de la tabla
@@ -438,6 +318,8 @@ def exportar_inventario_xls(request):
     return response
 
 def exportar_inventario_xlsx(request):
+    fecha_hoy = datetime.datetime.now()
+    hoy = str(fecha_hoy.month) + "-" + str(fecha_hoy.day) + "-" + str(fecha_hoy.year)
     output = io.BytesIO()
     cursor = connection.cursor()
     cursor.callproc("MOSTRAR_PRODUCTOS_ACTIVOS")
@@ -467,10 +349,10 @@ def exportar_inventario_xlsx(request):
     hoja.merge_range('C3:I4', "Inventario general", titulo)
     hoja.write(0, 9, "Código:", estilo_cuerpo)
     hoja.write(1, 9, "Revisión:", estilo_cuerpo)
-    hoja.merge_range('J3:J4', "Página:", estilo_cuerpo)
-    hoja.write(0, 10, "", estilo_cuerpo)
-    hoja.write(1, 10, "", estilo_cuerpo)
-    hoja.merge_range('K3:K4', "", estilo_cuerpo)
+    hoja.merge_range('J3:J4', "Fecha de revisión:", estilo_cuerpo)
+    hoja.write(0, 10, "MG-FO-ADM-005", estilo_cuerpo)
+    hoja.write(1, 10, "00", estilo_cuerpo)
+    hoja.merge_range('K3:K4', "01-02-2022", estilo_cuerpo)
     # fin
 
     # campos del encabezado de la tabla
@@ -502,133 +384,10 @@ def exportar_inventario_xlsx(request):
     response['Content-Disposition'] = 'attachment; filename=%s' % filename
     return response
 
-# def exportar_compras_excel(request):
-#     cursor = connection.cursor()
-#     cursor.callproc("MOSTRAR_COMPRAS")
-#     filas_datos = cursor.fetchall()
-#     cont = 0
-#     cont = [cont + 1 for row in filas_datos]
-
-#     bordes = Border(left=Side(border_style=BORDER_THIN), top=Side(border_style=BORDER_THIN), right=Side(border_style=BORDER_THIN), bottom=Side(border_style=BORDER_THIN))
-    
-#     wb = Workbook()
-#     ws = wb.active
-#     ws.merge_cells('A1:B4')
-#     fila_A1 = ws['A1']
-#     fila_A1.border = bordes
-
-#     filas_C1_G4 = ws['C1:G4']
-#     for fila in filas_C1_G4:
-#         fila[0].border = bordes
-
-#     ws['C1'] = 'COMPRAS REALIZADAS'
-#     ws.merge_cells('C1:G4')
-#     fila_C1 = ws['C1']
-#     fila_C1.font = Font(bold=True, color="00008000", size=20, name="Arial")
-#     fila_C1.alignment = Alignment(horizontal="center", vertical="center")
-#     fila_C1.border = bordes
-
-#     fila_B1 = ws['A1']
-#     fila_B1.font = Font(bold=True, color="00008000", size=20, name="Arial")
-#     fila_B1.alignment = Alignment(horizontal="center", vertical="center")
-#     ws['H1'] = 'Código:'
-#     fila_H1 = ws['H1']
-#     fila_H1.font = Font(bold=True, color="00000000", size=12, name="Arial")
-#     fila_H1.alignment = Alignment(horizontal="left", vertical="center")
-#     fila_H1.border = bordes
-#     fila_I1 = ws['I1']
-#     fila_I1.font = Font(bold=True, color="00000000", size=12, name="Arial")
-#     fila_I1.alignment = Alignment(horizontal="left", vertical="center")
-#     fila_I1.border = bordes
-    
-#     ws['H2'] = 'Revisión:'
-#     fila_H2 = ws['H2']
-#     fila_H2.font = Font(bold=True, color="00000000", size=12, name="Arial")
-#     fila_H2.alignment = Alignment(horizontal="left", vertical="center")
-#     fila_H2.border = bordes
-#     fila_I2 = ws['I2']
-#     fila_I2.font = Font(bold=True, color="00000000", size=12, name="Arial")
-#     fila_I2.alignment = Alignment(horizontal="left", vertical="center")
-#     fila_I2.border = bordes
-    
-#     filas_H3_H4 = ws['H3:H4']
-#     for fila in filas_H3_H4:
-#         fila[0].border = bordes
-#     ws['H3'] = 'Página:'
-#     ws.merge_cells('H3:H4')
-#     fila_H3 = ws['H3']
-#     fila_H3.font = Font(bold=True, color="00000000", size=12, name="Arial")
-#     fila_H3.alignment = Alignment(horizontal="left", vertical="center")
-#     fila_H3.border = bordes
-#     filas_J3_J4 = ws['I3:J4']
-#     for fila in filas_J3_J4:
-#         fila[0].border = bordes
-#     ws.merge_cells('I3:I4')
-#     fila_H3 = ws['I3']
-#     fila_H3.font = Font(bold=True, color="00000000", size=12, name="Arial")
-#     fila_H3.alignment = Alignment(horizontal="left", vertical="center")
-#     fila_H3.border = bordes
-
-#     ws['A5'] = 'Id compra'
-#     ws['A5'].font = Font(name="Arial", size=12)
-#     ws['B5'] = 'Cod. detalle'
-#     ws['B5'].font = Font(name="Arial", size=12)
-#     ws['C5'] = 'Proveedor'
-#     ws['C5'].font = Font(name="Arial", size=12)
-#     ws['D5'] = 'Cod. producto'       
-#     ws['D5'].font = Font(name="Arial", size=12)
-#     ws['E5'] = 'Producto'
-#     ws['E5'].font = Font(name="Arial", size=12)
-#     ws['F5'] = 'Cantidad por producto'       
-#     ws['F5'].font = Font(name="Arial", size=12)
-#     ws['G5'] = 'Precio unitario'
-#     ws['G5'].font = Font(name="Arial", size=12)
-#     ws['H5'] = 'Medida'       
-#     ws['H5'].font = Font(name="Arial", size=12)
-#     ws['I5'] = 'Costo total'       
-#     ws['I5'].font = Font(name="Arial", size=12)
-#     filas = 6
-    
-#     for producto in cursor:
-#         ws.cell(row=filas,column=1).value = producto[0]
-#         ws.cell(row=filas,column=1).font = Font(name="Arial", size=11)
-#         ws.cell(row=filas,column=1).border = bordes
-#         ws.cell(row=filas,column=2).value = producto[1]
-#         ws.cell(row=filas,column=2).font = Font(name="Arial", size=11)
-#         ws.cell(row=filas,column=2).border = bordes
-#         ws.cell(row=filas,column=3).value = producto[2]
-#         ws.cell(row=filas,column=3).font = Font(name="Arial", size=11)
-#         ws.cell(row=filas,column=3).border = bordes
-#         ws.cell(row=filas,column=4).value = producto[3]
-#         ws.cell(row=filas,column=4).font = Font(name="Arial", size=11)
-#         ws.cell(row=filas,column=4).border = bordes
-#         ws.cell(row=filas,column=5).value = producto[4]
-#         ws.cell(row=filas,column=5).font = Font(name="Arial", size=11)
-#         ws.cell(row=filas,column=5).border = bordes
-#         ws.cell(row=filas,column=6).value = producto[5]
-#         ws.cell(row=filas,column=6).font = Font(name="Arial", size=11)
-#         ws.cell(row=filas,column=6).border = bordes
-#         ws.cell(row=filas,column=7).value = producto[6]
-#         ws.cell(row=filas,column=7).font = Font(name="Arial", size=11)
-#         ws.cell(row=filas,column=7).border = bordes
-#         ws.cell(row=filas,column=8).value = producto[7]
-#         ws.cell(row=filas,column=8).font = Font(name="Arial", size=11)
-#         ws.cell(row=filas,column=8).border = bordes
-#         ws.cell(row=filas,column=9).value = producto[8]
-#         ws.cell(row=filas,column=9).font = Font(name="Arial", size=11)
-#         ws.cell(row=filas,column=9).border = bordes
-#         if filas != cont * 2:
-#             filas = filas + 1
-
-#     nombre_archivo ="Compras.xlsx"
-#     response = HttpResponse(content_type="application/ms-excel") 
-#     contenido = "attachment; filename={0}".format(nombre_archivo)
-#     response["Content-Disposition"] = contenido
-#     wb.save(response)
-#     cursor.close()
-#     return response
 
 def exportar_compras_xls(request):
+    fecha_hoy = datetime.datetime.now()
+    hoy = str(fecha_hoy.month) + "-" + str(fecha_hoy.day) + "-" + str(fecha_hoy.year)
     cursor = connection.cursor()
     cursor.callproc("MOSTRAR_COMPRAS")
     resultado = cursor.fetchall()
@@ -704,10 +463,10 @@ def exportar_compras_xls(request):
     hoja_1.write_merge(2, 3, 2, 6, "COMPRAS REALIZADAS", titulo_xfs)
     hoja_1.write(0, 7, "Código:", estilo_encabezado)
     hoja_1.write(1, 7, "Revisión:", estilo_encabezado)
-    hoja_1.write_merge(2, 3, 7, 7, "Página:", pagina_xfs)
-    hoja_1.write(0, 8, "", border_celdas_vacias_xfs)
-    hoja_1.write(1, 8, "", border_celdas_vacias_xfs)
-    hoja_1.write_merge(2, 3, 8, 8, "", border_celdas_vacias_pagina_xfs)
+    hoja_1.write_merge(2, 3, 7, 7, "Fecha de revisión:", pagina_xfs)
+    hoja_1.write(0, 8, "MG-FO-ADM-005", border_celdas_vacias_xfs)
+    hoja_1.write(1, 8, "00", border_celdas_vacias_xfs)
+    hoja_1.write_merge(2, 3, 8, 8, "01-02-2022", border_celdas_vacias_pagina_xfs)
     # fin
 
     # encabezado de tabla
@@ -737,6 +496,8 @@ def exportar_compras_xls(request):
     return response
 
 def exportar_compras_xlsx(request):
+    fecha_hoy = datetime.datetime.now()
+    hoy = str(fecha_hoy.month) + "-" + str(fecha_hoy.day) + "-" + str(fecha_hoy.year)
     output = io.BytesIO()
     cursor = connection.cursor()
     cursor.callproc("MOSTRAR_COMPRAS")
@@ -766,10 +527,10 @@ def exportar_compras_xlsx(request):
     hoja.merge_range('C3:G4', "COMPRAS REALIZADAS", titulo)
     hoja.write(0, 7, "Código:", estilo_cuerpo)
     hoja.write(1, 7, "Revisión:", estilo_cuerpo)
-    hoja.merge_range('H3:H4', "Página:", estilo_cuerpo)
-    hoja.write(0, 8, "", estilo_cuerpo)
-    hoja.write(1, 8, "", estilo_cuerpo)
-    hoja.merge_range('I3:I4', "", estilo_cuerpo)
+    hoja.merge_range('H3:H4', "Fecha de revisión:", estilo_cuerpo)
+    hoja.write(0, 8, "MG-FO-ADM-005", estilo_cuerpo)
+    hoja.write(1, 8, "00", estilo_cuerpo)
+    hoja.merge_range('I3:I4', "01-02-2022", estilo_cuerpo)
     # fin
 
     # campos del encabezado de la tabla
@@ -799,136 +560,10 @@ def exportar_compras_xlsx(request):
     response['Content-Disposition'] = 'attachment; filename=%s' % filename
     return response
 
-# def exportar_ventas_excel(request):
-#     if request.method == 'POST':
-#         cursor = connection.cursor()
-#         cursor.callproc("MOSTRAR_VENTAS")
-#         filas_datos = cursor.fetchall()
-#         cont = 0
-#         cont = [cont + 1 for row in filas_datos]
-        
-#         bordes = Border(left=Side(border_style=BORDER_THIN), top=Side(border_style=BORDER_THIN), right=Side(border_style=BORDER_THIN), bottom=Side(border_style=BORDER_THIN))
-
-#         wb = Workbook()
-#         ws = wb.active
-#         ws.merge_cells('A1:B4')
-#         fila_A1 = ws['A1']
-#         fila_A1.border = bordes
-
-#         filas_C1_G4 = ws['C1:G4']
-#         for fila in filas_C1_G4:
-#             fila[0].border = bordes
-
-#         ws['C1'] = 'VENTAS REALIZADAS'
-#         ws.merge_cells('C1:G4')
-#         fila_C1 = ws['C1']
-#         fila_C1.font = Font(bold=True, color="00008000", size=20, name="Arial")
-#         fila_C1.alignment = Alignment(horizontal="center", vertical="center")
-#         fila_C1.border = bordes
-
-#         fila_B1 = ws['A1']
-#         fila_B1.font = Font(bold=True, color="00008000", size=20, name="Arial")
-#         fila_B1.alignment = Alignment(horizontal="center", vertical="center")
-#         ws['H1'] = 'Código:'
-#         fila_H1 = ws['H1']
-#         fila_H1.font = Font(bold=True, color="00000000", size=12, name="Arial")
-#         fila_H1.alignment = Alignment(horizontal="left", vertical="center")
-#         fila_H1.border = bordes
-#         fila_I1 = ws['I1']
-#         fila_I1.font = Font(bold=True, color="00000000", size=12, name="Arial")
-#         fila_I1.alignment = Alignment(horizontal="left", vertical="center")
-#         fila_I1.border = bordes
-        
-#         ws['H2'] = 'Revisión:'
-#         fila_H2 = ws['H2']
-#         fila_H2.font = Font(bold=True, color="00000000", size=12, name="Arial")
-#         fila_H2.alignment = Alignment(horizontal="left", vertical="center")
-#         fila_H2.border = bordes
-#         fila_I2 = ws['I2']
-#         fila_I2.font = Font(bold=True, color="00000000", size=12, name="Arial")
-#         fila_I2.alignment = Alignment(horizontal="left", vertical="center")
-#         fila_I2.border = bordes
-        
-#         filas_H3_H4 = ws['H3:H4']
-#         for fila in filas_H3_H4:
-#             fila[0].border = bordes
-#         ws['H3'] = 'Página:'
-#         ws.merge_cells('H3:H4')
-#         fila_H3 = ws['H3']
-#         fila_H3.font = Font(bold=True, color="00000000", size=12, name="Arial")
-#         fila_H3.alignment = Alignment(horizontal="left", vertical="center")
-#         fila_H3.border = bordes
-#         filas_J3_J4 = ws['I3:J4']
-#         for fila in filas_J3_J4:
-#             fila[0].border = bordes
-#         ws.merge_cells('I3:I4')
-#         fila_H3 = ws['I3']
-#         fila_H3.font = Font(bold=True, color="00000000", size=12, name="Arial")
-#         fila_H3.alignment = Alignment(horizontal="left", vertical="center")
-#         fila_H3.border = bordes
-
-#         ws['A5'] = 'Identificador'
-#         ws['A5'].font = Font(name="Arial", size=12)
-#         ws['B5'] = 'Producto'
-#         ws['B5'].font = Font(name="Arial", size=12)
-#         ws['C5'] = 'Descripción'
-#         ws['C5'].font = Font(name="Arial", size=12)
-#         ws['D5'] = 'Cantidad'       
-#         ws['D5'].font = Font(name="Arial", size=12)
-#         ws['E5'] = 'Medida'
-#         ws['E5'].font = Font(name="Arial", size=12)
-#         ws['F5'] = 'Departamento'       
-#         ws['F5'].font = Font(name="Arial", size=12)
-#         ws['G5'] = 'Precio unitario'
-#         ws['G5'].font = Font(name="Arial", size=12)
-#         ws['H5'] = 'Subtotal'       
-#         ws['H5'].font = Font(name="Arial", size=12)
-#         ws['I5'] = 'Precio total'       
-#         ws['I5'].font = Font(name="Arial", size=14)
-#         filas = 6
-        
-#         for producto in cursor:
-#             ws.cell(row=filas,column=1).value = producto[0]
-#             ws.cell(row=filas,column=1).font = Font(name="Arial", size=11)
-#             ws.cell(row=filas,column=1).border = bordes
-#             ws.cell(row=filas,column=2).value = producto[1]
-#             ws.cell(row=filas,column=2).font = Font(name="Arial", size=11)
-#             ws.cell(row=filas,column=2).border = bordes
-#             ws.cell(row=filas,column=3).value = producto[2]
-#             ws.cell(row=filas,column=3).font = Font(name="Arial", size=11)
-#             ws.cell(row=filas,column=3).border = bordes
-#             ws.cell(row=filas,column=4).value = producto[3]
-#             ws.cell(row=filas,column=4).font = Font(name="Arial", size=11)
-#             ws.cell(row=filas,column=4).border = bordes
-#             ws.cell(row=filas,column=5).value = producto[4]
-#             ws.cell(row=filas,column=5).font = Font(name="Arial", size=11)
-#             ws.cell(row=filas,column=5).border = bordes
-#             ws.cell(row=filas,column=6).value = producto[5]
-#             ws.cell(row=filas,column=6).font = Font(name="Arial", size=11)
-#             ws.cell(row=filas,column=6).border = bordes
-#             ws.cell(row=filas,column=7).value = producto[6]
-#             ws.cell(row=filas,column=7).font = Font(name="Arial", size=11)
-#             ws.cell(row=filas,column=7).border = bordes
-#             ws.cell(row=filas,column=8).value = producto[7]
-#             ws.cell(row=filas,column=8).font = Font(name="Arial", size=11)
-#             ws.cell(row=filas,column=8).border = bordes
-#             ws.cell(row=filas,column=9).value = producto[8]
-#             ws.cell(row=filas,column=9).font = Font(name="Arial", size=11)
-#             ws.cell(row=filas,column=9).border = bordes
-#             if filas != cont * 2:
-#                 filas = filas + 1
-
-#         nombre_archivo ="Ventas.xlsx"
-#         response = HttpResponse(content_type="application/ms-excel") 
-#         contenido = "attachment; filename={0}".format(nombre_archivo)
-#         response["Content-Disposition"] = contenido
-#         wb.save(response)
-#         cursor.close()
-#         return response
-#     else:
-#         return HttpResponse("<h1>No se pudo descargar el archivo<h1>")
 
 def exportar_ventas_xls(request):
+    fecha_hoy = datetime.datetime.now()
+    hoy = str(fecha_hoy.month) + "-" + str(fecha_hoy.day) + "-" + str(fecha_hoy.year)
     cursor = connection.cursor()
     cursor.callproc("MOSTRAR_VENTAS_MOD")
     resultados = cursor.fetchall()
@@ -1005,10 +640,10 @@ def exportar_ventas_xls(request):
     hoja_1.write_merge(2, 3, 2, 6, "CUENTAS POR COBRAR", titulo_xfs)
     hoja_1.write(0, 7, "Código:", estilo_encabezado)
     hoja_1.write(1, 7, "Revisión:", estilo_encabezado)
-    hoja_1.write_merge(2, 3, 7, 7, "Página:", pagina_xfs)
-    hoja_1.write(0, 8, "", border_celdas_vacias_xfs)
-    hoja_1.write(1, 8, "", border_celdas_vacias_xfs)
-    hoja_1.write_merge(2, 3, 8, 8, "", border_celdas_vacias_pagina_xfs)
+    hoja_1.write_merge(2, 3, 7, 7, "Fecha de revisión:", pagina_xfs)
+    hoja_1.write(0, 8, "MG-FO-ADM-003", border_celdas_vacias_xfs)
+    hoja_1.write(1, 8, "00", border_celdas_vacias_xfs)
+    hoja_1.write_merge(2, 3, 8, 8, "01-11-2021", border_celdas_vacias_pagina_xfs)
     # fin
 
     # encabezado de tabla
@@ -1055,6 +690,8 @@ def exportar_ventas_xls(request):
     return response
 
 def exportar_ventas_xlsx(request):
+    fecha_hoy = datetime.datetime.now()
+    hoy = str(fecha_hoy.month) + "-" + str(fecha_hoy.day) + "-" + str(fecha_hoy.year)
     output = io.BytesIO()
     cursor = connection.cursor()
     cursor.callproc("MOSTRAR_VENTAS_MOD")
@@ -1084,10 +721,10 @@ def exportar_ventas_xlsx(request):
     hoja.merge_range('C3:G4', "CUENTAS POR COBRAR", titulo)
     hoja.write(0, 7, "Código:", estilo_cuerpo)
     hoja.write(1, 7, "Revisión:", estilo_cuerpo)
-    hoja.merge_range('H3:H4', "Página:", estilo_cuerpo)
-    hoja.write(0, 8, "", estilo_cuerpo)
-    hoja.write(1, 8, "", estilo_cuerpo)
-    hoja.merge_range('I3:I4', "", estilo_cuerpo)
+    hoja.merge_range('H3:H4', "Fecha de revisión:", estilo_cuerpo)
+    hoja.write(0, 8, "MG-FO-ADM-003", estilo_cuerpo)
+    hoja.write(1, 8, "00", estilo_cuerpo)
+    hoja.merge_range('I3:I4', "01-11-2021", estilo_cuerpo)
     # fin
 
     # encabezado de tabla
@@ -1132,137 +769,10 @@ def exportar_ventas_xlsx(request):
     response['Content-Disposition'] = 'attachment; filename=%s' % filename
     return response
 
-# def exportar_diferentes_movimientos_excel(request):
-#     if request.method == 'POST':
-#         cursor = connection.cursor()
-#         cursor.callproc("MOSTRAR_MOV_IND")
-#         filas_datos = cursor.fetchall()
-#         cont = 0
-#         cont = [cont + 1 for row in filas_datos]
-        
-#         bordes = Border(left=Side(border_style=BORDER_THIN), top=Side(border_style=BORDER_THIN), right=Side(border_style=BORDER_THIN), bottom=Side(border_style=BORDER_THIN))
-
-#         wb = Workbook()
-#         ws = wb.active
-#         ws.merge_cells('A1:B4')
-#         fila_A1 = ws['A1']
-#         fila_A1.border = bordes
-
-#         filas_C1_G4 = ws['C1:G4']
-#         for fila in filas_C1_G4:
-#             fila[0].border = bordes
-
-#         ws['C1'] = 'MOVIMIENTOS REALIZADOS'
-#         ws.merge_cells('C1:G4')
-#         fila_C1 = ws['C1']
-#         fila_C1.font = Font(bold=True, color="00008000", size=20, name="Arial")
-#         fila_C1.alignment = Alignment(horizontal="center", vertical="center")
-#         fila_C1.border = bordes
-
-#         fila_B1 = ws['A1']
-#         fila_B1.font = Font(bold=True, color="00008000", size=20, name="Arial")
-#         fila_B1.alignment = Alignment(horizontal="center", vertical="center")
-#         ws['H1'] = 'Código:'
-#         fila_H1 = ws['H1']
-#         fila_H1.font = Font(bold=True, color="00000000", size=12, name="Arial")
-#         fila_H1.alignment = Alignment(horizontal="left", vertical="center")
-#         fila_H1.border = bordes
-#         fila_I1 = ws['I1']
-#         fila_I1.font = Font(bold=True, color="00000000", size=12, name="Arial")
-#         fila_I1.alignment = Alignment(horizontal="left", vertical="center")
-#         fila_I1.border = bordes
-        
-#         ws['H2'] = 'Revisión:'
-#         fila_H2 = ws['H2']
-#         fila_H2.font = Font(bold=True, color="00000000", size=12, name="Arial")
-#         fila_H2.alignment = Alignment(horizontal="left", vertical="center")
-#         fila_H2.border = bordes
-#         fila_I2 = ws['I2']
-#         fila_I2.font = Font(bold=True, color="00000000", size=12, name="Arial")
-#         fila_I2.alignment = Alignment(horizontal="left", vertical="center")
-#         fila_I2.border = bordes
-        
-#         filas_H3_H4 = ws['H3:H4']
-#         for fila in filas_H3_H4:
-#             fila[0].border = bordes
-#         ws['H3'] = 'Página:'
-#         ws.merge_cells('H3:H4')
-#         fila_H3 = ws['H3']
-#         fila_H3.font = Font(bold=True, color="00000000", size=12, name="Arial")
-#         fila_H3.alignment = Alignment(horizontal="left", vertical="center")
-#         fila_H3.border = bordes
-#         filas_J3_J4 = ws['I3:J4']
-#         for fila in filas_J3_J4:
-#             fila[0].border = bordes
-#         ws.merge_cells('I3:I4')
-#         fila_H3 = ws['I3']
-#         fila_H3.font = Font(bold=True, color="00000000", size=12, name="Arial")
-#         fila_H3.alignment = Alignment(horizontal="left", vertical="center")
-#         fila_H3.border = bordes
-
-#         ws['A5'] = 'Id'
-#         ws['A5'].font = Font(name="Arial", size=12)
-#         ws['A5'].alignment = Alignment(horizontal="center", vertical="center")
-#         ws['B5'] = 'Tipo de movimiento'
-#         ws['B5'].font = Font(name="Arial", size=12)
-#         ws['C5'] = 'Nombre de producto'
-#         ws['C5'].font = Font(name="Arial", size=12)
-#         ws['D5'] = 'Fecha'       
-#         ws['D5'].font = Font(name="Arial", size=12)
-#         ws['E5'] = 'Origen/Destino'
-#         ws['E5'].font = Font(name="Arial", size=12)
-#         ws['F5'] = 'Departamento'       
-#         ws['F5'].font = Font(name="Arial", size=12)
-#         ws['G5'] = 'Motivo'
-#         ws['G5'].font = Font(name="Arial", size=12)
-#         ws['H5'] = 'Cantidad'       
-#         ws['H5'].font = Font(name="Arial", size=12)
-#         ws['I5'] = 'Medida'       
-#         ws['I5'].font = Font(name="Arial", size=14)
-#         filas = 6
-        
-#         for producto in cursor:
-#             ws.cell(row=filas,column=1).value = producto[0]
-#             ws.cell(row=filas,column=1).font = Font(name="Arial", size=11)
-#             ws.cell(row=filas,column=1).border = bordes
-#             ws.cell(row=filas,column=2).value = producto[1]
-#             ws.cell(row=filas,column=2).font = Font(name="Arial", size=11)
-#             ws.cell(row=filas,column=2).border = bordes
-#             ws.cell(row=filas,column=3).value = producto[2]
-#             ws.cell(row=filas,column=3).font = Font(name="Arial", size=11)
-#             ws.cell(row=filas,column=3).border = bordes
-#             ws.cell(row=filas,column=4).value = producto[3]
-#             ws.cell(row=filas,column=4).font = Font(name="Arial", size=11)
-#             ws.cell(row=filas,column=4).border = bordes
-#             ws.cell(row=filas,column=5).value = producto[4]
-#             ws.cell(row=filas,column=5).font = Font(name="Arial", size=11)
-#             ws.cell(row=filas,column=5).border = bordes
-#             ws.cell(row=filas,column=6).value = producto[5]
-#             ws.cell(row=filas,column=6).font = Font(name="Arial", size=11)
-#             ws.cell(row=filas,column=6).border = bordes
-#             ws.cell(row=filas,column=7).value = producto[6]
-#             ws.cell(row=filas,column=7).font = Font(name="Arial", size=11)
-#             ws.cell(row=filas,column=7).border = bordes
-#             ws.cell(row=filas,column=8).value = producto[7]
-#             ws.cell(row=filas,column=8).font = Font(name="Arial", size=11)
-#             ws.cell(row=filas,column=8).border = bordes
-#             ws.cell(row=filas,column=9).value = producto[8]
-#             ws.cell(row=filas,column=9).font = Font(name="Arial", size=11)
-#             ws.cell(row=filas,column=9).border = bordes
-#             if filas != cont * 2:
-#                 filas = filas + 1
-
-#         nombre_archivo ="Otros_movimientos.xlsx"
-#         response = HttpResponse(content_type="application/ms-excel") 
-#         contenido = "attachment; filename={0}".format(nombre_archivo)
-#         response["Content-Disposition"] = contenido
-#         wb.save(response)
-#         cursor.close()
-#         return response
-#     else:
-#         return HttpResponse("<h1>No se pudo descargar el archivo<h1>")
 
 def exportar_diferentes_movimientos_xls(request):
+    fecha_hoy = datetime.datetime.now()
+    hoy = str(fecha_hoy.month) + "-" + str(fecha_hoy.day) + "-" + str(fecha_hoy.year)
     cursor = connection.cursor()
     cursor.callproc("MOSTRAR_MOV_IND")
     resultado = cursor.fetchall()
@@ -1338,10 +848,10 @@ def exportar_diferentes_movimientos_xls(request):
     hoja_1.write_merge(2, 3, 2, 6, "MOVIMIENTOS REALIZADOS", titulo_xfs)
     hoja_1.write(0, 5, "Código:", estilo_encabezado)
     hoja_1.write(1, 5, "Revisión:", estilo_encabezado)
-    hoja_1.write_merge(2, 3, 5, 5, "Página:", pagina_xfs)
+    hoja_1.write_merge(2, 3, 5, 5, "Fecha de revisión:", pagina_xfs)
     hoja_1.write(0, 6, "", border_celdas_vacias_xfs)
-    hoja_1.write(1, 6, "", border_celdas_vacias_xfs)
-    hoja_1.write_merge(2, 3, 6, 6, "", border_celdas_vacias_pagina_xfs)
+    hoja_1.write(1, 6, "00", border_celdas_vacias_xfs)
+    hoja_1.write_merge(2, 3, 6, 6, hoy, border_celdas_vacias_pagina_xfs)
     # fin
 
     # encabezado de tabla
@@ -1369,6 +879,8 @@ def exportar_diferentes_movimientos_xls(request):
     return response
 
 def exportar_diferentes_movimientos_xlsx(request):
+    fecha_hoy = datetime.datetime.now()
+    hoy = str(fecha_hoy.month) + "-" + str(fecha_hoy.day) + "-" + str(fecha_hoy.year)
     output = io.BytesIO()
     cursor = connection.cursor()
     cursor.callproc("MOSTRAR_MOV_IND")
@@ -1398,10 +910,10 @@ def exportar_diferentes_movimientos_xlsx(request):
     hoja.merge_range('C3:G4', "MOVIMIENTOS REALIZADOS", titulo)
     hoja.write(0, 5, "Código:", estilo_cuerpo)
     hoja.write(1, 5, "Revisión:", estilo_cuerpo)
-    hoja.merge_range('F3:F4', "Página:", estilo_cuerpo)
+    hoja.merge_range('F3:F4', "Fecha de revisión:", estilo_cuerpo)
     hoja.write(0, 6, "", estilo_cuerpo)
-    hoja.write(1, 6, "", estilo_cuerpo)
-    hoja.merge_range('G3:G4', "", estilo_cuerpo)
+    hoja.write(1, 6, "00", estilo_cuerpo)
+    hoja.merge_range('G3:G4', hoy, estilo_cuerpo)
     # fin
 
     # campos del encabezado de la tabla
