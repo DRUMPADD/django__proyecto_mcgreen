@@ -13,9 +13,9 @@ ELEGIR_EXT_EMAIL = {
 }
 
 class formulario_proveedor(forms.Form):
-    Identificador = forms.CharField(max_length=20, widget=forms.TextInput(attrs={
+    RFC = forms.CharField(max_length=20, widget=forms.TextInput(attrs={
         'class': 'form-control',
-        'placeholder': 'Identificador'
+        'placeholder': 'RFC'
     }))
     proveedor = forms.CharField(max_length=100, widget=forms.TextInput(attrs={
         'class': 'form-control mt-3',

@@ -173,7 +173,7 @@ def agregar_proveedores(request):
             form = formulario_proveedor(request.POST)
             if form.is_valid():
                 cursor = connection.cursor()
-                cursor.callproc("Agrega_Proveedor",[request.session.get('email'), form["Identificador"].value(),form["proveedor"].value(),form["telefono"].value(),form["email"].value()])
+                cursor.callproc("Agrega_Proveedor",[request.session.get('email'), form["RFC"].value(),form["proveedor"].value(),form["telefono"].value(),form["email"].value()])
                 cursor.close()
                 return redirect("/Compras")    
         return redirect("/Compras")
