@@ -59,7 +59,7 @@ def Inventario_general(request):
                 models.Inventario._meta.get_field("medida").name,
                 models.Inventario._meta.get_field("id_dep_id").name,
                 "Precio unitario",
-                "Subtotal",
+                "IVA",
                 "Precio total",
                 "Tipo de cambio",
                 "Sucursal"
@@ -144,7 +144,7 @@ def ventas(request):
 def otras_e_s(request):
     if request.session.get('email'):
         cursor = connection.cursor()
-        cursor.callproc('MOSTRAR_PRODUCTOS_ACTIVOS')
+        cursor.callproc('MOSTRAR_TODOS_LOS_PRODUCTOS')
         context = {
             'sesion': request.session.get("email"),
             'privilegio': request.session.get("privilegio"),
