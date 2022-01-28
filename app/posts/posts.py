@@ -472,8 +472,8 @@ def exportar_compras_xls(request):
     # encabezado de tabla
     hoja_1.write(4, 0, "Compra", estilo_encabezado)
     hoja_1.write(4, 1, "Detalle", estilo_encabezado)
-    hoja_1.write(4, 2, "Proveedor", estilo_encabezado)
-    hoja_1.write(4, 3, "ID producto", estilo_encabezado)
+    hoja_1.write(4, 2, "RFC", estilo_encabezado)
+    hoja_1.write(4, 3, "Proveedor", estilo_encabezado)
     hoja_1.write(4, 4, "Nombre de producto", estilo_encabezado)
     hoja_1.write(4, 5, "Cantidad", estilo_encabezado)
     hoja_1.write(4, 6, "Precio unitario", estilo_encabezado)
@@ -523,7 +523,7 @@ def exportar_compras_xlsx(request):
     titulo.set_align('vcenter')
     
     hoja.merge_range('A1:B4', "", estilo_cuerpo)
-    hoja.merge_range('A1:G2', "Fluidos McGreen de México S.A de C.V", titulo)
+    hoja.merge_range('C1:G2', "Fluidos McGreen de México S.A de C.V", titulo)
     hoja.merge_range('C3:G4', "COMPRAS REALIZADAS", titulo)
     hoja.write(0, 7, "Código:", estilo_cuerpo)
     hoja.write(1, 7, "Revisión:", estilo_cuerpo)
@@ -536,8 +536,8 @@ def exportar_compras_xlsx(request):
     # campos del encabezado de la tabla
     hoja.write(4, 0, "Compra", estilo_cuerpo)
     hoja.write(4, 1, "Detalle", estilo_cuerpo)
-    hoja.write(4, 2, "Proveedor", estilo_cuerpo)
-    hoja.write(4, 3, "ID producto", estilo_cuerpo)
+    hoja.write(4, 2, "RFC", estilo_cuerpo)
+    hoja.write(4, 3, "Proveedor", estilo_cuerpo)
     hoja.write(4, 4, "Nombre de producto", estilo_cuerpo)
     hoja.write(4, 5, "Cantidad", estilo_cuerpo)
     hoja.write(4, 6, "Precio unitario", estilo_cuerpo)
@@ -846,12 +846,12 @@ def exportar_diferentes_movimientos_xls(request):
     hoja_1.write_merge(0, 3, 0, 1, "", titulo_xfs)
     hoja_1.write_merge(0, 1, 2, 6, "Fluidos McGreen de México S.A de C.V", titulo_xfs)
     hoja_1.write_merge(2, 3, 2, 6, "MOVIMIENTOS REALIZADOS", titulo_xfs)
-    hoja_1.write(0, 5, "Código:", estilo_encabezado)
-    hoja_1.write(1, 5, "Revisión:", estilo_encabezado)
-    hoja_1.write_merge(2, 3, 5, 5, "Fecha de revisión:", pagina_xfs)
-    hoja_1.write(0, 6, "", border_celdas_vacias_xfs)
-    hoja_1.write(1, 6, "00", border_celdas_vacias_xfs)
-    hoja_1.write_merge(2, 3, 6, 6, hoy, border_celdas_vacias_pagina_xfs)
+    hoja_1.write(0, 7, "Código:", estilo_encabezado)
+    hoja_1.write(1, 7, "Revisión:", estilo_encabezado)
+    hoja_1.write_merge(2, 3, 7, 7, "Fecha de revisión:", pagina_xfs)
+    hoja_1.write(0, 8, "", border_celdas_vacias_xfs)
+    hoja_1.write(1, 8, "00", border_celdas_vacias_xfs)
+    hoja_1.write_merge(2, 3, 8, 8, hoy, border_celdas_vacias_pagina_xfs)
     # fin
 
     # encabezado de tabla
@@ -862,6 +862,8 @@ def exportar_diferentes_movimientos_xls(request):
     hoja_1.write(4, 4, "Origen o destino", estilo_encabezado)
     hoja_1.write(4, 5, "Departamento", estilo_encabezado)
     hoja_1.write(4, 6, "Motivo", estilo_encabezado)
+    hoja_1.write(4, 7, "Cantidad", estilo_encabezado)
+    hoja_1.write(4, 8, "Medida", estilo_encabezado)
     # fin
 
     fila = 5
@@ -906,14 +908,14 @@ def exportar_diferentes_movimientos_xlsx(request):
     titulo.set_align('vcenter')
 
     hoja.merge_range('A1:B4', "", estilo_cuerpo)
-    hoja.merge_range('A1:G2', "Fluidos McGreen de México S.A de C.V", titulo)
+    hoja.merge_range('C1:G2', "Fluidos McGreen de México S.A de C.V", titulo)
     hoja.merge_range('C3:G4', "MOVIMIENTOS REALIZADOS", titulo)
-    hoja.write(0, 5, "Código:", estilo_cuerpo)
-    hoja.write(1, 5, "Revisión:", estilo_cuerpo)
-    hoja.merge_range('F3:F4', "Fecha de revisión:", estilo_cuerpo)
-    hoja.write(0, 6, "", estilo_cuerpo)
-    hoja.write(1, 6, "00", estilo_cuerpo)
-    hoja.merge_range('G3:G4', hoy, estilo_cuerpo)
+    hoja.write(0, 7, "Código:", estilo_cuerpo)
+    hoja.write(1, 7, "Revisión:", estilo_cuerpo)
+    hoja.merge_range('H3:H4', "Fecha de revisión:", estilo_cuerpo)
+    hoja.write(0, 8, "", estilo_cuerpo)
+    hoja.write(1, 8, "00", estilo_cuerpo)
+    hoja.merge_range('I3:I4', hoy, estilo_cuerpo)
     # fin
 
     # campos del encabezado de la tabla
@@ -924,6 +926,8 @@ def exportar_diferentes_movimientos_xlsx(request):
     hoja.write(4, 4, "Origen o destino",estilo_cuerpo)
     hoja.write(4, 5, "Departamento", estilo_cuerpo)
     hoja.write(4, 6, "Motivo", estilo_cuerpo)
+    hoja.write(4, 6, "Cantidad", estilo_cuerpo)
+    hoja.write(4, 6, "Medida", estilo_cuerpo)
     # fin
     fila = 5
     for row in range(1, len(resultado) + 1):
