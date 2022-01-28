@@ -345,7 +345,7 @@ def exportar_inventario_xlsx(request):
     titulo.set_align('center')
     titulo.set_align('vcenter')
 
-    url = os.environ.get("DJANGO_ALLOWED_HOST") + \
+    url = "https//" + os.environ.get("DJANGO_ALLOWED_HOST") + \
     '/static/img/logo-excel.png'
     image_data = io.BytesIO(urlopen(url).read())
     hoja.merge_range('A1:B4', "", estilo_cuerpo)
@@ -526,7 +526,7 @@ def exportar_compras_xlsx(request):
     })
     titulo.set_align('center')
     titulo.set_align('vcenter')
-    url = os.environ.get("DJANGO_ALLOWED_HOST") + \
+    url = "https//" + os.environ.get("DJANGO_ALLOWED_HOST") + \
     '/static/img/logo-excel.png'
     image_data = io.BytesIO(urlopen(url).read())
     hoja.merge_range('A1:B4', "", estilo_cuerpo)
@@ -724,7 +724,7 @@ def exportar_ventas_xlsx(request):
     titulo.set_align('center')
     titulo.set_align('vcenter')
 
-    url = os.environ.get("DJANGO_ALLOWED_HOST") + \
+    url = "https//" + os.environ.get("DJANGO_ALLOWED_HOST") + \
     '/static/img/logo-excel.png'
     image_data = io.BytesIO(urlopen(url).read())
     hoja.merge_range('A1:B4', "", estilo_cuerpo)
@@ -917,7 +917,7 @@ def exportar_diferentes_movimientos_xlsx(request):
     titulo.set_align('center')
     titulo.set_align('vcenter')
 
-    url = os.environ.get("DJANGO_ALLOWED_HOST") + \
+    url = "https//" + os.environ.get("DJANGO_ALLOWED_HOST") + \
     '/static/img/logo-excel.png'
     image_data = io.BytesIO(urlopen(url).read())
     hoja.merge_range('A1:B4', "", estilo_cuerpo)
