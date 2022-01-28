@@ -15,16 +15,6 @@
         <p> Derechos reservados <strong>Fluidos McGreen de México S.A de C.V</strong></p>
         <p>Fecha: {% now 'd \d\e F \d\e\l Y' %}</p>
     </footer>
-    <script src="{% static 'js/botonRegresar.js'%}"></script>
-    <script>
-        function nobackbutton(){
-            window.location.hash="no-back-button";
-            window.location.hash="Again-No-back-button" //chrome
-            window.onhashchange=function(){window.location.hash="no-back-button";}
-        }
-        window.setTimeout(function () {
-            location.href = "/";
-        }, 3000);
-    </script>
+    <script src="{% static 'js/botonRegresar.js' %}"></script>
 </body>
 </html>
