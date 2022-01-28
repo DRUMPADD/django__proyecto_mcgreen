@@ -868,7 +868,7 @@ def exportar_diferentes_movimientos_xls(request):
 
     fila = 5
     for row in range(1, len(resultado) + 1):
-        for col in range(0, 7):
+        for col in range(0, 9):
             hoja_1.write(fila, col, u'%s' % resultado[row - 1][col], estilo_cuerpo)
         fila = 1 + fila
     nombre_archivo ="Movimientos.xls"
@@ -931,7 +931,7 @@ def exportar_diferentes_movimientos_xlsx(request):
     # fin
     fila = 5
     for row in range(1, len(resultado) + 1):
-        for col in range(0, 7):
+        for col in range(0, 9):
             hoja.write(fila, col, u'%s' % resultado[row - 1][col], estilo_cuerpo)
         fila = 1 + fila
 
