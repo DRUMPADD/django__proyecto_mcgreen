@@ -9,9 +9,8 @@ from ..forms import formulario_cliente, formulario_proveedor, Formulario_registr
 # from openpyxl.styles import Font
 # from openpyxl.styles.alignment import Alignment
 # from openpyxl.styles.borders import BORDER_THIN, Border, Side
-import xlwt, os
+import xlwt
 import xlsxwriter
-from urllib.request import urlopen
 
 def registra_usuario(request):
     if request.session.get('email'):
@@ -345,11 +344,7 @@ def exportar_inventario_xlsx(request):
     titulo.set_align('center')
     titulo.set_align('vcenter')
 
-    url = "https//" + os.environ.get("DJANGO_ALLOWED_HOST") + \
-    '/static/img/logo-excel.png'
-    image_data = io.BytesIO(urlopen(url).read())
     hoja.merge_range('A1:B4', "", estilo_cuerpo)
-    hoja.insert_image("A1", url, { 'image_data': image_data, 'x_scale': 0.74 })
     hoja.merge_range('C1:I2', "Fluidos McGreen de México S.A de C.V", titulo)
     hoja.merge_range('C3:I4', "Inventario general", titulo)
     hoja.write(0, 9, "Código:", estilo_cuerpo)
@@ -526,11 +521,8 @@ def exportar_compras_xlsx(request):
     })
     titulo.set_align('center')
     titulo.set_align('vcenter')
-    url = "https//" + os.environ.get("DJANGO_ALLOWED_HOST") + \
-    '/static/img/logo-excel.png'
-    image_data = io.BytesIO(urlopen(url).read())
+    
     hoja.merge_range('A1:B4', "", estilo_cuerpo)
-    hoja.insert_image("A1", url, { 'image_data': image_data, 'x_scale': 0.74 })
     hoja.merge_range('A1:G2', "Fluidos McGreen de México S.A de C.V", titulo)
     hoja.merge_range('C3:G4', "COMPRAS REALIZADAS", titulo)
     hoja.write(0, 7, "Código:", estilo_cuerpo)
@@ -724,11 +716,7 @@ def exportar_ventas_xlsx(request):
     titulo.set_align('center')
     titulo.set_align('vcenter')
 
-    url = "https//" + os.environ.get("DJANGO_ALLOWED_HOST") + \
-    '/static/img/logo-excel.png'
-    image_data = io.BytesIO(urlopen(url).read())
     hoja.merge_range('A1:B4', "", estilo_cuerpo)
-    hoja.insert_image("A1", url, { 'image_data': image_data, 'x_scale': 0.74 })
     hoja.merge_range('C1:G2', "Fluidos McGreen de México S.A de C.V", titulo)
     hoja.merge_range('C3:G4', "CUENTAS POR COBRAR", titulo)
     hoja.write(0, 7, "Código:", estilo_cuerpo)
@@ -917,11 +905,7 @@ def exportar_diferentes_movimientos_xlsx(request):
     titulo.set_align('center')
     titulo.set_align('vcenter')
 
-    url = "https//" + os.environ.get("DJANGO_ALLOWED_HOST") + \
-    '/static/img/logo-excel.png'
-    image_data = io.BytesIO(urlopen(url).read())
     hoja.merge_range('A1:B4', "", estilo_cuerpo)
-    hoja.insert_image("A1", url, { 'image_data': image_data, 'x_scale': 0.74 })
     hoja.merge_range('A1:G2', "Fluidos McGreen de México S.A de C.V", titulo)
     hoja.merge_range('C3:G4', "MOVIMIENTOS REALIZADOS", titulo)
     hoja.write(0, 5, "Código:", estilo_cuerpo)
