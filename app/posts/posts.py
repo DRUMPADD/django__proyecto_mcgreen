@@ -926,8 +926,8 @@ def exportar_diferentes_movimientos_xlsx(request):
     hoja.write(4, 4, "Origen o destino",estilo_cuerpo)
     hoja.write(4, 5, "Departamento", estilo_cuerpo)
     hoja.write(4, 6, "Motivo", estilo_cuerpo)
-    hoja.write(4, 6, "Cantidad", estilo_cuerpo)
-    hoja.write(4, 6, "Medida", estilo_cuerpo)
+    hoja.write(4, 7, "Cantidad", estilo_cuerpo)
+    hoja.write(4, 8, "Medida", estilo_cuerpo)
     # fin
     fila = 5
     for row in range(1, len(resultado) + 1):
