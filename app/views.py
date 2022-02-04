@@ -8,7 +8,7 @@ from .forms import formulario_cliente, formulario_proveedor, Formulario_registro
 # ?? Sesiones
 def iniciar_sesion(request):
     if request.session.get("email"):
-        return redirect("/Inventario_general")
+        return redirect("/inicio")
     else:
         if request.method == 'POST':
             try:
@@ -20,7 +20,7 @@ def iniciar_sesion(request):
                 if mensaje == 'EXISTE':
                     request.session["email"] = request.POST["user"]
                     request.session["privilegio"] = privilegio[0]
-                    return redirect("/Inventario_general")
+                    return redirect("/inicio")
                 else:
                     return HttpResponse("<h1>No existe el usuario</h1>")
             finally:
@@ -32,7 +32,7 @@ def inicio(request):
         context = {
             'privilegio': request.session.get("privilegio")
         }
-        return render(request, "inicio.html")
+        return render(request, "inicio.html", context)
     else:
         return redirect("/cerrar_sesion")
 
@@ -132,7 +132,6 @@ def compras(request):
 # ?? Ventas
 def ventas(request):
     if request.session.get('email'):
-
         if request.method != 'POST':
             cursor = connection.cursor()
             cursor.callproc('MOSTRAR_SISTEMAS_ACTIVOS')
