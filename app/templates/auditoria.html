@@ -11,25 +11,103 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        {% if privilegio == 'ADM-IN1' %}
         <ul class="navbar-nav me-auto">
-            <li class="nav-item"><a class="nav-link" href="/Inventario_general">Inventario general</a></li>
-            {% if privilegio == 'ADM-IN1' %}
-            <li class="nav-item"><a class="nav-link" href="/Compras">Entradas</a></li>
-            <li class="nav-item"><a class="nav-link" href="/Ventas">Cuentas por cobrar</a></li>
-            <li class="nav-item"><a class="nav-link" href="/Otras_E_S">Otras E/S</a></li>
-            <li class="nav-item"><a class="nav-link" href="/Movimientos">Movimientos de inventario</a></li>
             <li class="nav-item dropdown">
-                <button class="nav-link dropdown-toggle btn" type="button" id="navbarDropdown" aria-haspopup="true" data-toggle="dropdown" aria-expanded="false">
-                    Usuarios
+                <button class="btn dropdown-toggle" type="button" id="navbarDropdown" aria-haspopup="true" data-bs-toggle="dropdown" aria-expanded="false">
+                    Inventario
                 </button>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{% url 'registro' %}">Registrar usuario</a>
-                    <a class="dropdown-item" href="{% url 'usuarios' %}">Usuarios</a>
-                </div>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li>
+                        <a class="dropdown-item" href="{% url 'Inventario_general' %}">Inventario general</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="{% url 'compras' %}">Entradas</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="{% url 'ventas' %}">Ventas</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="{% url 'otras_e_s' %}">Otras E/S</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="{% url 'movimientos' %}">Movimientos de inventario</a>
+                    </li>
+                </ul>
             </li>
-            <li class="nav-item"><a class="nav-link" href="/Auditoria">Auditoria</a></li>
-            {% endif %}
         </ul>
+        <ul class="navbar-nav me-auto">
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle" type="button" id="navbarDropdown" aria-haspopup="true" data-bs-toggle="dropdown" aria-expanded="false">
+                    Recursos humanos
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li>
+                        <a class="dropdown-item" href="{% url 'directorio' %}">Inventario general</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="{% url 'perfil_puesto' %}">Entradas</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <ul class="navbar-nav me-auto">
+            <li class="nav-item dropdown">
+                <buttton class="btn dropdown-toggle" type="button" id="navbarDropdown" aria-haspopup="true" data-bs-toggle="dropdown" aria-expanded="false">
+                    Usuarios
+                </buttton>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li>
+                        <a class="dropdown-item" href="{% url 'registro' %}">Registrar usuario</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="{% url 'usuarios' %}">Usuarios</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        {% elif privilegio == 'JEFE' %}
+        <ul class="navbar-nav me-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" id="navbarDropdown" aria-haspopup="true" data-bs-toggle="dropdown" aria-expanded="false">
+                    Inventario
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li>
+                        <a class="dropdown-item" href="{% url 'Inventario_general' %}">Inventario general</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="{% url 'compras' %}">Entradas</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="{% url 'ventas' %}">Ventas</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="{% url 'otras_e_s' %}">Otras E/S</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="{% url 'movimientos' %}">Movimientos de inventario</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        {% else %}
+        <ul class="navbar-nav me-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" id="navbarDropdown" aria-haspopup="true" data-bs-toggle="dropdown" aria-expanded="false">
+                    Inventario
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li>
+                        <a class="dropdown-item" href="{% url 'Inventario_general' %}">Inventario general</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="{% url 'movimientos' %}">Movimientos de inventario</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        {% endif %}
         <ul class="navbar-nav">
             <li class="nav-item"><a class="nav-link" href="{% url 'cerrar_sesion' %}">Cerrar sesión</a></li>
         </ul>
