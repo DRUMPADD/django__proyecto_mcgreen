@@ -8,7 +8,7 @@ from .forms import formulario_cliente, formulario_proveedor, Formulario_registro
 # ?? Sesiones
 def iniciar_sesion(request):
     if request.session.get("email"):
-        return redirect("/inicio")
+        return redirect("/Inicio")
     else:
         if request.method == 'POST':
             try:
@@ -20,7 +20,7 @@ def iniciar_sesion(request):
                 if mensaje == 'EXISTE':
                     request.session["email"] = request.POST["user"]
                     request.session["privilegio"] = privilegio[0]
-                    return redirect("/inicio")
+                    return redirect("/Inicio")
                 else:
                     return HttpResponse("<h1>No existe el usuario</h1>")
             finally:
