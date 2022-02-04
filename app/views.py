@@ -27,6 +27,15 @@ def iniciar_sesion(request):
                 cursor.close()
         return render(request, 'login.html')
 
+def inicio(request):
+    if request.session.get("email"):
+        context = {
+            'privilegio': request.session.get("privilegio")
+        }
+        return render(request, "inicio.html")
+    else:
+        return redirect("/cerrar_sesion")
+
 def registro(request):
     if request.session.get('email'):
         formulario = Formulario_registro()
