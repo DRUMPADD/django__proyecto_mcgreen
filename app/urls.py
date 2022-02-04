@@ -2,6 +2,7 @@ from django.urls import path
 from . import views
 from .admin_vistas import vistas
 from .posts import posts
+from .RR_HH import vistas as vistas_rh
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -40,4 +41,7 @@ urlpatterns = [
     path('convertir_vta_xlsx/', posts.exportar_ventas_xlsx, name="convertir_vta_xlsx"),
     path('convertir_difmov_xls/', posts.exportar_diferentes_movimientos_xls, name="convertir_difmov_xls"),
     path('convertir_difmov_xlsx/', posts.exportar_diferentes_movimientos_xlsx, name="convertir_difmov_xlsx"),
+    # ?? Recursos humanos
+    path("Directorio", vistas_rh.directorio, name="directorio"),
+    path("Perfil_puesto", vistas_rh.perfil_puesto, name="perfil_puesto"),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
