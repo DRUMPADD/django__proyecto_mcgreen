@@ -17,19 +17,15 @@
             <li class="nav-item"><a class="nav-link" href="/Ventas">Ventas</a></li>
             <li class="nav-item"><a class="nav-link" href="/Otras_E_S">Otras E/S</a></li>
             <li class="nav-item"><a class="nav-link" href="/Movimientos">Movimientos de inventario</a></li>
-            <li class="nav-item dropdown">
-                <button class="btn dropdown-toggle nav-link" type="button" id="navbarDropdown" aria-haspopup="true" data-bs-toggle="dropdown" aria-expanded="false">
+            <div class="dropdown">
+                <button class="nav-link dropdown-toggle btn" type="button" id="navbarDropdown" aria-haspopup="true" data-toggle="dropdown" aria-expanded="false">
                     Usuarios
                 </button>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <li>
-                        <a class="dropdown-item" href="{% url 'registro' %}">Registrar usuario</a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" href="{% url 'usuarios' %}">Usuarios</a>
-                    </li>
-                </ul>
-            </li>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{% url 'registro' %}">Registrar usuario</a>
+                    <a class="dropdown-item" href="{% url 'usuarios' %}">Usuarios</a>
+                </div>
+            </div>
             <li class="nav-item"><a class="nav-link" href="/Auditoria">Auditoria</a></li>
             {% elif privilegio == 'JEFE' %}
             <li class="nav-item"><a class="nav-link" href="/Compras">Entradas</a></li>
