@@ -9,6 +9,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('', views.iniciar_sesion, name="iniciar_sesion"),
     path('cerrar_sesion', views.cerrar_sesion, name="cerrar_sesion"),
+    path('Inicio', views.inicio, name="inicio"),
     path('Registro', views.registro, name="registro"),
     path('registra_usuario', posts.registra_usuario, name="registra_usuario"),
     path('Inventario_general', views.Inventario_general, name="Inventario_general"),
