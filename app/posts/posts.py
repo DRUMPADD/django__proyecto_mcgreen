@@ -42,7 +42,8 @@ def agregar_producto(request):
                     cursor.callproc("Agrega_INV", [request.POST["producto"], request.POST["descripcion"], request.POST["cantidad"], request.POST["ddw_medidas"], request.POST["ddw_departamentos"], request.POST["precio"], request.POST["sl_tipo_cambio"], request.POST["sucursal"], request.session.get("email")])
                     if cursor.fetchall()[0][0] != 'FACTURA DISPONIBLE':
                         messages.error(request, "Ocurrió un error al hacer la modificación")
-                    messages.success(request, "Producto registrado con éxito")
+                    else:
+                        messages.success(request, "Producto registrado con éxito")
                 finally:
                     cursor.close()
             else:
@@ -55,7 +56,8 @@ def modificar_producto(request):
         cursor.callproc("MODIFICA_INV", [request.session.get('email'), request.POST["id_producto"], request.POST["producto"], request.POST["descripcion"], request.POST["precio"]])
         if cursor.fetchall()[0][0] != 'EL PRECIO FUE MODIFICADO CORRECTAMENTE':
             messages.error(request, "Ocurrió un error al hacer la modificación")
-        messages.success(request, "Elementos actualizados con éxito")
+        else:
+            messages.success(request, "Elementos actualizados con éxito")
         return redirect("/Inventario_general")
 
 def descontinuar_producto(request,id_prod):
@@ -64,7 +66,8 @@ def descontinuar_producto(request,id_prod):
         cursor.callproc("DESCONTINUAR_PRODUCTO", [id_prod, request.session.get("email")])
         if cursor.fetchall()[0][0] != 'EL PRODUCTO: ' + id_prod + ' FUE DESCONTINUADO':
             messages.error(request, "Ocurrió un error al eliminar el producto")
-        messages.error(request, "Producto eliminado")
+        else:
+            messages.error(request, "Producto eliminado")
         cursor.close()
         return redirect("/Inventario_general")
     else:
@@ -76,7 +79,8 @@ def activar_producto(request,id_prod):
         cursor.callproc("ACTIVAR_PRODUCTO", [request.session.get('email'), id_prod])
         if cursor.fetchall()[0][0] != 'EL PRODUCTO: ' + id_prod + ' FUE ACTIVADO':
             messages.error(request, "Ocurrió un error al activar el producto")
-        messages.success(request, "Producto activado")
+        else:
+            messages.success(request, "Producto activado")
         cursor.close()
         return redirect("/Inventario_general")
     else:
