@@ -40,7 +40,9 @@ def agregar_producto(request):
                 try:
                     cursor = connection.cursor()
                     cursor.callproc("Agrega_INV", [request.POST["producto"], request.POST["descripcion"], request.POST["cantidad"], request.POST["ddw_medidas"], request.POST["ddw_departamentos"], request.POST["precio"], request.POST["sl_tipo_cambio"], request.POST["sucursal"], request.session.get("email")])
-                    if cursor.fetchall()[0][0] != 'FACTURA DISPONIBLE':
+                    mensaje = cursor.fetchall()[0][0]
+                    print(mensaje)
+                    if mensaje != 'FACTURA DISPONIBLE' or mensaje != 'EXISTENCIAS AGREGADAS CORRECTAMENTE':
                         messages.error(request, "Ocurrió un error al hacer la modificación")
                     else:
                         messages.success(request, "Producto registrado con éxito")
