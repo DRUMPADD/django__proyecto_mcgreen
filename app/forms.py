@@ -33,23 +33,18 @@ class formulario_proveedor(forms.Form):
 class formulario_cliente(forms.Form):
     Identificador = forms.CharField(max_length=20, widget=forms.TextInput(attrs={
         'class': 'form-control',
-        'placeholder': 'Identificador'
     }))
     cliente = forms.CharField(max_length=100, widget=forms.TextInput(attrs={
-        'class': 'form-control mt-3',
-        'placeholder': 'Nombre'
+        'class': 'form-control',
     }))
     direccion = forms.CharField(max_length=255, widget=forms.TextInput(attrs={
-        'class': 'form-control mt-3',
-        'placeholder': 'Dirección'
+        'class': 'form-control',
     }))
     telefono = forms.CharField(max_length=15, widget=forms.TextInput(attrs={
-        'class': 'form-control mt-3',
-        'placeholder': 'Teléfono'
+        'class': 'form-control',
     }))
     email = forms.CharField(max_length=200, widget=forms.TextInput(attrs={
-        'class': 'form-control mt-3',
-        'placeholder': 'Email'
+        'class': 'form-control',
     }))
 
 class Formulario_registro(forms.Form):
