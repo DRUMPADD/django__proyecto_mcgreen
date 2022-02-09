@@ -58,7 +58,7 @@ def cerrar_sesion(request):
 def Inventario_general(request):
     if request.session.get("email"):
         cursor = connection.cursor()
-        if request.session.get("privilegio") != 'ADM-IN1' or request.session.get("privilegio") != 'JEFE':
+        if request.session.get("privilegio") == 'ADM-IN1' or request.session.get("privilegio") == 'JEFE':
             cursor.callproc('MOSTRAR_PRODUCTOS_ACTIVOS')
             nombres = [
                 models.Inventario._meta.get_field("id_producto").name,
