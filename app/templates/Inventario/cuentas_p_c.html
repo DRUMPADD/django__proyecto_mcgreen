@@ -81,28 +81,28 @@
             <li class="nav-item"><a class="nav-link" href="{% url 'cerrar_sesion' %}">Cerrar sesión</a></li>
         </ul>
     </nav>
-    <div class="container d-flex justify-content-center align-items-center mt-3">
-        <form action="{% url 'agregar_clientes' %}" method="POST" class="card card-body col-md-5 justify-content-center">
+    <div class="container d-flex justify-content-center mt-3 col-lg-3">
+        <form action="{% url 'agregar_clientes' %}" method="POST" class="card card-body">
             <h2 class="card-title text-center">Agregar cliente</h2>
             {% csrf_token %}
-            <div class="input-group">
-                <label for="{{ form.Identificador.id_for_label }}">Identificador</label>
+            <div>
+                <label for="{{ form.Identificador.id_for_label }}" class="h5 mt-1">Identificador</label>
                 {{ form.Identificador }}
             </div>
-            <div class="input-group">
-                <label for="{{ form.cliente.id_for_label }}">Nombre</label>
+            <div>
+                <label for="{{ form.cliente.id_for_label }}" class="h5 mt-1">Nombre</label>
                 {{ form.cliente }}
             </div>
-            <div class="input-group">
-                <label for="{{ form.direccion.id_for_label }}">Dirección</label>
+            <div>
+                <label for="{{ form.direccion.id_for_label }}" class="h5 mt-1">Dirección</label>
                 {{ form.direccion }}
             </div>
-            <div class="input-group">
-                <label for="{{ form.telefono.id_for_label }}">Teléfono</label>
+            <div>
+                <label for="{{ form.telefono.id_for_label }}" class="h5 mt-1">Teléfono</label>
                 {{ form.telefono }}
             </div>
-            <div class="input-group">
-                <label for="{{ form.email.id_for_label }}">Email</label>
+            <div>
+                <label for="{{ form.email.id_for_label }}" class="h5 mt-1">Email</label>
                 {{ form.email }}
             </div>
             <input type="submit" class="btn btn-success form-control mt-2" value="Agregar">
@@ -207,6 +207,15 @@
                     <div class="text-center">
                         <label for="">Dólar</label>
                         <input type="number" name="dolares" step="any" class="form-control">
+                    </div>
+                    <div class="text-center">
+                        <label for="">Clientes</label>
+                        <select name="sl_clientes" class="form-select">
+                            <option selected disabled>--Seleccionar--</option>
+                            {% for cliente in clientes %}
+                                <option value="{{ cliente.id_cliente }}">{{ cliente.nombre_cliente }}</option>
+                                {% endfor %}
+                        </select>
                     </div>
                     <div class="text-center">
                         <label for="">Monto MXN pagado</label>
