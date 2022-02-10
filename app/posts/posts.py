@@ -123,7 +123,8 @@ def generar_cuenta_por_cobrar(request):
         if request.method == 'POST':
             cursor = connection.cursor()
             sistema = str(request.POST['sl_sistemas']).split(' ')[0]
-            if request.POST.get("sp") is not None and request.POST.get("oc") is not None and request.POST.get("fecha") is not None and sistema is not None and request.POST.get("pozo") is not None and request.POST.get("total_servicios") is not None and request.POST.get("no_factura") is not None and request.POST.get("dolares") is not None and request.POST.get("monto_mp_pagado") is not None:
+            cliente = str(request.POST['sl_clientes'])
+            if request.POST.get("sp") is not None and request.POST.get("oc") is not None and request.POST.get("fecha") is not None and sistema is not None and request.POST.get("pozo") is not None and request.POST.get("total_servicios") is not None and request.POST.get("monto_mp_pagado") is not None and request.POST.get("fecha_de_fac") is not None and cliente is not None and request.POST.get("no_factura") is not None:
                 cursor.callproc("VENTA_MOD",[request.POST['email'],request.POST['status'],request.POST['fecha_pago_fac'],request.POST['contrarecibo'],request.POST['fecha_rec_pago'],request.POST['sp'],request.POST['oc'],request.POST['fecha'],sistema,request.POST['pozo'],request.POST['total_servicios'],request.POST['no_factura'],request.POST['fecha_de_fac'],request.POST['recibo_pago_fac_mcgreen'],request.POST['fecha_r_pag'],request.POST['dolares'],request.POST['monto_mp_pagado'], request.POST['sl_clientes']])
                 mensaje = cursor.fetchone()[0]
                 print(mensaje)
