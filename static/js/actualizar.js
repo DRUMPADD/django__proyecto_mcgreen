@@ -17,7 +17,8 @@ $(document).ready(function() {
         $("input[name='fecha_de_fac']").val($(element).find("td").eq(18).text());
         $("input[name='recibo_pago_fac_mcgreen']").val($(element).find("td").eq(19).text());
         $("input[name='fecha_r_pag']").val($(element).find("td").eq(20).text());
-        $("input[name='monto_mn_pagado']").val(parseFloat($(element).find("td").eq(23).text().split(" ")[1].replace(',', '')));
+        $("input[name='dolar']").val(parseFloat($(element).find("td").eq(21).text().replace(',', '')));
+        $("input[name='monto_mn_pagado']").val(parseFloat($(element).find("td").eq(23).text().replace(',', '')));
         e.preventDefault();
     });
 
