@@ -3,7 +3,7 @@ from django.http.response import HttpResponse, JsonResponse
 from django.shortcuts import redirect
 from django.contrib import messages
 from .. import models
-from django.db import connection
+from django.db import IntegrityError, connection
 from ..forms import formulario_cliente, formulario_proveedor, Formulario_registro
 # from openpyxl import Workbook
 # from openpyxl.styles import Font
@@ -121,20 +121,24 @@ def generar_venta(request):
 def generar_cuenta_por_cobrar(request):
     if request.session.get('email'):
         if request.method == 'POST':
-            cursor = connection.cursor()
             sistema = str(request.POST['sl_sistemas']).split(' ')[0]
             cliente = str(request.POST['sl_clientes'])
-            if request.POST.get("sp") is not None and request.POST.get("oc") is not None and request.POST.get("fecha") is not None and sistema is not None and request.POST.get("pozo") is not None and request.POST.get("total_servicios") is not None and request.POST.get("monto_mp_pagado") is not None and request.POST.get("fecha_de_fac") is not None and cliente is not None and request.POST.get("no_factura") is not None:
-                cursor.callproc("VENTA_MOD",[request.POST['email'],request.POST['status'],request.POST['fecha_pago_fac'],request.POST['contrarecibo'],request.POST['fecha_rec_pago'],request.POST['sp'],request.POST['oc'],request.POST['fecha'],sistema,request.POST['pozo'],request.POST['total_servicios'],request.POST['no_factura'],request.POST['fecha_de_fac'],request.POST['recibo_pago_fac_mcgreen'],request.POST['fecha_r_pag'],request.POST['dolares'],request.POST['monto_mp_pagado'], request.POST['sl_clientes']])
-                mensaje = cursor.fetchone()[0]
-                print(mensaje)
-                if mensaje != 'CUENTA POR COBRAR AGREGADA CORRECTAMENTE VERIFIQUE LOS MOVIMIENTOS':
-                    messages.error(request, "Ocurrió un error al realizar la venta")
-                else:
-                    messages.success(request, "Venta registrada")
+            if request.POST.get("sp") != "" and request.POST.get("oc") != "" and request.POST.get("fecha") != "" and sistema != "" and request.POST.get("pozo") != "" and request.POST.get("total_servicios") != "" and request.POST.get("monto_mp_pagado") != "" and request.POST.get("fecha_de_fac") != "" and cliente != "" and request.POST.get("no_factura") != "":
+                try:
+                    cursor = connection.cursor()
+                    cursor.callproc("VENTA_MOD",[request.POST['email'],request.POST['status'],request.POST['fecha_pago_fac'],request.POST['contrarecibo'],request.POST['fecha_rec_pago'],request.POST['sp'],request.POST['oc'],request.POST['fecha'],sistema,request.POST['pozo'],request.POST['total_servicios'],request.POST['no_factura'],request.POST['fecha_de_fac'],request.POST['recibo_pago_fac_mcgreen'],request.POST['fecha_r_pag'],request.POST['dolares'],request.POST['monto_mp_pagado'], request.POST['sl_clientes']])
+                    mensaje = cursor.fetchone()[0]
+                    print(mensaje)
+                    if mensaje != 'CUENTA POR COBRAR AGREGADA CORRECTAMENTE VERIFIQUE LOS MOVIMIENTOS':
+                        messages.error(request, "Ocurrió un error al realizar la venta")
+                    else:
+                        messages.success(request, "Venta registrada")
+                except IntegrityError as ie:
+                    print(ie)
+                finally:
+                    cursor.close()
             else:
                 messages.error(request, "Debe llenar los campos requeridos")
-            cursor.close()
             return redirect("/Ventas")
         else:
             return redirect("/Ventas")
