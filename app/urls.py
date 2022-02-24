@@ -4,8 +4,6 @@ from .admin_vistas import vistas
 from .posts import posts
 from .RR_HH import vistas as vistas_rh
 from .RR_HH import posts as posts_rh
-from django.conf import settings
-from django.conf.urls.static import static
 
 urlpatterns = [
     path('', views.iniciar_sesion, name="iniciar_sesion"),
@@ -57,4 +55,4 @@ urlpatterns = [
     path("funcion8", posts_rh.funcion8, name="funcion8"),
     path("funcion9", posts_rh.funcion9, name="funcion9"),
     path("ver_perfil/<str:nombre_perfil>", posts_rh.mostrar_perfil_url, name="ver_perfil"),
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+]
