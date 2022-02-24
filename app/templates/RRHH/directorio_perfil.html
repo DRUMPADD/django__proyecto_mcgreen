@@ -1,0 +1,590 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Directorio del personal</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/estilos.css' %}" />
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        {% if privilegio == 'ADM-IN1' %}
+        <ul class="navbar-nav me-auto">
+            <div class="dropdown">
+                <button class="nav-link dropdown-toggle btn" type="button" id="navbarDropdown" aria-haspopup="true" data-toggle="dropdown" aria-expanded="false">
+                    Inventario
+                </button>
+                <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item text-white" href="{% url 'Inventario_general' %}">Inventario general</a>
+                    <a class="dropdown-item text-white" href="{% url 'compras' %}">Entradas</a>
+                    <a class="dropdown-item text-white" href="{% url 'ventas' %}">Ventas</a>
+                    <a class="dropdown-item text-white" href="{% url 'otras_e_s' %}">Otras E/S</a>
+                    <a class="dropdown-item text-white" href="{% url 'movimientos' %}">Movimientos de inventario</a>
+                    <a class="dropdown-item text-white" href="{% url 'Auditoria' %}">Auditoria</a>
+                </div>
+            </div>
+        </ul>
+        <ul class="navbar-nav me-auto">
+            <div class="dropdown">
+                <button class="nav-link dropdown-toggle btn" type="button" id="navbarDropdown" aria-haspopup="true" data-toggle="dropdown" aria-expanded="false">
+                    Recursos humanos
+                </button>
+                <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item text-white" href="{% url 'directorio' %}">Directorio</a>
+                    <a class="dropdown-item text-white" href="{% url 'perfil_puesto' %}">Perfiles de puesto</a>
+                </div>
+            </div>
+        </ul>
+        <ul class="navbar-nav me-auto">
+            <div class="dropdown">
+                <button class="nav-link dropdown-toggle btn" type="button" id="navbarDropdown" aria-haspopup="true" data-toggle="dropdown" aria-expanded="false">
+                    Usuarios
+                </button>
+                <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item text-white" href="{% url 'registro' %}">Registrar usuario</a>
+                    <a class="dropdown-item text-white" href="{% url 'usuarios' %}">Usuarios</a>
+                </div>
+            </div>
+        </ul>
+        {% elif privilegio == 'JEFE' %}
+        <ul class="navbar-nav me-auto">
+            <div class="dropdown">
+                <button class="nav-link dropdown-toggle btn" type="button" id="navbarDropdown" aria-haspopup="true" data-toggle="dropdown" aria-expanded="false">
+                    Inventario
+                </button>
+                <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item text-white" href="{% url 'Inventario_general' %}">Inventario general</a>
+                    <a class="dropdown-item text-white" href="{% url 'compras' %}">Entradas</a>
+                    <a class="dropdown-item text-white" href="{% url 'ventas' %}">Ventas</a>
+                    <a class="dropdown-item text-white" href="{% url 'otras_e_s' %}">Otras E/S</a>
+                    <a class="dropdown-item text-white" href="{% url 'movimientos' %}">Movimientos de inventario</a>
+                </div>
+            </div>
+        </ul>
+        {% else %}
+        <ul class="navbar-nav me-auto">
+            <div class="dropdown">
+                <button class="nav-link dropdown-toggle btn" type="button" id="navbarDropdown" aria-haspopup="true" data-toggle="dropdown" aria-expanded="false">
+                    Inventario
+                </button>
+                <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item text-white" href="{% url 'Inventario_general' %}">Inventario general</a>
+                    <a class="dropdown-item text-white" href="{% url 'movimientos' %}">Movimientos de inventario</a>
+                </div>
+            </div>
+        </ul>
+        {% endif %}
+        <ul class="navbar-nav">
+            <li class="nav-item"><a class="nav-link" href="{% url 'cerrar_sesion' %}">Cerrar sesión</a></li>
+        </ul>
+    </nav>
+    <div class="container mt-5">
+        <div class="d-flex justify-content-center col-lg-12">
+            <div class="card col-lg-4" style="height: 800px;">
+                <div class="container mt-3">
+                    <button id="agregar" class="btn btn-primary form-control">Agregar puesto</button>
+                    <div id="puestos" class="mt-2 card card-body" style="height: 300px; overflow: auto;">
+                        {% for puesto in puestos %}
+                        <div class="mt-3 w-100">
+                            <a class="link-dark d-flex justify-content-around align-items-center" style="font-weight: 900;">
+                                <span hidden>{{ puesto.0 }}</span>
+                                <span class="p">{{ puesto.1 }}</span>
+                                <div class="d-flex justify-content-around align-items-center">
+                                    <select class="form-select sl_funcion">
+                                        <option selected disabled>--Seleccionar--</option>
+                                        <option value="funcion1">Relaciones de jerarquia</option>
+                                        <option value="funcion2">Perfil académico y/o profesional</option>
+                                        <option value="funcion3">Funciones</option>
+                                        <option value="funcion4">Responsabilidades adquiridas</option>
+                                        <option value="funcion5">Competencias genéricas</option>
+                                        <option value="funcion6">Competencias técnicas</option>
+                                        <option value="funcion7">Otras habilidades deseables</option>
+                                        <option value="funcion8">Aspectos de SSMAC</option>
+                                        <option value="funcion9">Requerimientos físicos</option>
+                                    <select>
+                                    <a href="{% url 'ver_perfil' nombre_perfil=puesto.0 %}" class="btn btn-info  d-flex justify-content-center"><i class="fa-solid fa-eye"></i></a>
+                                    <button class="btn btn-danger btn_cerrar d-flex justify-content-center"><i class="fa-solid fa-xmark"></i></button>
+                                </div>
+                            </a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="container mt-4">
+                    <button id="agregar_directorio" class="btn btn-primary form-control">Agregar trabajador</button>
+                    <div id="directorio" class="mt-2" style="height: 300px; overflow: auto;">
+                        {% for emp in empleados %}
+                        <div class="mt-3 w-100">
+                            <a class="card link-dark p-3 d-flex justify-content-around" style="font-weight: 900;">
+                                <span hidden>{{ emp.0 }}</span>
+                                <span>{{ emp.1 }} {{ emp.2 }} {{ emp.3 }}</span>
+                            </a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="card card-body col-lg-8" style="height: 800px;">
+                <form id="form_crear_perfil"  name="form_crear_perfil" style="height: 800px; overflow: auto;">
+                    <h1 class="text-center">Agregar perfil de puesto</h1>
+                    {% csrf_token %}
+                    <input type="hidden" name="email_usuario" value="{{ email }}">
+                    <div class="form-group">
+                        <h3 class="text-center">Generalidades</h3>
+                        <div class="d-flex justify-content-around">
+                            <div class="form-group col-lg-4">
+                                <label for="" class="h5">Nombre de puesto</label>
+                                <input type="text" name="puesto" class="form-control">
+                            </div>
+                            <div class="form-group col-lg-4">
+                                <label for="" class="h5">Departamento</label>
+                                <select name="sl_departamentos" class="form-select">
+                                    <option selected disabled>--Seleccionar--</option>
+                                    {% for departamento in departamentos %}
+                                    <option value="{{ departamento.0 }}">{{ departamento.1 }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group col-lg-3">
+                                <label for="" class="h5">Vacantes</label>
+                                <input type="number" name="vacantes" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-group mt-2">
+                                <label for="" class="h5">Empresa</label>
+                                <input type="text" name="empresa" class="form-control" value="FLUIDOS MCGREEN DE MÉXICO">
+                            </div>
+                            <div class="form-group mt-2">
+                                <label for="" class="h5">Objetivo del puesto</label>
+                                <textarea name="obj_puesto" class="form-control" cols="30" rows="5" placeholder="Describa el objetivo"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center mt-3">
+                        <input type="submit" class="btn btn-success" value="Crear puesto" id="enviar_puesto" data-ajax-target="{% url 'creacion_perfil_puesto' %}">
+                    </div>
+                </form>
+                <form class="funcion" id="funcion1">
+                    {% csrf_token %}
+                    <p class="h3 text-center"></p>
+                    <input type="text" name="puesto" value="" class="form-control" readonly>
+                    <div class="form-group mt-2">
+                        <h3 class="text-center">Relaciones de jerarquia</h3>
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <label for="" class="h5">Subordinación</label>
+                                <select name="subordinacion" class="form-select">
+                                    <option selected disabled>--Seleccionar--</option>
+                                    {% for puesto in puestos %}
+                                    <option value="{{ puesto.0 }}">{{ puesto.1 }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group mt-2">
+                                <label for="" class="h5">Supervisión</label>
+                                <select name="supervision" class="form-select">
+                                    <option selected disabled>--Seleccionar--</option>
+                                    {% for puesto in puestos %}
+                                    <option value="{{ puesto.0 }}">{{ puesto.1 }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center mt-3">
+                        <input type="submit" class="btn btn-success" value="Crear jerarquia" id="enviar_funcion1" ajax-data-target="{% url 'funcion1' %}">
+                    </div>
+                </form>
+                <form class="funcion" id="funcion2" style="height: 800px; overflow: auto;">
+                    {% csrf_token %}
+                    <p class="h3 text-center"></p>
+                    <input type="text" name="puesto" value="" class="form-control" readonly>
+                    <div class="form-group mt-2">
+                        <h3 class="text-center">Perfil académico y/o profesional</h3>
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <label for="" class="h5">Formación</label>
+                                <textarea type="text" name="formacion" rows="7" maxlength="400" class="form-control"></textarea>
+                            </div>
+                            <div class="form-group mt-2">
+                                <label for="" class="h5">Escolaridad</label>
+                                <textarea type="text" name="escolaridad" rows="7" maxlength="400" class="form-control"></textarea>
+                            </div>
+                            <div class="form-group mt-2">
+                                <label for="" class="h5">Perfil profesional</label>
+                                <textarea type="text" name="per_prof" rows="7" maxlength="400" class="form-control"></textarea>
+                            </div>
+                            <div class="form-group mt-2">
+                                <label for="" class="h5">Experiencia</label>
+                                <textarea type="text" name="exper" rows="7" maxlength="400" class="form-control"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center mt-3">
+                        <input type="submit" class="btn btn-success" value="Crear perfil académico" id="enviar_funcion2" ajax-data-target="{% url 'funcion2' %}">
+                    </div>
+                </form>
+                <form class="funcion" id="funcion3" style="height: 800px; overflow: auto;">
+                    {% csrf_token %}
+                    <p class="h3 text-center"></p>
+                    <input type="text" name="puesto" value="" class="form-control" readonly>
+                    <div class="form-group mt-2">
+                        <h3 class="text-center">Funciones</h3>
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <label for="" class="h5">Función</label>
+                                <input type="text" name="funcion" class="form-control">
+                            </div>
+                            <div class="form-group mt-2">
+                                <label for="" class="h5">Descripción</label>
+                                <textarea name="descrip_fun" class="form-control" cols="30" rows="5" placeholder="Describa la función"></textarea>
+                            </div>
+                            <div class="form-group mt-2">
+                                <label for="" class="h5">Periodicidad</label>
+                                <input type="text" name="perio" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center mt-3">
+                        <input type="submit" class="btn btn-success" value="Crear función" id="enviar_funcion3" ajax-data-target="{% url 'funcion3' %}">
+                    </div>
+                </form>
+                <form class="funcion" id="funcion4" style="height: 800px; overflow: auto;">
+                    {% csrf_token %}
+                    <p class="h3 text-center"></p>
+                    <input type="text" name="puesto" value="" class="form-control" readonly>
+                    <div class="form-group mt-2">
+                        <h3 class="text-center">Responsabilidades adquiridas</h3>
+                        <div class="d-flex justify-content-center">
+                            <div class="form-group col-lg-4">
+                                <label for="" class="h5">Tipo de responsabilidad</label>
+                                <select name="sl_tipo_responsabilidad" class="form-select">
+                                    <option selected disabled>--Seleccionar--</option>
+                                    <option value="Por supervisión de personal">Por supervisión de personal</option>
+                                    <option value="Por materiales y equipos">Por materiales y equipos</option>
+                                    <option value="Por métodos y procesos">Por métodos y procesos</option>
+                                    <option value="Por dineros, títulos y documentos">Por dineros, títulos y documentos</option>
+                                    <option value="Por información confidencial">Por información confidencial</option>
+                                    <option value="Por seguridad a terceros">Por seguridad a terceros</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="h5">Descripción</label>
+                            <textarea name="descrip_resp" class="form-control" cols="30" rows="5" placeholder="Describa el tipo de responsabilidad"></textarea>
+                        </div>
+                    </div>
+                    <div class="text-center mt-3">
+                        <input type="submit" class="btn btn-success" value="Registrar responsabilidad" id="enviar_funcion4" ajax-data-target="{% url 'funcion4' %}">
+                    </div>
+                </form>
+                <form class="funcion" id="funcion5" style="height: 800px; overflow: auto;">
+                    {% csrf_token %}
+                    <p class="h3 text-center"></p>
+                    <input type="text" name="puesto" value="" class="form-control" readonly>
+                    <div class="form-group mt-2">
+                        <h3 class="text-center">Competencias genéricas</h3>
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <label for="" class="h5">Competencia</label>
+                                <select name="sl_competencia" class="form-select">
+                                    <option selected disabled>--Seleccionar--</option>
+                                    <option value="Adaptación y flexibilidad ante cambios">Adaptación y flexibilidad ante cambios</option>
+                                    <option value="Orientación al cliente">Orientación al cliente</option>
+                                    <option value="Establecimiento de prioridades">Establecimiento de prioridades</option>
+                                    <option value="Innovación y creatividad">Innovación y creatividad</option>
+                                    <option value="Disponibilidad">Disponibilidad</option>
+                                    <option value="Trabajo en equipo">Trabajo en equipo</option>
+                                    <option value="Liderazgo">Liderazgo</option>
+                                    <option value="Orientación a resultados">Orientación a resultados</option>
+                                </select>
+                            </div>
+                            <div class="form-group mt-2">
+                                <label for="" class="h5">Dominio</label>
+                                <select name="sl_dominio" class="form-select">
+                                    <option selected disabled>--Seleccionar--</option>
+                                    <option value="1">1</option>
+                                    <option value="3">3</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                            <div class="form-group mt-2">
+                                <label for="" class="h5">Descripción</label>
+                                <input type="text" name="descrip_comp" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center mt-3">
+                        <input type="submit" class="btn btn-success" value="Crear competencia" id="enviar_funcion5" ajax-data-target="{% url 'funcion5' %}">
+                    </div>
+                </form>
+                <form class="funcion" id="funcion6" style="height: 800px; overflow: auto;">
+                    {% csrf_token %}
+                    <p class="h3 text-center"></p>
+                    <input type="text" name="puesto" value="" class="form-control" readonly>
+                    <div class="form-group mt-2">
+                        <h3 class="text-center">Competencias técnicas</h3>
+                        <div class="form-group">
+                            <label for="" class="h5">Competencia</label>
+                            <input type="text" name="comp_tec" class="form-control">
+                        </div>
+                        <div class="form-group mt-2">
+                            <label for="" class="h5">Dominio</label>
+                            <select name="sl_dominio" class="form-select">
+                                <option selected disabled>--Seleccionar--</option>
+                                <option value="1">1</option>
+                                <option value="3">3</option>
+                                <option value="5">5</option>
+                            </select>
+                        </div>
+                        <div class="form-inline mt-2">
+                            <div class="form-group">
+                                <label for="" class="h5">Descripción</label>
+                                <textarea name="desc_tec" class="form-control" cols="30" rows="5" placeholder="Describa la competencia"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center mt-3">
+                        <input type="submit" class="btn btn-success" value="Crear competencia" id="enviar_funcion6" ajax-data-target="{% url 'funcion6' %}">
+                    </div>
+                </form>
+                <form class="funcion" id="funcion7" style="height: 800px; overflow: auto;">
+                    {% csrf_token %}
+                    <p class="h3 text-center"></p>
+                    <input type="text" name="puesto" value="" class="form-control" readonly>
+                    <div class="form-group mt-2">
+                        <h3 class="text-center">Otras habilidades deseables</h3>
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <label for="" class="h5">Habilidad</label>
+                                <input type="text" name="habilidad" class="form-control">
+                            </div>
+                            <div class="form-group mt-2">
+                                <label for="" class="h5">Descripción</label>
+                                <textarea name="desc_hab" class="form-control" cols="10" rows="5" placeholder="Describa la habilidad"></textarea>
+                            </div>
+                            <div class="form-group mt-2">
+                                <label for="" class="h5">Dominio</label>
+                                <select name="sl_dominio" class="form-select">
+                                    <option selected disabled>--Seleccionar--</option>
+                                    <option value="1">1</option>
+                                    <option value="3">3</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center mt-3">
+                        <input type="submit" class="btn btn-success" value="Registrar habilidad" id="enviar_funcion7" ajax-data-target="{% url 'funcion7' %}">
+                    </div>
+                </form>
+                <form class="funcion" id="funcion8" style="height: 800px; overflow: auto;">
+                    {% csrf_token %}
+                    <p class="h3 text-center"></p>
+                    <input type="text" name="puesto" value="" class="form-control" readonly>
+                    <div class="form-group mt-2">
+                        <h3 class="text-center">Aspectos de SSMAC</h3>
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <label for="" class="h5">Área de trabajo</label>
+                                <input type="text" name="area_trab" class="form-control">
+                            </div>
+                            <div class="form-group mt-2">
+                                <label for="" class="h5">Peligro</label>
+                                <input type="text" name="peligro" class="form-control">
+                            </div>
+                            <div class="form-group mt-2">
+                                <label for="" class="h5">Riesgo</label>
+                                <input type="text" name="riesgo" class="form-control">
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-around mt-2">
+                            <div class="form-group col-lg-3">
+                                <label for="" class="h5">Nivel</label>
+                                <input type="number" name="nivel" class="form-control">
+                            </div>
+                            <div class="form-group col-lg-8">
+                                <label for="" class="h5">EPP</label>
+                                <input type="text" name="epp" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center mt-3">
+                        <input type="submit" class="btn btn-success" value="Registrar aspecto" id="enviar_funcion8" ajax-data-target="{% url 'funcion8' %}">
+                    </div>
+                </form>
+                <form class="funcion" id="funcion9" style="height: 800px; overflow: auto;">
+                    {% csrf_token %}
+                    <p class="h3 text-center"></p>
+                    <input type="text" name="puesto" value="" class="form-control" readonly>
+                    <div class="form-group mt-2">
+                        <h3 class="text-center">Requerimientos físicos</h3>
+                        <div class="d-flex justify-content-around mt-2">
+                            <div class="form-group col-lg-5">
+                                <label for="" class="h5">Tipo de esfuerzo</label>
+                                <select name="sl_tipo_esf" class="form-select">
+                                    <option selected disabled>--Seleccionar--</option>
+                                    <option value="Esfuerzo físico necesario">Esfuerzo físico necesario</option>
+                                    <option value="Concentración visual">Concentración visual</option>
+                                    <option value="Complexión física">Complexión física</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group mt-2">
+                            <div class="form-group">
+                                <label for="" class="h5">Descripción</label>
+                                <textarea name="desc_esf" class="form-control" cols="30" rows="5" placeholder="Descripción del tipo de esfuerzo"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center mt-3">
+                        <input type="submit" class="btn btn-success" value="Registrar requerimiento" id="enviar_funcion9" ajax-data-target="{% url 'funcion9' %}">
+                    </div>
+                </form>
+                <form id="form_crear_directorio"  enctype="multipart/form-data" style="height: 800px; overflow: auto;">
+                    <h1 class="text-center">Agregar directorio</h1>
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <div class="d-flex justify-content-center">
+                            <div class="form-group col-lg-5">
+                                <label for="" class="h5">Foto del empleado</label>
+                                <input type="file" name="img_emp" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="d-flex justify-content-center">
+                            <div class="form-group col-lg-5">
+                                <label for="" class="h5">Puesto</label>
+                                <select name="sl_puesto" class="form-select">
+                                    <option selected disabled>--Seleccionar--</option>
+                                    {% for puesto in puestos %}
+                                    <option value="{{ puesto.0 }}">{{ puesto.1 }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <label for="" class="h5">Nombre</label>
+                                <input type="text" name="nombre_emp" class="form-control">
+                            </div>
+                            <div class="d-flex justify-content-around">
+                                <div class="form-group mt-2">
+                                    <label for="" class="h5">Apellido paterno</label>
+                                    <input type="text" name="ap_paterno" class="form-control" placeholder="Describa la dirección">
+                                </div>
+                                <div class="form-group mt-2">
+                                    <label for="" class="h5">Apellido materno</label>
+                                    <input type="text" name="ap_materno" class="form-control" placeholder="Describa la dirección">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <label for="" class="h5">Fecha de registro</label>
+                                <input type="date" name="fecha_registro" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="h5">Grado o estudio</label>
+                                <input type="text" name="grado_estudio" class="form-control">
+                            </div>
+                            <div class="form-group mt-2">
+                                <label for="" class="h5">Dirección</label>
+                                <textarea name="direccion" cols="30" rows="5" class="form-control" placeholder="Describa la dirección"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group mt-2">
+                        <div class="d-flex justify-content-around">
+                            <div class="form-group">
+                                <label for="" class="h5">Edad</label>
+                                <input type="number" name="edad" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="h5">Sexo</label>
+                                <select name="sl_sexo" class="form-select">
+                                    <option selected disabled>--Seleccionar--</option>
+                                    <option value="M">Masculino</option>
+                                    <option value="F">Femenino</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="h5">Estado</label>
+                                <input type="text" name="estado" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="h5">Tipo de sangre</label>
+                                <input type="text" name="tipo_sangre" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group mt-2">
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <label for="" class="h5">Nombre de emergencia</label>
+                                <input type="text" name="cont_emergencia" placeholder="Contacto de emergencia" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="h5">Número de emergencia</label>
+                                <input type="text" name="emergencia" placeholder="En caso de emergencia llamar a..." class="form-control">
+                            </div>
+                            <div class="form-group mt-2">
+                                <label for="" class="h5">Experiencia</label>
+                                <textarea name="experiencia" cols="30" rows="5" class="form-control" placeholder="Describa la experiencia"></textarea>
+                            </div>
+                            <div class="form-group mt-2">
+                                <label for="" class="h5">Capacitación requerida</label>
+                                <textarea name="cap_requerida" cols="30" rows="5" class="form-control" placeholder="Describa la experiencia"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="d-flex justify-content-around mt-2">
+                            <div class="form-group">
+                                <label for="" class="h5">NSS</label>
+                                <input type="text" name="nss" class="form-control">
+                            </div>
+                            <div class="form-group col-lg-7">
+                                <label for="" class="h5">CURP</label>
+                                <input type="text" name="curp" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <label for="" class="h5">RFC</label>
+                                <input type="text" name="rfc" class="form-control">
+                            </div>
+                            <div class="form-group mt-2">
+                                <label for="" class="h5">Correo</label>
+                                <input type="text" name="correo" class="form-control">
+                            </div>
+                            <div class="form-group mt-2">
+                                <label for="" class="h5">Teléfono celular</label>
+                                <input type="text" name="celular" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center mt-3">
+                        <input type="submit" class="btn btn-success" id="enviar_direc" data-ajax-target="{% url 'crear_directorio' %}" value="Crear directorio">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="{% static 'js/perfil_directorio.js' %}"></script>
+</body>
+</html>
