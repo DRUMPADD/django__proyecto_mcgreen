@@ -1,7 +1,6 @@
 from django.db import IntegrityError, OperationalError, connection
 from django.http.response import HttpResponse, JsonResponse
-from django.shortcuts import redirect
-from easy_pdf.rendering import render_to_pdf_response
+from django.shortcuts import redirect, render
 
 def crear_perfil(request):
     if request.method == 'POST' and request.is_ajax():
@@ -287,7 +286,7 @@ def mostrar_perfil_url(request, nombre_perfil=""):
                 "mas_info6": mas_info6,
                 "mas_info7": mas_info7,
             }
-            return render_to_pdf_response(request, 'ver_perfil.html', context)
+            return render(request, 'ver_perfil.html', context)
         else:
             return redirect("perfil_y_directorio")
     else:
