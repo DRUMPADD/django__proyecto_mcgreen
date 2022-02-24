@@ -3,6 +3,7 @@ from . import views
 from .admin_vistas import vistas
 from .posts import posts
 from .RR_HH import vistas as vistas_rh
+from .RR_HH import posts as posts_rh
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -44,4 +45,7 @@ urlpatterns = [
     path('convertir_difmov_xlsx/', posts.exportar_diferentes_movimientos_xlsx, name="convertir_difmov_xlsx"),
     # ?? Recursos humanos
     path("perfil_y_directorio", vistas_rh.directorio_perfil, name="perfil_y_directorio"),
+    path("crear_perfil_puesto", posts_rh.crear_perfil, name="creacion_perfil_puesto"),
+    path("crear_directorio", posts_rh.crear_directorio, name="crear_directorio"),
+    path("ver_perfil/<str:nombre_perfil>", posts_rh.mostrar_perfil_url, name="ver_perfil"),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
