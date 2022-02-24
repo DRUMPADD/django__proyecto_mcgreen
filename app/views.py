@@ -13,15 +13,21 @@ def iniciar_sesion(request):
         if request.method == 'POST':
             try:
                 cursor = connection.cursor()
+                departamento = connection.cursor()
                 cursor.execute("Select privilegio_id from app_usuarios where email = %s",[request.POST["user"]])
                 privilegio = cursor.fetchone()
+                departamento.execute("select id_dep_id from app_usuarios ap_u, app_empleados ap_e, app_puestos ap_p, app_departamento ap_d where ap_u.empleado_id = ap_e.id_empleado and ap_e.puesto_id = ap_p.id_puesto and ap_p.id_dep_id = ap_d.id_dep and ap_u.email = %s",[request.POST["user"]])
+                departamento_selec = departamento.fetchone() 
                 cursor.callproc("VERIFICAR_USUARIO",[request.POST["user"], request.POST["pass"]])
                 mensaje = cursor.fetchone()[0]
                 if mensaje == 'EXISTE':
                     request.session["email"] = request.POST["user"]
+                    request.session["departamento"] = departamento_selec[0]
                     request.session["privilegio"] = privilegio[0]
+                    cursor.close()
                     return redirect("/Inicio")
                 else:
+                    cursor.close()
                     return HttpResponse("<h1>No existe el usuario</h1>")
             finally:
                 cursor.close()
@@ -50,9 +56,12 @@ def cerrar_sesion(request):
         cursor.callproc("AUDITORIA", [request.session.get('email'), "cerró sesión"])
         cursor.close()
         del request.session["email"]
+        del request.session["departamento"]
+        del request.session["privilegio"]
+        return render(request, "Inventario/cerrar_sesion.html")
     except KeyError:
+        print(KeyError)
         pass
-    return render(request, "Inventario/cerrar_sesion.html")
 
 # ?? Inventario
 def Inventario_general(request):
@@ -77,7 +86,8 @@ def Inventario_general(request):
                 'departamentos': models.Departamento.objects.all(),
                 'inventario': cursor.fetchall(),
                 'campos_inv': nombres,
-                'privilegio': request.session.get("privilegio")
+                'privilegio': request.session.get("privilegio"),
+                'departamento': request.session.get("departamento")
             }
             cursor.close()
             return render(request, 'Inventario/index.html', context)
