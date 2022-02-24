@@ -1,0 +1,257 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ titulo }} Puesto - {{ nombre_perfil }}</title>
+    <link rel="stylesheet" href="https://bootswatch.com/5/zephyr/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'bootstrap.css' %}">
+    <style type="text/css">
+        @page {
+            size: '{{ pagesize }}';
+            margin: 1cm;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="d-flex justify-content-center">
+            <div class="text-center">
+                <h1>Perfil de puesto {{ nombre_perfil }}</h1>
+                <h2>Generalidades</h2>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Identificador</th>
+                            <th>Departamento</th>
+                            <th>Empresa</th>
+                            <th>Objetivo del puesto</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for genera in mas_info %}
+                        <tr>
+                            <td>{{ genera.0 }}</td>
+                            <td>{{ genera.1 }}</td>
+                            <td>{{ genera.2 }}</td>
+                            <td>{{ genera.3 }}</td>
+                            <td>{{ genera.4 }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <h2>Relaciones de jerarquia</h2>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Subordinación</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for sub in supervisar %}
+                        <tr>
+                            <td>{{ sub.0 }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Supervisión</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for sup in superviso %}
+                        <tr>
+                            <td>{{ sup.0 }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <h2>Perfil académico y/o profesional</h2>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Formación</th>
+                            <th>Escolaridad</th>
+                            <th>Perfil profesional</th>
+                            <th>Experiencia</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for per_ac in mas_info1 %}
+                        {% if per_ac.0 == 'NO EXISTE EL PERFIL ACADEMICO DEL PUESTO FAVOR DE AGREGARLAS' %}
+                        <tr>
+                            <td colspan=4">{{ per_ac.0 }}</td>
+                        </tr>
+                        {% else %}
+                            <tr>
+                                <td>{{ per_ac.0 }}</td>
+                                <td>{{ per_ac.1 }}</td>
+                                <td>{{ per_ac.2 }}</td>
+                                <td>{{ per_ac.3 }}</td>
+                            </tr>
+                        {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <h2>Funciones</h2>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Función</th>
+                            <th>Descripción</th>
+                            <th>Periodicidad</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for funcion in mas_info2 %}
+                            {% if funcion.0 == 'NO TIENE NINGUNA FUNCION AGREGADA ESE PUESTO' %}
+                            <tr>
+                                <td colspan="3">{{ funcion.0 }}</td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td>{{ funcion.0 }}</td>
+                                <td>{{ funcion.1 }}</td>
+                                <td>{{ funcion.2 }}</td>
+                            </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <h2>Responsabilidades adquiridas</h2>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Tipo de responsabilidad</th>
+                            <th>Descripción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for resp_ad in mas_info3 %}
+                            {% if resp_ad.0 == 'NO TIENE NINGUNA FUNCION AGREGADA ESE PUESTO' %}
+                            <tr>
+                                <td colspan="2">{{ resp_ad.0 }}</td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td>{{ resp_ad.0 }}</td>
+                                <td>{{ resp_ad.1 }}</td>
+                            </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <h2>Competencias genéricas</h2>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Competencia</th>
+                            <th>Dominio</th>
+                            <th>Descripción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for comp in  mas_info4 %}
+                            {% if comp.0 == 'ESE PUESTO NO TIENE NINGUNA COMPETENCIA GENERICA ASIGNADA' %}
+                            <tr>
+                                <td colspan="3">{{ comp.0 }}</td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td>{{ comp.0 }}</td>
+                                <td>{{ comp.1 }}</td>
+                                <td>{{ comp.2 }}</td>
+                            </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <h2>Competencias técnicas</h2>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Competencia</th>
+                            <th>Descripción</th>
+                            <th>Dominio</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for comp_t in mas_info5 %}
+                            {% if comp_t.0 == 'ESE PUESTO NO TIENE NINGUNA COMPETENCIA TENICA Y/O HABILIDAD DESEADA' %}
+                            <tr>
+                                <td colspan="3">{{ comp_t.0 }}</td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td>{{ comp_t.0 }}</td>
+                                <td>{{ comp_t.1 }}</td>
+                                <td>{{ comp_t.2 }}</td>
+                            </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <h2>Aspectos de SSMAC</h2>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Área de trabajo</th>
+                            <th>Peligro</th>
+                            <th>Riesgo</th>
+                            <th>Nivel</th>
+                            <th>EPP</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for aspecto in mas_info6 %}
+                            {% if aspecto.0 == 'ESE PUESTO NO TIENE NINGUN ASPECTO SSMAC' %}
+                            <tr>
+                                <td colspan="5">{{ aspecto.0 }}</td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td>{{ aspecto.0 }}</td>
+                                <td>{{ aspecto.1 }}</td>
+                                <td>{{ aspecto.2 }}</td>
+                                <td>{{ aspecto.3 }}</td>
+                                <td>{{ aspecto.4 }}</td>
+                            </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <h2>Requerimientos físicos</h2>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Tipo de esfuerzo</th>
+                            <th>Descripción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for req in mas_info7 %}
+                            {% if req.0 == 'ESE PUESTO NO TIENE NINGUN REQUERIMENTO FISICO' %}
+                            <tr>
+                                <td colspan="2">{{ req.0 }}</td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td>{{ req.0 }}</td>
+                                <td>{{ req.1 }}</td>
+                            </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>
