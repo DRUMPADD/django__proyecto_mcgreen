@@ -3,7 +3,7 @@ from django.http.response import HttpResponse, JsonResponse
 from django.shortcuts import redirect
 from django.contrib import messages
 from .. import models
-from django.db import IntegrityError, connection
+from django.db import IntegrityError, OperationalError, connection
 from ..forms import formulario_cliente, formulario_proveedor, Formulario_registro
 # from openpyxl import Workbook
 # from openpyxl.styles import Font
@@ -88,21 +88,102 @@ def activar_producto(request,id_prod):
     else:
         return redirect("/cerrar_sesion")
 
+# def generar_compra(request):
+#     if request.session.get('email'):
+#         if request.method == 'POST':
+#             cursor = connection.cursor()
+#             cursor.callproc("COMPRA",[request.POST["sl_productos"], request.POST["comprador"], request.POST["cantidad"], request.POST["p_u"], request.POST["fecha_compra"], request.POST["sl_proveedores"], request.POST["motivo"]])
+#             mensaje = cursor.fetchall()
+#             print(mensaje)
+#             # if mensaje != 'FACTURA DISPONIBLE':
+#             #     messages.error(request, "Ocurrió un error al realizar la compra")
+#             # else:
+#             #     messages.success(request, "Compra registrada")
+#             cursor.close()
+#             return redirect("/Compras")
+#     else:
+#         return redirect("/cerrar_sesion")
 def generar_compra(request):
-    if request.session.get('email'):
-        if request.method == 'POST':
-            cursor = connection.cursor()
-            cursor.callproc("COMPRA",[request.POST["sl_productos"], request.POST["comprador"], request.POST["cantidad"], request.POST["p_u"], request.POST["fecha_compra"], request.POST["sl_proveedores"], request.POST["motivo"]])
-            mensaje = cursor.fetchall()
-            print(mensaje)
-            # if mensaje != 'FACTURA DISPONIBLE':
-            #     messages.error(request, "Ocurrió un error al realizar la compra")
-            # else:
-            #     messages.success(request, "Compra registrada")
-            cursor.close()
-            return redirect("/Compras")
-    else:
-        return redirect("/cerrar_sesion")
+    if request.method == 'POST':
+        datos = []
+        comprador = request.POST.get("comprador")
+        fecha_compra = request.POST.get("fecha_compra")
+        motivo = request.POST.get("motivo")
+        articulo = request.POST.get("articulo")
+        sl_proveedores = request.POST.getlist("sl_proveedores")
+        sl_productos = request.POST.getlist("sl_productos")
+        cantidades = request.POST.getlist("cantidad")
+        p_u = request.POST.getlist("p_u")
+
+        try:
+            compra_1 = connection.cursor()
+            compra_1.callproc("COMPRA_p1", [comprador, fecha_compra, motivo])
+            mensaje_c1 = str(compra_1.fetchall()[0][0]).split(": ")[1]
+            print("Mensaje compra 1:",mensaje_c1)
+        except IntegrityError as ie:
+            print("Este es tu error de integridad:",ie.message)
+        except OperationalError:
+            print("Este es tu error de operación:",OperationalError)
+        finally:
+            compra_1.close()
+        
+        print(fecha_compra != None)
+        print(sl_proveedores != None)
+        print(sl_productos != None)
+        print(cantidades != None)
+        print(p_u != None)
+
+        if comprador != None and fecha_compra != None and motivo != None and articulo != None and sl_proveedores != None and sl_productos != None and cantidades != None and p_u != None:
+            print("Entro al if")
+            try:
+                if mensaje_c1 != None:
+                    for i in range(0,int(articulo)):
+                        datos.append({
+                            "comprador": comprador,
+                            "fecha_compra": fecha_compra,
+                            "motivo": motivo,
+                            "articulo": i + 1,
+                            "sl_proveedores": sl_proveedores[i],
+                            "sl_productos": sl_productos[i],
+                            "cantidades": cantidades[i],
+                            "p_u": p_u[i],
+                        })
+                    mensaje_c2 = ""
+                    for i in range(len(datos)):
+                        compra_2 = connection.cursor()
+                        print("Posición", i)
+                        print(datos[i]["comprador"])
+                        print(datos[i]["fecha_compra"])
+                        print(datos[i]["motivo"])
+                        print(datos[i]["articulo"])
+                        print(datos[i]["sl_proveedores"])
+                        print(datos[i]["sl_productos"])
+                        print(datos[i]["cantidades"])
+                        print(datos[i]["p_u"])
+                        compra_2.callproc("COMPRA_p2", [datos[i]["sl_productos"], mensaje_c1, i + 1, datos[i]["cantidades"], datos[i]["p_u"], datos[i]["sl_proveedores"]])
+                        mensaje_c2 = compra_2.fetchall()[0][0]
+                        compra_2.close()
+                    print("Este es tu error:", mensaje_c2)
+                    mensaje_c3 = ""
+                    if mensaje_c2 != "":
+                        try:
+                            compra_3 = connection.cursor()
+                            compra_3.callproc("COMPRA_p3", [comprador, mensaje_c1])
+                            mensaje_c3 = compra_3.fetchall()[0][0]
+                            print("Mensaje compra 3:",mensaje_c3)
+                            compra_3.close()
+                        except IntegrityError as ie:
+                            print("Este es tu error:",ie.message)
+                    else:
+                        print("No se realizó la compra 2")
+                else:
+                    print("No se realizó la compra 1")
+            except IntegrityError as ie:
+                print("Este es tu error:",ie.message)
+        else:
+            print("Están vacíos")
+
+        return JsonResponse({"msg": "Compra realizada", "msg_compra": mensaje_c3}, status=200)
 
 def generar_venta(request):
     if request.session.get('email'):
@@ -178,16 +259,42 @@ def conseguir_precio(request,prod):
     return HttpResponse("Wrong request")
 
 # Proveedores
+# def agregar_proveedores(request):
+#     if request.session.get('email'):
+#         if request.method == 'POST':
+#             form = formulario_proveedor(request.POST)
+#             if form.is_valid():
+#                 cursor = connection.cursor()
+#                 cursor.callproc("Agrega_Proveedor",[request.session.get('email'), form["RFC"].value(),form["proveedor"].value(),form["telefono"].value(),form["email"].value()])
+#                 cursor.close()
+#                 return redirect("/Compras")    
+#         return redirect("/Compras")
+#     else:
+#         return redirect("/cerrar_sesion")
+
 def agregar_proveedores(request):
     if request.session.get('email'):
         if request.method == 'POST':
             form = formulario_proveedor(request.POST)
+            mensaje = ""
             if form.is_valid():
-                cursor = connection.cursor()
-                cursor.callproc("Agrega_Proveedor",[request.session.get('email'), form["RFC"].value(),form["proveedor"].value(),form["telefono"].value(),form["email"].value()])
-                cursor.close()
-                return redirect("/Compras")    
-        return redirect("/Compras")
+                try:
+                    cursor = connection.cursor()
+                    cursor.callproc("Agrega_Proveedor",[request.session.get('email'), form["RFC"].value(),form["proveedor"].value(),form["telefono"].value(),form["email"].value()])
+                    mensaje = cursor.fetchall()[0][0]
+                    print(mensaje)
+                except OperationalError as oe:
+                    print("Error de operación", oe)
+                finally:
+                    cursor.close()
+                if mensaje == 'PROVEEDOR Insertado Correctamente':
+                    return JsonResponse({"msg": "Operación exitosa", "msg_salida": mensaje, "status": "success"}, status=200)
+                else:
+                    return JsonResponse({"msg": "Error", "msg_salida": mensaje, "status": "error"}, status=400)
+            else:
+                if form.errors:
+                    print(form.errors)
+                return JsonResponse({"msg": "Error", "msg_salida": "Los datos recibidos no son compatibles con la información que se le solicita", "status": "error"}, status=500)
     else:
         return redirect("/cerrar_sesion")
 
