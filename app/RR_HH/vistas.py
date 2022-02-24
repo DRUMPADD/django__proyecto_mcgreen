@@ -1,4 +1,3 @@
-from audioop import reverse
 from django.shortcuts import redirect, render
 from django.db import OperationalError, connection
 
@@ -43,4 +42,4 @@ def directorio_perfil(request):
         }
         return render(request, 'RRHH/directorio_perfil.html', context)
     else:
-        return redirect(reverse("/cerrar_sesion"))
+        return redirect("/cerrar_sesion")
