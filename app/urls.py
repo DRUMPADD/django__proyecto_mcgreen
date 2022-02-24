@@ -43,6 +43,5 @@ urlpatterns = [
     path('convertir_difmov_xls/', posts.exportar_diferentes_movimientos_xls, name="convertir_difmov_xls"),
     path('convertir_difmov_xlsx/', posts.exportar_diferentes_movimientos_xlsx, name="convertir_difmov_xlsx"),
     # ?? Recursos humanos
-    path("Directorio", vistas_rh.directorio, name="directorio"),
-    path("Perfil_puesto", vistas_rh.perfil_puesto, name="perfil_puesto"),
+    path("perfil_y_directorio", vistas_rh.directorio_perfil, name="perfil_y_directorio"),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
