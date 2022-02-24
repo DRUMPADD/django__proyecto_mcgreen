@@ -95,7 +95,7 @@
     </div>
     <div class="container d-flex justify-content-center">
         <div class="d-flex col-md-12">
-            <form action="/generar_compra" method="POST" class="product-form card card-body">
+            <form class="product-form card card-body">
                 {% csrf_token %}
                 <h1 class="card-title text-center">Generar compra</h1>
                 <div class="agrega_articulo">
@@ -161,15 +161,21 @@
                     </div>
                 </div>
                 <br />
-                <input type="submit" class="btn btn-primary form-control" value="Guardar" />
+                <div>
+                    <input type="submit" class="btn btn-primary form-control" value="Guardar" id="enviar_formulario" ajax-data-target="{% url 'generar_compra' %}">
+                    <div class="d-flex justify-content-around">
+                        <button id="btnAddForm" type="button" class="btn btn-primary mt-4 bg-black col-lg-2" style="font-size: 14px;">Agregar otro artículo</button>
+                        <button id="btnDeleteForm" type="button" class="btn btn-danger mt-4 col-lg-2" style="font-size: 14px;">Eliminar</button>
+                    </div>
+                </div>
             </form>
-            <form action="{% url 'agregar_proveedores' %}" method="POST" class="card card-body col-md-5">
+            <form id="form_provee" class="card card-body col-md-5">
                 <h2 class="card-title text-center">Agregar proveedor</h2>
                 {% csrf_token %}
                 {% for campo in form %}
                     {{ campo }}
                 {% endfor %}
-                <input type="submit" class="btn btn-success form-control mt-2" value="Agregar">
+                <input type="submit" class="btn btn-success form-control mt-2" value="Agregar" id="enviar_provee" dato-ajax="{% url 'agregar_proveedores' %}">
             </form>
             
             <!--<button id="btnAddForm" type="button" class="btn btn-primary mt-4 bg-black">
@@ -190,5 +196,8 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="{% static 'js/compras.js' %}"></script>
 </body>
 </html>
