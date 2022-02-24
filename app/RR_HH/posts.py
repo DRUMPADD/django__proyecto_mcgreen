@@ -286,7 +286,7 @@ def mostrar_perfil_url(request, nombre_perfil=""):
                 "mas_info6": mas_info6,
                 "mas_info7": mas_info7,
             }
-            return render(request, 'ver_perfil.html', context)
+            return render(request, 'RRHH/ver_perfil.html', context)
         else:
             return redirect("perfil_y_directorio")
     else:
