@@ -39,6 +39,7 @@ def directorio_perfil(request):
             'puestos': puestos,
             'departamentos': departamentos,
             'empleados': empleados,
+            "email": request.session.get("email"),
         }
         return render(request, 'RRHH/directorio_perfil.html', context)
     else:
