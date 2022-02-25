@@ -2,7 +2,7 @@ $(document).ready(function() {
     $('.producto').on('click', (e) => {
         const element = $(this)[0].activeElement.parentElement.parentElement;
         // console.log($(element).find("td").eq(5).text());
-        const cantidad = parseInt($(element).find("td").eq(3).text().split(" ")[1].replace(',', ''));
+        const cantidad = parseFloat($(element).find("td").eq(3).text().split(" ")[1].replace(',', ''));
         const precio = parseFloat($(element).find("td").eq(5).text().split(" ")[1].replace(',', ''));
         // console.log(precio);
         $("input[name='id_producto']").val($(element).find("th").text());
@@ -14,7 +14,7 @@ $(document).ready(function() {
         $("#BtnGuardar").removeClass("btn-primary");
         if(!document.getElementById('cancelar')) {
             $(this).val("Cancelar");
-            $("#form-pro").attr('action', "modificar_producto");
+            $("#form-pro").attr('action', "modificar_producto_admin");
         }
 
         e.preventDefault();
