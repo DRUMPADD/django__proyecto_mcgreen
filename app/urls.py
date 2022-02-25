@@ -54,5 +54,7 @@ urlpatterns = [
     path("funcion7", posts_rh.funcion7, name="funcion7"),
     path("funcion8", posts_rh.funcion8, name="funcion8"),
     path("funcion9", posts_rh.funcion9, name="funcion9"),
-    path("ver_perfil/<str:nombre_perfil>", posts_rh.mostrar_perfil_url, name="ver_perfil"),
+    path("ver_perfil/<str:nombre_perfil>", vistas_rh.mostrar_perfil_url, name="ver_perfil"),
+    path("ver_personal/<str:id_empleado>", vistas_rh.vista_directorio, name="ver_personal"),
+    path("enviar_img", posts_rh.subir_imagen, name="enviar_img"),
 ]
