@@ -1,7 +1,7 @@
 from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
 from . import models
-from django.db import connection
+from django.db import IntegrityError, OperationalError, connection
 from .forms import formulario_cliente, formulario_proveedor, Formulario_registro
 
 # Create your views here.
@@ -29,6 +29,14 @@ def iniciar_sesion(request):
                 else:
                     cursor.close()
                     return HttpResponse("<h1>No existe el usuario</h1>")
+            except OperationalError:
+                return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+            except IntegrityError:
+                return render(request, "errors/error500.html", {
+                    "mensaje": "Contacte con el servicio de sistemas"
+                })
             finally:
                 cursor.close()
         return render(request, 'login.html')
@@ -66,54 +74,75 @@ def cerrar_sesion(request):
 # ?? Inventario
 def Inventario_general(request):
     if request.session.get("email"):
-        cursor = connection.cursor()
         if request.session.get("privilegio") != 'ADM-IN1' and request.session.get("privilegio") != 'JEFE':
-            cursor.callproc('MOSTRAR_PRODUCTOS_ACTIVOS')
-            nombres = [
-                models.Inventario._meta.get_field("id_producto").name,
-                models.Inventario._meta.get_field("nombre_producto").name,
-                models.Inventario._meta.get_field("descripcion").name,
-                models.Inventario._meta.get_field("cantidad").name,
-                models.Inventario._meta.get_field("medida").name,
-                models.Inventario._meta.get_field("id_dep_id").name,
-                "Precio unitario",
-                "IVA",
-                "Precio total",
-                "Tipo de cambio",
-                "Sucursal"
-            ]
-            context = {
-                'departamentos': models.Departamento.objects.all(),
-                'inventario': cursor.fetchall(),
-                'campos_inv': nombres,
-                'privilegio': request.session.get("privilegio"),
-                'departamento': request.session.get("departamento")
-            }
-            cursor.close()
+            try:
+                cursor = connection.cursor()
+                cursor.callproc('MOSTRAR_PRODUCTOS_ACTIVOS')
+                nombres = [
+                    models.Inventario._meta.get_field("id_producto").name,
+                    models.Inventario._meta.get_field("nombre_producto").name,
+                    models.Inventario._meta.get_field("descripcion").name,
+                    models.Inventario._meta.get_field("cantidad").name,
+                    models.Inventario._meta.get_field("medida").name,
+                    models.Inventario._meta.get_field("id_dep_id").name,
+                    "Precio unitario",
+                    "IVA",
+                    "Precio total",
+                    "Tipo de cambio",
+                    "Sucursal"
+                ]
+                context = {
+                    'departamentos': models.Departamento.objects.all(),
+                    'inventario': cursor.fetchall(),
+                    'campos_inv': nombres,
+                    'privilegio': request.session.get("privilegio"),
+                }
+            except OperationalError:
+                return render(request, "errors/error500.html", {
+                    "mensaje": "Contacte con el servicio de sistemas"
+                })
+            except IntegrityError:
+                return render(request, "errors/error500.html", {
+                    "mensaje": "Contacte con el servicio de sistemas"
+                })
+            finally:
+                cursor.close()
             return render(request, 'Inventario/index.html', context)
         else:
-            cursor.callproc('MOSTRAR_TODOS_LOS_PRODUCTOS')
-            nombres = [
-                models.Inventario._meta.get_field("id_producto").name,
-                models.Inventario._meta.get_field("nombre_producto").name,
-                models.Inventario._meta.get_field("descripcion").name,
-                models.Inventario._meta.get_field("cantidad").name,
-                models.Inventario._meta.get_field("medida").name,
-                models.Inventario._meta.get_field("id_dep_id").name,
-                "Precio unitario",
-                "Subtotal",
-                "Precio total",
-                "Estado",
-                "Tipo de cambio",
-                "Sucursal",
-            ]
-            context = {
-                'departamentos': models.Departamento.objects.all(),
-                'inventario': cursor.fetchall(),
-                'campos_inv': nombres,
-                'privilegio': request.session.get("privilegio")
-            }
-            cursor.close()
+            try:
+                cursor = connection.cursor()
+                cursor.callproc('MOSTRAR_TODOS_LOS_PRODUCTOS')
+                nombres = [
+                    models.Inventario._meta.get_field("id_producto").name,
+                    models.Inventario._meta.get_field("nombre_producto").name,
+                    models.Inventario._meta.get_field("descripcion").name,
+                    models.Inventario._meta.get_field("cantidad").name,
+                    models.Inventario._meta.get_field("medida").name,
+                    models.Inventario._meta.get_field("id_dep_id").name,
+                    "Precio unitario",
+                    "Subtotal",
+                    "Precio total",
+                    "Estado",
+                    "Tipo de cambio",
+                    "Sucursal",
+                ]
+                context = {
+                    'departamentos': models.Departamento.objects.all(),
+                    'inventario': cursor.fetchall(),
+                    'campos_inv': nombres,
+                    'privilegio': request.session.get("privilegio"),
+                    'departamento': request.session.get("departamento"),
+                }
+            except OperationalError:
+                return render(request, "errors/error500.html", {
+                    "mensaje": "Contacte con el servicio de sistemas"
+                })
+            except IntegrityError:
+                return render(request, "errors/error500.html", {
+                    "mensaje": "Contacte con el servicio de sistemas"
+                })
+            finally:
+                cursor.close()
             return render(request, 'Inventario/index.html', context)
     else:
         return redirect("/cerrar_sesion")
@@ -122,17 +151,27 @@ def Inventario_general(request):
 def compras(request):
     if request.session.get('email'):
         if request.method != 'POST':
-            cursor = connection.cursor()
-            cursor.callproc('MOSTRAR_PRODUCTOS_ACTIVOS')
-            form = formulario_proveedor()
-            context = {
-                'productos': cursor.fetchall(),
-                'proveedores': models.Proveedor.objects.all(),
-                'form': form,
-                'sesion': request.session.get("email"),
-                'privilegio': request.session.get("privilegio")
-            }
-            cursor.close()
+            try:
+                cursor = connection.cursor()
+                cursor.callproc('MOSTRAR_PRODUCTOS_ACTIVOS')
+                form = formulario_proveedor()
+                context = {
+                    'productos': cursor.fetchall(),
+                    'proveedores': models.Proveedor.objects.all(),
+                    'form': form,
+                    'sesion': request.session.get("email"),
+                    'privilegio': request.session.get("privilegio")
+                }
+            except OperationalError:
+                return render(request, "errors/error500.html", {
+                    "mensaje": "Contacte con el servicio de sistemas"
+                })
+            except IntegrityError:
+                return render(request, "errors/error500.html", {
+                    "mensaje": "Contacte con el servicio de sistemas"
+                })
+            finally:
+                cursor.close()
             return render(request, 'Inventario/compras.html', context)
     else:
         return redirect("/cerrar_sesion")
@@ -143,17 +182,27 @@ def compras(request):
 def ventas(request):
     if request.session.get('email'):
         if request.method != 'POST':
-            cursor = connection.cursor()
-            cursor.callproc('MOSTRAR_SISTEMAS_ACTIVOS')
-            form = formulario_cliente()
-            context = {
-                'sistemas': cursor.fetchall(),
-                'clientes': models.Clientes.objects.all(),
-                'sesion': request.session.get("email"),
-                'privilegio': request.session.get("privilegio"),
-                'form': form,
-            }
-            cursor.close()
+            try:
+                cursor = connection.cursor()
+                cursor.callproc('MOSTRAR_SISTEMAS_ACTIVOS')
+                form = formulario_cliente()
+                context = {
+                    'sistemas': cursor.fetchall(),
+                    'clientes': models.Clientes.objects.all(),
+                    'sesion': request.session.get("email"),
+                    'privilegio': request.session.get("privilegio"),
+                    'form': form,
+                }
+            except OperationalError:
+                return render(request, "errors/error500.html", {
+                    "mensaje": "Contacte con el servicio de sistemas"
+                })
+            except IntegrityError:
+                return render(request, "errors/error500.html", {
+                    "mensaje": "Contacte con el servicio de sistemas"
+                })
+            finally:
+                cursor.close()
             return render(request, 'Inventario/cuentas_p_c.html', context)
     else:
         return redirect("/cerrar_sesion")
@@ -161,14 +210,16 @@ def ventas(request):
 # ?? Otros tipos de movimientos
 def otras_e_s(request):
     if request.session.get('email'):
-        cursor = connection.cursor()
-        cursor.callproc('MOSTRAR_TODOS_LOS_PRODUCTOS')
-        context = {
-            'sesion': request.session.get("email"),
-            'privilegio': request.session.get("privilegio"),
-            'productos': cursor.fetchall(),
-        }
-        cursor.close()
+        try:
+            cursor = connection.cursor()
+            cursor.callproc('MOSTRAR_TODOS_LOS_PRODUCTOS')
+            context = {
+                'sesion': request.session.get("email"),
+                'privilegio': request.session.get("privilegio"),
+                'productos': cursor.fetchall(),
+            }
+        finally:
+            cursor.close()
         return render(request, 'Inventario/otras_e_s.html', context)
     else:
         return redirect("/cerrar_sesion")
@@ -176,12 +227,22 @@ def otras_e_s(request):
 
 def movimientos(request):
     if request.session.get('email'):
-        cursor = connection.cursor()
-        cursor.callproc("MOSTRAR_MOV_IND")
-        context = {
-            'movimientos': cursor.fetchall()
-        }
-        cursor.close()
+        try:
+            cursor = connection.cursor()
+            cursor.callproc("MOSTRAR_MOV_IND")
+            context = {
+                'movimientos': cursor.fetchall()
+            }
+        except OperationalError:
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        except IntegrityError:
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        finally:
+            cursor.close()
         context["privilegio"] = request.session.get("privilegio")
         return render(request, 'Inventario/movimientos.html', context)
     else:
@@ -191,49 +252,89 @@ def movimientos(request):
 # ?? Vistas
 def ver_compras(request):
     if request.session.get('email'):
-        cursor = connection.cursor()
-        cursor.callproc('MOSTRAR_COMPRAS')
-        context = {
-            'datos_compras': cursor.fetchall()
-        }
-        cursor.close()
+        try:
+            cursor = connection.cursor()
+            cursor.callproc('MOSTRAR_COMPRAS')
+            context = {
+                'datos_compras': cursor.fetchall()
+            }
+        except OperationalError:
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        except IntegrityError:
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        finally:
+            cursor.close()
         return render(request, 'Inventario/ver_compras.html', context)
     else:
         return redirect("/cerrar_sesion")
 
 def ver_ventas(request):
     if request.session.get('email'):
-        cursor = connection.cursor()
-        cursor.callproc("MOSTRAR_MOV_IND")
-        context = {
-            'movimientos': cursor.fetchall()
-        }
-        cursor.close()
+        try:
+            cursor = connection.cursor()
+            cursor.callproc("MOSTRAR_MOV_IND")
+            context = {
+                'movimientos': cursor.fetchall()
+            }
+        except OperationalError:
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        except IntegrityError:
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        finally:
+            cursor.close()
         return render(request, 'Inventario/ver_ventas.html', context)
     else:
         return redirect("/cerrar_sesion")
 
 def ver_cuentas_p_c(request):
     if request.session.get('email'):
-        cursor = connection.cursor()
-        cursor.callproc("MOSTRAR_VENTAS_MOD")
-        context = {
-            'movimientos': cursor.fetchall(),
-            'email': request.session.get('email')
-        }
-        cursor.close()
+        try:
+            cursor = connection.cursor()
+            cursor.callproc("MOSTRAR_VENTAS_MOD")
+            context = {
+                'movimientos': cursor.fetchall(),
+                'email': request.session.get('email')
+            }
+        except OperationalError:
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        except IntegrityError:
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        finally:
+            cursor.close()
         return render(request, 'Inventario/ver_cuentas_pc.html', context)
     else:
         return redirect("/cerrar_sesion")
 
 def ver_otros(request):
     if request.session.get('email'):
-        cursor = connection.cursor()
-        cursor.callproc("MOSTRAR_MOV_IND")
-        context = {
-            'movimientos': cursor.fetchall()
-        }
-        cursor.close()
+        try:
+            cursor = connection.cursor()
+            cursor.callproc("MOSTRAR_MOV_IND")
+            context = {
+                'movimientos': cursor.fetchall()
+            }
+        except OperationalError:
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        except IntegrityError:
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        finally:
+            cursor.close()
         return render(request, 'Inventario/ver_otros.html', context)
     else:
         return redirect("/cerrar_sesion")
