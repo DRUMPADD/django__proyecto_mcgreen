@@ -124,7 +124,11 @@
                         <div class="mt-3 w-100">
                             <a class="card link-dark p-3 d-flex justify-content-around" style="font-weight: 900;">
                                 <span hidden>{{ emp.0 }}</span>
-                                <span>{{ emp.1 }} {{ emp.2 }} {{ emp.3 }}</span>
+                                <span><small>{{ emp.1 }} {{ emp.2 }} {{ emp.3 }}</small></span>
+                                <div class="d-flex justify-content-center">
+                                    <a href="{% url 'ver_personal' id_empleado=emp.0 %}" class="btn btn-info d-flex justify-content-center"><i class="fa-solid fa-eye"></i></a>
+                                    <button type="button" class="mostrar_img btn btn-primary d-flex justify-content-center"><i class="fa-solid fa-file-arrow-up"></i></button>
+                                </div>
                             </a>
                         </div>
                         {% endfor %}
@@ -583,6 +587,20 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                console.log(input.files[0]);
+
+                reader.onload = function (e) {
+                    $('#imagen').attr('src', e.target.result);
+                };
+        
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
     <script src="{% static 'js/perfil_directorio.js' %}"></script>
 </body>
 </html>
