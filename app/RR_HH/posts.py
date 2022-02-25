@@ -13,8 +13,16 @@ def crear_perfil(request):
             cursor.callproc("AGREGAR_PUESTO", [request.POST["email_usuario"], request.POST["puesto"], "Hola", request.POST["sl_departamentos"], request.POST["empresa"], request.POST["obj_puesto"], request.POST["vacantes"]])
             mensaje = cursor.fetchall()[0][0]
             mensaje_salida = "Perfil de puesto creado!!"
-        except:
+        except OperationalError:
             mensaje_error = "Error al crear el puesto"
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        except IntegrityError:
+            mensaje_error = "Error al crear el puesto"
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
         finally:
             cursor.close()
         return JsonResponse({"msg": mensaje, "msg_salida": mensaje_salida, "msg_error": mensaje_error, "puesto_creado": ""}, status=200)
@@ -44,9 +52,14 @@ def funcion1(request):
                 cursor2.close()
             cursor.close()
             cursor2.close()
-        except IntegrityError as e:
-            print(e.message)
-            return HttpResponse(e.message, status=500)
+        except OperationalError:
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        except IntegrityError:
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
         if mensaje == "RELACION DE JERARQUIA CREADA":
             return JsonResponse({"msg": mensaje, "tipo_res": "success"}, status=200)
         else:
@@ -63,9 +76,14 @@ def funcion2(request):
             cursor = connection.cursor()
             cursor.callproc("RH_AGREGAR_PA_PR", ["erick@sigssmac.com.mx", puesto, forma, escol, per_prof, exper])
             mensaje = cursor.fetchall()[0][0]
-        except IntegrityError as e:
-            print(e.message)
-            return HttpResponse(e.message, status=500)
+        except OperationalError:
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        except IntegrityError:
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
         finally:
             cursor.close()
 
@@ -84,10 +102,16 @@ def funcion3(request):
             cursor = connection.cursor()
             cursor.callproc("RH_AGREGAR_FUNCION", ["erick@sigssmac.com.mx", puesto, funci, descrip_fun, perio])
             mensaje = cursor.fetchall()[0][0]
+        except OperationalError:
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        except IntegrityError:
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        finally:
             cursor.close()
-        except IntegrityError as e:
-            print(e.message)
-            return HttpResponse(e.message, status=500)
         if mensaje == "FUNCION AGREGADA CORRECTAMENTE":
             return JsonResponse({"msg": mensaje, "tipo_res": "success"}, status=200)
         else:
@@ -102,10 +126,16 @@ def funcion4(request):
             cursor = connection.cursor()
             cursor.callproc("RH_AGREGAR_RESPONS", ["erick@sigssmac.com.mx", puesto, sl_tipo_responsabilidad, descrip_resp])
             mensaje = cursor.fetchall()[0][0]
+        except OperationalError:
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        except IntegrityError:
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        finally:
             cursor.close()
-        except IntegrityError as e:
-            print(e.message)
-            return HttpResponse(e.message, status=500)
         if mensaje == "RESPONSABILIDAD AGREGADA":
             return JsonResponse({"msg": mensaje, "tipo_res": "success"}, status=200)
         else:
@@ -121,10 +151,16 @@ def funcion5(request):
             cursor = connection.cursor()
             cursor.callproc("RH_AGREGAR_COMP_GEN", ["erick@sigssmac.com.mx", puesto, sl_competencia, int(sl_dominio), descrip_comp])
             mensaje = cursor.fetchall()[0][0]
+        except OperationalError:
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        except IntegrityError:
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        finally:
             cursor.close()
-        except IntegrityError as e:
-            print(e.message)
-            return HttpResponse(e.message, status=500)
         if mensaje == "COMPETENCIA AGREGADA A PUESTO ACTUAL":
             return JsonResponse({"msg": mensaje, "tipo_res": "success"}, status=200)
         else:
@@ -140,10 +176,16 @@ def funcion6(request):
             cursor = connection.cursor()
             cursor.callproc("RH_AGREGAR_COMP_TEC_HAB_D", ["erick@sigssmac.com.mx", puesto, "Competencia", comp_tec,  desc_tec, int(dom_tec)])
             mensaje = cursor.fetchall()[0][0]
+        except OperationalError:
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        except IntegrityError:
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        finally:
             cursor.close()
-        except IntegrityError as e:
-            print(e.message)
-            return HttpResponse(e.message, status=500)
         if mensaje == "COMPETENCIA TECNICA/HABILIDAD AGREGADA CORRECTAMENTE":
             return JsonResponse({"msg": mensaje, "tipo_res": "success"}, status=200)
         else:
@@ -159,10 +201,16 @@ def funcion7(request):
             cursor = connection.cursor()
             cursor.callproc("RH_AGREGAR_COMP_TEC_HAB_D", ["erick@sigssmac.com.mx", puesto, "Habilidad", habilidad, desc_hab, dom_hab])
             mensaje = cursor.fetchall()[0][0]
+        except OperationalError:
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        except IntegrityError:
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        finally:
             cursor.close()
-        except IntegrityError as e:
-            print(e.message)
-            return HttpResponse(e.message, status=500)
         if mensaje == "COMPETENCIA TECNICA/HABILIDAD AGREGADA CORRECTAMENTE":
             return JsonResponse({"msg": mensaje, "tipo_res": "success"}, status=200)
         else:
@@ -180,10 +228,16 @@ def funcion8(request):
             cursor = connection.cursor()
             cursor.callproc("RH_AGREGAR_ASP_SSMAC", ["erick@sigssmac.com.mx", puesto, area_trab, peligro, riesgo, nivel, epp])
             mensaje = cursor.fetchall()[0][0]
+        except OperationalError:
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        except IntegrityError:
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        finally:
             cursor.close()
-        except IntegrityError as e:
-            print(e.message)
-            return HttpResponse(e.message, status=500)
         if mensaje == "ASPECTO SSMAC AGREGADO":
             return JsonResponse({"msg": mensaje, "tipo_res": "success"}, status=200)
         else:
@@ -198,14 +252,20 @@ def funcion9(request):
             cursor = connection.cursor()
             cursor.callproc("RH_AGREGAR_REQ_FISICOS", ["erick@sigssmac.com.mx", puesto, sl_tipo_esf, desc_esf])
             mensaje = cursor.fetchall()[0][0]
-            cursor.close()
             if mensaje == "REQUERIMIENTO FISICO AGREGADO CORRECTAMENTE":
                 return JsonResponse({"msg": mensaje, "tipo_res": "success"}, status=200)
             else:
                 return JsonResponse({"msg": "Datos no almacenados", "tipo_res": "error"}, status=500)
-        except IntegrityError as e:
-            print(e.message)
-            return HttpResponse(e.message, status=500)
+        except OperationalError:
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        except IntegrityError:
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        finally:
+            cursor.close()
 
 
 def crear_directorio(request):
@@ -215,10 +275,14 @@ def crear_directorio(request):
             cursor = connection.cursor()
             cursor.callproc("AGREGAR_EMPLEADO_V2", [request.session.get("email"), "", request.POST.get("nombre_emp"), request.POST.get("ap_paterno"), request.POST.get("ap_materno"), request.POST.get("sl_puesto"),request.POST.get("fecha_registro"), request.POST.get("edad"), request.POST.get("grado_estudio"), request.POST.get("direccion"), request.POST.get("sl_sexo"), request.POST.get("estado"), request.POST.get("tipo_sangre"), request.POST.get("cont_emergencia"), request.POST.get("emergencia"), request.POST.get("experiencia"), request.POST.get("cap_requerida"), request.POST.get("nss"), request.POST.get("curp"), request.POST.get("rfc"), request.POST.get("correo"), request.POST.get("celular")])
             mensaje = cursor.fetchall()[0][0]
-        except OperationalError as oe:
-            return HttpResponse(oe, status=500)
-        except IntegrityError as ie:
-            return HttpResponse(ie.message, status=500)
+        except OperationalError:
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        except IntegrityError:
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
         finally:
             cursor.close()
         if mensaje == 'CARACTERISTICAS AGREGADAS A EL EMPLEADO':
@@ -226,68 +290,29 @@ def crear_directorio(request):
         else:
             return JsonResponse({"bg_msg": "Error ocurrido", "msg": mensaje, "state": "error"}, status=500)
 
-def mostrar_perfil_url(request, nombre_perfil=""):
-    if request.session.get("email"):
-        if nombre_perfil != "":
-            sup = connection.cursor()
-            sup.callproc("MOSTRAR_PUESTOS_V2_SUPERVISAR", [nombre_perfil])
-            supervisar = sup.fetchall()
-            sup.close()
-            
-            supviso = connection.cursor()
-            supviso.callproc("MOSTRAR_PUESTOS_V2_TSUPERVISAN", [nombre_perfil])
-            superviso = supviso.fetchall()
-            supviso.close()
-            
-            pe = connection.cursor()
-            pe.callproc("MOSTRAR_PUESTOS_V2", [nombre_perfil])
-            mas_info = pe.fetchall()
-            pe.close()
-            pe1 = connection.cursor()
-            pe1.callproc("MOSTRAR_PUESTOS_V2_P1", [nombre_perfil])
-            mas_info1 = pe1.fetchall()
-            pe1.close()
-            pe2 = connection.cursor()
-            pe2.callproc("MOSTRAR_PUESTOS_V2_P2", [nombre_perfil])
-            mas_info2 = pe2.fetchall()
-            pe2.close()
-            pe3 = connection.cursor()
-            pe3.callproc("MOSTRAR_PUESTOS_V2_P3", [nombre_perfil])
-            mas_info3 = pe3.fetchall()
-            pe3.close()
-            pe4 = connection.cursor()
-            pe4.callproc("MOSTRAR_PUESTOS_V2_P4", [nombre_perfil])
-            mas_info4 = pe4.fetchall()
-            pe4.close()
-            pe5 = connection.cursor()
-            pe5.callproc("MOSTRAR_PUESTOS_V2_P5", [nombre_perfil])
-            mas_info5 = pe5.fetchall()
-            pe5.close()
-            pe6 = connection.cursor()
-            pe6.callproc("MOSTRAR_PUESTOS_V2_P6", [nombre_perfil])
-            mas_info6 = pe6.fetchall()
-            pe6.close()
-            pe7 = connection.cursor()
-            pe7.callproc("MOSTRAR_PUESTOS_V2_P7", [nombre_perfil])
-            mas_info7 = pe7.fetchall()
-            pe7.close()
-            context = {
-                'pagesize': 'A4',
-                "titulo": "Fluidos McGreen ",
-                "nombre_perfil": nombre_perfil,
-                "mas_info": mas_info,
-                "supervisar": supervisar,
-                "superviso": superviso,
-                "mas_info1": mas_info1,
-                "mas_info2": mas_info2,
-                "mas_info3": mas_info3,
-                "mas_info4": mas_info4,
-                "mas_info5": mas_info5,
-                "mas_info6": mas_info6,
-                "mas_info7": mas_info7,
-            }
-            return render(request, 'RRHH/ver_perfil.html', context)
+def subir_imagen(request):
+    if request.method == 'POST':
+        mensaje = ""
+        try:
+            imagen = request.FILES["imagen"]
+            cursor = connection.cursor()
+            cursor.callproc("GUARDAR_IMAGEN", ["erick@sigssmac.com.mx", imagen.name, imagen, "Empleado", request.POST.get("empleado")])
+            mensaje = cursor.fetchall()[0][0]
+        except OperationalError:
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        except IntegrityError:
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        finally:
+            cursor.close()
+        if mensaje == "IMAGEN AGREGADA":
+            return JsonResponse({ "msg": "Exito", "msg_salida": mensaje, "status": "success" }, status=200)
         else:
-            return redirect("perfil_y_directorio")
+            mensaje = "Imagen no se pudo guardar"
+            return JsonResponse({ "msg": "Error", "msg_salida": mensaje, "status": "error" }, status=404)
     else:
-        return redirect("/cerrar_sesion")
+        mensaje = "La imagen no puede ser leida"
+        return JsonResponse({ "msg": "Error", "msg_salida": mensaje, "status": "error" }, status=500)
