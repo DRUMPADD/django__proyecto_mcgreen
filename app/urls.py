@@ -13,6 +13,7 @@ urlpatterns = [
     path('registra_usuario', posts.registra_usuario, name="registra_usuario"),
     path('Inventario_general', views.Inventario_general, name="Inventario_general"),
     path('modificar_producto', posts.modificar_producto, name="modificar_producto"),
+    path('modificar_producto_admin', posts.modificar_producto_cantidad, name="modificar_producto_admin"),
     path('descontinuar_producto/<str:id_prod>', posts.descontinuar_producto, name="descontinuar_producto"),
     path('activar_producto/<str:id_prod>', posts.activar_producto, name="activar_producto"),
     path('Compras', views.compras, name="compras"),
