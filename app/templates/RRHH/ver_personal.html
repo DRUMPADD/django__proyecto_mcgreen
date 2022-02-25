@@ -1,0 +1,144 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal - {{ id_emp }}</title>
+    <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
+    <style>
+        thead tr {
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+        tbody tr {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .t-mayus {
+            text-transform: uppercase;
+        }
+        a {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    {% if mensaje != "" %}
+    <h1 class="text-center">No existen datos del empleado</h1>
+    <h3 class="text-center">Dirigase con el personal de sistemas</h3>
+    <a href="{% url 'perfil_y_directorio' %}" class="btn btn-danger">Regresar</a>
+    {% else %}
+        <div class="container d-flex justify-content-center align-items-center">
+            <div class="card card-body">
+                <a href="{% url 'perfil_y_directorio' %}" class="btn btn-primary form-control">Regresar</a>
+                <p class="text-left h5">Fecha de registro: {{ emp_datos.0.fec_registro }}</p>
+                <h1 class="text-center">Empleado: {{ emp_datos.0.nombre }} {{ emp_datos.0.ap_p }} {{ emp_datos.0.ap_m }}</h1>
+                <h3 class="text-center">Datos generales</h3>
+                <table class="table table-bordered">
+                    <thead class="text-center">
+                        <tr>
+                            <td>Nombre</td>
+                            <td>Apellido paterno</td>
+                            <td>Apellido materno</td>
+                            <td>Fecha de nacimiento</td>
+                            <td>Edad</td>
+                            <td>Género</td>
+                        </tr>
+                    </thead>
+                    <tbody class="text-justify">
+                        {% for emp in emp_datos %}
+                        <tr>
+                            <td>{{ emp.nombre }}</td>
+                            <td>{{ emp.ap_p }}</td>
+                            <td>{{ emp.ap_m }}</td>
+                            <td>{{ emp.fecha_nac }}</td>
+                            <td>{{ emp.edad }}</td>
+                            {% if emp.genero == 'M' or emp.genero == 'm' %}
+                            <td>Masculino</td>
+                            {% else %}
+                            <td>Femeino</td>
+                            {% endif %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <h3 class="text-center">Contacto de emergencia</h3>
+                <table class="table table-bordered">
+                    <thead class="text-center">
+                        <tr>
+                            <td>Nombre de contacto</td>
+                            <td>Número</td>
+                        </tr>
+                    </thead>
+                    <tbody class="text-justify">
+                        {% for emp in emp_datos %}
+                        <tr>
+                            <td>{{ emp.contacto }}</td>
+                            <td>{{ emp.numero }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <h3 class="text-center">Experiencia y capacitación requerida</h3>
+                <table class="table table-bordered">
+                    <thead class="text-center">
+                        <tr>
+                            <td>Experiencia</td>
+                            <td>Capacitación</td>
+                        </tr>
+                    </thead>
+                    <tbody class="text-justify">
+                        {% for emp in emp_datos %}
+                        <tr>
+                            <td>{{ emp.experiencia }}</td>
+                            <td>{{ emp.capacitacion }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <h3 class="text-center">Datos de empleado</h3>
+                <table class="table table-bordered">
+                    <thead class="text-center">
+                        <tr>
+                            <td>NSS</td>
+                            <td>CURP</td>
+                            <td>RFC</td>
+                        </tr>
+                    </thead>
+                    <tbody class="text-justify">
+                        {% for emp in emp_datos %}
+                        <tr>
+                            <td class="t-mayus">{{ emp.nss }}</td>
+                            <td class="t-mayus">{{ emp.curp }}</td>
+                            <td class="t-mayus">{{ emp.rfc }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <h3 class="text-center">Información extra</h3>
+                <table class="table table-bordered">
+                    <thead class="text-center">
+                        <tr>
+                            <td>Dirección</td>
+                            <td>Email</td>
+                            <td>Teléfono celular</td>
+                        </tr>
+                    </thead>
+                    <tbody class="text-justify">
+                        {% for emp in emp_datos %}
+                        <tr>
+                            <td>{{ emp.direccion }}</td>
+                            <td>{{ emp.correo }}</td>
+                            <td>{{ emp.tel_celular }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% endif %}
+</body>
+</html>
