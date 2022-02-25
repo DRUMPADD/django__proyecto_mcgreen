@@ -62,6 +62,16 @@ def modificar_producto(request):
             messages.success(request, "Elementos actualizados con éxito")
         return redirect("/Inventario_general")
 
+def modificar_producto_cantidad(request):
+    if request.method == 'POST':
+        cursor = connection.cursor()
+        cursor.callproc("MODIFICA_INV_ADMIN", [request.session.get('email'), request.POST["id_producto"], request.POST["producto"], request.POST["descripcion"], request.POST["precio"], request.POST["cantidad"]])
+        if cursor.fetchall()[0][0] != 'EL PRECIO FUE MODIFICADO CORRECTAMENTE':
+            messages.error(request, "Ocurrió un error al hacer la modificación")
+        else:
+            messages.success(request, "Elementos actualizados con éxito")
+        return redirect("/Inventario_general")
+
 def descontinuar_producto(request,id_prod):
     if request.session.get("email"):
         cursor = connection.cursor()
