@@ -316,3 +316,242 @@ def subir_imagen(request):
     else:
         mensaje = "La imagen no puede ser leida"
         return JsonResponse({ "msg": "Error", "msg_salida": mensaje, "status": "error" }, status=500)
+
+def actualizar_perfil(request):
+    if request.method == 'POST':
+        print("Estoy en el post")
+        try:
+            cursor = connection.cursor()
+            cursor.callproc("MODIFICAR_ELIMINAR_PP", ["erick@sigssmac.com.mx", request.POST.get("opcion"), request.POST.get("puesto_sel"), "", "", request.POST.get("formacion"), request.POST.get("escolaridad"), request.POST.get("perfil_p"), request.POST.get("experiencia"), "", ""])
+            mensaje = cursor.fetchall()[0][0]
+            print(mensaje)
+        except OperationalError:
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        except IntegrityError:
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        finally:
+            cursor.close()
+        if mensaje == 'PERFIL ACADEMICO / PROFESIONAL ACTUALIZADO':
+            return JsonResponse({"msg": "Éxito", "msg_salida": mensaje, "status": "success"}, status=200)
+        else:
+            return JsonResponse({"msg": "Error", "msg_salida": "El perfil no pudo ser actualizado", "status": "error"}, status=500)
+    else:
+        print("No stoy en el post")
+        return JsonResponse({"": ""}, status=500)
+
+def actualizar_gen(request):
+    if request.method == 'POST':
+        print("Estoy en el post")
+        try:
+            cursor = connection.cursor()
+            cursor.callproc("MODIFICAR_ELIMINAR_PP", ["erick@sigssmac.com.mx", request.POST.get("opcion"), request.POST.get("puesto_sel"), request.POST.get("nombre_puesto"), request.POST.get("objetivo"), "", "", "", "", "", ""])
+            mensaje = cursor.fetchall()[0][0]
+            print(mensaje)
+        except OperationalError:
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        except IntegrityError:
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        finally:
+            cursor.close()
+        if mensaje == 'OBJETIVO ACTUALIZADO':
+            return JsonResponse({"msg": "Éxito", "msg_salida": mensaje, "status": "success"}, status=200)
+        else:
+            return JsonResponse({"msg": "Error", "msg_salida": "El perfil no pudo ser actualizado", "status": "error"}, status=500)
+    else:
+        print("No estoy en el post")
+        return JsonResponse({"": ""}, status=500)
+
+def eliminar_subordinado(request):
+    if request.method == 'POST' and request.is_ajax():
+        try:
+            cursor = connection.cursor()
+            cursor.callproc("MODIFICAR_ELIMINAR_PP", ["erick@sigssmac.com.mx", request.POST.get("opcion"), request.POST.get("id_p"), "", "", "", "", "", "", request.POST.get("sub"), ""])
+            mensaje = cursor.fetchall()[0][0]
+        except OperationalError:
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        except IntegrityError:
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        finally:
+            cursor.close()
+        if mensaje == 'SUPERVISION ELIMINADA':
+            return JsonResponse({"msg": "Éxito", "msg_salida": mensaje, "status": "success"}, status=200)
+        else:
+            return JsonResponse({"msg": "Error", "msg_salida": "El perfil no pudo ser actualizado", "status": "error"}, status=500)
+    else:
+        return JsonResponse({"": ""}, status=500)
+
+def eliminar_supervisor(request):
+    if request.method == 'POST' and request.is_ajax():
+        try:
+            cursor = connection.cursor()
+            cursor.callproc("MODIFICAR_ELIMINAR_PP", ["erick@sigssmac.com.mx", request.POST.get("opcion"), request.POST.get("id_p"), "", "", "", "", "", "", request.POST.get("sup"), ""])
+            mensaje = cursor.fetchall()[0][0]
+        except OperationalError:
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        except IntegrityError:
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        finally:
+            cursor.close()
+        if mensaje == 'SUBORDINACION ELIMINADA DEL PUESTO':
+            return JsonResponse({"msg": "Éxito", "msg_salida": mensaje, "status": "success"}, status=200)
+        else:
+            return JsonResponse({"msg": "Error", "msg_salida": "El perfil no pudo ser actualizado", "status": "error"}, status=500)
+    else:
+        return JsonResponse({"": ""}, status=500)
+
+def eliminar_funcion(request):
+    if request.method == 'POST' and request.is_ajax():
+        try:
+            cursor = connection.cursor()
+            cursor.callproc("MODIFICAR_ELIMINAR_PP", ["erick@sigssmac.com.mx", request.POST.get("opcion"), request.POST.get("id_p"), "", "", "", "", "", "", "", request.POST.get("funcion")])
+            mensaje = cursor.fetchall()[0][0]
+        except OperationalError:
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        except IntegrityError:
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        finally:
+            cursor.close()
+        if mensaje == 'FUNCION ELIMINADA DEL PUESTO':
+            return JsonResponse({"msg": "Éxito", "msg_salida": mensaje, "status": "success"}, status=200)
+        else:
+            return JsonResponse({"msg": "Error", "msg_salida": "El perfil no pudo ser actualizado", "status": "error"}, status=500)
+    else:
+        return JsonResponse({"": ""}, status=500)
+
+def eliminar_res_ad(request):
+    if request.method == 'POST' and request.is_ajax():
+        try:
+            cursor = connection.cursor()
+            cursor.callproc("MODIFICAR_ELIMINAR_PP", ["erick@sigssmac.com.mx", "ELIMINAR RESP ADQ", request.POST.get("id_p"), "", "", "", "", "", "", "", request.POST.get("res_ad")])
+            mensaje = cursor.fetchall()[0][0]
+            if mensaje == 'OBJETIVO ACTUALIZADO':
+                return JsonResponse({"msg": "Éxito", "msg_salida": mensaje, "status": "success"}, status=200)
+            else:
+                return JsonResponse({"msg": "Error", "msg_salida": "El perfil no pudo ser actualizado", "status": "error"}, status=500)
+        except OperationalError:
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        except IntegrityError:
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        finally:
+            cursor.close()
+    else:
+        return JsonResponse({"": ""}, status=500)
+
+def eliminar_com_gen(request):
+    if request.method == 'POST':
+        try:
+            cursor = connection.cursor()
+            cursor.callproc("MODIFICAR_ELIMINAR_PP", ["erick@sigssmac.com.mx", "ELIMINAR COMP GEN", request.POST.get("id_p"), "", "", "", "", "", "", "", request.POST.get("comp_g")])
+            mensaje = cursor.fetchall()[0][0]
+            print(mensaje)
+            if mensaje == 'COMPETENCIA GENERICA ELIMINADA DEL PUESTO':
+                return JsonResponse({"msg": "Éxito", "msg_salida": mensaje, "status": "success"}, status=200)
+            else:
+                return JsonResponse({"msg": "Error", "msg_salida": "El perfil no pudo ser actualizado", "status": "error"}, status=200)
+        except OperationalError:
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        except IntegrityError:
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        finally:
+            cursor.close()
+    else:
+        return JsonResponse({"": ""}, status=500)
+
+def eliminar_com_tec(request):
+    if request.method == 'POST' and request.is_ajax():
+        try:
+            cursor = connection.cursor()
+            cursor.callproc("MODIFICAR_ELIMINAR_PP", ["erick@sigssmac.com.mx", "ELIMINAR COMP TEC", request.POST.get("id_p"), "", "", "", "", "", "", "", request.POST.get("comp_t")])
+            mensaje = cursor.fetchall()[0][0]
+            print(mensaje)
+            if mensaje == 'COMPETENCIA/HABILIDAD ELIMINADA DEL PUESTO':
+                return JsonResponse({"msg": "Éxito", "msg_salida": mensaje, "status": "success"}, status=200)
+            else:
+                return JsonResponse({"msg": "Error", "msg_salida": "El perfil no pudo ser actualizado", "status": "error"}, status=500)
+        except OperationalError:
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        except IntegrityError:
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        finally:
+            cursor.close()
+    else:
+        return JsonResponse({"": ""}, status=500)
+
+def eliminar_asp_ssmac(request):
+    if request.method == 'POST' and request.is_ajax():
+        try:
+            cursor = connection.cursor()
+            cursor.callproc("MODIFICAR_ELIMINAR_PP", ["erick@sigssmac.com.mx", "ELIMINAR ASP SSMAC", request.POST.get("id_p"), "", "", "", "", "", "", "", request.POST.get("aspecto")])
+            mensaje = cursor.fetchall()[0][0]
+        except OperationalError:
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        except IntegrityError:
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        finally:
+            cursor.close()
+        if mensaje == 'ASPECTOS ELIMINADOS DEL PUESTO':
+            return JsonResponse({"msg": "Éxito", "msg_salida": mensaje, "status": "success"}, status=200)
+        else:
+            return JsonResponse({"msg": "Error", "msg_salida": "El perfil no pudo ser actualizado", "status": "error"}, status=500)
+    else:
+        return JsonResponse({"": ""}, status=500)
+
+def eliminar_requer_fis(request):
+    if request.method == 'POST' and request.is_ajax():
+        try:
+            cursor = connection.cursor()
+            cursor.callproc("MODIFICAR_ELIMINAR_PP", ["erick@sigssmac.com.mx", "ELIMINAR REQ FIS", request.POST.get("id_p"), "", "", "", "", "", "", "", request.POST.get("req")])
+            mensaje = cursor.fetchall()[0][0]
+        except OperationalError:
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        except IntegrityError:
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        finally:
+            cursor.close()
+        if mensaje == 'REQUERIMIENTOS FISICOS ELIMINADOS DEL PUESTO':
+            return JsonResponse({"msg": "Éxito", "msg_salida": mensaje, "status": "success"}, status=200)
+        else:
+            return JsonResponse({"msg": "Error", "msg_salida": "El perfil no pudo ser actualizado", "status": "error"}, status=500)
+    else:
+        return JsonResponse({"": ""}, status=500)
+    
