@@ -24,6 +24,7 @@ def iniciar_sesion(request):
                     request.session["email"] = request.POST["user"]
                     request.session["departamento"] = departamento_selec[0]
                     request.session["privilegio"] = privilegio[0]
+                    request.session.modified = True
                     cursor.close()
                     return redirect("/Inicio")
                 else:
@@ -66,6 +67,7 @@ def cerrar_sesion(request):
         del request.session["email"]
         del request.session["departamento"]
         del request.session["privilegio"]
+        request.session.modified = True
         return render(request, "Inventario/cerrar_sesion.html")
     except KeyError:
         print(KeyError)
