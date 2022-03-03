@@ -23,6 +23,8 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY",'ow7n7$+88*2vv2sf+2)l2#699fkt5qu
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = str(os.environ.get("DEBUG")) == "1"
 
+SESSION_SAVE_EVERY_REQUEST = True
+
 ENV_ALLOWED_HOST = os.environ.get("DJANGO_ALLOWED_HOST") or None
 ALLOWED_HOSTS = []
 ALLOWED_HOSTS += [os.environ.get("DJANGO_ALLOWED_HOST")]
