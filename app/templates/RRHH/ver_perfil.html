@@ -18,10 +18,54 @@
     <div class="container mt-4">
         <div class="d-flex justify-content-center">
             <div class="text-center">
+                <div class="d-flex justify-content-between">
+                    <h1>Perfil de puesto {{ nombre_perfil }}</h1>
+                    <div class="d-flex justify-content-around">
+                        <form class="d-flex justify-content-around">
+                            <input type="number" name="vacante" value="{{ vacantes }}" class="form-control">
+                            <button type="submit" id="actualizar_v" class="btn btn-success" hidden></button>
+                        </form>
+                        <button type="button" id="agregar_v" class="btn btn-success"><i class="fa-solid fa-plus"></i></button>
+                        <button type="button" id="quitar_v" class="btn btn-danger"><i class="fa-solid fa-minus"></i></button>
+                    </div>
+                </div>
                 <a href="{% url 'perfil_y_directorio' %}" class="btn btn-primary form-control">Regresar</a>
-                <h1>Perfil de puesto {{ nombre_perfil }}</h1>
+                <form id="actualizar_perfil" class="mt-2 mb-2">
+                    {% csrf_token %}
+                    <input type="text" name="puesto_sel" value="{{ nombre_perfil }}" hidden readonly>
+                    <div class="d-flex justify-content-around">
+                        <div id="nombre_p">
+                            <label>Nombre de puesto</label>
+                            <input type="text" name="nombre_puesto" class="form-control">
+                        </div>
+                        <div id="formacion">
+                            <label>Formación</label>
+                            <input type="text" name="formacion" class="form-control">
+                        </div>
+                        <div id="escolaridad">
+                            <label>Escolaridad</label>
+                            <input type="text" name="escolaridad" class="form-control">
+                        </div>
+                        <input type="text" name="opcion" hidden readonly>
+                    </div>
+                    <div class="d-flex justify-content-around">
+                        <div id="objetivo">
+                            <label>Objetivo del puesto</label>
+                            <input type="text" name="objetivo" class="form-control">
+                        </div>
+                        <div id="perfil_p">
+                            <label>Perfil profesional</label>
+                            <input type="text" name="perfil_p" class="form-control">
+                        </div>
+                        <div id="experiencia">
+                            <label>Experiencia</label>
+                            <input type="text" name="experiencia" class="form-control">
+                        </div>
+                    </div>
+                    <input type="submit" class="btn btn-success col-lg-7 mt-2 mb-1" id="actualizar" dato-ajax="{% url 'actualizar_perfil' %}" value="Actualizar">
+                </form>
                 <h2>Generalidades</h2>
-                <table class="table table-bordered">
+                <table class="table table-bordered" id="gen">
                     <thead>
                         <tr>
                             <th>Nombre</th>
@@ -29,6 +73,7 @@
                             <th>Departamento</th>
                             <th>Empresa</th>
                             <th>Objetivo del puesto</th>
+                            <th>Acción</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -39,54 +84,92 @@
                             <td>{{ genera.2 }}</td>
                             <td>{{ genera.3 }}</td>
                             <td>{{ genera.4 }}</td>
+                            <td class="text-center">
+                                <button type="button" class="btn btn-info" id="btn_generalidades"><i class="fa-solid fa-pen"></i></button>
+                            </td>
                         </tr>
                         {% endfor %}
                     </tbody>
                 </table>
                 <h2>Relaciones de jerarquia</h2>
-                <table class="table table-bordered">
+                <table class="table table-bordered" id="jer_sub">
                     <thead>
                         <tr>
                             <th>Subordinación</th>
+                            <th>Acción</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for sub in supervisar %}
+                        {% if sub.0 == 'ESE PUESTO NO TIENE NINGUN SUBORDINADO' %}
+                        <tr>
+                            <td colspan="2">{{ sub.0 }}</td>
+                        </tr>
+                        {% else %}
                         <tr>
                             <td>{{ sub.0 }}</td>
+                            <td class="text-center">
+                                <form class="formulario_sub">
+                                    {% csrf_token %}
+                                    <input type="text" name="id_p" value="{{ nombre_perfil }}" hidden>
+                                    <input type="text" name="opcion" value="ELIMINAR JERARQUIA SUP" hidden>
+                                    <input type="text" name="sub" value="{{ sub.0 }}" hidden>
+                                    <input type="text" id="mostrar_info" regresar="{% url 'ver_perfil' nombre_perfil=nombre_perfil %}" hidden>
+                                    <button type="submit" class="btn btn-danger btn_eliminar_sub" dato-ajax="{% url 'eliminar_subordinado' %}"><i class="fa-solid fa-trash-can"></i></button>
+                                </form>
+                            </td>
                         </tr>
+                        {% endif %}
                         {% endfor %}
                     </tbody>
                 </table>
-                <table class="table table-bordered">
+                <table class="table table-bordered" id="jer_sup">
                     <thead>
                         <tr>
                             <th>Supervisión</th>
+                            <th>Acción</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for sup in superviso %}
+                        {% if sup.0 == 'ESE PUESTO NO TIENE NINGUN SUPERVISOR' %}
+                        <tr>
+                            <td colspan="2">{{ sup.0 }}</td>
+                        </tr>
+                        {% else %}
                         <tr>
                             <td>{{ sup.0 }}</td>
+                            <td class="text-center">
+                                <form class="formulario_sup">
+                                    {% csrf_token %}
+                                    <input type="text" name="id_p" value="{{ nombre_perfil }}" hidden>
+                                    <input type="text" name="opcion" value="ELIMINAR JERARQUIA SUB" hidden>
+                                    <input type="text" name="sup" value="{{ sup.0 }}" hidden>
+                                    <input type="text" id="mostrar_info" regresar="{% url 'ver_perfil' nombre_perfil=nombre_perfil %}" hidden>
+                                    <button type="submit" class="btn btn-danger btn_eliminar_sup" dato-ajax="{% url 'eliminar_supervisor' %}"><i class="fa-solid fa-trash-can"></i></button>
+                                </form>
+                            </td>
                         </tr>
+                        {% endif%}
                         {% endfor %}
                     </tbody>
                 </table>
                 <h2>Perfil académico y/o profesional</h2>
-                <table class="table table-bordered">
+                <table class="table table-bordered" id="per_">
                     <thead>
                         <tr>
                             <th>Formación</th>
                             <th>Escolaridad</th>
                             <th>Perfil profesional</th>
                             <th>Experiencia</th>
+                            <th>Acción</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for per_ac in mas_info1 %}
                         {% if per_ac.0 == 'NO EXISTE EL PERFIL ACADEMICO DEL PUESTO FAVOR DE AGREGARLAS' %}
                         <tr>
-                            <td colspan=4">{{ per_ac.0 }}</td>
+                            <td colspan=5">{{ per_ac.0 }}</td>
                         </tr>
                         {% else %}
                             <tr>
@@ -94,111 +177,154 @@
                                 <td>{{ per_ac.1 }}</td>
                                 <td>{{ per_ac.2 }}</td>
                                 <td>{{ per_ac.3 }}</td>
+                                <td class="text-center">
+                                    <button type="button" class="btn btn-info btn_perfil"><i class="fa-solid fa-pen"></i></button>
+                                </td>
                             </tr>
                         {% endif %}
                         {% endfor %}
                     </tbody>
                 </table>
                 <h2>Funciones</h2>
-                <table class="table table-bordered">
+                <table class="table table-bordered" id="func">
                     <thead>
                         <tr>
                             <th>Función</th>
                             <th>Descripción</th>
                             <th>Periodicidad</th>
+                            <th>Acción</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for funcion in mas_info2 %}
                             {% if funcion.0 == 'NO TIENE NINGUNA FUNCION AGREGADA ESE PUESTO' %}
                             <tr>
-                                <td colspan="3">{{ funcion.0 }}</td>
+                                <td colspan="4">{{ funcion.0 }}</td>
                             </tr>
                             {% else %}
                             <tr>
                                 <td>{{ funcion.0 }}</td>
                                 <td>{{ funcion.1 }}</td>
                                 <td>{{ funcion.2 }}</td>
+                                <td class="text-center">
+                                    <form class="formulario_funcion">
+                                        {% csrf_token %}
+                                        <input type="text" name="id_p" value="{{ nombre_perfil }}" hidden>
+                                        <input type="text" name="funcion" value="{{ funcion.0 }}" hidden>
+                                        <input type="text" name="opcion" value="ELIMINAR FUN" hidden>
+                                        <input type="text" id="mostrar_info" regresar="{% url 'inicio' %}" hidden>
+                                        <button type="submit" class="btn btn-danger btn_eliminar_func" dato-ajax="{% url 'eliminar_funcion' %}"><i class="fa-solid fa-trash-can"></i></button>
+                                    </form>
+                                </td>
                             </tr>
                             {% endif %}
                         {% endfor %}
                     </tbody>
                 </table>
                 <h2>Responsabilidades adquiridas</h2>
-                <table class="table table-bordered">
+                <table class="table table-bordered" id="res">
                     <thead>
                         <tr>
                             <th>Tipo de responsabilidad</th>
                             <th>Descripción</th>
+                            <th>Acción</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for resp_ad in mas_info3 %}
-                            {% if resp_ad.0 == 'NO TIENE NINGUNA FUNCION AGREGADA ESE PUESTO' %}
+                            {% if resp_ad.0 == 'NO TIENE NINGUNA RESPONSABILIDAD AGREGADA ESE PUESTO' %}
                             <tr>
-                                <td colspan="2">{{ resp_ad.0 }}</td>
+                                <td colspan="3">{{ resp_ad.0 }}</td>
                             </tr>
                             {% else %}
                             <tr>
                                 <td>{{ resp_ad.0 }}</td>
                                 <td>{{ resp_ad.1 }}</td>
+                                <td class="text-center">
+                                    <form class="formulario_resad">
+                                        {% csrf_token %}
+                                        <input type="text" name="id_p" value="{{ nombre_perfil }}" hidden>
+                                        <input type="text" name="res_ad" value="{{ resp_ad.0 }}" hidden>
+                                        <button type="submit" class="btn btn-danger btn_eliminar_resad" dato-ajax="{% url 'eliminar_res_ad' %}"><i class="fa-solid fa-trash-can"></i></button>
+                                    </form>
+                                </td>
                             </tr>
                             {% endif %}
                         {% endfor %}
                     </tbody>
                 </table>
                 <h2>Competencias genéricas</h2>
-                <table class="table table-bordered">
+                <table class="table table-bordered" id="com_gen">
                     <thead>
                         <tr>
                             <th>Competencia</th>
                             <th>Dominio</th>
                             <th>Descripción</th>
+                            <th>Acción</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for comp in  mas_info4 %}
                             {% if comp.0 == 'ESE PUESTO NO TIENE NINGUNA COMPETENCIA GENERICA ASIGNADA' %}
                             <tr>
-                                <td colspan="3">{{ comp.0 }}</td>
+                                <td colspan="4">{{ comp.0 }}</td>
                             </tr>
                             {% else %}
                             <tr>
                                 <td>{{ comp.0 }}</td>
                                 <td>{{ comp.1 }}</td>
                                 <td>{{ comp.2 }}</td>
+                                <td class="text-center">
+                                    <form class="formulario_compg">
+                                        {% csrf_token %}
+                                        <input type="text" name="id_p" value="{{ nombre_perfil }}" hidden>
+                                        <input type="text" name="comp_g" value="{{ comp.0 }}" hidden>
+                                        <button type="submit" class="btn btn-danger btn_eliminar_compg" dato-ajax="{% url 'eliminar_com_gen' %}"><i class="fa-solid fa-trash-can"></i></button>
+                                    </form>
+                                </td>
                             </tr>
                             {% endif %}
                         {% endfor %}
                     </tbody>
                 </table>
                 <h2>Competencias técnicas</h2>
-                <table class="table table-bordered">
+                <table class="table table-bordered" id="com_tec">
                     <thead>
                         <tr>
                             <th>Competencia</th>
+                            <th>Tipo</th>
                             <th>Descripción</th>
                             <th>Dominio</th>
+                            <th>Acción</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for comp_t in mas_info5 %}
                             {% if comp_t.0 == 'ESE PUESTO NO TIENE NINGUNA COMPETENCIA TENICA Y/O HABILIDAD DESEADA' %}
                             <tr>
-                                <td colspan="3">{{ comp_t.0 }}</td>
+                                <td colspan="5">{{ comp_t.0 }}</td>
                             </tr>
                             {% else %}
                             <tr>
-                                <td>{{ comp_t.0 }}</td>
                                 <td>{{ comp_t.1 }}</td>
+                                <td>{{ comp_t.0 }}</td>
                                 <td>{{ comp_t.2 }}</td>
+                                <td>{{ comp_t.3 }}</td>
+                                <td class="text-center">
+                                    <form class="formulario_compt">
+                                        {% csrf_token %}
+                                        <input type="text" name="id_p" value="{{ nombre_perfil }}" hidden>
+                                        <input type="text" name="comp_t" value="{{ comp_t.0 }}" hidden>
+                                        <button type="submit" class="btn btn-danger btn_eliminar_compt" dato-ajax="{% url 'eliminar_com_tec' %}"><i class="fa-solid fa-trash-can"></i></button>
+                                    </form>
+                                </td>
                             </tr>
                             {% endif %}
                         {% endfor %}
                     </tbody>
                 </table>
                 <h2>Aspectos de SSMAC</h2>
-                <table class="table table-bordered">
+                <table class="table table-bordered" id="asp_ss">
                     <thead>
                         <tr>
                             <th>Área de trabajo</th>
@@ -206,13 +332,14 @@
                             <th>Riesgo</th>
                             <th>Nivel</th>
                             <th>EPP</th>
+                            <th>Acción</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for aspecto in mas_info6 %}
                             {% if aspecto.0 == 'ESE PUESTO NO TIENE NINGUN ASPECTO SSMAC' %}
                             <tr>
-                                <td colspan="5">{{ aspecto.0 }}</td>
+                                <td colspan="6">{{ aspecto.0 }}</td>
                             </tr>
                             {% else %}
                             <tr>
@@ -221,36 +348,52 @@
                                 <td>{{ aspecto.2 }}</td>
                                 <td>{{ aspecto.3 }}</td>
                                 <td>{{ aspecto.4 }}</td>
+                                <td>
+                                    <form class="formulario_aspss">
+                                        {% csrf_token %}
+                                        <input type="text" name="id_p" value="{{ nombre_perfil }}" hidden>
+                                        <input type="text" name="aspecto" value="{{ aspecto.0 }}" hidden>
+                                        <button type="submit" class="btn btn-danger btn_eliminar_aspss" dato-ajax="{% url 'eliminar_asp_ssmac' %}"><i class="fa-solid fa-trash-can"></i></button>
+                                    </form>
+                                </td>
                             </tr>
                             {% endif %}
                         {% endfor %}
                     </tbody>
                 </table>
                 <h2>Requerimientos físicos</h2>
-                <table class="table table-bordered">
+                <table class="table table-bordered" id="req_fis">
                     <thead>
                         <tr>
                             <th>Tipo de esfuerzo</th>
                             <th>Descripción</th>
+                            <th>Acción</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for req in mas_info7 %}
                             {% if req.0 == 'ESE PUESTO NO TIENE NINGUN REQUERIMENTO FISICO' %}
                             <tr>
-                                <td colspan="2">{{ req.0 }}</td>
+                                <td colspan="3">{{ req.0 }}</td>
                             </tr>
                             {% else %}
                             <tr>
                                 <td>{{ req.0 }}</td>
                                 <td>{{ req.1 }}</td>
+                                <td>
+                                    <form class="formulario_reqfis">
+                                        {% csrf_token %}
+                                        <input type="text" name="id_p" value="{{ nombre_perfil }}" hidden>
+                                        <input type="text" name="req" value="{{ req.0 }}" hidden>
+                                        <button type="submit" class="btn btn-danger btn_eliminar_reqfis" dato-ajax="{% url 'eliminar_requer_fis' %}"><i class="fa-solid fa-trash-can"></i></button>
+                                    </form>
+                                </td>
                             </tr>
                             {% endif %}
                         {% endfor %}
                     </tbody>
                 </table>
             </div>
-
         </div>
     </div>
 </body>
