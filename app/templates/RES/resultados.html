@@ -1,0 +1,265 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/estilos.css' %}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+                <a href="{% url 'inicio' %}" class="nav-link">Inicio</a>
+            </li>
+        </ul>
+        {% if privilegio == 'ADM-IN1' %}
+        <ul class="navbar-nav me-auto">
+            <div class="dropdown">
+                <button class="nav-link dropdown-toggle btn" type="button" id="navbarDropdown" aria-haspopup="true" data-toggle="dropdown" aria-expanded="false">
+                    Inventario
+                </button>
+                <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item text-white" href="{% url 'Inventario_general' %}">Inventario general</a>
+                    <a class="dropdown-item text-white" href="{% url 'compras' %}">Entradas</a>
+                    <a class="dropdown-item text-white" href="{% url 'ventas' %}">Ventas</a>
+                    <a class="dropdown-item text-white" href="{% url 'otras_e_s' %}">Otras E/S</a>
+                    <a class="dropdown-item text-white" href="{% url 'crear_sistema' %}">Generar sistemas</a>
+                    <a class="dropdown-item text-white" href="{% url 'movimientos' %}">Movimientos de inventario</a>
+                    <a class="dropdown-item text-white" href="{% url 'Auditoria' %}">Auditoria</a>
+                </div>
+            </div>
+        </ul>
+        <ul class="navbar-nav me-auto">
+            <div class="dropdown">
+                <button class="nav-link dropdown-toggle btn" type="button" id="navbarDropdown" aria-haspopup="true" data-toggle="dropdown" aria-expanded="false">
+                    Recursos humanos
+                </button>
+                <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item text-white" href="{% url 'perfil_y_directorio' %}">Perfil de puesto - Directorio</a>
+                </div>
+            </div>
+        </ul>
+        <ul class="navbar-nav me-auto">
+            <div class="dropdown">
+                <button class="nav-link dropdown-toggle btn" type="button" id="navbarDropdown" aria-haspopup="true" data-toggle="dropdown" aria-expanded="false">
+                    Indicadores
+                </button>
+                <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item text-white" href="{% url 'indicadores' %}">Registro de movimientos</a>
+                </div>
+            </div>
+        </ul>
+        <ul class="navbar-nav me-auto">
+            <div class="dropdown">
+                <button class="nav-link dropdown-toggle btn" type="button" id="navbarDropdown" aria-haspopup="true" data-toggle="dropdown" aria-expanded="false">
+                    Usuarios
+                </button>
+                <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item text-white" href="{% url 'registro' %}">Registrar usuario</a>
+                    <a class="dropdown-item text-white" href="{% url 'usuarios' %}">Usuarios</a>
+                </div>
+            </div>
+        </ul>
+        {% elif privilegio == 'JEFE' %}
+        <ul class="navbar-nav me-auto">
+            <div class="dropdown">
+                <button class="nav-link dropdown-toggle btn" type="button" id="navbarDropdown" aria-haspopup="true" data-toggle="dropdown" aria-expanded="false">
+                    Inventario
+                </button>
+                <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item text-white" href="{% url 'Inventario_general' %}">Inventario general</a>
+                    <a class="dropdown-item text-white" href="{% url 'compras' %}">Entradas</a>
+                    <a class="dropdown-item text-white" href="{% url 'ventas' %}">Ventas</a>
+                    <a class="dropdown-item text-white" href="{% url 'otras_e_s' %}">Otras E/S</a>
+                    <a class="dropdown-item text-white" href="{% url 'crear_sistema' %}">Generar sistemas</a>
+                    <a class="dropdown-item text-white" href="{% url 'movimientos' %}">Movimientos de inventario</a>
+                </div>
+            </div>
+        </ul>
+        <ul class="navbar-nav me-auto">
+            <div class="dropdown">
+                <button class="nav-link dropdown-toggle btn" type="button" id="navbarDropdown" aria-haspopup="true" data-toggle="dropdown" aria-expanded="false">
+                    Recursos humanos
+                </button>
+                <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item text-white" href="{% url 'perfil_y_directorio' %}">Perfil de puesto - Directorio</a>
+                </div>
+            </div>
+        </ul>
+        <ul class="navbar-nav me-auto">
+            <div class="dropdown">
+                <button class="nav-link dropdown-toggle btn" type="button" id="navbarDropdown" aria-haspopup="true" data-toggle="dropdown" aria-expanded="false">
+                    Indicadores
+                </button>
+                <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item text-white" href="{% url 'indicadores' %}">Registro de movimientos</a>
+                </div>
+            </div>
+        </ul>
+        {% else %}
+        <ul class="navbar-nav me-auto">
+            <div class="dropdown">
+                <button class="nav-link dropdown-toggle btn" type="button" id="navbarDropdown" aria-haspopup="true" data-toggle="dropdown" aria-expanded="false">
+                    Inventario
+                </button>
+                <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item text-white" href="{% url 'Inventario_general' %}">Inventario general</a>
+                    <a class="dropdown-item text-white" href="{% url 'movimientos' %}">Movimientos de inventario</a>
+                </div>
+            </div>
+        </ul>
+        {% endif %}
+        <ul class="navbar-nav">
+            <li class="nav-item"><a class="nav-link" href="{% url 'cerrar_sesion' %}">Cerrar sesión</a></li>
+        </ul>
+    </nav>
+    <div class="container">
+        <form class="card card-body">
+            {% csrf_token %}
+            <div class="d-flex justify-content-around mt-1 mb-1 align-items-center">
+                <div>
+                    <label for="fecha_inicio" class="h5">Fecha de inicio</label>
+                    <input type="date" name="fecha_inicio" class="form-control">
+                </div>
+                <div>
+                    <label for="fecha_termino" class="h5">Fecha de término</label>
+                    <input type="date" name="fecha_termino" class="form-control">
+                </div>
+
+                <div>
+                    <button type="button" class="btn btn-primary" id="limpiar">Limpiar todo</button>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center mt-3">
+                <p class="col-lg-3 h5">Qué desea ver?</p>
+                <div class="d-flex justify-content-around col-lg-5">
+                    <div>
+                        <input type="radio" id="opcion1" name="opcion_vista" class="form-check-input" value="GENERAL">
+                        <label for="opcion1" class="h5">General</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="opcion2" name="opcion_vista" class="form-check-input" value="producto">
+                        <label for="opcion2" class="h5">Por producto</label>
+                    </div>
+                </div>
+            </div>
+            <div class="container" id="opc_1">
+                <button type="button" class="btn mt-3 mb-2 btn-danger" id="btn_cerrar_opc1">X</button>
+                <p class="text-center h3">Elija qué datos desea ver</p>
+                <div class="d-flex justify-content-evenly mt-2">
+                    <div class="col-lg-3">
+                        <input type="radio" id="opc_compras" name="compra" class="form-check-input">
+                        <label for="opc_compras" class="h5">Compras</label>
+                    </div>
+                    <div class="col-lg-3">
+                        <input type="radio" id="opc_ventas" name="venta" class="form-check-input">
+                        <label for="opc_ventas" class="h5">Ventas</label>
+                    </div>
+                    <div class="col-lg-3">
+                        <input type="radio" id="opc_otros" name="otro_mov" class="form-check-input">
+                        <label for="opc_otros" class="h5">Otros movimientos</label>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center mt-3">
+                    <input type="submit" class="btn btn-success " value="Mostrar gráfica" dato-ajax="{% url 'mostrar_grafica' %}">
+                </div>
+            </div>
+            <div class="container" id="opc_2">
+                <div class="d-flex justify-content-between align-items-center">
+                    <button type="button" class="btn mt-3 mb-2 btn-danger" id="btn_cerrar_opc2">X</button>
+                    <p class="h5">Sólo puede seleccionar hasta 3 productos, lleva <span id="contador" class="disabled"></span></p>
+                </div>
+                <p class="text-center h3">Elija el o los productos que desea ver</p>
+                <div class="mr-auto d-flex justify-content-around mt-4">
+                    <p class="h5">Agregar o eliminar producto seleccionado</p>
+                    <button type="button" class="btn btn-success col-lg-2" id="crear_form_producto"><i class="fa-solid fa-plus"></i></button>
+                    <button type="button" class="btn btn-danger col-lg-2" id="eliminar_form_producto"><i class="fa-solid fa-minus"></i></button>
+                    <input type="submit" class="btn btn-info" value="Mostrar gráfica" dato-ajax="{% url 'mostrar_grafica' %}">
+                </div>
+                <hr>
+                <div class="otro_producto">
+                    <div class="d-flex justify-content-around align-items-center col-lg-12">
+                        <div class="col-lg-4">
+                            <select name="sl_productos" class="form-select select_productos">
+                                <option selected disabled>--Seleccionar--</option>
+                                {% for producto in productos %}
+                                    <option value="{{ producto.0 }}">{{ producto.1 }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+        </form>
+
+        <h1 id="h1_info" class="text-center mt-2 mb-2">Datos generales</h1>
+        <table class="table table-bordered" id="tabla_general">
+            <thead>
+                <tr>
+                    <th>Ventas</th>
+                    <th>Compras</th>
+                    <th>Ingreso</th>
+                    <th>Consumo</th>
+                </tr>
+            </thead>
+            <tbody id="response">
+
+            </tbody>
+        </table>
+        <table class="table table-bordered" id="tabla_productos">
+            <thead>
+                <tr>
+                    <th>Identificador</th>
+                    <th>Producto</th>
+                    <th>Ventas</th>
+                    <th>Compras</th>
+                    <th>Ingreso</th>
+                    <th>Consumo</th>
+                </tr>
+            </thead>
+            <tbody id="response2">
+
+            </tbody>
+        </table>
+        <h2 id="h2_detalle" class="text-center mt-2 mb-2">Detalles</h2>
+        <table class="table table-bordered" id="t_detalles_prod">
+            <thead>
+                <tr>
+                    <th>Identificador</th>
+                    <th>Producto</th>
+                    <th>Fecha</th>
+                    <th>Cantidad o Precio</th>
+                    <th>Ingreso</th>
+                </tr>
+            </thead>
+            <tbody class="t_detalles_body">
+
+            </tbody>
+        </table>
+
+
+
+        <div id="contenedor_canvas" class="container">
+            <canvas id="canvas_general"  width="200" height="100"></canvas>
+        </div>
+        <div class="container">
+            <canvas id="canvas1"  width="200" height="100"></canvas>
+            <canvas id="canvas2"  width="200" height="100"></canvas>
+            <canvas id="canvas3"  width="200" height="100"></canvas>
+        </div>
+    </div>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <script src="{% static 'js/resultados.js' %}"></script>
+</body>
+</html>
