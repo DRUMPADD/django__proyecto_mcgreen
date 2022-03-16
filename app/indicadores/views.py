@@ -14,7 +14,8 @@ def vista_graficas(request):
         finally:
             cursor.close()
         context = {
-            "productos": productos
+            "productos": productos,
+            "privilegio": request.session.get("privilegio"),
         }
         return render(request, "RES/resultados.html", context)
     else:

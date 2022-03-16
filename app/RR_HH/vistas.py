@@ -219,6 +219,7 @@ def mostrar_perfil_url(request, nombre_perfil=""):
                 "mas_info5": mas_info5,
                 "mas_info6": mas_info6,
                 "mas_info7": mas_info7,
+                "privilegio": request.session.get("privilegio"),
             }
             return render(request, 'RRHH/ver_perfil.html', context)
         else:

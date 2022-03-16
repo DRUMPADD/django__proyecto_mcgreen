@@ -341,7 +341,8 @@ def vista_quimico(request):
     if request.session.get("email"):
         context = {
             'titulo': 'Quimico',
-            'email': request.session.get("email")
+            'email': request.session.get("email"),
+            "privilegio": request.session.get("privilegio"),
         }
         try:
             cursor = connection.cursor()
