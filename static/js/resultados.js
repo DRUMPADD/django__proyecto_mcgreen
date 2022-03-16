@@ -6,6 +6,7 @@ $(document).ready(function () {
         $("#tabla_productos").hide();
         $("#t_detalles_prod").hide();
         $("#contenedor_canvas").hide();
+        $("#contenedor_canvas_prod").hide();
         $("#response").empty();
         $("#response2").empty();
         $(".t_detalles_body").empty();
@@ -21,6 +22,10 @@ $(document).ready(function () {
         }
         if(myChart) {
             myChart.destroy();
+        }
+        
+        if(chartjs) {
+            charts.destroy();
         }
     }
     let myChart;
@@ -65,19 +70,39 @@ $(document).ready(function () {
                     consumos
                 ]
             },
+            plugins: [ChartDataLabels],
             options: {
                 scales: {
                     y: {
                         beginAtZero: true
-                    }
+                    },
                 },
-                responsive: true
+                distribution: 'linear',
+                responsive: true,
+                legend: {
+                    display: true,
+                    labels: {
+                        fontColor: 'rgb(255, 99, 132)',
+                        fontFamily: "'Arial', 'sans-serif'",
+                        fontSize: 20
+                    },
+                },
+                plugins: {
+                    datalabels: {
+                        labels: {
+                            title: {
+                                font: {
+                                    weight: 'bold',
+                                    size: 16
+                                }
+                            },
+                        },
+                        anchor: 'end',
+                        align: 'top'
+                    }
+                }
             }
         })
-    }
-
-    function newLegendClickHandler() {
-        alert("Quito compras");
     }
 
     var charts;
@@ -125,15 +150,6 @@ $(document).ready(function () {
                     y: {
                         beginAtZero: true
                     },
-                    xAxis: [{
-                        type: 'time',
-                        position: 'bottom',
-                        time: {
-                            displayFormats: {'day': 'MM/YY'},
-                            tooltipFormat: 'DD/MM/YY',
-                            unit: 'month',
-                        }
-                    }],
                 },
                 distribution: 'linear',
                 responsive: true,
