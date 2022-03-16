@@ -24,7 +24,7 @@ $(document).ready(function () {
             myChart.destroy();
         }
         
-        if(chartjs) {
+        if(charts) {
             charts.destroy();
         }
     }
@@ -130,6 +130,9 @@ $(document).ready(function () {
                 label: 'Consumos',
                 data: [0]
             }
+        }
+        if(charts) {
+            charts.destroy();
         }
 
         let cont_can = document.getElementById("canvas" + num);
