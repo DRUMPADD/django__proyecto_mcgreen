@@ -332,6 +332,57 @@ def agregar_clientes(request):
         return redirect("/cerrar_sesion")
 
 
+
+# ?? Registrar sistema
+def registrar_sistema(request):
+    if request.method == 'POST':
+        email = request.POST.get("email")
+        motivo = request.POST.get("motivo")
+        descripcion = request.POST.get("descripcion")
+        departamento = request.POST.get("sl_departamentos")
+        tipo_cambio = request.POST.get("tipo_cambio")
+        sucursal = request.POST.get("sucursal")
+        precio = request.POST.get("precio")
+        fecha = request.POST.get("fecha")
+        productos = request.POST.getlist("sl_producto")
+        cantidades = request.POST.getlist("cantidad")
+
+        print("Email:", email)
+        print("Motivo:", motivo)
+        print("Fecha:", fecha)
+        for i in range(0, len(productos)):
+            print("Producto {0}, cantidad {1}".format(productos[i], cantidades[i]))
+            transformacion1 = connection.cursor()
+            transformacion1.callproc("TRANSFORMACION_P1", [email, productos[i], cantidades[i], motivo, fecha])
+            transformacion1.close()
+        sistema = request.POST.get("nombre_sistema")
+        sistema_n = request.POST.get("nuevo_nombre_sistema")
+        c_sistema = request.POST.get("cantidad_sistema")
+        print("Sistema existente:",sistema)
+        print("Sistema nuevo:",sistema_n)
+        print("Cantidad sistema:",c_sistema)
+        mensaje = ""
+        if sistema_n != '':
+            transformacion2 = connection.cursor()
+            transformacion2.callproc("TRANSFORMACION_P2", [email, sistema_n, descripcion, departamento, precio, tipo_cambio, sucursal, "", c_sistema, "", fecha])
+            mensaje = transformacion2.fetchall()[0][0]
+            print(mensaje)
+            transformacion2.close()
+        else:
+            transformacion2 = connection.cursor()
+            transformacion2.callproc("TRANSFORMACION_P2", [email, "", "", "", "", "", "", sistema, c_sistema, motivo, ""])
+            mensaje = transformacion2.fetchall()[0][0]
+            print(mensaje)
+            transformacion2.close()
+        if mensaje == 'SISTEMA CREADO CORRECTAMENTE' or mensaje == 'FACTURA DISPONIBLE' or mensaje == 'EXISTENCIAS AGREGADAS CORRECTAMENTE':
+            return JsonResponse({"msg": "Enviado", "msg_salida": "Sistema creado con éxito", "status": "success"}, status=200)
+        else:
+            return JsonResponse({"msg": "Error", "msg_salida": "El sistema no pudo ser creado\n Intente de nuevo", "status": "error"}, status=500)
+    else:
+        return JsonResponse({"msg": "Error", "msg_salida": "No se pudo", "status": "error"}, status=500)
+
+
+
 def exportar_inventario_xls(request):
     fecha_hoy = datetime.datetime.now()
     hoy = str(fecha_hoy.month) + "-" + str(fecha_hoy.day) + "-" + str(fecha_hoy.year)
