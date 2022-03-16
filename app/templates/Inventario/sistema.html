@@ -1,0 +1,258 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generar sistemas</title>
+    <link rel="stylesheet" href="https://bootswatch.com/5/zephyr/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+                <a href="{% url 'inicio' %}" class="nav-link">Inicio</a>
+            </li>
+        </ul>
+        {% if privilegio == 'ADM-IN1' %}
+        <ul class="navbar-nav me-auto">
+            <div class="dropdown">
+                <button class="nav-link dropdown-toggle btn" type="button" id="navbarDropdown" aria-haspopup="true" data-toggle="dropdown" aria-expanded="false">
+                    Inventario
+                </button>
+                <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item text-white" href="{% url 'Inventario_general' %}">Inventario general</a>
+                    <a class="dropdown-item text-white" href="{% url 'compras' %}">Entradas</a>
+                    <a class="dropdown-item text-white" href="{% url 'ventas' %}">Ventas</a>
+                    <a class="dropdown-item text-white" href="{% url 'otras_e_s' %}">Otras E/S</a>
+                    <a class="dropdown-item text-white" href="{% url 'crear_sistema' %}">Generar sistemas</a>
+                    <a class="dropdown-item text-white" href="{% url 'movimientos' %}">Movimientos de inventario</a>
+                    <a class="dropdown-item text-white" href="{% url 'Auditoria' %}">Auditoria</a>
+                </div>
+            </div>
+        </ul>
+        <ul class="navbar-nav me-auto">
+            <div class="dropdown">
+                <button class="nav-link dropdown-toggle btn" type="button" id="navbarDropdown" aria-haspopup="true" data-toggle="dropdown" aria-expanded="false">
+                    Recursos humanos
+                </button>
+                <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item text-white" href="{% url 'perfil_y_directorio' %}">Perfil de puesto - Directorio</a>
+                </div>
+            </div>
+        </ul>
+        <ul class="navbar-nav me-auto">
+            <div class="dropdown">
+                <button class="nav-link dropdown-toggle btn" type="button" id="navbarDropdown" aria-haspopup="true" data-toggle="dropdown" aria-expanded="false">
+                    Indicadores
+                </button>
+                <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item text-white" href="{% url 'indicadores' %}">Registro de movimientos</a>
+                </div>
+            </div>
+        </ul>
+        <ul class="navbar-nav me-auto">
+            <div class="dropdown">
+                <button class="nav-link dropdown-toggle btn" type="button" id="navbarDropdown" aria-haspopup="true" data-toggle="dropdown" aria-expanded="false">
+                    Usuarios
+                </button>
+                <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item text-white" href="{% url 'registro' %}">Registrar usuario</a>
+                    <a class="dropdown-item text-white" href="{% url 'usuarios' %}">Usuarios</a>
+                </div>
+            </div>
+        </ul>
+        {% elif privilegio == 'JEFE' %}
+        <ul class="navbar-nav me-auto">
+            <div class="dropdown">
+                <button class="nav-link dropdown-toggle btn" type="button" id="navbarDropdown" aria-haspopup="true" data-toggle="dropdown" aria-expanded="false">
+                    Inventario
+                </button>
+                <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item text-white" href="{% url 'Inventario_general' %}">Inventario general</a>
+                    <a class="dropdown-item text-white" href="{% url 'compras' %}">Entradas</a>
+                    <a class="dropdown-item text-white" href="{% url 'ventas' %}">Ventas</a>
+                    <a class="dropdown-item text-white" href="{% url 'otras_e_s' %}">Otras E/S</a>
+                    <a class="dropdown-item text-white" href="{% url 'crear_sistema' %}">Generar sistemas</a>
+                    <a class="dropdown-item text-white" href="{% url 'movimientos' %}">Movimientos de inventario</a>
+                </div>
+            </div>
+        </ul>
+        <ul class="navbar-nav me-auto">
+            <div class="dropdown">
+                <button class="nav-link dropdown-toggle btn" type="button" id="navbarDropdown" aria-haspopup="true" data-toggle="dropdown" aria-expanded="false">
+                    Recursos humanos
+                </button>
+                <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item text-white" href="{% url 'perfil_y_directorio' %}">Perfil de puesto - Directorio</a>
+                </div>
+            </div>
+        </ul>
+        <ul class="navbar-nav me-auto">
+            <div class="dropdown">
+                <button class="nav-link dropdown-toggle btn" type="button" id="navbarDropdown" aria-haspopup="true" data-toggle="dropdown" aria-expanded="false">
+                    Indicadores
+                </button>
+                <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item text-white" href="{% url 'indicadores' %}">Registro de movimientos</a>
+                </div>
+            </div>
+        </ul>
+        {% else %}
+        <ul class="navbar-nav me-auto">
+            <div class="dropdown">
+                <button class="nav-link dropdown-toggle btn" type="button" id="navbarDropdown" aria-haspopup="true" data-toggle="dropdown" aria-expanded="false">
+                    Inventario
+                </button>
+                <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item text-white" href="{% url 'Inventario_general' %}">Inventario general</a>
+                    <a class="dropdown-item text-white" href="{% url 'movimientos' %}">Movimientos de inventario</a>
+                </div>
+            </div>
+        </ul>
+        {% endif %}
+        <ul class="navbar-nav">
+            <li class="nav-item"><a class="nav-link" href="{% url 'cerrar_sesion' %}">Cerrar sesión</a></li>
+        </ul>
+    </nav>
+    <div class="container">
+        <h1 class="text-center">Crear sistema</h1>
+        <div class="d-flex justify-content-center">
+            <section class="card col-lg-9">
+                <form class="card-body" id="quimico-form">
+                    {% csrf_token %}
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="col-lg-3">
+                            <label for="email">Email</label>
+                            <input type="text" class="form-control" name="email" value="erick@sigssmac.com.mx" readonly>
+                        </div>
+                        <div class="col-lg-3">
+                            <label>Fecha de creación</label>
+                            <input type="date" class="form-control" name="fecha">
+                        </div>
+                        <div class="col-lg-4">
+                            <label>Fecha de creación</label>
+                            <select name="sl_departamentos" class="form-select">
+                                <option selected disabled>--Seleccionar--</option>
+                                {% for dep in departamentos %}
+                                    <option value="{{ dep.0 }}">{{ dep.1 }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mt-4 mb-4">
+                        <section class="d-flex justify-content-between align-items-center">
+                            <h3 class="text-center">Añadir o eliminar campos</h3>
+                            <div>
+                                <button type="button" class="btn btn-info" id="crear_form"><i class="fa-solid fa-plus"></i></button>
+                            </div>
+                            <div >
+                                <button type="button" class="btn btn-danger" id="eliminar_form"><i class="fa-solid fa-minus"></i></button>
+                            </div>
+                            <div class="mr-auto">
+                                <div class="h3"><span id="inicio"></span> de <span>5</span></div>
+                            </div>
+                        </section>
+                    </div>
+                    <div class="productos_elegir">
+                        <hr>
+                        <div class="producto_select mt-2 mb-2">
+                            <div class="d-flex justify-content-between align-items-center col-lg-12">
+                                <div class="col-lg-5">
+                                    <label>Producto</label>
+                                    <select name="sl_producto" class="form-select sl_producto">
+                                        <option selected disabled>--Seleccionar puesto--</option>
+                                        {% for prod in productos %}
+                                            {% if prod.3 > 0 %}
+                                                <option value="{{ prod.0 }}">{{ prod.1 }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div>
+                                    <label>Cantidad</label>
+                                    <input type="number" name="cantidad" class="form-control" value="0">
+                                </div>
+                            </div>
+                            <hr>
+                        </div>
+                    </div>
+                    <div>
+                        <input name="motivo" class="form-control" cols="30" rows="7" placeholder="Motivo">
+                    </div>
+                    <div class="mt-3">
+                        <hr>
+                        <div class="d-flex justify-content-between align-items-center col-lg-12">
+                            <section id="sistema_e">
+                                <label>Elegir sistema</label>
+                                <select name="nombre_sistema" id="nuevo_existente" class="form-select">
+                                    <option selected disabled>--Seleccionar puesto--</option>
+                                    {% for sist in sistemas %}
+                                        {% if sist.3 > 0 %}
+                                            <option value="{{ sist.0 }} {{ sist.2 }}">{{ sist.1 }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                    <option value="nuevo">Crear nuevo sistema</option>
+                                </select>
+                            </section>
+                            <section class="col-lg-4" id="nuevo">
+                                <label>Nombre del sistema a crear</label>
+                                <input type="text" class="form-control" name="nuevo_nombre_sistema">
+                            </section>
+                            
+                            <section class="col-lg-3">
+                                <label>Volver a elegir sistema</label>
+                                <button type="button" class="btn btn-info" id="resetear"><i class="fa-solid fa-arrow-rotate-left"></i></button>
+                            </section>
+
+                            <section class="col-lg-3">
+                                <label>Cantidad</label>
+                                <input type="number" class="form-control" name="cantidad_sistema" step="any">
+                            </section>
+                        </div>
+                        <hr>
+                    </div>
+                    <div class="d-flex justify-content-around align-items-center col-lg-12">
+                        <section class="col-lg-3">
+                            <p class="text-center">Sucursal</p>
+                            <div>
+                                <input type="radio" class="form-check-input" id="pozarica" name="sucursal" value="Poza Rica">
+                                <label for="pozarica">Poza Rica</label>
+                            </div>
+                            <div>
+                                <input type="radio" class="form-check-input" id="veracruz" name="sucursal" value="Veracruz">
+                                <label for="veracruz">Veracruz</label>
+                            </div>
+                        </section>
+                        <section class="col-lg-3">
+                            <label>Tipo de cambio</label>
+                            <select name="tipo_cambio" class="form-select">
+                                <option selected disabled>--Seleccionar--</option>
+                                <option value="MX">MX</option>
+                                <option value="USD">USD</option>
+                            </select>
+                        </section>
+                        <section class="col-lg-3"">
+                            <label for="veracruz">Precio</label>
+                            <input type="number" class="form-control" name="precio" step="any">
+                        </section>
+                    </div>
+                    <div class="mt-2">
+                        <textarea name="descripcion" cols="30" rows="10" class="form-control" placeholder="Descripción"></textarea>
+                    </div>
+                    <input type="submit" class="btn btn-success form-control mt-2 mb-2" value="Crear sistema" id="sistema_r" ajax_="{% url 'registrar_sistema' %}">
+                </form>
+            </section>
+        </div>
+    </div>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{% static 'c_sistema.js' %}"></script>
+</body>
+</html>
