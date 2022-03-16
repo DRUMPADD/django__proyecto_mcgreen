@@ -4,6 +4,9 @@ from .admin_vistas import vistas
 from .posts import posts
 from .RR_HH import vistas as vistas_rh
 from .RR_HH import posts as posts_rh
+from .indicadores import views as v_indic
+from .indicadores import posts as p_indic
+
 
 urlpatterns = [
     path('', views.iniciar_sesion, name="iniciar_sesion"),
@@ -22,6 +25,8 @@ urlpatterns = [
     path('agregar_otros', posts.agregar_otros, name="agregar_otros"),
     path('Movimientos', views.movimientos, name="movimientos"),
     path('Ver_compras', views.ver_compras, name="ver_compras"),
+    path("crear_sistema", views.vista_quimico, name="crear_sistema"),
+    path("registrar_sistema", posts.registrar_sistema, name="registrar_sistema"),
     path('Ver_cuentas_por_cobrar', views.ver_cuentas_p_c, name="Ver_cuentas_por_cobrar"),
     path('Ver_ventas', views.ver_ventas, name="ver_ventas"),
     path('Ver_otras', views.ver_otros, name="ver_otros"),
@@ -46,6 +51,7 @@ urlpatterns = [
     path("perfil_y_directorio", vistas_rh.directorio_perfil, name="perfil_y_directorio"),
     path("crear_perfil_puesto", posts_rh.crear_perfil, name="creacion_perfil_puesto"),
     path("crear_directorio", posts_rh.crear_directorio, name="crear_directorio"),
+    path("actualizar_perfil", posts_rh.actualizar_perfil, name="actualizar_perfil"),
     path("funcion1", posts_rh.funcion1, name="funcion1"),
     path("funcion2", posts_rh.funcion2, name="funcion2"),
     path("funcion3", posts_rh.funcion3, name="funcion3"),
@@ -58,4 +64,7 @@ urlpatterns = [
     path("ver_perfil/<str:nombre_perfil>", vistas_rh.mostrar_perfil_url, name="ver_perfil"),
     path("ver_personal/<str:id_empleado>", vistas_rh.vista_directorio, name="ver_personal"),
     path("enviar_img", posts_rh.subir_imagen, name="enviar_img"),
+    # ?? Indicadores
+    path("indicadores", v_indic.vista_graficas, name="indicadores"),
+    path("mostrar_grafica", p_indic.mostrar_grafica, name="mostrar_grafica"),
 ]
