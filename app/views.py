@@ -164,11 +164,7 @@ def compras(request):
                     'sesion': request.session.get("email"),
                     'privilegio': request.session.get("privilegio")
                 }
-            except OperationalError:
-                return render(request, "errors/error500.html", {
-                    "mensaje": "Contacte con el servicio de sistemas"
-                })
-            except IntegrityError:
+            except (OperationalError, IntegrityError):
                 return render(request, "errors/error500.html", {
                     "mensaje": "Contacte con el servicio de sistemas"
                 })
@@ -338,5 +334,44 @@ def ver_otros(request):
         finally:
             cursor.close()
         return render(request, 'Inventario/ver_otros.html', context)
+    else:
+        return redirect("/cerrar_sesion")
+
+def vista_quimico(request):
+    if request.session.get("email"):
+        context = {
+            'titulo': 'Quimico',
+            'email': request.session.get("email")
+        }
+        try:
+            cursor = connection.cursor()
+            cursor.execute("SELECT * from app_inventario")
+            context["productos"] = cursor.fetchall()
+        except (OperationalError, IntegrityError):
+            pass
+        finally:
+            cursor.close()
+        try:
+            cursor = connection.cursor()
+            cursor.execute("SELECT * from app_inventario where nombre_producto like '%sistema%'")
+            context["sistemas"] = cursor.fetchall()
+        except (OperationalError, IntegrityError):
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        finally:
+            cursor.close()
+        try:
+            cursor = connection.cursor()
+            cursor.execute("SELECT * from app_departamento")
+            context["departamentos"] = cursor.fetchall()
+        except (OperationalError, IntegrityError):
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        finally:
+            cursor.close()
+        
+        return render(request, "Inventario/sistema.html", context)
     else:
         return redirect("/cerrar_sesion")
