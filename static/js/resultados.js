@@ -131,10 +131,7 @@ $(document).ready(function () {
                 data: [0]
             }
         }
-        if(charts) {
-            charts.destroy();
-        }
-
+        
         let cont_can = document.getElementById("canvas" + num);
         charts = new Chart(cont_can, {
             type: 'bar',
