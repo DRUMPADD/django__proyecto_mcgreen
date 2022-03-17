@@ -6,13 +6,13 @@ $(document).ready(function () {
         $("#tabla_productos").hide();
         $("#t_detalles_prod").hide();
         $("#contenedor_canvas").hide();
-        $("#contenedor_canvas_prod").hide();
         $("#response").empty();
         $("#response2").empty();
         $(".t_detalles_body").empty();
         $("form").trigger("reset");
         $("#h1_info").hide();
         $("#h2_detalle").hide();
+        $("#contenedor_canvas_prod").hide();
         if($(".otro_producto_copia")) {
             $(".otro_producto_copia").remove();
         }
@@ -23,11 +23,18 @@ $(document).ready(function () {
         if(myChart) {
             myChart.destroy();
         }
+        
         if(charts) {
             charts.destroy();
         }
+        if(charts2) {
+            charts2.destroy();
+        }
+        if(charts3) {
+            charts3.destroy();
+        }
     }
-    var myChart;
+    let myChart;
     function generar_grafica(fechas, compras, ventas, ingresos, consumos) {
         if(compras === undefined){ 
             compras = {
@@ -80,7 +87,7 @@ $(document).ready(function () {
         })
     }
 
-    var charts;
+    var charts, charts2, charts3;
     function graficas_producto(num, fechas, compras, ventas, ingresos, consumos) {
         if(compras === undefined){ 
             compras = {
@@ -106,56 +113,160 @@ $(document).ready(function () {
                 data: [0]
             }
         }
-
-        let cont_can = document.getElementById("canvas" + num);
-        charts = new Chart(cont_can, {
-            type: 'bar',
-            data: {
-                labels: fechas,
-                datasets: [
-                    compras,
-                    ventas,
-                    ingresos,
-                    consumos
-                ]
-            },
-            plugins: [ChartDataLabels],
-            options: {
-                scales: {
-                    x: {
-                        
-                    },
-                    y: {
-                        beginAtZero: true,
-                        
-                    },
+        if(num == 1) {
+            let cont_can = document.getElementById("canvas" + num).getContext("2d");
+            charts = new Chart(cont_can, {
+                type: 'bar',
+                data: {
+                    labels: fechas,
+                    datasets: [
+                        compras,
+                        ventas,
+                        ingresos,
+                        consumos
+                    ]
                 },
-                distribution: 'linear',
-                responsive: true,
-                legend: {
-                    display: true,
-                    labels: {
-                        fontColor: 'rgb(255, 99, 132)',
-                        fontFamily: "'Arial', 'sans-serif'",
-                        fontSize: 20
-                    },
-                },
-                plugins: {
-                    datalabels: {
-                        labels: {
-                            title: {
-                                font: {
-                                    weight: 'bold',
-                                    size: 16
-                                }
-                            },
+                plugins: [ChartDataLabels],
+                options: {
+                    scales: {
+                        x: {
+                            
                         },
-                        anchor: 'end',
-                        align: 'top'
+                        y: {
+                            beginAtZero: true,
+                            
+                        },
+                    },
+                    distribution: 'linear',
+                    responsive: true,
+                    legend: {
+                        display: true,
+                        labels: {
+                            fontColor: 'rgb(255, 99, 132)',
+                            fontFamily: "'Arial', 'sans-serif'",
+                            fontSize: 20
+                        },
+                    },
+                    plugins: {
+                        datalabels: {
+                            labels: {
+                                title: {
+                                    font: {
+                                        weight: 'bold',
+                                        size: 16
+                                    }
+                                },
+                            },
+                            anchor: 'end',
+                            align: 'top'
+                        }
                     }
-                }
-            },
-        })
+                },
+            })
+        }
+        if(num == 2) {
+            let cont_can = document.getElementById("canvas" + num).getContext("2d");
+            charts2 = new Chart(cont_can, {
+                type: 'bar',
+                data: {
+                    labels: fechas,
+                    datasets: [
+                        compras,
+                        ventas,
+                        ingresos,
+                        consumos
+                    ]
+                },
+                plugins: [ChartDataLabels],
+                options: {
+                    scales: {
+                        x: {
+                            
+                        },
+                        y: {
+                            beginAtZero: true,
+                            
+                        },
+                    },
+                    distribution: 'linear',
+                    responsive: true,
+                    legend: {
+                        display: true,
+                        labels: {
+                            fontColor: 'rgb(255, 99, 132)',
+                            fontFamily: "'Arial', 'sans-serif'",
+                            fontSize: 20
+                        },
+                    },
+                    plugins: {
+                        datalabels: {
+                            labels: {
+                                title: {
+                                    font: {
+                                        weight: 'bold',
+                                        size: 16
+                                    }
+                                },
+                            },
+                            anchor: 'end',
+                            align: 'top'
+                        }
+                    }
+                },
+            })
+        }
+        if(num == 3) {
+            let cont_can = document.getElementById("canvas" + num).getContext("2d");
+            charts3 = new Chart(cont_can, {
+                type: 'bar',
+                data: {
+                    labels: fechas,
+                    datasets: [
+                        compras,
+                        ventas,
+                        ingresos,
+                        consumos
+                    ]
+                },
+                plugins: [ChartDataLabels],
+                options: {
+                    scales: {
+                        x: {
+                            
+                        },
+                        y: {
+                            beginAtZero: true,
+                            
+                        },
+                    },
+                    distribution: 'linear',
+                    responsive: true,
+                    legend: {
+                        display: true,
+                        labels: {
+                            fontColor: 'rgb(255, 99, 132)',
+                            fontFamily: "'Arial', 'sans-serif'",
+                            fontSize: 20
+                        },
+                    },
+                    plugins: {
+                        datalabels: {
+                            labels: {
+                                title: {
+                                    font: {
+                                        weight: 'bold',
+                                        size: 16
+                                    }
+                                },
+                            },
+                            anchor: 'end',
+                            align: 'top'
+                        }
+                    }
+                },
+            })
+        }
+        
 
     }
 
@@ -412,7 +523,6 @@ $(document).ready(function () {
                                         }
                                     }
 
-                                    var cont_productos = Object.keys(res.productos).length;
                                     var ventas = {
                                         label: "Ventas",
                                         data: arreglo_ventas_obt, 
@@ -451,9 +561,9 @@ $(document).ready(function () {
                                     };
                                     
                                     graficas_producto(++num_, arreglo_fechas_obt, compras, ventas, ingresos, consumos);
-                                    $("#contenedor_canvas_prod").show();
                                 }
                             })
+                            $("#contenedor_canvas_prod").show();
                             $("#h1_info").show();
                             $("#tabla_productos").show();
                             $("#h2_detalle").show();
