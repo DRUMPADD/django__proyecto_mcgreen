@@ -1,5 +1,4 @@
-from django.http.response import HttpResponse
-from django.shortcuts import redirect, render, render_to_response
+from django.shortcuts import redirect, render
 from . import models
 from django.db import IntegrityError, OperationalError, connection
 from .forms import formulario_cliente, formulario_proveedor, Formulario_registro
