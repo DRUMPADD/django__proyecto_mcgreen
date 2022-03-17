@@ -1,5 +1,5 @@
 from django.http.response import HttpResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, render_to_response
 from . import models
 from django.db import IntegrityError, OperationalError, connection
 from .forms import formulario_cliente, formulario_proveedor, Formulario_registro
@@ -29,7 +29,7 @@ def iniciar_sesion(request):
                     return redirect("/Inicio")
                 else:
                     cursor.close()
-                    return HttpResponse("<h1>No existe el usuario</h1>")
+                    return redirect("usuario_no_encontrado")
             except OperationalError:
                 return render(request, "errors/error500.html", {
                 "mensaje": "Contacte con el servicio de sistemas"
@@ -375,3 +375,6 @@ def vista_quimico(request):
         return render(request, "Inventario/sistema.html", context)
     else:
         return redirect("/cerrar_sesion")
+
+def error_usuario_no_existe(request):
+    return render(request, 'errors/usuario_no_existe.html')
