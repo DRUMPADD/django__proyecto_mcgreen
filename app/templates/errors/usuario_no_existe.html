@@ -1,0 +1,16 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es-mx">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuario no encontrado</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/estilos.css' %}" />
+</head>
+<body>
+    <h1>El email o contraseña no coinciden</h1>
+    <h3>Por favor vuelva a intentar <br> En caso de no poder entrar a su cuenta, contacte a soporte técnico</h3>
+    <a href="{% url 'iniciar_sesion' %}" class="btn btn-primary mt-3">Regresar a inicio de sesión</a>
+</body>
+</html>
