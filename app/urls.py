@@ -10,6 +10,7 @@ from .indicadores import posts as p_indic
 
 urlpatterns = [
     path('', views.iniciar_sesion, name="iniciar_sesion"),
+    path('usuario_no_encontrado', views.error_usuario_no_existe, name="usuario_no_encontrado"),
     path('cerrar_sesion', views.cerrar_sesion, name="cerrar_sesion"),
     path('Inicio', views.inicio, name="inicio"),
     path('Registro', views.registro, name="registro"),
