@@ -23,12 +23,11 @@ $(document).ready(function () {
         if(myChart) {
             myChart.destroy();
         }
-        
         if(charts) {
             charts.destroy();
         }
     }
-    let myChart;
+    var myChart;
     function generar_grafica(fechas, compras, ventas, ingresos, consumos) {
         if(compras === undefined){ 
             compras = {
@@ -70,37 +69,13 @@ $(document).ready(function () {
                     consumos
                 ]
             },
-            plugins: [ChartDataLabels],
             options: {
                 scales: {
                     y: {
                         beginAtZero: true
-                    },
-                },
-                distribution: 'linear',
-                responsive: true,
-                legend: {
-                    display: true,
-                    labels: {
-                        fontColor: 'rgb(255, 99, 132)',
-                        fontFamily: "'Arial', 'sans-serif'",
-                        fontSize: 20
-                    },
-                },
-                plugins: {
-                    datalabels: {
-                        labels: {
-                            title: {
-                                font: {
-                                    weight: 'bold',
-                                    size: 16
-                                }
-                            },
-                        },
-                        anchor: 'end',
-                        align: 'top'
                     }
-                }
+                },
+                responsive: true
             }
         })
     }
@@ -131,7 +106,7 @@ $(document).ready(function () {
                 data: [0]
             }
         }
-        
+
         let cont_can = document.getElementById("canvas" + num);
         charts = new Chart(cont_can, {
             type: 'bar',
@@ -147,8 +122,12 @@ $(document).ready(function () {
             plugins: [ChartDataLabels],
             options: {
                 scales: {
+                    x: {
+                        
+                    },
                     y: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        
                     },
                 },
                 distribution: 'linear',
@@ -175,8 +154,9 @@ $(document).ready(function () {
                         align: 'top'
                     }
                 }
-            }
+            },
         })
+
     }
 
     // graficas_producto(3);
@@ -308,9 +288,9 @@ $(document).ready(function () {
                                     
                                     const ventas = {
                                         label: "Ventas",
-                                        data: res.c_ventas,
-                                        backgroundColor: 'rgba(230, 8, 100, .4)', // Color de fondo
-                                        borderColor: 'rgba(230, 8, 100, 1)', // Color del borde
+                                        data: res.c_ventas, 
+                                        backgroundColor: 'rgba(151, 197, 199, .4)', // Color de fondo
+                                        borderColor: 'rgba(151, 197, 199, 1)', // Color del borde
                                         borderWidth: 3,// Ancho del borde
                                         tension: .5,
                                         fill: true,
@@ -318,8 +298,8 @@ $(document).ready(function () {
                                     const compras = {
                                         label: "Compras",
                                         data: res.c_compras, // La data es un arreglo que debe tener la misma cantidad de valores que la cantidad de etiquetas
-                                        backgroundColor: 'rgba(151, 197, 199, .4)', // Color de fondo
-                                        borderColor: 'rgba(151, 197, 199, 1)', // Color del borde
+                                        backgroundColor: 'rgba(230, 8, 100, .4)', // Color de fondo
+                                        borderColor: 'rgba(230, 8, 100, 1)', // Color del borde
                                         borderWidth: 3,// Ancho del borde
                                         tension: .5,
                                         fill: true,
@@ -471,9 +451,7 @@ $(document).ready(function () {
                                     };
                                     
                                     graficas_producto(++num_, arreglo_fechas_obt, compras, ventas, ingresos, consumos);
-                                    for(let pro = 1; pro <= cont_productos; pro++) {
-                                        $("#canvas" + pro).show();
-                                    }
+                                    $("#contenedor_canvas_prod").show();
                                 }
                             })
                             $("#h1_info").show();
@@ -483,7 +461,6 @@ $(document).ready(function () {
                             resetear_formulario();
                         }
                     });
-
                 let arreglo_compras = [], arrelgo_ventas = [], arreglo_otros = [];
                 $.each($("select.select_productos option:selected"),function (index) {
                     if(!$(this).is("disabled")) {
