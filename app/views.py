@@ -67,11 +67,10 @@ def cerrar_sesion(request):
         del request.session["email"]
         del request.session["departamento"]
         del request.session["privilegio"]
-        request.session.modified = True
-        return render(request, "Inventario/cerrar_sesion.html")
     except KeyError:
         print(KeyError)
         pass
+    return render(request, "Inventario/cerrar_sesion.html")
 
 # ?? Inventario
 def Inventario_general(request):
