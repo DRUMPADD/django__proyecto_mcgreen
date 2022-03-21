@@ -228,6 +228,7 @@ def funcion8(request):
             cursor = connection.cursor()
             cursor.callproc("RH_AGREGAR_ASP_SSMAC", ["erick@sigssmac.com.mx", puesto, area_trab, peligro, riesgo, nivel, epp])
             mensaje = cursor.fetchall()[0][0]
+            print(mensaje)
         except OperationalError:
             return render(request, "errors/error500.html", {
                 "mensaje": "Contacte con el servicio de sistemas"
@@ -252,6 +253,7 @@ def funcion9(request):
             cursor = connection.cursor()
             cursor.callproc("RH_AGREGAR_REQ_FISICOS", ["erick@sigssmac.com.mx", puesto, sl_tipo_esf, desc_esf])
             mensaje = cursor.fetchall()[0][0]
+            print(mensaje)
             if mensaje == "REQUERIMIENTO FISICO AGREGADO CORRECTAMENTE":
                 return JsonResponse({"msg": mensaje, "tipo_res": "success"}, status=200)
             else:
@@ -288,7 +290,7 @@ def crear_directorio(request):
         if mensaje == 'CARACTERISTICAS AGREGADAS A EL EMPLEADO':
             return JsonResponse({"bg_msg": "Datos enviados","msg": mensaje, "state": "success"}, status=200)
         else:
-            return JsonResponse({"bg_msg": "Error ocurrido", "msg": mensaje, "state": "error"}, status=500)
+            return JsonResponse({"bg_msg": "Error ocurrido", "msg": mensaje, "state": "error"}, status=200)
 
 def subir_imagen(request):
     if request.method == 'POST':
@@ -298,6 +300,7 @@ def subir_imagen(request):
             cursor = connection.cursor()
             cursor.callproc("GUARDAR_IMAGEN", ["erick@sigssmac.com.mx", imagen.name, imagen, "Empleado", request.POST.get("empleado")])
             mensaje = cursor.fetchall()[0][0]
+            print(mensaje)
         except (OperationalError, IntegrityError):
             return render(request, "errors/error500.html", {
                 "mensaje": "Contacte con el servicio de sistemas"
@@ -305,16 +308,17 @@ def subir_imagen(request):
         finally:
             cursor.close()
         if mensaje == "IMAGEN AGREGADA":
-            return JsonResponse({ "msg": "Exito", "msg_salida": mensaje, "status": "success" }, status=200)
+            return JsonResponse({ "status": "success", "msg": "Exito", "msg_salida": mensaje }, status=200)
         else:
             mensaje = "Imagen no se pudo guardar"
-            return JsonResponse({ "msg": "Error", "msg_salida": mensaje, "status": "error" }, status=404)
+            return JsonResponse({ "status": "error", "msg": "Error", "msg_salida": mensaje }, status=200)
     else:
         mensaje = "La imagen no puede ser leida"
-        return JsonResponse({ "msg": "Error", "msg_salida": mensaje, "status": "error" }, status=500)
+        return JsonResponse({ "status": "error", "msg": "Error", "msg_salida": mensaje }, status=500)
 
 def actualizar_perfil(request):
     if request.method == 'POST':
+        mensaje = ""
         print("Estoy en el post")
         try:
             cursor = connection.cursor()
