@@ -298,11 +298,7 @@ def subir_imagen(request):
             cursor = connection.cursor()
             cursor.callproc("GUARDAR_IMAGEN", ["erick@sigssmac.com.mx", imagen.name, imagen, "Empleado", request.POST.get("empleado")])
             mensaje = cursor.fetchall()[0][0]
-        except OperationalError:
-            return render(request, "errors/error500.html", {
-                "mensaje": "Contacte con el servicio de sistemas"
-            })
-        except IntegrityError:
+        except (OperationalError, IntegrityError):
             return render(request, "errors/error500.html", {
                 "mensaje": "Contacte con el servicio de sistemas"
             })
@@ -325,11 +321,7 @@ def actualizar_perfil(request):
             cursor.callproc("MODIFICAR_ELIMINAR_PP", ["erick@sigssmac.com.mx", request.POST.get("opcion"), request.POST.get("puesto_sel"), "", "", request.POST.get("formacion"), request.POST.get("escolaridad"), request.POST.get("perfil_p"), request.POST.get("experiencia"), "", ""])
             mensaje = cursor.fetchall()[0][0]
             print(mensaje)
-        except OperationalError:
-            return render(request, "errors/error500.html", {
-                "mensaje": "Contacte con el servicio de sistemas"
-            })
-        except IntegrityError:
+        except (OperationalError, IntegrityError):
             return render(request, "errors/error500.html", {
                 "mensaje": "Contacte con el servicio de sistemas"
             })
@@ -341,7 +333,7 @@ def actualizar_perfil(request):
             return JsonResponse({"msg": "Error", "msg_salida": "El perfil no pudo ser actualizado", "status": "error"}, status=500)
     else:
         print("No stoy en el post")
-        return JsonResponse({"": ""}, status=500)
+        return JsonResponse({"": ""}, status=200)
 
 def actualizar_gen(request):
     if request.method == 'POST':
