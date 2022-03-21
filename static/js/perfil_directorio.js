@@ -49,8 +49,6 @@ $(document).ready(function () {
         console.log($this.parent().parent().parent());
         var usuario = $this.parent().parent().parent().find("span:first").text();
         var nombre_puesto = $this.parent().parent().parent().find("span:last").text();
-        console.log(usuario);
-        console.log(nombre_puesto);
         $(".funcion").hide();
         $("#" + $(this).val()).show();
         console.log("Seleccionando");
@@ -225,7 +223,6 @@ $(document).ready(function () {
     $("#form_crear_directorio").submit((e) => {
         e.preventDefault();
         var respuestas = $("#form_crear_directorio").serializeArray();
-        console.log();
         $.ajax({
             type: "POST",
             url: $("#enviar_direc").attr("data-ajax-target"),

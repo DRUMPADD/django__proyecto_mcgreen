@@ -12,6 +12,7 @@ def crear_perfil(request):
             cursor = connection.cursor()
             cursor.callproc("AGREGAR_PUESTO", [request.POST["email_usuario"], request.POST["puesto"], "Hola", request.POST["sl_departamentos"], request.POST["empresa"], request.POST["obj_puesto"], request.POST["vacantes"]])
             mensaje = cursor.fetchall()[0][0]
+            print(mensaje)
             mensaje_salida = "Perfil de puesto creado!!"
         except OperationalError:
             mensaje_error = "Error al crear el puesto"
@@ -40,16 +41,19 @@ def funcion1(request):
                 cursor.callproc("AGREGAR_SUB_SUP", ["erick@sigssmac.com.mx", puesto, subor])
                 mensaje = cursor.fetchall()[0][0]
                 cursor.close()
+                print(mensaje)
             elif subor == None and superv != None:
                 cursor2.callproc("AGREGAR_SUP", ["erick@sigssmac.com.mx", superv, puesto])
                 mensaje = cursor2.fetchall()[0][0]
                 cursor2.close()
+                print(mensaje)
             else:
                 cursor.callproc("AGREGAR_SUB_SUP", ["erick@sigssmac.com.mx", puesto, subor])
                 mensaje = cursor.fetchall()[0][0]
                 cursor.close()
                 cursor2.callproc("AGREGAR_SUP", ["erick@sigssmac.com.mx", superv, puesto])
                 cursor2.close()
+                print(mensaje)
             cursor.close()
             cursor2.close()
         except OperationalError:
@@ -76,6 +80,7 @@ def funcion2(request):
             cursor = connection.cursor()
             cursor.callproc("RH_AGREGAR_PA_PR", ["erick@sigssmac.com.mx", puesto, forma, escol, per_prof, exper])
             mensaje = cursor.fetchall()[0][0]
+            print(mensaje)
         except OperationalError:
             return render(request, "errors/error500.html", {
                 "mensaje": "Contacte con el servicio de sistemas"
@@ -102,6 +107,7 @@ def funcion3(request):
             cursor = connection.cursor()
             cursor.callproc("RH_AGREGAR_FUNCION", ["erick@sigssmac.com.mx", puesto, funci, descrip_fun, perio])
             mensaje = cursor.fetchall()[0][0]
+            print(mensaje)
         except OperationalError:
             return render(request, "errors/error500.html", {
                 "mensaje": "Contacte con el servicio de sistemas"
@@ -126,6 +132,7 @@ def funcion4(request):
             cursor = connection.cursor()
             cursor.callproc("RH_AGREGAR_RESPONS", ["erick@sigssmac.com.mx", puesto, sl_tipo_responsabilidad, descrip_resp])
             mensaje = cursor.fetchall()[0][0]
+            print(mensaje)
         except OperationalError:
             return render(request, "errors/error500.html", {
                 "mensaje": "Contacte con el servicio de sistemas"
@@ -151,6 +158,7 @@ def funcion5(request):
             cursor = connection.cursor()
             cursor.callproc("RH_AGREGAR_COMP_GEN", ["erick@sigssmac.com.mx", puesto, sl_competencia, int(sl_dominio), descrip_comp])
             mensaje = cursor.fetchall()[0][0]
+            print(mensaje)
         except OperationalError:
             return render(request, "errors/error500.html", {
                 "mensaje": "Contacte con el servicio de sistemas"
@@ -176,6 +184,7 @@ def funcion6(request):
             cursor = connection.cursor()
             cursor.callproc("RH_AGREGAR_COMP_TEC_HAB_D", ["erick@sigssmac.com.mx", puesto, "Competencia", comp_tec,  desc_tec, int(dom_tec)])
             mensaje = cursor.fetchall()[0][0]
+            print(mensaje)
         except OperationalError:
             return render(request, "errors/error500.html", {
                 "mensaje": "Contacte con el servicio de sistemas"
@@ -201,6 +210,7 @@ def funcion7(request):
             cursor = connection.cursor()
             cursor.callproc("RH_AGREGAR_COMP_TEC_HAB_D", ["erick@sigssmac.com.mx", puesto, "Habilidad", habilidad, desc_hab, dom_hab])
             mensaje = cursor.fetchall()[0][0]
+            print(mensaje)
         except OperationalError:
             return render(request, "errors/error500.html", {
                 "mensaje": "Contacte con el servicio de sistemas"
@@ -277,6 +287,7 @@ def crear_directorio(request):
             cursor = connection.cursor()
             cursor.callproc("AGREGAR_EMPLEADO_V2", [request.session.get("email"), "", request.POST.get("nombre_emp"), request.POST.get("ap_paterno"), request.POST.get("ap_materno"), request.POST.get("sl_puesto"),request.POST.get("fecha_registro"), request.POST.get("edad"), request.POST.get("grado_estudio"), request.POST.get("direccion"), request.POST.get("sl_sexo"), request.POST.get("estado"), request.POST.get("tipo_sangre"), request.POST.get("cont_emergencia"), request.POST.get("emergencia"), request.POST.get("experiencia"), request.POST.get("cap_requerida"), request.POST.get("nss"), request.POST.get("curp"), request.POST.get("rfc"), request.POST.get("correo"), request.POST.get("celular")])
             mensaje = cursor.fetchall()[0][0]
+            print(mensaje)
         except OperationalError:
             return render(request, "errors/error500.html", {
                 "mensaje": "Contacte con el servicio de sistemas"
