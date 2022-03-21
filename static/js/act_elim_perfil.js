@@ -32,7 +32,7 @@ $(document).ready(function () {
             $("#experiencia").show();
             if($("#actualizar").attr("dato-ajax")) {
                 $("#actualizar").removeAttr("dato-ajax");
-                $("#actualizar").attr("dato-ajax", "{% url 'actualizar_perfil' %}");
+                $("#actualizar").attr("dato-ajax", "/actualizar_perfil");
             }
         });
     });
@@ -55,7 +55,7 @@ $(document).ready(function () {
         $("input[name='objetivo']").val($(panorama_btn).find("td").eq(4).text());
         if($("#actualizar").attr("dato-ajax")) {
             $("#actualizar").removeAttr("dato-ajax");
-            $("#actualizar").attr("dato-ajax", "{% url 'actualizar_gen' %}");
+            $("#actualizar").attr("dato-ajax", "/actualizar_gen");
         }
     });
 
