@@ -15,7 +15,6 @@ $(document).ready(function () {
     }
 
     borrar_valor_usuario();
-    // console.log($("select.sl_funcion option").length);
     $("#form_crear_perfil").hide();
     $(".funcion").hide();
     $("#agregar").click(() => {
@@ -44,14 +43,11 @@ $(document).ready(function () {
     });
 
     $("select.sl_funcion").change(function (i) {
-        var seleccionado = $(this).children("option:selected").val();
         var $this = $(this);
-        console.log($this.parent().parent().parent());
         var usuario = $this.parent().parent().parent().find("span:first").text();
         var nombre_puesto = $this.parent().parent().parent().find("span:last").text();
         $(".funcion").hide();
         $("#" + $(this).val()).show();
-        console.log("Seleccionando");
         for(let i = 0; i < 9; i++) {
             $("#" + $(this).val()).find("p").text(nombre_puesto);
             $("#" + $(this).val()).find("input[name='puesto']").val(usuario);

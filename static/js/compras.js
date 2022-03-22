@@ -26,7 +26,6 @@ $(document).ready(function () {
             $(".campo_creado").last().remove();
             contador--;
         }
-        console.log(contador);
     });
     
     $("#form_compra").submit(function(e) {

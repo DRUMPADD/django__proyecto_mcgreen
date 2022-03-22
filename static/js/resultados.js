@@ -608,7 +608,6 @@ $(document).ready(function () {
             }
         }
         else {
-            console.log("Fallo");
             swal.fire({
                 position: 'center',
                 icon: 'error',

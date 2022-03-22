@@ -66,18 +66,15 @@ $(document).ready(function () {
             url: $("#actualizar").attr("dato-ajax"),
             data: $("#actualizar_perfil").serializeArray(),
             success: function (res) {
-                if(res.status == 'success') {
-                    $("#actualizar_perfil").trigger("reset");
-                    $("#actualizar_perfil").hide();
-                    console.log(res.msg);
-                    console.log(res.msg_salida);
-                    console.log(res.status);
-                    // swal(res.msg, res.msg_salida, res.status);
-                } else {
-                    // swal(res.msg, res.msg_salida, res.status);
-                    console.log(res.msg);
-                    console.log(res.msg_salida);
-                    console.log(res.status);
+                switch(res.status) {
+                    case 'success':
+                        $("#actualizar_perfil").trigger("reset");
+                        $("#actualizar_perfil").hide();
+                        swal(res.msg, res.msg_salida, res.status);
+                        break;
+                    case 'error':
+                        swal(res.msg, res.msg_salida, res.status);
+                        break;
                 }
             },
             error: function () {
