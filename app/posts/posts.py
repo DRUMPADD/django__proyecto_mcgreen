@@ -1,6 +1,6 @@
 import io, datetime
 from django.http.response import HttpResponse, JsonResponse
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.contrib import messages
 from .. import models
 from django.db import IntegrityError, OperationalError, connection
@@ -17,25 +17,33 @@ def registra_usuario(request):
         if request.method == 'POST':
             formulario = Formulario_registro(request.POST)
             if formulario.is_valid():
-                cursor = connection.cursor()
-                ext_email = formulario["slemail"].value()
-                cursor.callproc("AGREGAR_USUARIO",[request.session.get("email"), formulario["matricula"].value(),formulario["nombre_usuario"].value(),formulario["ap_p"].value(),formulario["ap_m"].value(),formulario["sl_puestos"].value(),formulario["email"].value()+ext_email,formulario["contra"].value(),formulario["rol"].value()])
-                mensaje = cursor.fetchall()[0][0]
-                print(mensaje)
+                try:
+                    cursor = connection.cursor()
+                    ext_email = formulario["slemail"].value()
+                    cursor.callproc("AGREGAR_USUARIO",[request.session.get("email"), formulario["matricula"].value(),formulario["nombre_usuario"].value(),formulario["ap_p"].value(),formulario["ap_m"].value(),formulario["sl_puestos"].value(),formulario["email"].value()+ext_email,formulario["contra"].value(),formulario["rol"].value()])
+                    mensaje = cursor.fetchall()[0][0]
+                    print(mensaje)
+                except (OperationalError, IntegrityError):
+                    return render(request, "errors/error500.html", {
+                        "mensaje": "Contacte con el servicio de sistemas"
+                    })
+                finally:
+                    cursor.close()
                 if mensaje != 'USUARIO CREADO':
                     messages.error(request, mensaje)
                 else:
                     messages.success(request, "El usuario ha sido creado éxitosamente")
-                cursor.close()
                 return redirect("/Registro")
             else:
                 print(formulario.errors)
-                return HttpResponse("Debe llenar los campos de manera correcta")
-        return HttpResponse("No hice nada")
+                return redirect("/Registro")
+    else:
+        return redirect("/Registro")
 
 def agregar_producto(request):
     if request.session.get('email'):
         if request.method == 'POST':
+            mensaje = ""
             if request.POST.get("producto") is not None and request.POST.get("descripcion") is not None and request.POST.get("cantidad") is not None and request.POST.get("ddw_medidas") is not None and request.POST.get("ddw_departamentos") is not None and request.POST.get("precio") is not None and request.POST.get("sl_tipo_cambio") is not None and request.POST.get("sucursal") is not None and request.session.get("email") is not None:
                 try:
                     cursor = connection.cursor()
@@ -46,17 +54,32 @@ def agregar_producto(request):
                         messages.error(request, "Ocurrió un error al hacer la modificación")
                     else:
                         messages.success(request, "Producto registrado con éxito")
+                except (OperationalError, IntegrityError):
+                    return render(request, "errors/error500.html", {
+                        "mensaje": "Contacte con el servicio de sistemas"
+                    })
                 finally:
                     cursor.close()
             else:
                 messages.error(request, "Debe llenar todos los campos")
             return redirect("/Inventario_general")
+    else:
+        return redirect("/cerrar_sesion")
 
 def modificar_producto(request):
     if request.method == 'POST':
-        cursor = connection.cursor()
-        cursor.callproc("MODIFICA_INV", [request.session.get('email'), request.POST["id_producto"], request.POST["producto"], request.POST["descripcion"], request.POST["precio"]])
-        if cursor.fetchall()[0][0] != 'EL PRECIO FUE MODIFICADO CORRECTAMENTE':
+        mensaje = ""
+        try:
+            cursor = connection.cursor()
+            cursor.callproc("MODIFICA_INV", [request.session.get('email'), request.POST["id_producto"], request.POST["producto"], request.POST["descripcion"], request.POST["precio"]])
+            mensaje = cursor.fetchall()[0][0]
+        except (OperationalError, IntegrityError):
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        finally:
+            cursor.close()
+        if mensaje != 'EL PRECIO FUE MODIFICADO CORRECTAMENTE':
             messages.error(request, "Ocurrió un error al hacer la modificación")
         else:
             messages.success(request, "Elementos actualizados con éxito")
@@ -64,9 +87,18 @@ def modificar_producto(request):
 
 def modificar_producto_cantidad(request):
     if request.method == 'POST':
-        cursor = connection.cursor()
-        cursor.callproc("MODIFICA_INV_ADMIN", [request.session.get('email'), request.POST["id_producto"], request.POST["producto"], request.POST["descripcion"], request.POST["precio"], request.POST["cantidad"]])
-        if cursor.fetchall()[0][0] != 'EL PRECIO FUE MODIFICADO CORRECTAMENTE':
+        mensaje = ""
+        try:
+            cursor = connection.cursor()
+            cursor.callproc("MODIFICA_INV_ADMIN", [request.session.get('email'), request.POST["id_producto"], request.POST["producto"], request.POST["descripcion"], request.POST["precio"], request.POST["cantidad"]])
+            mensaje = cursor.fetchall()[0][0]
+        except (OperationalError, IntegrityError):
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        finally:
+            cursor.close()
+        if mensaje != 'EL PRECIO FUE MODIFICADO CORRECTAMENTE':
             messages.error(request, "Ocurrió un error al hacer la modificación")
         else:
             messages.success(request, "Elementos actualizados con éxito")
@@ -74,26 +106,42 @@ def modificar_producto_cantidad(request):
 
 def descontinuar_producto(request,id_prod):
     if request.session.get("email"):
-        cursor = connection.cursor()
-        cursor.callproc("DESCONTINUAR_PRODUCTO", [id_prod, request.session.get("email")])
-        if cursor.fetchall()[0][0] != 'EL PRODUCTO: ' + id_prod + ' FUE DESCONTINUADO':
+        mensaje = ""
+        try:
+            cursor = connection.cursor()
+            cursor.callproc("DESCONTINUAR_PRODUCTO", [id_prod, request.session.get("email")])
+            mensaje = cursor.fetchall()[0][0]
+        except (OperationalError, IntegrityError):
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        finally:
+            cursor.close()
+        if mensaje != 'EL PRODUCTO: ' + id_prod + ' FUE DESCONTINUADO':
             messages.error(request, "Ocurrió un error al eliminar el producto")
         else:
             messages.error(request, "Producto eliminado")
-        cursor.close()
         return redirect("/Inventario_general")
     else:
         return redirect("/cerrar_sesion")
 
 def activar_producto(request,id_prod):
     if request.session.get("email"):
-        cursor = connection.cursor()
-        cursor.callproc("ACTIVAR_PRODUCTO", [request.session.get('email'), id_prod])
-        if cursor.fetchall()[0][0] != 'EL PRODUCTO: ' + id_prod + ' FUE ACTIVADO':
+        mensaje = ""
+        try:
+            cursor = connection.cursor()
+            cursor.callproc("ACTIVAR_PRODUCTO", [request.session.get('email'), id_prod])
+            mensaje = cursor.fetchall()[0][0]
+        except (OperationalError, IntegrityError):
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        finally:
+            cursor.close()
+        if mensaje != 'EL PRODUCTO: ' + id_prod + ' FUE ACTIVADO':
             messages.error(request, "Ocurrió un error al activar el producto")
         else:
             messages.success(request, "Producto activado")
-        cursor.close()
         return redirect("/Inventario_general")
     else:
         return redirect("/cerrar_sesion")
@@ -130,10 +178,10 @@ def generar_compra(request):
             compra_1.callproc("COMPRA_p1", [comprador, fecha_compra, motivo])
             mensaje_c1 = str(compra_1.fetchall()[0][0]).split(": ")[1]
             print("Mensaje compra 1:",mensaje_c1)
-        except IntegrityError as ie:
-            print("Este es tu error de integridad:",ie.message)
-        except OperationalError:
-            print("Este es tu error de operación:",OperationalError)
+        except (IntegrityError, OperationalError):
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
         finally:
             compra_1.close()
         
@@ -182,14 +230,18 @@ def generar_compra(request):
                             mensaje_c3 = compra_3.fetchall()[0][0]
                             print("Mensaje compra 3:",mensaje_c3)
                             compra_3.close()
-                        except IntegrityError as ie:
-                            print("Este es tu error:",ie.message)
+                        except (OperationalError, IntegrityError):
+                            return render(request, "errors/error500.html", {
+                                "mensaje": "Contacte con el servicio de sistemas"
+                            })
                     else:
                         print("No se realizó la compra 2")
                 else:
                     print("No se realizó la compra 1")
-            except IntegrityError as ie:
-                print("Este es tu error:",ie.message)
+            except (OperationalError, IntegrityError):
+                return render(request, "errors/error500.html", {
+                    "mensaje": "Contacte con el servicio de sistemas"
+                })
         else:
             print("Están vacíos")
 
@@ -198,9 +250,16 @@ def generar_compra(request):
 def generar_venta(request):
     if request.session.get('email'):
         if request.method == 'POST':
-            cursor = connection.cursor()
-            cursor.callproc("VENTA_MOD",[request.POST["sl_sistemas"].split(' ')[0],request.POST["vendedor"],request.POST["cantidad"],request.POST["p_u"],request.POST["fecha"],request.POST["motivo"],request.POST["sl_clientes"],request.POST["articulo"]])
-            cursor.close()
+            try:
+                cursor = connection.cursor()
+                cursor.callproc("VENTA_MOD",[request.POST["sl_sistemas"].split(' ')[0],request.POST["vendedor"],request.POST["cantidad"],request.POST["p_u"],request.POST["fecha"],request.POST["motivo"],request.POST["sl_clientes"],request.POST["articulo"]])
+                print(cursor.fetchall())
+            except (OperationalError, IntegrityError):
+                return render(request, "errors/error500.html", {
+                    "mensaje": "Contacte con el servicio de sistemas"
+                })
+            finally:
+                cursor.close()
             return redirect("/Ventas")
         else:
             return redirect("/Ventas")
@@ -224,8 +283,10 @@ def generar_cuenta_por_cobrar(request):
                         messages.error(request, "Ocurrió un error al realizar la venta")
                     else:
                         messages.success(request, "Venta registrada")
-                except IntegrityError as ie:
-                    print(ie)
+                except (OperationalError, IntegrityError):
+                    return render(request, "errors/error500.html", {
+                        "mensaje": "Contacte con el servicio de sistemas"
+                    })
                 finally:
                     cursor.close()
             else:
@@ -239,9 +300,18 @@ def generar_cuenta_por_cobrar(request):
 def modificar_cuenta_por_cobrar(request):
     if request.session.get('email'):
         if request.method == 'POST':
-            cursor = connection.cursor()
-            cursor.callproc("MODIFICA_VENTA_MOD",[request.POST["id_"], request.POST["email"], request.POST["status"], request.POST["fecha_pago_fac"], request.POST["contrarecibo"], request.POST["fecha_rec_pago"], request.POST["fecha_de_fac"], request.POST["recibo_pago_fac_mcgreen"], request.POST["fecha_r_pag"], request.POST["monto_mn_pagado"], request.POST["dolar"]])
-            if cursor.fetchall()[0][0] != "CUENTA POR COBRAR MODIFICADA CORRECTAMENTE":
+            mensaje = ""
+            try:
+                cursor = connection.cursor()
+                cursor.callproc("MODIFICA_VENTA_MOD",[request.POST["id_"], request.POST["email"], request.POST["status"], request.POST["fecha_pago_fac"], request.POST["contrarecibo"], request.POST["fecha_rec_pago"], request.POST["fecha_de_fac"], request.POST["recibo_pago_fac_mcgreen"], request.POST["fecha_r_pag"], request.POST["monto_mn_pagado"], request.POST["dolar"]])
+                mensaje = cursor.fetchall()[0][0]
+            except (OperationalError, IntegrityError):
+                return render(request, "errors/error500.html", {
+                    "mensaje": "Contacte con el servicio de sistemas"
+                })
+            finally:
+                cursor.close()
+            if mensaje != "CUENTA POR COBRAR MODIFICADA CORRECTAMENTE":
                 messages.error(request, "No se pudo realizar la modificación")
             else:
                 messages.success(request, "Cuenta por cobrar modificada correctamente")
@@ -253,13 +323,21 @@ def modificar_cuenta_por_cobrar(request):
 
 def agregar_otros(request):
     if request.method == 'POST':
-        cursor = connection.cursor()
-        cursor.callproc("MOV_INV", [request.POST["sl_productos"], request.POST["email"], request.POST["cantidad"], request.POST["fecha_otro"], request.POST["motivo"], request.POST["sl_tipo_mov"], request.POST["org_des"]])
-        if cursor.fetchall()[0][0] != 'FACTURA DISPONIBLE':
+        mensaje = ""
+        try:
+            cursor = connection.cursor()
+            cursor.callproc("MOV_INV", [request.POST["sl_productos"], request.POST["email"], request.POST["cantidad"], request.POST["fecha_otro"], request.POST["motivo"], request.POST["sl_tipo_mov"], request.POST["org_des"]])
+            mensaje = cursor.fetchall()[0][0]
+        except (OperationalError, IntegrityError):
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        finally:
+            cursor.close()
+        if mensaje != 'FACTURA DISPONIBLE':
             messages.error(request, "Ocurrió un error al realizar la operación")
         else:
             messages.success(request, "Operación realizada correctamente")
-        cursor.close()
         return redirect("/Otras_E_S")
 
 # Proveedores
@@ -287,8 +365,10 @@ def agregar_proveedores(request):
                     cursor.callproc("Agrega_Proveedor",[request.session.get('email'), form["RFC"].value(),form["proveedor"].value(),form["telefono"].value(),form["email"].value()])
                     mensaje = cursor.fetchall()[0][0]
                     print(mensaje)
-                except OperationalError as oe:
-                    print("Error de operación", oe)
+                except (OperationalError, IntegrityError):
+                    return render(request, "errors/error500.html", {
+                        "mensaje": "Contacte con el servicio de sistemas"
+                    })
                 finally:
                     cursor.close()
                 if mensaje == 'PROVEEDOR Insertado Correctamente':
@@ -305,17 +385,24 @@ def agregar_proveedores(request):
 def agregar_clientes(request):
     if request.session.get('email'):
         if request.method == 'POST':
+            mensaje = ""
             form = formulario_cliente(request.POST)
             if request.POST.get("Identificador") is not None and request.POST.get("cliente") is not None and request.POST.get("direccion") is not None and request.POST.get("telefono") is not None and request.POST.get("email") is not None:
                 if form.is_valid():
-                    cursor = connection.cursor()
-                    cursor.callproc("Agrega_CLIENTE",[form["Identificador"].value(), form["cliente"].value(), form["direccion"].value(), form["telefono"].value(), form["email"].value()])
-                    mensaje = cursor.fetchall()[0][0]
+                    try:
+                        cursor = connection.cursor()
+                        cursor.callproc("Agrega_CLIENTE",[form["Identificador"].value(), form["cliente"].value(), form["direccion"].value(), form["telefono"].value(), form["email"].value()])
+                        mensaje = cursor.fetchall()[0][0]
+                    except (OperationalError, IntegrityError):
+                        return render(request, "errors/error500.html", {
+                            "mensaje": "Contacte con el servicio de sistemas"
+                        })
+                    finally:
+                        cursor.close()
                     if mensaje == 'Cliente insertado correctamente':
                         messages.success(request, "Nuevo cliente agregado")
                     else:
                         messages.error(request, "No se pudo agregar el cliente")
-                    cursor.close()
                 else:
                     messages.error(request, "Debe llenar los campos con la información que se le pide")
             else:
@@ -358,9 +445,16 @@ def registrar_sistema(request):
 
         if msg_cantidad_pasada == '':
             for i in range(0, len(productos)):
-                transformacion1 = connection.cursor()
-                transformacion1.callproc("TRANSFORMACION_P1", [email, productos[i], cantidades[i], motivo, fecha])
-                transformacion1.close()
+                try:
+                    transformacion1 = connection.cursor()
+                    transformacion1.callproc("TRANSFORMACION_P1", [email, productos[i], cantidades[i], motivo, fecha])
+                    print(transformacion1.fetchall())
+                except (OperationalError, IntegrityError):
+                    return render(request, "errors/error500.html", {
+                        "mensaje": "Contacte con el servicio de sistemas"
+                    })
+                finally:
+                    transformacion1.close()
             sistema = request.POST.get("nombre_sistema")
             sistema_n = request.POST.get("nuevo_nombre_sistema")
             c_sistema = request.POST.get("cantidad_sistema")
@@ -368,17 +462,29 @@ def registrar_sistema(request):
 
             if sistema != '' or sistema_n != '':
                 if sistema_n != '':
-                    transformacion2 = connection.cursor()
-                    transformacion2.callproc("TRANSFORMACION_P2", [email, sistema_n, descripcion, departamento, precio, tipo_cambio, sucursal, "", c_sistema, "", fecha])
-                    mensaje = transformacion2.fetchall()[0][0]
-                    print(mensaje)
-                    transformacion2.close()
+                    try:
+                        transformacion2 = connection.cursor()
+                        transformacion2.callproc("TRANSFORMACION_P2", [email, sistema_n, descripcion, departamento, precio, tipo_cambio, sucursal, "", c_sistema, "", fecha])
+                        mensaje = transformacion2.fetchall()[0][0]
+                        print(mensaje)
+                    except (OperationalError, IntegrityError):
+                        return render(request, "errors/error500.html", {
+                            "mensaje": "Contacte con el servicio de sistemas"
+                        })
+                    finally:
+                        transformacion2.close()
                 else:
-                    transformacion2 = connection.cursor()
-                    transformacion2.callproc("TRANSFORMACION_P2", [email, "", "", "", "", "", "", sistema, c_sistema, motivo, ""])
-                    mensaje = transformacion2.fetchall()[0][0]
-                    print(mensaje)
-                    transformacion2.close()
+                    try:
+                        transformacion2 = connection.cursor()
+                        transformacion2.callproc("TRANSFORMACION_P2", [email, "", "", "", "", "", "", sistema, c_sistema, motivo, ""])
+                        mensaje = transformacion2.fetchall()[0][0]
+                        print(mensaje)
+                    except (OperationalError, IntegrityError):
+                        return render(request, "errors/error500.html", {
+                            "mensaje": "Contacte con el servicio de sistemas"
+                        })
+                    finally:
+                        transformacion2.close()
                 if mensaje == 'SISTEMA CREADO CORRECTAMENTE' or mensaje == 'FACTURA DISPONIBLE' or mensaje == 'EXISTENCIAS AGREGADAS CORRECTAMENTE':
                     return JsonResponse({"status": "success", "msg_salida": "Sistema creado con éxito"}, status=200)
                 else:
