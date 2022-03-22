@@ -167,7 +167,7 @@
                                         <option selected disabled>--Seleccionar puesto--</option>
                                         {% for prod in productos %}
                                             {% if prod.3 > 0 %}
-                                                <option value="{{ prod.0 }}">{{ prod.1 }}</option>
+                                                <option value="{{ prod.0 }} {{ prod.3 }} {{ prod.1 }}">{{ prod.1 }}</option>
                                             {% endif %}
                                         {% endfor %}
                                     </select>
@@ -192,7 +192,7 @@
                                     <option selected disabled>--Seleccionar puesto--</option>
                                     {% for sist in sistemas %}
                                         {% if sist.3 > 0 %}
-                                            <option value="{{ sist.0 }} {{ sist.2 }}">{{ sist.1 }}</option>
+                                            <option value="{{ sist.0 }}">{{ sist.1 }}</option>
                                         {% endif %}
                                     {% endfor %}
                                     <option value="nuevo">Crear nuevo sistema</option>
