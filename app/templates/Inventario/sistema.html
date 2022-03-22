@@ -134,7 +134,7 @@
                             <input type="date" class="form-control" name="fecha">
                         </div>
                         <div class="col-lg-4">
-                            <label>Fecha de creación</label>
+                            <label>Departamento</label>
                             <select name="sl_departamentos" class="form-select">
                                 <option selected disabled>--Seleccionar--</option>
                                 {% for dep in departamentos %}
@@ -191,9 +191,7 @@
                                 <select name="nombre_sistema" id="nuevo_existente" class="form-select">
                                     <option selected disabled>--Seleccionar puesto--</option>
                                     {% for sist in sistemas %}
-                                        {% if sist.3 > 0 %}
-                                            <option value="{{ sist.0 }}">{{ sist.1 }}</option>
-                                        {% endif %}
+                                        <option value="{{ sist.0 }}">{{ sist.1 }}</option>
                                     {% endfor %}
                                     <option value="nuevo">Crear nuevo sistema</option>
                                 </select>
