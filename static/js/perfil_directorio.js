@@ -1,8 +1,8 @@
 $(document).ready(function () {
+    // Función para recargar div con id puestos
     function recargar_() { 
         $("#puestos").fadeOut("fast").load(location.href + " #puestos>*", "").fadeIn("fast");
     }
-
 
     function borrar_valor_usuario() {
         for(let i = 1; i <= 9; i++) {
@@ -11,7 +11,21 @@ $(document).ready(function () {
     }
 
     function saber_seleccionado() {
-        $(".funcion").prop("selectedIndex, 0");
+        $("select.sl_funcion").prop("selectedIndex", 0);
+    }
+
+
+    function ocultar_formularios() {
+        for(let i = 1; i < 9; i++) {
+            $("#funcion" + i).hide();
+        }
+        for(let i = 1; i < 9; i++) {
+            $("#funcion" + i).trigger("reset");
+        }
+    }
+    
+    function ocultar_formularios_img() {
+        $("#form_subir_img").hide();
     }
 
     borrar_valor_usuario();
@@ -31,12 +45,27 @@ $(document).ready(function () {
             data: respuestas, 
             success: function (res) {
                 if(res.msg == 'VACANTES AÑADIDAS AL PUESTO') {
+                    saber_seleccionado();
                     $("#form_crear_perfil").trigger("reset");
                     $("#form_crear_perfil").fadeOut().hide();
-                    swal("Datos enviados", res.msg_salida, "success");
+                    swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: res.msg_salida,
+                        showConfirmButton: false,
+                        timer: 2000
+                    })
+                    // swal("Datos enviados", res.msg_salida, "success");
                     recargar_();
                 } else {
-                    swal("Error", res.msg_error, "error");
+                    swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: res.msg_error,
+                        showConfirmButton: false,
+                        timer: 2000
+                    })
+                    // swal("Error", res.msg_error, "error");
                 }
             }
         });
@@ -52,6 +81,7 @@ $(document).ready(function () {
             $("#" + $(this).val()).find("p").text(nombre_puesto);
             $("#" + $(this).val()).find("input[name='puesto']").val(usuario);
         }
+        ocultar_formularios_img();
     });
 
     var botones_cerrar = $(".btn_cerrar");
@@ -69,17 +99,48 @@ $(document).ready(function () {
     });
 
 
+    // $.each($(".formulario"), function (index) {
+    //     $(this).submit(function (e) {
+    //         e.preventDefault();
+    //         $(".formulario").trigger("reset");
+    //         $.ajax({
+    //             type: "POST",
+    //             url: $(this).find("input[name='enviar_funcion']").attr("ajax-data-target"),
+    //             data: $(this).serialize(),
+    //             success: function (response) {
+    //                 saber_seleccionado();
+    //                 ocultar_formularios();
+    //                 borrar_valor_usuario();
+    //                 swal.fire({
+    //                     position: 'center',
+    //                     icon: 'success',
+    //                     title: response.msg,
+    //                     showConfirmButton: false,
+    //                     timer: 2000
+    //                 })
+    //                 // swal("Éxito!!", response.msg, "success");
+    //             }
+    //         });
+    //     });
+    // });
+
     $("#funcion1").submit(function (e) {
         $.ajax({
             type: "POST",
             url: $("#enviar_funcion1").attr("ajax-data-target"),
             data: $(this).serialize(),
             success: function (response) {
-                $("#funcion1").trigger("reset");
-                borrar_valor_usuario();
                 saber_seleccionado();
-                $("#funcion1").hide();
-                swal("Éxito!!", response.msg, "success");
+                ocultar_formularios();
+                borrar_valor_usuario();
+                swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: response.msg,
+                    showConfirmButton: false,
+                    timer: 2000
+                })
+                // swal("Éxito!!", response.msg, "success");
             }
         });
         e.preventDefault();
@@ -90,11 +151,17 @@ $(document).ready(function () {
             url: $("#enviar_funcion2").attr("ajax-data-target"),
             data: $(this).serialize(),
             success: function (response) {
-                $("#funcion2").trigger("reset");
-                borrar_valor_usuario();
                 saber_seleccionado();
-                $("#funcion2").hide();
-                swal("Éxito!!", response.msg, "success");
+                ocultar_formularios();
+                borrar_valor_usuario();
+                swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: response.msg,
+                    showConfirmButton: false,
+                    timer: 2000
+                })
+                // swal("Éxito!!", response.msg, "success");
             }
         });
         e.preventDefault();
@@ -105,11 +172,27 @@ $(document).ready(function () {
             url: $("#enviar_funcion3").attr("ajax-data-target"),
             data: $(this).serialize(),
             success: function (response) {
-                $("#funcion3").trigger("reset");
-                borrar_valor_usuario();
                 saber_seleccionado();
-                $("#funcion3").hide();
-                swal("Éxito!!", response.msg, "success");
+                ocultar_formularios();
+                borrar_valor_usuario();
+                swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: response.msg,
+                    showConfirmButton: false,
+                    timer: 2000
+                })
+                // swal("Éxito!!", response.msg, "success");
+            },
+            error: function () {
+                swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: response.msg,
+                    showConfirmButton: false,
+                    timer: 2000
+                })
+                // swal("Error", response.msg, "error");
             }
         });
         e.preventDefault();
@@ -120,11 +203,17 @@ $(document).ready(function () {
             url: $("#enviar_funcion4").attr("ajax-data-target"),
             data: $(this).serialize(),
             success: function (response) {
-                $("#funcion4").trigger("reset");
-                borrar_valor_usuario();
                 saber_seleccionado();
-                $("#funcion4").hide();
-                swal("Éxito!!", response.msg, "success");
+                ocultar_formularios();
+                borrar_valor_usuario();
+                swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: response.msg,
+                    showConfirmButton: false,
+                    timer: 2000
+                })
+                // swal("Éxito!!", response.msg, "success");
             }
         });
         e.preventDefault();
@@ -135,11 +224,17 @@ $(document).ready(function () {
             url: $("#enviar_funcion5").attr("ajax-data-target"),
             data: $(this).serialize(),
             success: function (response) {
-                $("#funcion5").trigger("reset");
-                borrar_valor_usuario();
                 saber_seleccionado();
-                $("#funcion5").hide();
-                swal("Éxito!!", response.msg, "success");
+                ocultar_formularios();
+                borrar_valor_usuario();
+                swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: response.msg,
+                    showConfirmButton: false,
+                    timer: 2000
+                })
+                // swal("Éxito!!", response.msg, "success");
             }
         });
         e.preventDefault();
@@ -150,11 +245,17 @@ $(document).ready(function () {
             url: $("#enviar_funcion6").attr("ajax-data-target"),
             data: $(this).serialize(),
             success: function (response) {
-                $("#funcion6").trigger("reset");
-                borrar_valor_usuario();
                 saber_seleccionado();
-                $("#funcion6").hide();
-                swal("Éxito!!", response.msg, "success");
+                ocultar_formularios();
+                borrar_valor_usuario();
+                swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: response.msg,
+                    showConfirmButton: false,
+                    timer: 2000
+                })
+                // swal("Éxito!!", response.msg, "success");
             }
         });
         e.preventDefault();
@@ -165,11 +266,17 @@ $(document).ready(function () {
             url: $("#enviar_funcion7").attr("ajax-data-target"),
             data: $(this).serialize(),
             success: function (response) {
-                $("#funcion7").trigger("reset");
-                borrar_valor_usuario();
                 saber_seleccionado();
-                $("#funcion7").hide();
-                swal("Éxito!!", response.msg, "success");
+                ocultar_formularios();
+                borrar_valor_usuario();
+                swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: response.msg,
+                    showConfirmButton: false,
+                    timer: 2000
+                })
+                // swal("Éxito!!", response.msg, "success");
             }
         });
         e.preventDefault();
@@ -180,11 +287,17 @@ $(document).ready(function () {
             url: $("#enviar_funcion8").attr("ajax-data-target"),
             data: $(this).serialize(),
             success: function (response) {
-                $("#funcion8").trigger("reset");
-                borrar_valor_usuario();
                 saber_seleccionado();
-                $("#funcion8").hide();
-                swal("Éxito!!", response.msg, "success");
+                ocultar_formularios();
+                borrar_valor_usuario();
+                swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: response.msg,
+                    showConfirmButton: false,
+                    timer: 2000
+                })
+                // swal("Éxito!!", response.msg, "success");
             }
         });
         e.preventDefault();
@@ -195,42 +308,93 @@ $(document).ready(function () {
             url: $("#enviar_funcion9").attr("ajax-data-target"),
             data: $(this).serialize(),
             success: function (response) {
-                $("#funcion9").trigger("reset");
-                borrar_valor_usuario();
                 saber_seleccionado();
-                $("#funcion9").hide();
-                swal("Éxito!!", response.msg, "success");
+                ocultar_formularios();
+                borrar_valor_usuario();
+                swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: response.msg,
+                    showConfirmButton: false,
+                    timer: 2000
+                })
+                // swal("Éxito!!", response.msg, "success");
             }
         });
         e.preventDefault();
     })
+    
+    // ?? Directorio del personal
 
-    // ?? Directorio
     function recargar__direct() { 
         $("#directorio").fadeOut("fast").load(location.href + " #directorio>*", "").fadeIn("fast");
     }
     $("#form_crear_directorio").hide();
+
+    $("#form_crear_directorio").submit(function (e) {
+        e.preventDefault();
+        var id_p_select
+        $("#select[name='sl_puesto']").change(function () {
+            id_p_select = $(this).children("option:selected").val();
+        });
+        switch (id_p_select) {
+            case id_p_select != "":
+            case id_p_select !== undefined:
+            case id_p_select !== null:
+                var respuestas = $("#form_crear_directorio").serializeArray();
+                $.ajax({
+                    type: "POST",
+                    url: $("#enviar_direc").attr("data-ajax-target"),
+                    data: respuestas, 
+                    success: function (res) {
+                        saber_seleccionado();
+                        $("#form_crear_directorio").trigger("reset");
+                        $("#form_crear_directorio").hide();
+                        swal.fire({
+                            position: 'center',
+                            icon: res.state,
+                            title: res.msg,
+                            showConfirmButton: false,
+                            timer: 2000
+                        })
+                        // swal(res.bg_msg, res.msg, res.state);
+                        recargar__direct();
+                    }
+                });
+            break;
+        }
+
+        // if(id_p_select == "" || id_p_select === undefined || id_p_select === null) {
+        //     swal("Error", "Debe seleccionar un puesto", "error");
+        // } else {
+        //     var respuestas = $("#form_crear_directorio").serializeArray();
+        //     $.ajax({
+        //         type: "POST",
+        //         url: $("#enviar_direc").attr("data-ajax-target"),
+        //         data: respuestas, 
+        //         success: function (res) {
+        //             saber_seleccionado();
+        //             $("#form_crear_directorio").trigger("reset");
+        //             $("#form_crear_directorio").hide();
+        //             swal.fire({
+        //                 position: 'center',
+        //                 icon: res.state,
+        //                 title: res.msg,
+        //                 showConfirmButton: false,
+        //                 timer: 2000
+        //             })
+        //             // swal(res.bg_msg, res.msg, res.state);
+        //             recargar__direct();
+        //         }
+        //     });
+        // }
+    });
 
     $("#agregar_directorio").click(() => {
         $("#form_crear_perfil").hide();
         $("#form_crear_directorio").toggle();
     });
 
-    $("#form_crear_directorio").submit((e) => {
-        e.preventDefault();
-        var respuestas = $("#form_crear_directorio").serializeArray();
-        $.ajax({
-            type: "POST",
-            url: $("#enviar_direc").attr("data-ajax-target"),
-            data: respuestas, 
-            success: function (res) {
-                $("#form_crear_directorio").trigger("reset");
-                $("#form_crear_directorio").hide();
-                swal(res.bg_msg, res.msg, res.state);
-                recargar__direct();
-            }
-        });
-    });
 
     // ?? Subir imagen
     $("#form_subir_img").hide();
@@ -239,14 +403,17 @@ $(document).ready(function () {
     //     $("#form_subir_img").toggle();
     // });
 
-    // $(".mostrar_img").each(function (index, element) {
-    //     // element == this
-    //     $(this).click(function () {
-    //         $("#form_subir_img").toggle();
-    //         var empleado_seleccionado = $(this).parent().parent().find("span:first").text();
-    //         $("input[name='empleado_selec']").val(empleado_seleccionado);
-    //     });
-    // });
+    $(".mostrar_img").each(function (index, element) {
+        // element == this
+        $(this).click(function () {
+            $("#form_subir_img").toggle();
+            var empleado_seleccionado = $(this).parent().parent().find("span:first").text();
+            var nombre_emp = $(this).parent().parent().find("span:last").text();
+            $("input[name='empleado_selec']").val(empleado_seleccionado);
+            $("#nombre_emp").text(nombre_emp),
+            ocultar_formularios();
+        });
+    });
 
 
     // $("#form_subir_img").submit(function (e) {
@@ -279,9 +446,8 @@ $(document).ready(function () {
     //             }
     //         },
     //         error: function (data) {
-    //             console.log(data.responseJSON);
-    //             console.log("Imagen fallida");
     //         }
     //     });
     // });
+
 });
