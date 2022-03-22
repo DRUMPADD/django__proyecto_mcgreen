@@ -9,7 +9,7 @@ $(document).ready(function () {
             let select_ = $(".producto_select:first").clone();
             select_.addClass("copia_creada");
             select_.find("select[name='sl_producto']").prop("selectedIndex", 0);
-            select_.find("select[name='cantidad']").val(parseFloat(0));
+            select_.find("input[name='cantidad']").val(0);
             $("#inicio").text(contador);
             select_.insertAfter(".producto_select:last");
         }
@@ -29,7 +29,6 @@ $(document).ready(function () {
             $("#inicio").text(contador);
         }
     });
-
 
     $("#resetear").click(function () {
         $("#nuevo").find("input[name='nuevo_nombre_sistema']").reset();
@@ -54,7 +53,6 @@ $(document).ready(function () {
         var prod_rep = new Array();
         var cont_prod = 0;
         e.preventDefault();
-
         $.each($("select[name='sl_producto'] option:selected"), function () {
             if(!$(this).is("disabled")) {
                 ++cont_prod;
@@ -66,22 +64,46 @@ $(document).ready(function () {
                 }
             }
         });
+        
         if(prod_rep.length == 0) {
-            if($("select[name='sl_departamentos']").val() != undefined && productos.length == cont_prod) {
-                if(($("nombre_sistema").val() != undefined || $("input[name='nuevo_nombre_sistema']").val() != "") || $("input[name='cantidad_sistema']").val() != null) {
+            if(productos.length > 0) {
+                if($("select[name='sl_departamentos']").val() != undefined && productos.length == cont_prod) {
+                    if($("input[name='cantidad_sistema']").val() > 0 || $("input[name='cantidad_sistema']").val() != '') {
                         $.ajax({
                             type: "POST",
                             url: $("#sistema_r").attr("ajax_"),
                             data: $("form").serializeArray(),
                             success: function (response) {
-                                swal.fire({
-                                    position: 'center',
-                                    icon: response.status,
-                                    title: response.msg_salida,
-                                    showConfirmButton: false,
-                                    timer: 2000
-                                })
-                                resetear_formulario();
+                                switch(response.status) {
+                                    case 'success':
+                                        swal.fire({
+                                            position: 'center',
+                                            icon: response.status,
+                                            title: response.msg_salida,
+                                            showConfirmButton: false,
+                                            timer: 2000
+                                        })
+                                        resetear_formulario();
+                                        break;
+                                    case 'warning':
+                                        swal.fire({
+                                            position: 'center',
+                                            icon: response.status,
+                                            title: response.msg_salida,
+                                            showConfirmButton: false,
+                                            timer: 10000
+                                        })
+                                        break;
+                                    default:
+                                        swal.fire({
+                                            position: 'center',
+                                            icon: "error",
+                                            title: response.msg_salida,
+                                            showConfirmButton: false,
+                                            timer: 4000
+                                        })
+                                        break;
+                                }
                             },
                             error: function(response) {
                                 swal.fire({
@@ -93,11 +115,20 @@ $(document).ready(function () {
                                 })
                             }
                         });
+                    } else {
+                        swal.fire({
+                            position: 'center',
+                            icon: 'error',
+                            title: "Debe ingresar una cantidad al sistema",
+                            showConfirmButton: false,
+                            timer: 2000
+                        })
+                    }
                 } else {
                     swal.fire({
                         position: 'center',
                         icon: 'error',
-                        title: "Debe incluir información del sistema",
+                        title: "No ha ingresado productos para crear el sistema",
                         showConfirmButton: false,
                         timer: 2000
                     })

@@ -262,12 +262,6 @@ def agregar_otros(request):
         cursor.close()
         return redirect("/Otras_E_S")
 
-def conseguir_precio(request,prod):
-    if request.is_ajax():
-        precios = models.PRECIO_INV_VENTA.objects.filter(ID_PRODUCTO_id=prod).values_list("PRECIO_UNIT_VENTA")[0][0]
-        return JsonResponse({'data': precios})
-    return HttpResponse("Wrong request")
-
 # Proveedores
 # def agregar_proveedores(request):
 #     if request.session.get('email'):
@@ -347,39 +341,54 @@ def registrar_sistema(request):
         productos = request.POST.getlist("sl_producto")
         cantidades = request.POST.getlist("cantidad")
 
-        print("Email:", email)
-        print("Motivo:", motivo)
-        print("Fecha:", fecha)
+        ar_productos = []
+        ar_cantidades = []
+
         for i in range(0, len(productos)):
-            print("Producto {0}, cantidad {1}".format(productos[i], cantidades[i]))
-            transformacion1 = connection.cursor()
-            transformacion1.callproc("TRANSFORMACION_P1", [email, productos[i], cantidades[i], motivo, fecha])
-            transformacion1.close()
-        sistema = request.POST.get("nombre_sistema")
-        sistema_n = request.POST.get("nuevo_nombre_sistema")
-        c_sistema = request.POST.get("cantidad_sistema")
-        print("Sistema existente:",sistema)
-        print("Sistema nuevo:",sistema_n)
-        print("Cantidad sistema:",c_sistema)
-        mensaje = ""
-        if sistema_n != '':
-            transformacion2 = connection.cursor()
-            transformacion2.callproc("TRANSFORMACION_P2", [email, sistema_n, descripcion, departamento, precio, tipo_cambio, sucursal, "", c_sistema, "", fecha])
-            mensaje = transformacion2.fetchall()[0][0]
-            print(mensaje)
-            transformacion2.close()
+            p_ = str(productos[i]).split(' ')
+            ar_productos.append(' '.join(p_[2:]))
+            ar_cantidades.append(float(p_[1]))
+        
+        msg_cantidad_pasada = ""
+
+        for i in range(0, len(ar_productos)):
+            if float(cantidades[i]) > ar_cantidades[i]:
+                msg_cantidad_pasada = "El producto {0} tiene una cantidad menor a la que se necesita\nCantidad actual: {1}".format(ar_productos[i], ar_cantidades[i])
+                break
+
+        if msg_cantidad_pasada == '':
+            for i in range(0, len(productos)):
+                transformacion1 = connection.cursor()
+                transformacion1.callproc("TRANSFORMACION_P1", [email, productos[i], cantidades[i], motivo, fecha])
+                transformacion1.close()
+            sistema = request.POST.get("nombre_sistema")
+            sistema_n = request.POST.get("nuevo_nombre_sistema")
+            c_sistema = request.POST.get("cantidad_sistema")
+            mensaje = ""
+
+            if sistema != '' or sistema_n != '':
+                if sistema_n != '':
+                    transformacion2 = connection.cursor()
+                    transformacion2.callproc("TRANSFORMACION_P2", [email, sistema_n, descripcion, departamento, precio, tipo_cambio, sucursal, "", c_sistema, "", fecha])
+                    mensaje = transformacion2.fetchall()[0][0]
+                    print(mensaje)
+                    transformacion2.close()
+                else:
+                    transformacion2 = connection.cursor()
+                    transformacion2.callproc("TRANSFORMACION_P2", [email, "", "", "", "", "", "", sistema, c_sistema, motivo, ""])
+                    mensaje = transformacion2.fetchall()[0][0]
+                    print(mensaje)
+                    transformacion2.close()
+                if mensaje == 'SISTEMA CREADO CORRECTAMENTE' or mensaje == 'FACTURA DISPONIBLE' or mensaje == 'EXISTENCIAS AGREGADAS CORRECTAMENTE':
+                    return JsonResponse({"status": "success", "msg_salida": "Sistema creado con éxito"}, status=200)
+                else:
+                    return JsonResponse({"status": "error", "msg_salida": "El sistema no pudo ser creado\n Intente de nuevo"}, status=200)
+            else:
+                return JsonResponse({"status": "warning", "msg_salida": "<p>Debe dar un nombre al sistema o elegir uno</p>"}, status=200)
         else:
-            transformacion2 = connection.cursor()
-            transformacion2.callproc("TRANSFORMACION_P2", [email, "", "", "", "", "", "", sistema, c_sistema, motivo, ""])
-            mensaje = transformacion2.fetchall()[0][0]
-            print(mensaje)
-            transformacion2.close()
-        if mensaje == 'SISTEMA CREADO CORRECTAMENTE' or mensaje == 'FACTURA DISPONIBLE' or mensaje == 'EXISTENCIAS AGREGADAS CORRECTAMENTE':
-            return JsonResponse({"msg": "Enviado", "msg_salida": "Sistema creado con éxito", "status": "success"}, status=200)
-        else:
-            return JsonResponse({"msg": "Error", "msg_salida": "El sistema no pudo ser creado\n Intente de nuevo", "status": "error"}, status=500)
+            return JsonResponse({"status": "warning", "msg_salida": msg_cantidad_pasada}, status=200)
     else:
-        return JsonResponse({"msg": "Error", "msg_salida": "No se pudo", "status": "error"}, status=500)
+        return JsonResponse({"status": "error", "msg_salida": "No se pudo realizar dicha acción"}, status=200)
 
 
 
