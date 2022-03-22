@@ -21,14 +21,6 @@
             <div class="text-center">
                 <div class="d-flex justify-content-between">
                     <h1>Perfil de puesto {{ nombre_perfil }}</h1>
-                    <div class="d-flex justify-content-around">
-                        <form class="d-flex justify-content-around">
-                            <input type="number" name="vacante" value="{{ vacantes }}" class="form-control">
-                            <button type="submit" id="actualizar_v" class="btn btn-success" hidden></button>
-                        </form>
-                        <button type="button" id="agregar_v" class="btn btn-success"><i class="fa-solid fa-plus"></i></button>
-                        <button type="button" id="quitar_v" class="btn btn-danger"><i class="fa-solid fa-minus"></i></button>
-                    </div>
                 </div>
                 <a href="{% url 'perfil_y_directorio' %}" class="btn btn-primary form-control">Regresar</a>
                 <form id="actualizar_perfil" class="mt-2 mb-2">
@@ -79,6 +71,11 @@
                     </thead>
                     <tbody>
                         {% for genera in mas_info %}
+                        {% if genera.0 == 'NO EXISTEN LAS CARACTERISTICAS DEL PUESTO, FAVOR DE AGREGARLAS' %}
+                            <tr>
+                                <td colspan="6">{{ genera.0 }}</td>
+                            </tr>
+                        {% else %}
                         <tr>
                             <td>{{ genera.0 }}</td>
                             <td>{{ genera.1 }}</td>
@@ -89,6 +86,7 @@
                                 <button type="button" class="btn btn-info" id="btn_generalidades"><i class="fa-solid fa-pen"></i></button>
                             </td>
                         </tr>
+                        {% endif %}
                         {% endfor %}
                     </tbody>
                 </table>
@@ -102,7 +100,7 @@
                     </thead>
                     <tbody>
                         {% for sub in supervisar %}
-                        {% if sub.0 == 'ESE PUESTO NO TIENE NINGUN SUBORDINADO' %}
+                        {% if sub.0 == 'EL PUESTO NO TIENE NINGUN SUBORDINADO' %}
                         <tr>
                             <td colspan="2">{{ sub.0 }}</td>
                         </tr>
@@ -133,7 +131,7 @@
                     </thead>
                     <tbody>
                         {% for sup in superviso %}
-                        {% if sup.0 == 'ESE PUESTO NO TIENE NINGUN SUPERVISOR' %}
+                        {% if sup.0 == 'EL PUESTO NO TIENE NINGUN SUPERVISOR' %}
                         <tr>
                             <td colspan="2">{{ sup.0 }}</td>
                         </tr>
