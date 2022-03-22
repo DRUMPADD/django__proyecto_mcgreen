@@ -31,7 +31,7 @@ $(document).ready(function () {
     });
 
     $("#resetear").click(function () {
-        $("#nuevo").find("input[name='nuevo_nombre_sistema']").reset();
+        $("#nuevo").find("input[name='nuevo_nombre_sistema']").val('');
         if($("#sistema_e").hide()) {
             $("#nuevo").hide();
             $("#sistema_e").show();
