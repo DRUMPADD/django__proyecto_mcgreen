@@ -46,7 +46,7 @@ def funcion1(request):
                 cursor.close()
                 print(mensaje)
             elif subor == None and superv != None:
-                cursor2.callproc("AGREGAR_SUP", [request.session.get("email"), superv, puesto])
+                cursor2.callproc("AGREGAR_SUP", [request.session.get("email"), puesto, superv])
                 mensaje = cursor2.fetchall()[0][0]
                 cursor2.close()
                 print(mensaje)
@@ -54,16 +54,12 @@ def funcion1(request):
                 cursor.callproc("AGREGAR_SUB_SUP", [request.session.get("email"), puesto, subor])
                 mensaje = cursor.fetchall()[0][0]
                 cursor.close()
-                cursor2.callproc("AGREGAR_SUP", [request.session.get("email"), superv, puesto])
+                cursor2.callproc("AGREGAR_SUP", [request.session.get("email"), puesto, superv])
                 cursor2.close()
                 print(mensaje)
             cursor.close()
             cursor2.close()
-        except OperationalError:
-            return render(request, "errors/error500.html", {
-                "mensaje": "Contacte con el servicio de sistemas"
-            })
-        except IntegrityError:
+        except (OperationalError, IntegrityError):
             return render(request, "errors/error500.html", {
                 "mensaje": "Contacte con el servicio de sistemas"
             })
