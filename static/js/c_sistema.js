@@ -67,7 +67,7 @@ $(document).ready(function () {
         
         if(prod_rep.length == 0) {
             if(productos.length > 0) {
-                if($("select[name='sl_departamentos']").val() != undefined && productos.length == cont_prod) {
+                if($("select[name='sl_departamentos']").val() != undefined) {
                     if($("input[name='cantidad_sistema']").val() > 0 || $("input[name='cantidad_sistema']").val() != '') {
                         $.ajax({
                             type: "POST",
@@ -128,7 +128,7 @@ $(document).ready(function () {
                     swal.fire({
                         position: 'center',
                         icon: 'error',
-                        title: "No ha ingresado productos para crear el sistema",
+                        title: "Debe seleccionar un departamento",
                         showConfirmButton: false,
                         timer: 2000
                     })
@@ -137,7 +137,7 @@ $(document).ready(function () {
                 swal.fire({
                     position: 'center',
                     icon: 'error',
-                    title: "Debe seleccionar un departamento",
+                    title: "No ha ingresado productos para crear el sistema",
                     showConfirmButton: false,
                     timer: 2000
                 })
