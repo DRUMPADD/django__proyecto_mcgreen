@@ -66,60 +66,70 @@ $(document).ready(function () {
         });
         
         if(prod_rep.length == 0) {
-            if(productos.length > 0) {
-                if($("select[name='sl_departamentos']").val() != undefined) {
-                    if($("input[name='cantidad_sistema']").val() > 0 || $("input[name='cantidad_sistema']").val() != '') {
-                        $.ajax({
-                            type: "POST",
-                            url: $("#sistema_r").attr("ajax_"),
-                            data: $("form").serializeArray(),
-                            success: function (response) {
-                                switch(response.status) {
-                                    case 'success':
-                                        swal.fire({
-                                            position: 'center',
-                                            icon: response.status,
-                                            title: response.msg_salida,
-                                            showConfirmButton: false,
-                                            timer: 2000
-                                        })
-                                        resetear_formulario();
-                                        break;
-                                    case 'warning':
-                                        swal.fire({
-                                            position: 'center',
-                                            icon: response.status,
-                                            title: response.msg_salida,
-                                            showConfirmButton: false,
-                                            timer: 10000
-                                        })
-                                        break;
-                                    default:
-                                        swal.fire({
-                                            position: 'center',
-                                            icon: "error",
-                                            title: response.msg_salida,
-                                            showConfirmButton: false,
-                                            timer: 4000
-                                        })
-                                        break;
+            if($("input[name='fecha']").val() != '') {
+                if(productos.length > 0) {
+                    if($("select[name='sl_departamentos']").val() != undefined) {
+                        if($("input[name='cantidad_sistema']").val() > 0 || $("input[name='cantidad_sistema']").val() != '') {
+                            $.ajax({
+                                type: "POST",
+                                url: $("#sistema_r").attr("ajax_"),
+                                data: $("form").serializeArray(),
+                                success: function (response) {
+                                    switch(response.status) {
+                                        case 'success':
+                                            swal.fire({
+                                                position: 'center',
+                                                icon: response.status,
+                                                title: response.msg_salida,
+                                                showConfirmButton: false,
+                                                timer: 2000
+                                            })
+                                            resetear_formulario();
+                                            break;
+                                        case 'warning':
+                                            swal.fire({
+                                                position: 'center',
+                                                icon: response.status,
+                                                title: response.msg_salida,
+                                                showConfirmButton: false,
+                                                timer: 10000
+                                            })
+                                            break;
+                                        default:
+                                            swal.fire({
+                                                position: 'center',
+                                                icon: "error",
+                                                title: response.msg_salida,
+                                                showConfirmButton: false,
+                                                timer: 4000
+                                            })
+                                            break;
+                                    }
+                                },
+                                error: function(response) {
+                                    swal.fire({
+                                        position: 'center',
+                                        icon: "error",
+                                        title: response.msg_salida,
+                                        showConfirmButton: false,
+                                        timer: 2000
+                                    })
                                 }
-                            },
-                            error: function(response) {
-                                swal.fire({
-                                    position: 'center',
-                                    icon: "error",
-                                    title: response.msg_salida,
-                                    showConfirmButton: false,
-                                    timer: 2000
-                                })
-                            }
-                        });
+                            });
+                        } else {
+                            swal.fire({
+                                position: 'center',
+                                icon: 'error',
+                                title: "Debe ingresar una cantidad al sistema",
+                                showConfirmButton: false,
+                                timer: 2000
+                            })
+                        }
                     } else {
                         swal.fire({
                             position: 'center',
                             icon: 'error',
-                            title: "Debe ingresar una cantidad al sistema",
+                            title: "Debe seleccionar un departamento",
                             showConfirmButton: false,
                             timer: 2000
                         })
@@ -128,7 +138,7 @@ $(document).ready(function () {
                     swal.fire({
                         position: 'center',
                         icon: 'error',
-                        title: "Debe seleccionar un departamento",
+                        title: "No ha ingresado productos para crear el sistema",
                         showConfirmButton: false,
                         timer: 2000
                     })
@@ -137,7 +147,7 @@ $(document).ready(function () {
                 swal.fire({
                     position: 'center',
                     icon: 'error',
-                    title: "No ha ingresado productos para crear el sistema",
+                    title: "Debe elegir una fecha",
                     showConfirmButton: false,
                     timer: 2000
                 })
