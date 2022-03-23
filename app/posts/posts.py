@@ -380,13 +380,13 @@ def agregar_proveedores(request):
                 finally:
                     cursor.close()
                 if mensaje == 'PROVEEDOR Insertado Correctamente':
-                    return JsonResponse({"msg": "Operación exitosa", "msg_salida": mensaje, "status": "success"}, status=200)
+                    return JsonResponse({"status": "success", "msg": "Operación exitosa", "msg_salida": mensaje}, status=200)
                 else:
-                    return JsonResponse({"msg": "Error", "msg_salida": mensaje, "status": "error"}, status=400)
+                    return JsonResponse({"status": "warning", "msg": "Error", "msg_salida": mensaje}, status=200)
             else:
                 if form.errors:
                     print(form.errors)
-                return JsonResponse({"msg": "Error", "msg_salida": "Los datos recibidos no son compatibles con la información que se le solicita", "status": "error"}, status=500)
+                return JsonResponse({"status": "error", "msg": "Error", "msg_salida": "Los datos recibidos no son compatibles con la información que se le solicita"}, status=200)
     else:
         return redirect("/cerrar_sesion")
 

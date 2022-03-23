@@ -4,6 +4,10 @@ $(document).ready(function () {
         contador = 1;
     }
 
+    function recargar_proveedores() {
+
+    }
+
     $("#btnAddForm").click(function () {
         contador = contador + 1;
         var $formulario = $(".articulos:first").clone();
@@ -103,11 +107,35 @@ $(document).ready(function () {
             url: $("#enviar_provee").attr("dato-ajax"),
             data: respuestas,
             success: function (response) {
-                if(response.msg_salida == 'PROVEEDOR Insertado Correctamente') {
-                    $("#form_provee").trigger("reset");
-                    swal(response.msg, response.msg_salida, response.status);
-                } else {
-                    swal(response.msg, response.msg_salida, response.status);
+                switch(response.status) {
+                    case 'success':
+                        $("#form_provee").trigger("reset");
+                        swal.fire({
+                            position: 'center',
+                            icon: response.status,
+                            title: response.msg_salida,
+                            showConfirmButton: false,
+                            timer: 3000
+                        })
+                        break;
+                    case 'error':
+                        swal.fire({
+                            position: 'center',
+                            icon: response.status,
+                            title: response.msg_salida,
+                            showConfirmButton: false,
+                            timer: 3000
+                        })
+                            break;
+                    case 'warning':
+                        swal.fire({
+                            position: 'center',
+                            icon: response.status,
+                            title: response.msg_salida,
+                            showConfirmButton: false,
+                            timer: 3000
+                        })
+                            break;
                 }
             }
         });
