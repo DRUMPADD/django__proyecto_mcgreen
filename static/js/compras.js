@@ -37,7 +37,7 @@ $(document).ready(function () {
                 proveedores.push($(this).val());
             }
         });
-
+        
         var fecha_c = $("input[name='fecha_compra']").val();
         var motivo_ = $("input[name='motivo']").val();
         
@@ -54,13 +54,15 @@ $(document).ready(function () {
                 productos.push($(this).val());
             }
         });
-        
+
         let precios = Array();
         $("input[name='p_u']").each(function() {
             if($(this).val() !== null) {
                 precios.push($(this).val());
             }
         });
+
+        console.log(precios);
 
         if(proveedores.length !== 0 && productos !== 0 && cantidades !== 0 && precios !== 0 && fecha_c !== "" & motivo_ !== "") {
             $.ajax({
