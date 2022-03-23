@@ -466,7 +466,7 @@ def registrar_sistema(request):
                     })
                 finally:
                     transformacion1.close()
-                if comprobar_producto_activo != "EL PRODUCTO: "+ ar_nom_productos[0] +" A ESTA DESACTIVADO, NO ES POSIBLE REALIZAR SALIDAS DE DICHO PRODUCTO, ACTIVELO O REALIZE UN INGRESO":
+                if comprobar_producto_activo == "EL PRODUCTO: "+ ar_nom_productos[0] +" A ESTA DESACTIVADO, NO ES POSIBLE REALIZAR SALIDAS DE DICHO PRODUCTO, ACTIVELO O REALIZE UN INGRESO":
                     break
             sistema = request.POST.get("nombre_sistema")
             sistema_n = request.POST.get("nuevo_nombre_sistema")
