@@ -208,20 +208,25 @@ def generar_compra(request):
                         })
                     mensaje_c2 = ""
                     for i in range(len(datos)):
-                        compra_2 = connection.cursor()
-                        print("Posición", i)
-                        print(datos[i]["comprador"])
-                        print(datos[i]["fecha_compra"])
-                        print(datos[i]["motivo"])
-                        print(datos[i]["articulo"])
-                        print(datos[i]["sl_proveedores"])
-                        print(datos[i]["sl_productos"])
-                        print(datos[i]["cantidades"])
-                        print(datos[i]["p_u"])
-                        compra_2.callproc("COMPRA_p2", [datos[i]["sl_productos"], mensaje_c1, i + 1, datos[i]["cantidades"], datos[i]["p_u"], datos[i]["sl_proveedores"]])
-                        mensaje_c2 = compra_2.fetchall()[0][0]
-                        compra_2.close()
-                    print("Este es tu error:", mensaje_c2)
+                        try:
+                            compra_2 = connection.cursor()
+                            print("Posición", i)
+                            print(datos[i]["comprador"])
+                            print(datos[i]["fecha_compra"])
+                            print(datos[i]["motivo"])
+                            print(datos[i]["articulo"])
+                            print(datos[i]["sl_proveedores"])
+                            print(datos[i]["sl_productos"])
+                            print(datos[i]["cantidades"])
+                            print(datos[i]["p_u"])
+                            compra_2.callproc("COMPRA_p2", [datos[i]["sl_productos"], mensaje_c1, i + 1, datos[i]["cantidades"], datos[i]["p_u"], datos[i]["sl_proveedores"]])
+                            mensaje_c2 = compra_2.fetchall()[0][0]
+                            compra_2.close()
+                        except (OperationalError, IntegrityError):
+                            return render(request, "errors/error500.html", {
+                                "mensaje": "Contacte con el servicio de sistemas"
+                            })
+                    print("Mensaje compra_c2:", mensaje_c2)
                     mensaje_c3 = ""
                     if mensaje_c2 != "":
                         try:
@@ -229,11 +234,12 @@ def generar_compra(request):
                             compra_3.callproc("COMPRA_p3", [comprador, mensaje_c1])
                             mensaje_c3 = compra_3.fetchall()[0][0]
                             print("Mensaje compra 3:",mensaje_c3)
-                            compra_3.close()
                         except (OperationalError, IntegrityError):
                             return render(request, "errors/error500.html", {
                                 "mensaje": "Contacte con el servicio de sistemas"
                             })
+                        finally:
+                            compra_3.close()
                     else:
                         print("No se realizó la compra 2")
                 else:
@@ -244,8 +250,10 @@ def generar_compra(request):
                 })
         else:
             print("Están vacíos")
-
-        return JsonResponse({"msg": "Compra realizada", "msg_compra": mensaje_c3}, status=200)
+        if mensaje_c3 == 'FACTURA DISPONIBLE':
+            return JsonResponse({"status": "success","msg": "Compra realizada", "msg_compra": mensaje_c3}, status=200)
+        else:
+            return JsonResponse({"status": "error", "msg": "Problema ocurrido", "msg_compra": "No se pudo realizar la compra"}, status=200)
 
 def generar_venta(request):
     if request.session.get('email'):
