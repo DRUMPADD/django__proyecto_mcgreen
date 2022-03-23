@@ -437,10 +437,12 @@ def registrar_sistema(request):
         cantidades = request.POST.getlist("cantidad")
 
         ar_productos = []
+        ar_nom_productos = []
         ar_cantidades = []
 
         for i in range(0, len(productos)):
             p_ = str(productos[i]).split(' ')
+            ar_nom_productos.append(p_[0])
             ar_productos.append(' '.join(p_[2:]))
             ar_cantidades.append(float(p_[1]))
         
@@ -450,55 +452,61 @@ def registrar_sistema(request):
             if float(cantidades[i]) > ar_cantidades[i]:
                 msg_cantidad_pasada = "El producto {0} tiene una cantidad menor a la que se necesita\nCantidad actual: {1}".format(ar_productos[i], ar_cantidades[i])
                 break
-
+        comprobar_producto_activo = ""
         if msg_cantidad_pasada == '':
-            for i in range(0, len(productos)):
+            for i in range(0, len(ar_nom_productos)):
                 try:
                     transformacion1 = connection.cursor()
-                    transformacion1.callproc("TRANSFORMACION_P1", [email, productos[i], cantidades[i], motivo, fecha])
-                    print(transformacion1.fetchall())
+                    transformacion1.callproc("TRANSFORMACION_P1", [email, ar_nom_productos[i], cantidades[i], motivo, fecha])
+                    comprobar_producto_activo = transformacion1.fetchall()[0][0]
+                    print(comprobar_producto_activo)
                 except (OperationalError, IntegrityError):
                     return render(request, "errors/error500.html", {
                         "mensaje": "Contacte con el servicio de sistemas"
                     })
                 finally:
                     transformacion1.close()
+                if comprobar_producto_activo != "EL PRODUCTO: "+ ar_nom_productos[0] +" A ESTA DESACTIVADO, NO ES POSIBLE REALIZAR SALIDAS DE DICHO PRODUCTO, ACTIVELO O REALIZE UN INGRESO":
+                    break
             sistema = request.POST.get("nombre_sistema")
             sistema_n = request.POST.get("nuevo_nombre_sistema")
             c_sistema = request.POST.get("cantidad_sistema")
             mensaje = ""
 
-            if sistema != '' or sistema_n != '':
-                if sistema_n != '':
-                    try:
-                        transformacion2 = connection.cursor()
-                        transformacion2.callproc("TRANSFORMACION_P2", [email, sistema_n, descripcion, departamento, precio, tipo_cambio, sucursal, "", c_sistema, "", fecha])
-                        mensaje = transformacion2.fetchall()[0][0]
-                        print(mensaje)
-                    except (OperationalError, IntegrityError):
-                        return render(request, "errors/error500.html", {
-                            "mensaje": "Contacte con el servicio de sistemas"
-                        })
-                    finally:
-                        transformacion2.close()
+            if comprobar_producto_activo != "":
+                if sistema != '' or sistema_n != '':
+                    if sistema_n != '':
+                        try:
+                            transformacion2 = connection.cursor()
+                            transformacion2.callproc("TRANSFORMACION_P2", [email, sistema_n, descripcion, departamento, precio, tipo_cambio, sucursal, "", c_sistema, "", fecha])
+                            mensaje = transformacion2.fetchall()[0][0]
+                            print(mensaje)
+                        except (OperationalError, IntegrityError):
+                            return render(request, "errors/error500.html", {
+                                "mensaje": "Contacte con el servicio de sistemas"
+                            })
+                        finally:
+                            transformacion2.close()
+                    else:
+                        try:
+                            transformacion2 = connection.cursor()
+                            transformacion2.callproc("TRANSFORMACION_P2", [email, "", "", "", "", "", "", sistema, c_sistema, motivo, ""])
+                            mensaje = transformacion2.fetchall()[0][0]
+                            print(mensaje)
+                        except (OperationalError, IntegrityError):
+                            return render(request, "errors/error500.html", {
+                                "mensaje": "Contacte con el servicio de sistemas"
+                            })
+                        finally:
+                            transformacion2.close()
+                    if mensaje == 'SISTEMA CREADO CORRECTAMENTE' or mensaje == 'FACTURA DISPONIBLE' or mensaje == 'EXISTENCIAS AGREGADAS CORRECTAMENTE':
+                        return JsonResponse({"status": "success", "msg_salida": "Sistema creado con éxito"}, status=200)
+                    else:
+                        return JsonResponse({"status": "error", "msg_salida": "El sistema no pudo ser creado\n Intente de nuevo"}, status=200)
                 else:
-                    try:
-                        transformacion2 = connection.cursor()
-                        transformacion2.callproc("TRANSFORMACION_P2", [email, "", "", "", "", "", "", sistema, c_sistema, motivo, ""])
-                        mensaje = transformacion2.fetchall()[0][0]
-                        print(mensaje)
-                    except (OperationalError, IntegrityError):
-                        return render(request, "errors/error500.html", {
-                            "mensaje": "Contacte con el servicio de sistemas"
-                        })
-                    finally:
-                        transformacion2.close()
-                if mensaje == 'SISTEMA CREADO CORRECTAMENTE' or mensaje == 'FACTURA DISPONIBLE' or mensaje == 'EXISTENCIAS AGREGADAS CORRECTAMENTE':
-                    return JsonResponse({"status": "success", "msg_salida": "Sistema creado con éxito"}, status=200)
-                else:
-                    return JsonResponse({"status": "error", "msg_salida": "El sistema no pudo ser creado\n Intente de nuevo"}, status=200)
+                    return JsonResponse({"status": "warning", "msg_salida": "<p>Debe dar un nombre al sistema o elegir uno</p>"}, status=200)
             else:
-                return JsonResponse({"status": "warning", "msg_salida": "<p>Debe dar un nombre al sistema o elegir uno</p>"}, status=200)
+                return JsonResponse({"status": "warning", "msg_salida": comprobar_producto_activo}, status=200)
         else:
             return JsonResponse({"status": "warning", "msg_salida": msg_cantidad_pasada}, status=200)
     else:
