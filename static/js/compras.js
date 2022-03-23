@@ -62,17 +62,31 @@ $(document).ready(function () {
             }
         });
 
-        console.log(precios);
-
         if(proveedores.length !== 0 && productos !== 0 && cantidades !== 0 && precios !== 0 && fecha_c !== "" & motivo_ !== "") {
             $.ajax({
                 type: "POST",
                 url: $("#enviar_formulario").attr("ajax-data-target"),
                 data: $("#form_compra").serializeArray(),
                 success: function (response) {
-                    $(".campo_creado").remove();
-                    $("#form_compra").trigger("reset");
-                    swal(response.msg,response.msg_compra, "success");
+                    if(response.status == 'success') {
+                        $(".campo_creado").remove();
+                        $("#form_compra").trigger("reset");
+                        swal.fire({
+                            position: 'center',
+                            icon: response.status,
+                            title: response.msg_compra,
+                            showConfirmButton: false,
+                            timer: 3000
+                        })
+                    } else {
+                        swal.fire({
+                            position: 'center',
+                            icon: response.status,
+                            title: response.msg_compra,
+                            showConfirmButton: false,
+                            timer: 3000
+                        })
+                    }
                 }
             });
         } else {
