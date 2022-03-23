@@ -172,7 +172,9 @@ def generar_compra(request):
         sl_productos = request.POST.getlist("sl_productos")
         cantidades = request.POST.getlist("cantidad")
         p_u = request.POST.getlist("p_u")
-
+        mensaje_c1 = ""
+        mensaje_c2 = ""
+        mensaje_c3 = ""
         try:
             compra_1 = connection.cursor()
             compra_1.callproc("COMPRA_p1", [comprador, fecha_compra, motivo])
@@ -206,7 +208,6 @@ def generar_compra(request):
                             "cantidades": cantidades[i],
                             "p_u": p_u[i],
                         })
-                    mensaje_c2 = ""
                     for i in range(len(datos)):
                         try:
                             compra_2 = connection.cursor()
@@ -227,7 +228,6 @@ def generar_compra(request):
                                 "mensaje": "Contacte con el servicio de sistemas"
                             })
                     print("Mensaje compra_c2:", mensaje_c2)
-                    mensaje_c3 = ""
                     if mensaje_c2 != "":
                         try:
                             compra_3 = connection.cursor()
