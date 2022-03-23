@@ -162,7 +162,7 @@ def activar_producto(request,id_prod):
 #     else:
 #         return redirect("/cerrar_sesion")
 def generar_compra(request):
-    if request.method == 'POST':
+    if request.method == 'POST' and request.is_ajax():
         datos = []
         comprador = request.POST.get("comprador")
         fecha_compra = request.POST.get("fecha_compra")

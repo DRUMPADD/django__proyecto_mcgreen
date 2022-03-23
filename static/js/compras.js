@@ -66,7 +66,7 @@ $(document).ready(function () {
             $.ajax({
                 type: "POST",
                 url: $("#enviar_formulario").attr("ajax-data-target"),
-                data: $(this).serializeArray(),
+                data: $("#form_compra").serializeArray(),
                 success: function (response) {
                     $(".campo_creado").remove();
                     $("#form_compra").trigger("reset");
