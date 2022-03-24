@@ -478,7 +478,7 @@ def registrar_sistema(request):
                     if sistema_n != '':
                         try:
                             transformacion2 = connection.cursor()
-                            transformacion2.callproc("TRANSFORMACION_P2", [email, sistema_n, descripcion, departamento, precio, tipo_cambio, sucursal, "", c_sistema, "", fecha])
+                            transformacion2.callproc("TRANSFORMACION_P2", [email, sistema_n, descripcion, departamento, precio, tipo_cambio, sucursal, "", c_sistema, "", ""])
                             mensaje = transformacion2.fetchall()[0][0]
                             print(mensaje)
                         except (OperationalError, IntegrityError):
@@ -490,7 +490,7 @@ def registrar_sistema(request):
                     else:
                         try:
                             transformacion2 = connection.cursor()
-                            transformacion2.callproc("TRANSFORMACION_P2", [email, "", "", "", "", "", "", sistema, c_sistema, motivo, ""])
+                            transformacion2.callproc("TRANSFORMACION_P2", [email, "", "", "", "", "", "", sistema, c_sistema, motivo, fecha])
                             mensaje = transformacion2.fetchall()[0][0]
                             print(mensaje)
                         except (OperationalError, IntegrityError):
