@@ -19,6 +19,7 @@ $(document).ready(function () {
         $("form").trigger("reset");
         $(".copia_creada").remove();
         contador = 1;
+        $("#inicio").text(contador);
     }
     
     $("#eliminar_form").click(function () {
@@ -96,7 +97,7 @@ $(document).ready(function () {
                                                 timer: 10000
                                             })
                                             break;
-                                        default:
+                                        case 'error':
                                             swal.fire({
                                                 position: 'center',
                                                 icon: "error",
