@@ -18,6 +18,7 @@ $(document).ready(function () {
     function resetear_formulario() {
         $("form").trigger("reset");
         $(".copia_creada").remove();
+        contador = 1;
     }
     
     $("#eliminar_form").click(function () {
