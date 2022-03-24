@@ -451,6 +451,7 @@ def registrar_sistema(request):
         for i in range(0, len(ar_productos)):
             if float(cantidades[i]) > ar_cantidades[i]:
                 msg_cantidad_pasada = "El producto {0} tiene una cantidad menor a la que se necesita\nCantidad actual: {1}".format(ar_productos[i], ar_cantidades[i])
+                print(msg_cantidad_pasada)
                 break
         comprobar_producto_activo = ""
         if msg_cantidad_pasada == '':
