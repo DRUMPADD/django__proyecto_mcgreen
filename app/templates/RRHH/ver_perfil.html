@@ -313,7 +313,7 @@
                                     <form class="formulario_compt">
                                         {% csrf_token %}
                                         <input type="text" name="id_p" value="{{ nombre_perfil }}" hidden>
-                                        <input type="text" name="comp_t" value="{{ comp_t.0 }}" hidden>
+                                        <input type="text" name="comp_t" value="{{ comp_t.1 }}" hidden>
                                         <button type="submit" class="btn btn-danger btn_eliminar_compt" dato-ajax="{% url 'eliminar_com_tec' %}"><i class="fa-solid fa-trash-can"></i></button>
                                     </form>
                                 </td>
