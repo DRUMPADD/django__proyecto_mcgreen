@@ -15,12 +15,7 @@ def crear_perfil(request):
             mensaje = cursor.fetchall()[0][0]
             print(mensaje)
             mensaje_salida = "Perfil de puesto creado!!"
-        except OperationalError:
-            mensaje_error = "Error al crear el puesto"
-            return render(request, "errors/error500.html", {
-                "mensaje": "Contacte con el servicio de sistemas"
-            })
-        except IntegrityError:
+        except (OperationalError, IntegrityError):
             mensaje_error = "Error al crear el puesto"
             return render(request, "errors/error500.html", {
                 "mensaje": "Contacte con el servicio de sistemas"
@@ -59,7 +54,8 @@ def funcion1(request):
                 cursor2.close()
             cursor.close()
             cursor2.close()
-        except (OperationalError, IntegrityError):
+        except (OperationalError, IntegrityError) as e:
+            print(e)
             return render(request, "errors/error500.html", {
                 "mensaje": "Contacte con el servicio de sistemas"
             })
@@ -83,11 +79,8 @@ def funcion2(request):
             cursor.callproc("RH_AGREGAR_PA_PR", [request.session.get("email"), puesto, forma, escol, per_prof, exper])
             mensaje = cursor.fetchall()[0][0]
             print(mensaje)
-        except OperationalError:
-            return render(request, "errors/error500.html", {
-                "mensaje": "Contacte con el servicio de sistemas"
-            })
-        except IntegrityError:
+        except (OperationalError, IntegrityError) as e:
+            print(e)
             return render(request, "errors/error500.html", {
                 "mensaje": "Contacte con el servicio de sistemas"
             })
@@ -113,11 +106,8 @@ def funcion3(request):
             cursor.callproc("RH_AGREGAR_FUNCION", [request.session.get("email"), puesto, funci, descrip_fun, perio])
             mensaje = cursor.fetchall()[0][0]
             print(mensaje)
-        except OperationalError:
-            return render(request, "errors/error500.html", {
-                "mensaje": "Contacte con el servicio de sistemas"
-            })
-        except IntegrityError:
+        except (OperationalError, IntegrityError) as e:
+            print(e)
             return render(request, "errors/error500.html", {
                 "mensaje": "Contacte con el servicio de sistemas"
             })
@@ -140,11 +130,8 @@ def funcion4(request):
             cursor.callproc("RH_AGREGAR_RESPONS", [request.session.get("email"), puesto, sl_tipo_responsabilidad, descrip_resp])
             mensaje = cursor.fetchall()[0][0]
             print(mensaje)
-        except OperationalError:
-            return render(request, "errors/error500.html", {
-                "mensaje": "Contacte con el servicio de sistemas"
-            })
-        except IntegrityError:
+        except (OperationalError, IntegrityError) as e:
+            print(e)
             return render(request, "errors/error500.html", {
                 "mensaje": "Contacte con el servicio de sistemas"
             })
@@ -169,11 +156,8 @@ def funcion5(request):
             cursor.callproc("RH_AGREGAR_COMP_GEN", [request.session.get("email"), puesto, sl_competencia, int(sl_dominio), descrip_comp])
             mensaje = cursor.fetchall()[0][0]
             print(mensaje)
-        except OperationalError:
-            return render(request, "errors/error500.html", {
-                "mensaje": "Contacte con el servicio de sistemas"
-            })
-        except IntegrityError:
+        except (OperationalError, IntegrityError) as e:
+            print(e)
             return render(request, "errors/error500.html", {
                 "mensaje": "Contacte con el servicio de sistemas"
             })
@@ -197,11 +181,8 @@ def funcion6(request):
             cursor.callproc("RH_AGREGAR_COMP_TEC_HAB_D", [request.session.get("email"), puesto, "Competencia", comp_tec,  desc_tec, int(dom_tec)])
             mensaje = cursor.fetchall()[0][0]
             print(mensaje)
-        except OperationalError:
-            return render(request, "errors/error500.html", {
-                "mensaje": "Contacte con el servicio de sistemas"
-            })
-        except IntegrityError:
+        except (OperationalError, IntegrityError) as e:
+            print(e)
             return render(request, "errors/error500.html", {
                 "mensaje": "Contacte con el servicio de sistemas"
             })
@@ -226,11 +207,8 @@ def funcion7(request):
             cursor.callproc("RH_AGREGAR_COMP_TEC_HAB_D", [request.session.get("email"), puesto, "Habilidad", habilidad, desc_hab, dom_hab])
             mensaje = cursor.fetchall()[0][0]
             print(mensaje)
-        except OperationalError:
-            return render(request, "errors/error500.html", {
-                "mensaje": "Contacte con el servicio de sistemas"
-            })
-        except IntegrityError:
+        except (OperationalError, IntegrityError) as e:
+            print(e)
             return render(request, "errors/error500.html", {
                 "mensaje": "Contacte con el servicio de sistemas"
             })
@@ -256,11 +234,8 @@ def funcion8(request):
             cursor.callproc("RH_AGREGAR_ASP_SSMAC", [request.session.get("email"), puesto, area_trab, peligro, riesgo, nivel, epp])
             mensaje = cursor.fetchall()[0][0]
             print(mensaje)
-        except OperationalError:
-            return render(request, "errors/error500.html", {
-                "mensaje": "Contacte con el servicio de sistemas"
-            })
-        except IntegrityError:
+        except (OperationalError, IntegrityError) as e:
+            print(e)
             return render(request, "errors/error500.html", {
                 "mensaje": "Contacte con el servicio de sistemas"
             })
@@ -284,11 +259,8 @@ def funcion9(request):
             cursor.callproc("RH_AGREGAR_REQ_FISICOS", [request.session.get("email"), puesto, sl_tipo_esf, desc_esf])
             mensaje = cursor.fetchall()[0][0]
             print(mensaje)
-        except OperationalError:
-            return render(request, "errors/error500.html", {
-                "mensaje": "Contacte con el servicio de sistemas"
-            })
-        except IntegrityError:
+        except (OperationalError, IntegrityError) as e:
+            print(e)
             return render(request, "errors/error500.html", {
                 "mensaje": "Contacte con el servicio de sistemas"
             })
@@ -310,11 +282,8 @@ def crear_directorio(request):
             cursor.callproc("AGREGAR_EMPLEADO_V2", [request.session.get("email"), "", request.POST.get("nombre_emp"), request.POST.get("ap_paterno"), request.POST.get("ap_materno"), request.POST.get("sl_puesto"),request.POST.get("fecha_registro"), request.POST.get("edad"), request.POST.get("grado_estudio"), request.POST.get("direccion"), request.POST.get("sl_sexo"), request.POST.get("estado"), request.POST.get("tipo_sangre"), request.POST.get("cont_emergencia"), request.POST.get("emergencia"), request.POST.get("experiencia"), request.POST.get("cap_requerida"), request.POST.get("nss"), request.POST.get("curp"), request.POST.get("rfc"), request.POST.get("correo"), request.POST.get("celular"), request.POST.get("fec_nac")])
             mensaje = cursor.fetchall()[0][0]
             print(mensaje)
-        except OperationalError:
-            return render(request, "errors/error500.html", {
-                "mensaje": "Contacte con el servicio de sistemas"
-            })
-        except IntegrityError:
+        except (OperationalError, IntegrityError) as e:
+            print(e)
             return render(request, "errors/error500.html", {
                 "mensaje": "Contacte con el servicio de sistemas"
             })
@@ -336,7 +305,8 @@ def subir_imagen(request):
             cursor.callproc("GUARDAR_IMAGEN", ["erick@sigssmac.com.mx", imagen.name, imagen, "Empleado", request.POST.get("empleado")])
             mensaje = cursor.fetchall()[0][0]
             print(mensaje)
-        except (OperationalError, IntegrityError):
+        except (OperationalError, IntegrityError) as e:
+            print(e)
             return render(request, "errors/error500.html", {
                 "mensaje": "Contacte con el servicio de sistemas"
             })
@@ -360,7 +330,8 @@ def actualizar_perfil(request):
             cursor.callproc("MODIFICAR_ELIMINAR_PP", ["erick@sigssmac.com.mx", request.POST.get("opcion"), request.POST.get("puesto_sel"), "", "", request.POST.get("formacion"), request.POST.get("escolaridad"), request.POST.get("perfil_p"), request.POST.get("experiencia"), "", ""])
             mensaje = cursor.fetchall()[0][0]
             print(mensaje)
-        except (OperationalError, IntegrityError):
+        except (OperationalError, IntegrityError) as e:
+            print(e)
             return render(request, "errors/error500.html", {
                 "mensaje": "Contacte con el servicio de sistemas"
             })
@@ -382,11 +353,8 @@ def actualizar_gen(request):
             cursor.callproc("MODIFICAR_ELIMINAR_PP", [request.session.get("email"), request.POST.get("opcion"), request.POST.get("puesto_sel"), request.POST.get("nombre_puesto"), request.POST.get("objetivo"), "", "", "", "", "", ""])
             mensaje = cursor.fetchall()[0][0]
             print(mensaje)
-        except OperationalError:
-            return render(request, "errors/error500.html", {
-                "mensaje": "Contacte con el servicio de sistemas"
-            })
-        except IntegrityError:
+        except (OperationalError, IntegrityError) as e:
+            print(e)
             return render(request, "errors/error500.html", {
                 "mensaje": "Contacte con el servicio de sistemas"
             })
@@ -407,11 +375,8 @@ def eliminar_subordinado(request):
             cursor.callproc("MODIFICAR_ELIMINAR_PP", [request.session.get("email"), request.POST.get("opcion"), request.POST.get("id_p"), "", "", "", "", "", "", request.POST.get("sub"), ""])
             mensaje = cursor.fetchall()[0][0]
             print(mensaje)
-        except OperationalError:
-            return render(request, "errors/error500.html", {
-                "mensaje": "Contacte con el servicio de sistemas"
-            })
-        except IntegrityError:
+        except (OperationalError, IntegrityError) as e:
+            print(e)
             return render(request, "errors/error500.html", {
                 "mensaje": "Contacte con el servicio de sistemas"
             })
@@ -431,11 +396,8 @@ def eliminar_supervisor(request):
             cursor.callproc("MODIFICAR_ELIMINAR_PP", [request.session.get("email"), request.POST.get("opcion"), request.POST.get("id_p"), "", "", "", "", "", "", request.POST.get("sup"), ""])
             mensaje = cursor.fetchall()[0][0]
             print(mensaje)
-        except OperationalError:
-            return render(request, "errors/error500.html", {
-                "mensaje": "Contacte con el servicio de sistemas"
-            })
-        except IntegrityError:
+        except (OperationalError, IntegrityError) as e:
+            print(e)
             return render(request, "errors/error500.html", {
                 "mensaje": "Contacte con el servicio de sistemas"
             })
@@ -455,11 +417,7 @@ def eliminar_funcion(request):
             cursor.callproc("MODIFICAR_ELIMINAR_PP", [request.session.get("email"), request.POST.get("opcion"), request.POST.get("id_p"), "", "", "", "", "", "", "", request.POST.get("funcion")])
             mensaje = cursor.fetchall()[0][0]
             print(mensaje)
-        except OperationalError:
-            return render(request, "errors/error500.html", {
-                "mensaje": "Contacte con el servicio de sistemas"
-            })
-        except IntegrityError:
+        except (OperationalError, IntegrityError):
             return render(request, "errors/error500.html", {
                 "mensaje": "Contacte con el servicio de sistemas"
             })
@@ -483,11 +441,7 @@ def eliminar_res_ad(request):
                 return JsonResponse({"msg": "Éxito", "msg_salida": mensaje, "status": "success"}, status=200)
             else:
                 return JsonResponse({"msg": "Error", "msg_salida": "El perfil no pudo ser actualizado", "status": "error"}, status=500)
-        except OperationalError:
-            return render(request, "errors/error500.html", {
-                "mensaje": "Contacte con el servicio de sistemas"
-            })
-        except IntegrityError:
+        except (OperationalError, IntegrityError):
             return render(request, "errors/error500.html", {
                 "mensaje": "Contacte con el servicio de sistemas"
             })
@@ -507,11 +461,7 @@ def eliminar_com_gen(request):
                 return JsonResponse({"msg": "Éxito", "msg_salida": mensaje, "status": "success"}, status=200)
             else:
                 return JsonResponse({"msg": "Error", "msg_salida": "El perfil no pudo ser actualizado", "status": "error"}, status=200)
-        except OperationalError:
-            return render(request, "errors/error500.html", {
-                "mensaje": "Contacte con el servicio de sistemas"
-            })
-        except IntegrityError:
+        except (OperationalError, IntegrityError):
             return render(request, "errors/error500.html", {
                 "mensaje": "Contacte con el servicio de sistemas"
             })
@@ -531,11 +481,7 @@ def eliminar_com_tec(request):
                 return JsonResponse({"msg": "Éxito", "msg_salida": mensaje, "status": "success"}, status=200)
             else:
                 return JsonResponse({"msg": "Error", "msg_salida": "El perfil no pudo ser actualizado", "status": "error"}, status=500)
-        except OperationalError:
-            return render(request, "errors/error500.html", {
-                "mensaje": "Contacte con el servicio de sistemas"
-            })
-        except IntegrityError:
+        except (OperationalError, IntegrityError):
             return render(request, "errors/error500.html", {
                 "mensaje": "Contacte con el servicio de sistemas"
             })
@@ -551,11 +497,7 @@ def eliminar_asp_ssmac(request):
             cursor.callproc("MODIFICAR_ELIMINAR_PP", [request.session.get("email"), "ELIMINAR ASP SSMAC", request.POST.get("id_p"), "", "", "", "", "", "", "", request.POST.get("aspecto")])
             mensaje = cursor.fetchall()[0][0]
             print(mensaje)
-        except OperationalError:
-            return render(request, "errors/error500.html", {
-                "mensaje": "Contacte con el servicio de sistemas"
-            })
-        except IntegrityError:
+        except (OperationalError, IntegrityError):
             return render(request, "errors/error500.html", {
                 "mensaje": "Contacte con el servicio de sistemas"
             })
@@ -575,11 +517,7 @@ def eliminar_requer_fis(request):
             cursor.callproc("MODIFICAR_ELIMINAR_PP", [request.session.get("email"), "ELIMINAR REQ FIS", request.POST.get("id_p"), "", "", "", "", "", "", "", request.POST.get("req")])
             mensaje = cursor.fetchall()[0][0]
             print(mensaje)
-        except OperationalError:
-            return render(request, "errors/error500.html", {
-                "mensaje": "Contacte con el servicio de sistemas"
-            })
-        except IntegrityError:
+        except (OperationalError, IntegrityError):
             return render(request, "errors/error500.html", {
                 "mensaje": "Contacte con el servicio de sistemas"
             })
