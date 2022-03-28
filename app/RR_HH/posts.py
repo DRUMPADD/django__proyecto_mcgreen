@@ -43,20 +43,20 @@ def funcion1(request):
             if subor != None and superv == None:
                 cursor.callproc("AGREGAR_SUB_SUP", [request.session.get("email"), puesto, subor])
                 mensaje = cursor.fetchall()[0][0]
-                cursor.close()
                 print(mensaje)
+                cursor.close()
             elif subor == None and superv != None:
                 cursor2.callproc("AGREGAR_SUP", [request.session.get("email"), puesto, superv])
                 mensaje = cursor2.fetchall()[0][0]
-                cursor2.close()
                 print(mensaje)
+                cursor2.close()
             else:
                 cursor.callproc("AGREGAR_SUB_SUP", [request.session.get("email"), puesto, subor])
                 mensaje = cursor.fetchall()[0][0]
                 cursor.close()
                 cursor2.callproc("AGREGAR_SUP", [request.session.get("email"), puesto, superv])
-                cursor2.close()
                 print(mensaje)
+                cursor2.close()
             cursor.close()
             cursor2.close()
         except (OperationalError, IntegrityError):
@@ -406,6 +406,7 @@ def eliminar_subordinado(request):
             cursor = connection.cursor()
             cursor.callproc("MODIFICAR_ELIMINAR_PP", [request.session.get("email"), request.POST.get("opcion"), request.POST.get("id_p"), "", "", "", "", "", "", request.POST.get("sub"), ""])
             mensaje = cursor.fetchall()[0][0]
+            print(mensaje)
         except OperationalError:
             return render(request, "errors/error500.html", {
                 "mensaje": "Contacte con el servicio de sistemas"
@@ -429,6 +430,7 @@ def eliminar_supervisor(request):
             cursor = connection.cursor()
             cursor.callproc("MODIFICAR_ELIMINAR_PP", [request.session.get("email"), request.POST.get("opcion"), request.POST.get("id_p"), "", "", "", "", "", "", request.POST.get("sup"), ""])
             mensaje = cursor.fetchall()[0][0]
+            print(mensaje)
         except OperationalError:
             return render(request, "errors/error500.html", {
                 "mensaje": "Contacte con el servicio de sistemas"
@@ -452,6 +454,7 @@ def eliminar_funcion(request):
             cursor = connection.cursor()
             cursor.callproc("MODIFICAR_ELIMINAR_PP", [request.session.get("email"), request.POST.get("opcion"), request.POST.get("id_p"), "", "", "", "", "", "", "", request.POST.get("funcion")])
             mensaje = cursor.fetchall()[0][0]
+            print(mensaje)
         except OperationalError:
             return render(request, "errors/error500.html", {
                 "mensaje": "Contacte con el servicio de sistemas"
@@ -475,6 +478,7 @@ def eliminar_res_ad(request):
             cursor = connection.cursor()
             cursor.callproc("MODIFICAR_ELIMINAR_PP", [request.session.get("email"), "ELIMINAR RESP ADQ", request.POST.get("id_p"), "", "", "", "", "", "", "", request.POST.get("res_ad")])
             mensaje = cursor.fetchall()[0][0]
+            print(mensaje)
             if mensaje == 'OBJETIVO ACTUALIZADO':
                 return JsonResponse({"msg": "Éxito", "msg_salida": mensaje, "status": "success"}, status=200)
             else:
@@ -546,6 +550,7 @@ def eliminar_asp_ssmac(request):
             cursor = connection.cursor()
             cursor.callproc("MODIFICAR_ELIMINAR_PP", [request.session.get("email"), "ELIMINAR ASP SSMAC", request.POST.get("id_p"), "", "", "", "", "", "", "", request.POST.get("aspecto")])
             mensaje = cursor.fetchall()[0][0]
+            print(mensaje)
         except OperationalError:
             return render(request, "errors/error500.html", {
                 "mensaje": "Contacte con el servicio de sistemas"
@@ -569,6 +574,7 @@ def eliminar_requer_fis(request):
             cursor = connection.cursor()
             cursor.callproc("MODIFICAR_ELIMINAR_PP", [request.session.get("email"), "ELIMINAR REQ FIS", request.POST.get("id_p"), "", "", "", "", "", "", "", request.POST.get("req")])
             mensaje = cursor.fetchall()[0][0]
+            print(mensaje)
         except OperationalError:
             return render(request, "errors/error500.html", {
                 "mensaje": "Contacte con el servicio de sistemas"

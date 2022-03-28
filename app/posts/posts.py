@@ -401,6 +401,7 @@ def agregar_clientes(request):
                         cursor = connection.cursor()
                         cursor.callproc("Agrega_CLIENTE",[form["Identificador"].value(), form["cliente"].value(), form["direccion"].value(), form["telefono"].value(), form["email"].value()])
                         mensaje = cursor.fetchall()[0][0]
+                        print(mensaje)
                     except (OperationalError, IntegrityError):
                         return render(request, "errors/error500.html", {
                             "mensaje": "Contacte con el servicio de sistemas"
