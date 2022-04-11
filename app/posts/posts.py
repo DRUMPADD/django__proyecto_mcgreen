@@ -3,7 +3,7 @@ from django.http.response import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.contrib import messages
 from .. import models
-from django.db import IntegrityError, OperationalError, connection
+from django.db import IntegrityError, InternalError, OperationalError, connection
 from ..forms import formulario_cliente, formulario_proveedor, Formulario_registro
 # from openpyxl import Workbook
 # from openpyxl.styles import Font
@@ -39,6 +39,63 @@ def registra_usuario(request):
                 return redirect("/Registro")
     else:
         return redirect("/Registro")
+
+def crear_evento(request):
+    if request.method == 'POST' and request.is_ajax():
+        fecha = request.POST.get("fecha_evento")
+        opcion = request.POST.get("opciones")
+        usuarios = request.POST.getlist("sl_usuarios")
+        nombre_evento = request.POST.get("evento_nombre")
+        descripcion = request.POST.get("descripcion_evento")
+        prioridad = request.POST.get("sl_prioridades")
+
+        print(opcion)
+        print(fecha)
+        print(nombre_evento)
+        print(descripcion)
+        print(prioridad)
+
+        if opcion == 'TODO EL PERSONAL':
+            mensaje = ""
+            try:
+                cursor = connection.cursor()
+                cursor.callproc("CREAR_EVENTO", [request.session.get("email"), opcion, nombre_evento, descripcion, fecha, prioridad])
+                mensaje = cursor.fetchall()[0][0]
+            except (InternalError, OperationalError) as e:
+                print(e)
+                return JsonResponse({"status": "error", "mensaje": "Error al realizar el procedimiento"}, status=200)
+            finally:
+                cursor.close()
+            return JsonResponse({"status": "success", "mensaje": mensaje}, status=200)
+        else:
+            ids_creados = []
+            print(usuarios)
+            for i in range(0, len(usuarios)):
+                try:
+                    cursor = connection.cursor()
+                    cursor.callproc("CREAR_EVENTO", ["erick@sigssmac.com.mx", opcion, nombre_evento, descripcion, fecha, prioridad])
+                    id_creado = cursor.fetchall()[0][0]
+                    print(id_creado)
+                    ids_creados.append(id_creado)
+                except (InternalError, OperationalError) as e:
+                    print(e)
+                    return JsonResponse({"status": "error", "mensaje": "Error al realizar el procedimiento de crear evento"}, status=200)
+                finally:
+                    cursor.close()
+            mensaje = ""
+            for i in range(0, len(ids_creados)):
+                try:
+                    asignar_evento = connection.cursor()
+                    asignar_evento.callproc("ASIGNAR_EVENTO", ["erick@sigssmac.com.mx", ids_creados[i], usuarios[i]])
+                    mensaje = asignar_evento.fetchall()[0][0]
+                except (InternalError, OperationalError) as e:
+                    print(e)
+                    return JsonResponse({"status": "error", "mensaje": "Error al realizar el procedimiento de asignar evento"}, status=200)
+                finally:
+                    asignar_evento.close()
+            return JsonResponse({"status": "success", "mensaje": mensaje}, status=200)
+    else:
+        return JsonResponse({"status": "error", "mensaje": "La petición falló"}, status=200)
 
 def agregar_producto(request):
     if request.session.get('email'):
