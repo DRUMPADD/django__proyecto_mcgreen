@@ -25,12 +25,21 @@ def mostrar_grafica(request):
             cantidades_co = []
             try:
                 cursor = connection.cursor()
+                cursor.callproc("ESTADISTICAS_GRAFICA_DETALLADO", ["GENERAL", fecha_I, fecha_T])
+                detalles_general = cursor.fetchall()
+                print("Aqui están tus datos generales detallados\n", detalles_general)
+            except (OperationalError, IntegrityError) as e:
+                print(e)
+                print("No mostró detalles generales")
+                return JsonResponse({"status": "error", "datos": "No se pudo ejecutar la operación"}, status=200)
+            finally:
+                cursor.close()
+            try:
+                cursor = connection.cursor()
                 cursor.callproc("ESTADISTICAS", [request.POST.get("opcion_vista"), fecha_I, fecha_T, "", "", ""])
                 datos = cursor.fetchall()                
             except (OperationalError, IntegrityError):
-                return render(request, "errors/error500.html", {
-                    "mensaje": "Contacte con el servicio de sistemas"
-                })
+                return JsonResponse({"status": "error", "datos": "No se pudo ejecutar la operación"}, status=200)
             finally:
                 cursor.close()
             try: 
@@ -49,12 +58,10 @@ def mostrar_grafica(request):
                     if estadisticas_obt[est_][2] == 'consumo':
                         cantidades_co.append(estadisticas_obt[est_][1])
             except (OperationalError, IntegrityError):
-                return render(request, "errors/error500.html", {
-                    "mensaje": "Contacte con el servicio de sistemas"
-                })
+                return JsonResponse({"status": "error", "datos": "No se pudo ejecutar la operación"}, status=200)
             finally:
                 est_general.close()
-            return JsonResponse({"datos": datos, "fechas": fechas_, "c_compras": cantidades_c, "c_ventas": cantidades_v, "c_ingresos": cantidades_i, "c_consumos": cantidades_co}, status=200)
+            return JsonResponse({"datos": datos, "fechas": fechas_, "c_compras": cantidades_c, "c_ventas": cantidades_v, "c_ingresos": cantidades_i, "c_consumos": cantidades_co, "detalles": detalles_general}, status=200)
         else:
             productos_dic = {}
             try:
@@ -75,9 +82,7 @@ def mostrar_grafica(request):
                         productos_dic[producto_] = est_producto.fetchall()
                         est_producto.close()
             except (OperationalError, IntegrityError):
-                return render(request, "errors/error500.html", {
-                    "mensaje": "Contacte con el servicio de sistemas"
-                })
+                return JsonResponse({"status": "error", "datos": "No se pudo ejecutar la operación"}, status=200)
             return JsonResponse({"datos": datos, "productos": productos_dic}, status=200)
     else:
         return redirect("indicadores")
