@@ -117,9 +117,104 @@
             <li class="nav-item"><a class="nav-link" href="{% url 'cerrar_sesion' %}">Cerrar sesión</a></li>
         </ul>
     </nav>
-    <h1 class="text-center text-white">Aquí va una página de inicio</h1>
+    <h1 class="text-center text-white">Bienvenido a McGreen</h1>
+    {% if privilegio != 'EMPLEADO' %}
+    <div class="container d-flex justify-content-center align-items-center">
+        <div class="card card-body col-lg-5">
+            <form>
+                {% csrf_token %}
+                <div>
+                    <div class="mt-2 mb-2">
+                        <label>Fecha de entrega</label>
+                        <input type="datetime" name="fecha_evento" placeholder="YYYY-MM-DD HH:MM:SS" class="form-control">
+                    </div>
+                    <label class="h2">Seleccionar opciones</label>
+                    <div>
+                        <input type="radio" name="opciones" class="form-check-input" id="persona_especifico" value="PERSONA EN ESPECIFICO">
+                        <label for="persona_especifico">Por persona</label>
+                    </div>
+                    <div>
+                        <input type="radio" name="opciones" class="form-check-input" id="todo_personal" value="TODO EL PERSONAL">
+                        <label for="todo_personal">Todo el personal</label>
+                    </div>
+                </div>
+                <div id="persona">
+                        <button type="button" class="btn mt-3 mb-2 btn-danger" id="btn_cerrar_opc1">X</button>
+                    <div class="mt-2 mb-2">
+                        <label>Seleccionar usuarios</label>
+                        <select name="sl_usuarios" class="form-select usuario mt-2">
+                            <option selected disabled>--Seleccionar--</option>
+                            {% for usuario in usuarios %}
+                            <option value="{{ usuario.0 }}">{{ usuario.3 }} {{ usuario.4 }} {{ usuario.5 }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="mt-2 mb-2 d-flex justify-content-around align-items-center">
+                    <div>
+                        <label>Nombre de la tarea o evento</label>
+                        <input type="text" name="evento_nombre" class="form-control">
+                    </div>
+                    <div>
+                        <label>Prioridad de la tarea o evento</label>
+                        <select name="sl_prioridades" class="form-select">
+                            <option selected disabled>--Seleccionar--</option>
+                            <option value="Baja">Baja</option>
+                            <option value="Media">Media</option>
+                            <option value="Alta">Alta</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mt-2 mb-2">
+                    <label>Descripción de la tarea o evento</label>
+                    <textarea name="descripcion_evento" class="form-control" cols="30" rows="5"></textarea>
+                </div>
+                <div class="d-flex justify-content-evenly align-items-center mt-2">
+                    <input type="button" class="btn btn-info form-control" id="otro_usuario" value="Añadir otro usuario">
+
+                    <input type="submit" class="btn btn-success form-control" id="enviar_evento" data-ajax="{% url 'crear_evento' %}" value="Enviar">
+                </div>
+            </form>
+        </div>
+    </div>
+    {% endif %}
+    <div style="display: flex; justify-content: space-around;">
+        <section style="width: 50%;">
+            <h1 class="text-center text-white">Hoy</h1>
+            <div id="personal">
+                {% for evento in eventos %}
+                {% now 'Y-m-d' as today %}
+                    {% if today == evento.3|date:'Y-m-d' %}
+                        <div class="alert alert-light">
+                            <h3>{{ evento.1 }}</h3>
+                            <p>{{ evento.2 }}</p>
+                            <p>Fecha de entrega: {{ evento.3|naturalday }} {{ evento.3|date:'P' }}</p>
+                            <p>Prioridad: {{ evento.4 }}</p>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </section>
+        <section>
+            <h1 class="text-center text-white">Próximas</h1>
+            <div  id="mensajes">
+                {% for evento in eventos %}
+                    {% now 'Y-m-d' as today %}
+                    {% if evento.3|date:'Y-m-d' > today %}
+                        <div class="alert alert-info">
+                            <h3>{{ evento.1 }}</h3>
+                            <p>{{ evento.2 }}</p>
+                            <p>Fecha de entrega: {{ evento.3|naturalday }} {{ evento.3|date:'P' }}</p>
+                            <p>Prioridad: {{ evento.4 }}</p>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </section>
+    </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="{% static 'js/inicio.js' %}"></script>
 </body>
 </html>
