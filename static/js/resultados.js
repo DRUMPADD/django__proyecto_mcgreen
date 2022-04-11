@@ -1,13 +1,31 @@
 $(document).ready(function () {
     const ctx = document.getElementById('canvas_general').getContext('2d');
+    const medidas = {
+        'CH': 'Talla CH',
+        'M': 'Talla M',
+        'G': 'Talla G',
+        'mg': 'Miligramo',
+        'kg': 'Kilogramo',
+        'ml': 'Mililitro',
+        'L': 'Litro',
+        'm^3': 'Metro cúbico',
+        'Unidad': 'Unidad',
+        'SERVICIO': 'Servicio',
+        'PIEZA': 'Pieza',
+        'PAR': 'Par',
+        'USD': 'Dólar',
+        'MXN': 'Peso mexicano',
+    }
     $("#contenedor_canvas").hide();
     function limpiar_todo() {
         $("#tabla_general").hide();
         $("#tabla_productos").hide();
+        $("#t_detalles_gen").hide();
         $("#t_detalles_prod").hide();
         $("#contenedor_canvas").hide();
         $("#response").empty();
         $("#response2").empty();
+        $(".t_detalles_body_gen").empty();
         $(".t_detalles_body").empty();
         $("form").trigger("reset");
         $("#h1_info").hide();
@@ -279,6 +297,7 @@ $(document).ready(function () {
     $("#tabla_general").hide();
     $("#tabla_productos").hide();
     $("#t_detalles_prod").hide();
+    $("#t_detalles_gen").hide();
     
     const resetear_formulario = () => {
         $("#opc_1").hide();
@@ -392,6 +411,22 @@ $(document).ready(function () {
                                         campo_td.innerText = valor_dato.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                                         elemento.appendChild(campo_td);
                                     });
+                                    for(let i = 0; i < res.detalles.length; i++) {
+                                        var tr_gen = document.createElement("tr");
+                                        for(let j = 0; j < res.detalles[i].length; j++) {
+                                            var campo = document.createElement("td");
+                                            if(res.detalles[i][j] in medidas) {
+                                                campo.innerText = medidas[res.detalles[i][j]];
+                                            } else if(typeof(res.detalles[i][2]) == 'number' && (res.detalles[i][4] == 'compra' || res.detalles[i][4] == 'venta')) {
+                                                campo.innerText = "$ " + res.detalles[i][j];
+                                            }  else {
+                                                campo.innerText = res.detalles[i][j];
+                                            }
+                                            tr_gen.appendChild(campo);
+                                        }
+                                        $("#t_detalles_body_gen").append(tr_gen);
+                                    }
+                                    $("#t_detalles_gen").show();
                                     $("#response").append(elemento);
                                     $("#h1_info").hide();
                                     $("#tabla_general").show();
@@ -472,7 +507,9 @@ $(document).ready(function () {
                                 var elemento = document.createElement("tr");
                                 for(let i = 0; i < valor_dato.length; i++) {
                                     let campo_td = document.createElement("td");
-                                    campo_td.innerText = valor_dato[i];
+                                    if(valor_dato[i] in medidas) {
+                                        campo_td.innerText = medidas[valor_dato[i]];
+                                    }
                                     elemento.appendChild(campo_td);
                                 }
                                 $("#response2").append(elemento);
