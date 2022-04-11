@@ -1,6 +1,7 @@
+from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from . import models
-from django.db import IntegrityError, OperationalError, connection
+from django.db import IntegrityError, InternalError, OperationalError, connection
 from .forms import formulario_cliente, formulario_proveedor, Formulario_registro
 
 # Create your views here.
@@ -43,8 +44,32 @@ def iniciar_sesion(request):
 
 def inicio(request):
     if request.session.get("email"):
+        try:
+            cursor = connection.cursor()
+            cursor.callproc("MOSTRAR_USUARIOS")
+            usuarios = cursor.fetchall()
+        except (InternalError, OperationalError) as e:
+            print(e)
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        finally:
+            cursor.close()
+        try:
+            cursor = connection.cursor()
+            cursor.callproc("MOSTRAR_MIS_EVENTOS_HOY", [request.session.get("email")])
+            eventos = cursor.fetchall()
+        except (InternalError, OperationalError) as e:
+            print(e)
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        finally:
+            cursor.close()
         context = {
-            'privilegio': request.session.get("privilegio")
+            'usuarios': usuarios,
+            'eventos': eventos,
+            'privilegio': request.session.get("privilegio"),
         }
         return render(request, "inicio.html", context)
     else:
