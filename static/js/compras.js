@@ -19,6 +19,7 @@ $(document).ready(function () {
         $formulario.find("input[name='motivo']").val("");
         $formulario.find("input[name='articulo']").val(contador);
         $formulario.find("input[name='cantidad']").val("");
+        $formulario.find("input[name='densidad']").val(1);
         $formulario.find("input[name='p_u']").val("");
         $formulario.insertAfter(".agrega_articulo .articulos:last");
     });
