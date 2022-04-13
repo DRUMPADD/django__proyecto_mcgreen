@@ -228,6 +228,7 @@ def generar_compra(request):
         sl_proveedores = request.POST.getlist("sl_proveedores")
         sl_productos = request.POST.getlist("sl_productos")
         cantidades = request.POST.getlist("cantidad")
+        densidades = request.POST.getlist("densidad")
         p_u = request.POST.getlist("p_u")
         mensaje_c1 = ""
         mensaje_c2 = ""
@@ -262,7 +263,8 @@ def generar_compra(request):
                             "articulo": i + 1,
                             "sl_proveedores": sl_proveedores[i],
                             "sl_productos": sl_productos[i],
-                            "cantidades": cantidades[i],
+                            "cantidades": float(cantidades[i]),
+                            "densidades": float(densidades[i]),
                             "p_u": p_u[i],
                         })
                     for i in range(len(datos)):
@@ -277,7 +279,7 @@ def generar_compra(request):
                             print(datos[i]["sl_productos"])
                             print(datos[i]["cantidades"])
                             print(datos[i]["p_u"])
-                            compra_2.callproc("COMPRA_p2", [datos[i]["sl_productos"], mensaje_c1, i + 1, datos[i]["cantidades"], datos[i]["p_u"], datos[i]["sl_proveedores"]])
+                            compra_2.callproc("COMPRA_p2", [datos[i]["sl_productos"], mensaje_c1, i + 1, datos[i]["cantidades"] / datos[i]["densidades"], datos[i]["p_u"], datos[i]["sl_proveedores"]])
                             mensaje_c2 = compra_2.fetchall()[0][0]
                             compra_2.close()
                         except (OperationalError, IntegrityError):
