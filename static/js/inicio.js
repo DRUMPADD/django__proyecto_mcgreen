@@ -11,7 +11,7 @@ $(document).ready(function () {
     }
 
     $("input[name='opciones']").click(function () {
-        if($(this).val() == 'PERSONA EN ESPECIFICO') {
+        if($(this).val() == 'ACTIVIDAD' || $(this).val() == 'EVENTO') {
             $("#persona").show();
             $("#otro_usuario").show();
         } else {
