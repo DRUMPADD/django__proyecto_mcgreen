@@ -277,22 +277,26 @@ def funcion9(request):
 def crear_directorio(request):
     if request.method == 'POST' and request.is_ajax():
         mensaje = ""
-        try:
-            cursor = connection.cursor()
-            cursor.callproc("AGREGAR_EMPLEADO_V2", [request.session.get("email"), "", request.POST.get("nombre_emp"), request.POST.get("ap_paterno"), request.POST.get("ap_materno"), request.POST.get("sl_puesto"),request.POST.get("fecha_registro"), request.POST.get("edad"), request.POST.get("grado_estudio"), request.POST.get("direccion"), request.POST.get("sl_sexo"), request.POST.get("estado"), request.POST.get("tipo_sangre"), request.POST.get("cont_emergencia"), request.POST.get("emergencia"), request.POST.get("experiencia"), request.POST.get("cap_requerida"), request.POST.get("nss"), request.POST.get("curp"), request.POST.get("rfc"), request.POST.get("correo"), request.POST.get("celular"), request.POST.get("fec_nac")])
-            mensaje = cursor.fetchall()[0][0]
-            print(mensaje)
-        except (OperationalError, IntegrityError) as e:
-            print(e)
-            return render(request, "errors/error500.html", {
-                "mensaje": "Contacte con el servicio de sistemas"
-            })
-        finally:
-            cursor.close()
-        if mensaje == 'CARACTERISTICAS AGREGADAS A EL EMPLEADO':
-            return JsonResponse({"bg_msg": "Datos enviados","msg": mensaje, "state": "success"}, status=200)
+        puesto = request.POST.get("sl_puesto")
+        if puesto != None or puesto != 'None':
+            try:
+                cursor = connection.cursor()
+                cursor.callproc("AGREGAR_EMPLEADO_V2", [request.session.get("email"), "", request.POST.get("nombre_emp"), request.POST.get("ap_paterno"), request.POST.get("ap_materno"), puesto, request.POST.get("fecha_registro"), request.POST.get("edad"), request.POST.get("grado_estudio"), request.POST.get("direccion"), request.POST.get("sl_sexo"), request.POST.get("estado"), request.POST.get("tipo_sangre"), request.POST.get("cont_emergencia"), request.POST.get("emergencia"), request.POST.get("experiencia"), request.POST.get("cap_requerida"), request.POST.get("nss"), request.POST.get("curp"), request.POST.get("rfc"), request.POST.get("correo"), request.POST.get("celular"), request.POST.get("fec_nac")])
+                mensaje = cursor.fetchall()[0][0]
+                print(mensaje)
+            except (OperationalError, IntegrityError) as e:
+                print(e)
+                return render(request, "errors/error500.html", {
+                    "mensaje": "Contacte con el servicio de sistemas"
+                })
+            finally:
+                cursor.close()
+            if mensaje == 'CARACTERISTICAS AGREGADAS A EL EMPLEADO':
+                return JsonResponse({"state": "success", "bg_msg": "Datos enviados","msg": mensaje}, status=200)
+            else:
+                return JsonResponse({"state": "error", "bg_msg": "Error ocurrido", "msg": mensaje}, status=200)
         else:
-            return JsonResponse({"bg_msg": "Error ocurrido", "msg": mensaje, "state": "error"}, status=200)
+            return JsonResponse({"state": "error", "bg_msg": "Debe seleccionar un puesto"}, status=200)
     else:
         return JsonResponse({"status": "error", "msg": "No es posible realizar dicha acción"}, status=200)
 
