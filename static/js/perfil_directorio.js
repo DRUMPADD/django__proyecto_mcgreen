@@ -333,58 +333,37 @@ $(document).ready(function () {
 
     $("#form_crear_directorio").submit(function (e) {
         e.preventDefault();
-        var id_p_select = "";
-        $("#select[name='sl_puesto']").change(function () {
-            id_p_select = $(this).children("option:selected").val();
-        });
-        switch (id_p_select) {
-            case id_p_select != "":
-            case id_p_select !== undefined:
-            case id_p_select !== null:
-                var respuestas = $("#form_crear_directorio").serializeArray();
-                $.ajax({
-                    type: "POST",
-                    url: $("#enviar_direc").attr("data-ajax-target"),
-                    data: respuestas, 
-                    success: function (res) {
-                        switch(res.state) {
-                            case 'success':
-                                saber_seleccionado();
-                                $("#form_crear_directorio").trigger("reset");
-                                $("#form_crear_directorio").hide();
-                                swal.fire({
-                                    position: 'center',
-                                    icon: res.state,
-                                    title: res.msg,
-                                    showConfirmButton: false,
-                                    timer: 2000
-                                })
-                                // swal(res.bg_msg, res.msg, res.state);
-                                recargar__direct();
-                                break;
-                            default:
-                                swal.fire({
-                                    position: 'center',
-                                    icon: res.state,
-                                    title: res.msg,
-                                    showConfirmButton: false,
-                                    timer: 4000
-                                })
-                                break;
-                            }
+        $.ajax({
+            type: "POST",
+            url: $("#enviar_direc").attr("data-ajax-target"),
+            data: respuestas, 
+            success: function (res) {
+                switch(res.state) {
+                    case 'success':
+                        saber_seleccionado();
+                        $("#form_crear_directorio").trigger("reset");
+                        $("#form_crear_directorio").hide();
+                        swal.fire({
+                            position: 'center',
+                            icon: res.state,
+                            title: res.msg,
+                            showConfirmButton: false,
+                            timer: 2000
+                        })
+                        recargar__direct();
+                        break;
+                    default:
+                        swal.fire({
+                            position: 'center',
+                            icon: res.state,
+                            title: res.msg,
+                            showConfirmButton: false,
+                            timer: 4000
+                        })
+                        break;
                     }
-                });
-            break;
-            default:
-                swal.fire({
-                    position: 'center',
-                    icon: "error",
-                    title: "Debe seleccionar un puesto",
-                    showConfirmButton: false,
-                    timer: 4000
-                })
-                break;
-        }
+            }
+        });
 
         // if(id_p_select == "" || id_p_select === undefined || id_p_select === null) {
         //     swal("Error", "Debe seleccionar un puesto", "error");
