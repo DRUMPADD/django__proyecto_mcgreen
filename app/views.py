@@ -55,6 +55,19 @@ def inicio(request):
             })
         finally:
             cursor.close()
+
+        try:
+            cursor = connection.cursor()
+            cursor.callproc("MOSTRAR_MIS_ACTIVIDADES", [request.session.get("email")])
+            actividades = cursor.fetchall()
+        except (InternalError, OperationalError) as e:
+            print(e)
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        finally:
+            cursor.close()
+
         try:
             cursor = connection.cursor()
             cursor.callproc("MOSTRAR_MIS_EVENTOS_HOY", [request.session.get("email")])
@@ -67,9 +80,10 @@ def inicio(request):
         finally:
             cursor.close()
         context = {
+            'privilegio': request.session.get("privilegio"),
             'usuarios': usuarios,
             'eventos': eventos,
-            'privilegio': request.session.get("privilegio"),
+            'actividades': actividades,
         }
         return render(request, "inicio.html", context)
     else:
@@ -397,6 +411,37 @@ def vista_quimico(request):
             cursor.close()
         
         return render(request, "Inventario/sistema.html", context)
+    else:
+        return redirect("/cerrar_sesion")
+
+def vista_eventos(request):
+    if request.session.get("email") and request.session.get("privilegio") != 'EMPLEADO':
+        try:
+            cursor = connection.cursor()
+            cursor.callproc("MOSTRAR_TODOS_LOS_EVENTOS")
+            eventos = cursor.fetchall()
+        except (InternalError, OperationalError) as e:
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        finally:
+            cursor.close()
+        
+        try:
+            cursor = connection.cursor()
+            cursor.callproc("MOSTRAR_TODAS_LAS_ACTIVIDADES")
+            actividades = cursor.fetchall()
+        except (InternalError, OperationalError) as e:
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        finally:
+            cursor.close()
+        context = {
+            'eventos': eventos,
+            'actividades': actividades,
+        }
+        return render(request, "RRHH/eventos.html", context)
     else:
         return redirect("/cerrar_sesion")
 
