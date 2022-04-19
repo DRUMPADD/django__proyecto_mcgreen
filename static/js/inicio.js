@@ -4,7 +4,8 @@ $(document).ready(function () {
 
     function limpiar_formulario() {
         $("form").trigger("reset");
-
+        $("#persona").hide();
+        $("#otro_usuario").hide();
         if($(".usuario_agregado")) {
             $(".usuario_agregado").remove();
         }
@@ -19,7 +20,6 @@ $(document).ready(function () {
             $("#otro_usuario").hide();
         }
     });
-
 
     $("#btn_cerrar_opc1").click(function () {
         let elemento_padre_opc1 = $(this).parent();
@@ -39,18 +39,34 @@ $(document).ready(function () {
 
     $("form").submit(function (e) {
         e.preventDefault();
-        $.ajax({
-            method: 'POST',
-            url: $("#enviar_evento").attr("data-ajax"),
-            data: $("form").serializeArray(),
-            success: function (response) {
-                if(response.status == 'success') {
-                    $("form").trigger("reset");
-                    alert(response.mensaje);
-                } else {
-                    alert(response.mensaje);
+        const fecha_evento = $("input[name='fecha_evento']").val();
+        console.log(!fecha_evento);
+        if(fecha_evento != '') {
+            $.ajax({
+                method: 'POST',
+                url: $("#enviar_evento").attr("data-ajax"),
+                data: $("form").serializeArray(),
+                success: function (response) {
+                    if(response.status == 'success') {
+                        limpiar_formulario();
+                        swal.fire({
+                            position: 'center',
+                            icon: res.status,
+                            title: res.mensaje,
+                            showConfirmButton: false,
+                            timer: 4000
+                        })
+                    } else {
+                        swal.fire({
+                            position: 'center',
+                            icon: res.status,
+                            title: res.mensaje,
+                            showConfirmButton: false,
+                            timer: 4000
+                        })
+                    }
                 }
-            }
-        })
+            })
+        }
     })
 });
