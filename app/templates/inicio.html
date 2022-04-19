@@ -198,6 +198,39 @@
                         </div>
                     {% endif %}
                 {% endfor %}
+                {% for actividad in actividades %}
+                {% now 'Y-m-d' as today %}
+                    {% if today == actividad.3|date:'Y-m-d' %}
+                        {% if actividad.5 == 'NO COMPLETADO' %}
+                            <div class="alert alert-danger">
+                                <h3>{{ actividad.1 }}</h3>
+                                <p>{{ actividad.2 }}</p>
+                                <p>Fecha de entrega: {{ actividad.3|naturalday }} {{ actividad.3|date:'P' }}</p>
+                                <p>Prioridad: {{ actividad.4 }}</p>
+                                <p>Estado: {{ actividad.5 }}</p>
+                            </div>
+                        {% elif actividad.5 == 'EN PROGRESO' %}
+                            <div class="alert alert-warning">
+                                <h3>{{ actividad.1 }}</h3>
+                                <p>{{ actividad.2 }}</p>
+                                <p>Fecha de entrega: {{ actividad.3|naturalday }} {{ actividad.3|date:'P' }}</p>
+                                <p>Prioridad: {{ actividad.4 }}</p>
+                                <p>Estado: {{ actividad.5 }}</p>
+                            </div>
+                        {% else %}
+                            {% now 'Y-m-d' as today %}
+                            {% if today != actividad.3|date:'Y-m-d' %}
+                            <div class="alert alert-success">
+                                <h3>{{ actividad.1 }}</h3>
+                                <p>{{ actividad.2 }}</p>
+                                <p>Fecha de entrega: {{ actividad.3|naturalday }} {{ actividad.3|date:'P' }}</p>
+                                <p>Prioridad: {{ actividad.4 }}</p>
+                                <p>Estado: {{ actividad.5 }}</p>
+                            </div>
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
             </div>
         </section>
         <section>
@@ -212,6 +245,18 @@
                             <p>Fecha de entrega: {{ evento.3|naturalday }} {{ evento.3|date:'P' }}</p>
                             <p>Prioridad: {{ evento.4 }}</p>
                         </div>
+                    {% endif %}
+                {% endfor %}
+                {% for actividad in actividades %}
+                {% now 'Y-m-d' as today %}
+                    {% if actividad.3|date:'Y-m-d' > today %}
+                    <div class="alert alert-light">
+                        <h3>{{ actividad.1 }}</h3>
+                        <p>{{ actividad.2 }}</p>
+                        <p>Fecha de entrega: {{ actividad.3|naturalday }} {{ actividad.3|date:'P' }}</p>
+                        <p>Prioridad: {{ actividad.4 }}</p>
+                        <p>Estado: {{ actividad.5 }}</p>
+                    </div>
                     {% endif %}
                 {% endfor %}
             </div>
