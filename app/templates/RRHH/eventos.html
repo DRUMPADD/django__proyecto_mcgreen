@@ -1,0 +1,206 @@
+{% load static %}
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eventos y tareas</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/estilos.css' %}" />
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+                <a href="{% url 'inicio' %}" class="nav-link">Inicio</a>
+            </li>
+        </ul>
+        {% if privilegio == 'ADM-IN1' %}
+        <ul class="navbar-nav me-auto">
+            <div class="dropdown">
+                <button class="nav-link dropdown-toggle btn" type="button" id="navbarDropdown" aria-haspopup="true" data-toggle="dropdown" aria-expanded="false">
+                    Inventario
+                </button>
+                <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item text-white" href="{% url 'Inventario_general' %}">Inventario general</a>
+                    <a class="dropdown-item text-white" href="{% url 'compras' %}">Entradas</a>
+                    <a class="dropdown-item text-white" href="{% url 'ventas' %}">Ventas</a>
+                    <a class="dropdown-item text-white" href="{% url 'otras_e_s' %}">Otras E/S</a>
+                    <a class="dropdown-item text-white" href="{% url 'crear_sistema' %}">Generar sistemas</a>
+                    <a class="dropdown-item text-white" href="{% url 'movimientos' %}">Movimientos de inventario</a>
+                    <a class="dropdown-item text-white" href="{% url 'Auditoria' %}">Auditoria</a>
+                </div>
+            </div>
+        </ul>
+        <ul class="navbar-nav me-auto">
+            <div class="dropdown">
+                <button class="nav-link dropdown-toggle btn" type="button" id="navbarDropdown" aria-haspopup="true" data-toggle="dropdown" aria-expanded="false">
+                    Recursos humanos
+                </button>
+                <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item text-white" href="{% url 'perfil_y_directorio' %}">Perfil de puesto - Directorio</a>
+                    <a class="dropdown-item text-white" href="{% url 'eventos_tareas' %}">Eventos y tareas asignados</a>
+                </div>
+            </div>
+        </ul>
+        <ul class="navbar-nav me-auto">
+            <div class="dropdown">
+                <button class="nav-link dropdown-toggle btn" type="button" id="navbarDropdown" aria-haspopup="true" data-toggle="dropdown" aria-expanded="false">
+                    Indicadores
+                </button>
+                <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item text-white" href="{% url 'indicadores' %}">Registro de movimientos</a>
+                </div>
+            </div>
+        </ul>
+        <ul class="navbar-nav me-auto">
+            <div class="dropdown">
+                <button class="nav-link dropdown-toggle btn" type="button" id="navbarDropdown" aria-haspopup="true" data-toggle="dropdown" aria-expanded="false">
+                    Usuarios
+                </button>
+                <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item text-white" href="{% url 'registro' %}">Registrar usuario</a>
+                    <a class="dropdown-item text-white" href="{% url 'usuarios' %}">Usuarios</a>
+                </div>
+            </div>
+        </ul>
+        {% elif privilegio == 'JEFE' %}
+        <ul class="navbar-nav me-auto">
+            <div class="dropdown">
+                <button class="nav-link dropdown-toggle btn" type="button" id="navbarDropdown" aria-haspopup="true" data-toggle="dropdown" aria-expanded="false">
+                    Inventario
+                </button>
+                <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item text-white" href="{% url 'Inventario_general' %}">Inventario general</a>
+                    <a class="dropdown-item text-white" href="{% url 'compras' %}">Entradas</a>
+                    <a class="dropdown-item text-white" href="{% url 'ventas' %}">Ventas</a>
+                    <a class="dropdown-item text-white" href="{% url 'otras_e_s' %}">Otras E/S</a>
+                    <a class="dropdown-item text-white" href="{% url 'crear_sistema' %}">Generar sistemas</a>
+                    <a class="dropdown-item text-white" href="{% url 'movimientos' %}">Movimientos de inventario</a>
+                </div>
+            </div>
+        </ul>
+        <ul class="navbar-nav me-auto">
+            <div class="dropdown">
+                <button class="nav-link dropdown-toggle btn" type="button" id="navbarDropdown" aria-haspopup="true" data-toggle="dropdown" aria-expanded="false">
+                    Recursos humanos
+                </button>
+                <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item text-white" href="{% url 'perfil_y_directorio' %}">Perfil de puesto - Directorio</a>
+                </div>
+            </div>
+        </ul>
+        <ul class="navbar-nav me-auto">
+            <div class="dropdown">
+                <button class="nav-link dropdown-toggle btn" type="button" id="navbarDropdown" aria-haspopup="true" data-toggle="dropdown" aria-expanded="false">
+                    Indicadores
+                </button>
+                <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item text-white" href="{% url 'indicadores' %}">Registro de movimientos</a>
+                </div>
+            </div>
+        </ul>
+        {% else %}
+        <ul class="navbar-nav me-auto">
+            <div class="dropdown">
+                <button class="nav-link dropdown-toggle btn" type="button" id="navbarDropdown" aria-haspopup="true" data-toggle="dropdown" aria-expanded="false">
+                    Inventario
+                </button>
+                <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item text-white" href="{% url 'Inventario_general' %}">Inventario general</a>
+                    <a class="dropdown-item text-white" href="{% url 'movimientos' %}">Movimientos de inventario</a>
+                </div>
+            </div>
+        </ul>
+        {% endif %}
+        <ul class="navbar-nav">
+            <li class="nav-item"><a class="nav-link" href="{% url 'cerrar_sesion' %}">Cerrar sesión</a></li>
+        </ul>
+    </nav>
+    <div class="container d-flex justify-content-center" style="height: 950px; overflow: auto;">
+        <div>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <td colspan="6" class="h3 text-center">Eventos</td>
+                    </tr>
+                    <tr>
+                        <td>Fecha</td>
+                        <td>Evento</td>
+                        <td>Descripción</td>
+                        <td>Asignador</td>
+                        <td>Asignado</td>
+                        <td>Prioridad</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for evento in eventos %}
+                        <tr class="alert alert-danger">
+                            <td>{{ evento.0|naturalday }} {{ evento.0|date:'P' }}</td>
+                            <td>{{ evento.1 }}</td>
+                            <td>{{ evento.2 }}</td>
+                            <td>{{ evento.3 }}</td>
+                            <td>{{ evento.4 }}</td>
+                            <td>{{ evento.5 }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="container d-flex justify-content-center mt-4 mb-2" style="height: 950px; overflow: auto;">
+        <div>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <td colspan="6" class="h3 text-center">Actividades</td>
+                    </tr>
+                    <tr>
+                        <td>Fecha</td>
+                        <td>Tarea</td>
+                        <td>Descripción</td>
+                        <td>Asignador</td>
+                        <td>Prioridad</td>
+                        <td>Estado</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for actividad in actividades %}
+                        {% if actividad.5 == 'NO COMPLETADO' %}
+                        <tr class="alert alert-danger">
+                            <td>{{ actividad.3|naturalday }} {{ actividad.3|date:'P' }}</td>
+                            <td>{{ actividad.1 }}</td>
+                            <td>{{ actividad.2 }}</td>
+                            <td>{{ actividad.0 }}</td>
+                            <td>{{ actividad.4 }}</td>
+                            <td>{{ actividad.5 }}</td>
+                        </tr>
+                        {% elif actividad.5 == 'EN PROGRESO' %}
+                        <tr class="alert alert-warning">
+                            <td>{{ actividad.3|naturalday }} {{ actividad.3|date:'P' }}</td>
+                            <td>{{ actividad.1 }}</td>
+                            <td>{{ actividad.2 }}</td>
+                            <td>{{ actividad.0 }}</td>
+                            <td>{{ actividad.4 }}</td>
+                            <td>{{ actividad.5 }}</td>
+                        </tr>
+                        {% else %}
+                        <tr class="alert alert-success">
+                            <td>{{ actividad.3|naturalday }} {{ actividad.3|date:'P' }}</td>
+                            <td>{{ actividad.1 }}</td>
+                            <td>{{ actividad.2 }}</td>
+                            <td>{{ actividad.0 }}</td>
+                            <td>{{ actividad.4 }}</td>
+                            <td>{{ actividad.5 }}</td>
+                        </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="{% static 'js/eventos.js' %}"></script>
+</body>
+</html>
