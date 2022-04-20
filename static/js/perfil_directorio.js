@@ -336,7 +336,7 @@ $(document).ready(function () {
         $.ajax({
             type: "POST",
             url: $("#enviar_direc").attr("data-ajax-target"),
-            data: respuestas, 
+            data: $("#form_crear_directorio").serializeArray(), 
             success: function (res) {
                 switch(res.state) {
                     case 'success':
