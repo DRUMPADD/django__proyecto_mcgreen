@@ -17,7 +17,7 @@ $(document).ready(function () {
     }
 
     $("select[name='sl_productos']").change(function() {
-        $("input[name='medida']").val($(this).val());
+        $("input[name='medida']").val($(this).val().split(' ')[1]);
     });
 
     $("form").submit(function (e) {
