@@ -391,9 +391,10 @@ def modificar_cuenta_por_cobrar(request):
 def agregar_otros(request):
     if request.method == 'POST':
         mensaje = ""
+        producto = str(request.POST.get("sl_productos")).split(' ')[0]
         try:
             cursor = connection.cursor()
-            cursor.callproc("MOV_INV", [request.POST["sl_productos"], request.POST["email"], request.POST["cantidad"], request.POST["fecha_otro"], request.POST["motivo"], request.POST["sl_tipo_mov"], request.POST["org_des"]])
+            cursor.callproc("MOV_INV", [producto, request.POST.get("email"), request.POST.get("cantidad"), request.POST["fecha_otro"], request.POST["motivo"], request.POST["sl_tipo_mov"], request.POST["org_des"]])
             mensaje = cursor.fetchall()[0][0]
         except (OperationalError, IntegrityError) as e:
             print(e)
