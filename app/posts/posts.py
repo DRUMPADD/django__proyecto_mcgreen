@@ -279,7 +279,7 @@ def generar_compra(request):
                             print(datos[i]["sl_productos"])
                             print(datos[i]["cantidades"])
                             print(datos[i]["p_u"])
-                            compra_2.callproc("COMPRA_p2", [datos[i]["sl_productos"], mensaje_c1, i + 1, datos[i]["cantidades"] / datos[i]["densidades"], datos[i]["p_u"], datos[i]["sl_proveedores"]])
+                            compra_2.callproc("COMPRA_p2", [datos[i]["sl_productos"], mensaje_c1, i + 1, datos[i]["cantidades"] * datos[i]["densidades"], datos[i]["p_u"], datos[i]["sl_proveedores"]])
                             mensaje_c2 = compra_2.fetchall()[0][0]
                             compra_2.close()
                         except (OperationalError, IntegrityError):
