@@ -129,25 +129,25 @@
                     {% endif %}
                 {% endfor %}
             {% endif %}
-            <form action="{% url 'agregar_otros' %}" method="POST" class="product-form card card-body">
+            <form method="POST" class="product-form card card-body">
                 {% csrf_token %}
                 <h1 class="card-title text-center">Añadir o eliminar producto</h1>
                 <div class="agrega_articulo">
                     <div class="articulos">
                         <div class="input-group d-flex justify-content-around">
-                            <div class="input-group d-flex justify-content-around">
+                            <div class="input-group d-flex justify-content-between">
                                 <div>
-                                    <label>Email: </label>
+                                    <label>Email:</label>
                                     <input type="email" name="email" class="form-control" ReadOnly="true" value="{{ sesion }}" />
                                 </div>
                                 <div>
-                                    <label>Fecha: </label>
+                                    <label>Fecha:</label>
                                     <input type="date" type="date" name="fecha_otro" class="form-control" />
                                 </div>
                             </div>
-                            <div class="input-group d-flex justify-content-around">
+                            <div class="input-group">
                                 <div>
-                                    <label>Id producto: </label>
+                                    <label>Producto:</label>
                                     <select name="sl_productos" class="form-select" >
                                         <option default disabled="true" selected>--Seleccionar--</option>
                                         {% for producto in productos %}
@@ -155,12 +155,18 @@
                                         {% endfor %}
                                     </select>
                                 </div>
+                            </div>
+                            <div class="input-group d-flex justify-content-around">
                                 <div>
-                                    <label>Cantidad: </label>
+                                    <label>Cantidad:</label>
                                     <input type="text" name="cantidad" class="form-control" />
                                 </div>
                                 <div>
-                                    <label>Tipo de movimiento: </label>
+                                    <label>Medida:</label>
+                                    <input type="text" name="medida" class="form-control" />
+                                </div>
+                                <div>
+                                    <label>Tipo de movimiento:</label>
                                     <select name="sl_tipo_mov" class="form-select">
                                         <option default disabled="true" selected>--Seleccionar--</option>
                                         <option value="INGRESO">INGRESO</option>
@@ -180,7 +186,7 @@
                         <hr />
                     </div>
                 </div>
-                <input type="submit" class="btn btn-primary form-control" value="Guardar" />
+                <input type="submit" class="btn btn-primary form-control" id="btn_enviar" target-ajax="{% url 'agregar_otros' %}" value="Guardar" />
             </form>
             <!--<button id="btnAddForm" type="button" class="btn btn-primary mt-4 bg-black">
                     <i class="bi bi-plus-circle d-flex align-items-center justify-content-center m-2">
@@ -199,5 +205,8 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{% static 'js/otras_e_s.js' %}"></script>
 </body>
 </html>
