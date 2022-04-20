@@ -129,7 +129,7 @@
                     {% endif %}
                 {% endfor %}
             {% endif %}
-            <form method="POST" class="product-form card card-body">
+            <form class="product-form card card-body">
                 {% csrf_token %}
                 <h1 class="card-title text-center">Añadir o eliminar producto</h1>
                 <div class="agrega_articulo">
@@ -145,13 +145,13 @@
                                     <input type="date" type="date" name="fecha_otro" class="form-control" />
                                 </div>
                             </div>
-                            <div class="input-group">
+                            <div>
                                 <div>
                                     <label>Producto:</label>
                                     <select name="sl_productos" class="form-select" >
                                         <option default disabled="true" selected>--Seleccionar--</option>
                                         {% for producto in productos %}
-                                            <option value="{{ producto.0 }}">{{ producto.1 }}</option>
+                                            <option value="{{ producto.0 }} {{ producto.4 }}">{{ producto.1 }}</option>
                                         {% endfor %}
                                     </select>
                                 </div>
@@ -163,7 +163,7 @@
                                 </div>
                                 <div>
                                     <label>Medida:</label>
-                                    <input type="text" name="medida" class="form-control" />
+                                    <input type="text" name="medida" class="form-control" readonly />
                                 </div>
                                 <div>
                                     <label>Tipo de movimiento:</label>
