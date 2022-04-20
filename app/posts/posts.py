@@ -395,17 +395,15 @@ def agregar_otros(request):
             cursor = connection.cursor()
             cursor.callproc("MOV_INV", [request.POST["sl_productos"], request.POST["email"], request.POST["cantidad"], request.POST["fecha_otro"], request.POST["motivo"], request.POST["sl_tipo_mov"], request.POST["org_des"]])
             mensaje = cursor.fetchall()[0][0]
-        except (OperationalError, IntegrityError):
-            return render(request, "errors/error500.html", {
-                "mensaje": "Contacte con el servicio de sistemas"
-            })
+        except (OperationalError, IntegrityError) as e:
+            print(e)
+            return JsonResponse({"status": "error","mensaje": "Error ocurrido, contacte con el servicio de sistemas"}, status=200)
         finally:
             cursor.close()
         if mensaje != 'FACTURA DISPONIBLE':
-            messages.error(request, "Ocurrió un error al realizar la operación")
+            return JsonResponse({"status": "error", "mensaje": mensaje}, status=200)
         else:
-            messages.success(request, "Operación realizada correctamente")
-        return redirect("/Otras_E_S")
+            return JsonResponse({"status": "success", "mensaje": mensaje}, status=200)
 
 # Proveedores
 # def agregar_proveedores(request):
