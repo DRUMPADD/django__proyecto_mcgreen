@@ -59,7 +59,7 @@ def crear_evento(request):
             mensaje = ""
             try:
                 cursor = connection.cursor()
-                cursor.callproc("CREAR_EVENTO", [request.session.get("email"), opcion, nombre_evento, descripcion, fecha, prioridad])
+                cursor.callproc("CREAR_EVENTO", ["erick@sigssmac.com.mx", opcion, nombre_evento, descripcion, fecha, prioridad])
                 mensaje = cursor.fetchall()[0][0]
             except (InternalError, OperationalError) as e:
                 print(e)
@@ -67,7 +67,7 @@ def crear_evento(request):
             finally:
                 cursor.close()
             return JsonResponse({"status": "success", "mensaje": mensaje}, status=200)
-        else:
+        elif opcion == 'EVENTO' or opcion == 'ACTIVIDAD':
             ids_creados = []
             print(usuarios)
             for i in range(0, len(usuarios)):
@@ -94,6 +94,8 @@ def crear_evento(request):
                 finally:
                     asignar_evento.close()
             return JsonResponse({"status": "success", "mensaje": mensaje}, status=200)
+        else:
+            return JsonResponse({"status": "error", "mensaje": "Debe elegir alguna de las 3 opciones"}, status=200)
     else:
         return JsonResponse({"status": "error", "mensaje": "La petición falló"}, status=200)
 
