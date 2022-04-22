@@ -59,7 +59,7 @@ def crear_evento(request):
             mensaje = ""
             try:
                 cursor = connection.cursor()
-                cursor.callproc("CREAR_EVENTO", ["erick@sigssmac.com.mx", opcion, nombre_evento, descripcion, fecha, prioridad])
+                cursor.callproc("CREAR_EVENTO", [request.session.get("email"), opcion, nombre_evento, descripcion, fecha, prioridad])
                 mensaje = cursor.fetchall()[0][0]
             except (InternalError, OperationalError) as e:
                 print(e)
@@ -73,7 +73,7 @@ def crear_evento(request):
             for i in range(0, len(usuarios)):
                 try:
                     cursor = connection.cursor()
-                    cursor.callproc("CREAR_EVENTO", ["erick@sigssmac.com.mx", opcion, nombre_evento, descripcion, fecha, prioridad])
+                    cursor.callproc("CREAR_EVENTO", [request.session.get("email"), opcion, nombre_evento, descripcion, fecha, prioridad])
                     id_creado = cursor.fetchall()[0][0]
                     print(id_creado)
                     ids_creados.append(id_creado)
@@ -86,7 +86,7 @@ def crear_evento(request):
             for i in range(0, len(ids_creados)):
                 try:
                     asignar_evento = connection.cursor()
-                    asignar_evento.callproc("ASIGNAR_EVENTO", ["erick@sigssmac.com.mx", ids_creados[i], usuarios[i]])
+                    asignar_evento.callproc("ASIGNAR_EVENTO", [request.session.get("email"), ids_creados[i], usuarios[i]])
                     mensaje = asignar_evento.fetchall()[0][0]
                 except (InternalError, OperationalError) as e:
                     print(e)
