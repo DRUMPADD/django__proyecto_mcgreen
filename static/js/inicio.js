@@ -51,21 +51,29 @@ $(document).ready(function () {
                         limpiar_formulario();
                         swal.fire({
                             position: 'center',
-                            icon: res.status,
-                            title: res.mensaje,
+                            icon: response.status,
+                            title: response.mensaje,
                             showConfirmButton: false,
                             timer: 4000
                         })
                     } else {
                         swal.fire({
                             position: 'center',
-                            icon: res.status,
-                            title: res.mensaje,
+                            icon: response.status,
+                            title: response.mensaje,
                             showConfirmButton: false,
                             timer: 4000
                         })
                     }
                 }
+            })
+        } else {
+            swal.fire({
+                position: 'center',
+                icon: "warning",
+                title: "Debe llenar todos los campos",
+                showConfirmButton: false,
+                timer: 4000
             })
         }
     })
