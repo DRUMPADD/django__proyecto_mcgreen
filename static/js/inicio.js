@@ -2,6 +2,24 @@ $(document).ready(function () {
     $("#persona").hide();
     $("#otro_usuario").hide();
 
+    function validar_formulario() {
+        $("form input").each(function (indexInArray, valueOfElement) { 
+            var inputs_no_vacios = false;
+            if($(this).val() == '') {
+                inputs_no_vacios = true;
+            }
+        });
+        
+        $("form select option:selected").each(function (indexInArray, valueOfElement) { 
+            var select_no_vacio = false;
+            if($(this).is("disabled")) {
+                select_no_vacio = true;
+            }
+        });
+
+        return inputs_no_vacios && inputs_no_vacios;
+    }
+
     function limpiar_formulario() {
         $("form").trigger("reset");
         $("#persona").hide();
@@ -41,7 +59,7 @@ $(document).ready(function () {
         e.preventDefault();
         const fecha_evento = $("input[name='fecha_evento']").val();
         console.log(!fecha_evento);
-        if(fecha_evento != '') {
+        if(validar_formulario() === true) {
             $.ajax({
                 method: 'POST',
                 url: $("#enviar_evento").attr("data-ajax"),
