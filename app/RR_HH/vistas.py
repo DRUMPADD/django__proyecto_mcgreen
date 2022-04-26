@@ -53,6 +53,7 @@ def directorio_perfil(request):
             'privilegio': request.session.get("privilegio"),
             'puestos': puestos,
             'departamentos': departamentos,
+            'departamento': request.session.get("departamento"),
             'empleados': empleados,
             "email": request.session.get("email"),
         }
