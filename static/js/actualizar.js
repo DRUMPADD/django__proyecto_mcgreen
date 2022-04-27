@@ -11,7 +11,7 @@ $(document).ready(function() {
 
         $("input[name='id_']").val($(element).find("td").eq(0).text());
         $("input[name='fecha_registro']").val($(element).find("td").eq(1).text());
-        $("input[name='pozo']").val($(element).find("td").eq(3).text());
+        $("input[name='pozo']").val($(element).find("td").eq(4).text());
         e.preventDefault();
     });
 
