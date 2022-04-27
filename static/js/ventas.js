@@ -4,7 +4,7 @@ $(document).ready(function () {
         var medida = $(this).val().split(' ')[1];
         
         $("input[name='precio']").val(parseFloat(precio));
-        $("input[name='medida']").val(parseFloat(medida));
+        $("input[name='medida']").val(medida);
     });
 
     $("form").submit(function (e) {
