@@ -1,8 +1,10 @@
 $(document).ready(function () {
     $("#form-c_p_c select[name='sl_sistemas']").on('change', function() {
-        var $this = $(this).val().split(' ')[1];
+        var precio = $(this).val().split(' ')[2];
+        var medida = $(this).val().split(' ')[1];
         
-        $('#precio_usd').val(parseFloat($this));
+        $("input[name='precio']").val(parseFloat(precio));
+        $("input[name='medida']").val(parseFloat(medida));
     });
 
     $("form").submit(function (e) {
