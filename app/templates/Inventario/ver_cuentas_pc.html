@@ -53,47 +53,17 @@
                 <input type="text" name="id_" style="display: none;" class="form-control">
                 <div class="text-center">
                     <label for="">Email</label>
-                    <input type="text" name="email" class="form-control" value="{{ email }}" readonly="true">
-                </div>
-                <div class="text-center">
-                    <label for="status">Status</label>
-                    <input type="text" name="status" class="form-control">
-                </div>
-                <div class="text-center">
-                    <label for="">Fecha de pago de factura</label>
-                    <input type="date" name="fecha_pago_fac" class="form-control">
-                </div>
-                <div class="text-center">
-                    <label for="contrar">Contrarecibo</label>
-                    <input type="text" name="contrarecibo" class="form-control">
+                    <input type="text" name="email" class="form-control" value="{{ email }}" readonly>
                 </div>
             </div>
             <div class="d-flex justify-content-between mt-3 mb-3">
                 <div class="text-center">
-                    <label for="">Fecha de recibo de pago</label>
-                    <input type="date" name="fecha_rec_pago" class="form-control">
+                    <label for="">Fecha de registro</label>
+                    <input type="date" name="fecha_registro" class="form-control">
                 </div>
                 <div class="text-center">
-                    <label for="">Fecha de factura</label>
-                    <input type="date" name="fecha_de_fac" class="form-control">
-                </div>
-                <div class="text-center">
-                    <label for="recibo_mcgreen">Recibo de pago de factura McGreen</label>
-                    <input type="text" name="recibo_pago_fac_mcgreen" class="form-control">
-                </div>
-            </div>
-            <div class="d-flex justify-content-around mt-3">
-                <div class="text-center">
-                    <label for="">Fecha de recibo de pago</label>
-                    <input type="date" name="fecha_r_pag" class="form-control">
-                </div>
-                <div class="text-center">
-                    <label for="">Dólar</label>
-                    <input type="number" name="dolar" step="any" class="form-control">
-                </div>
-                <div class="text-center">
-                    <label for="">Monto MXN pagado</label>
-                    <input type="number" name="monto_mn_pagado" class="form-control">
+                    <label for="">Pozo</label>
+                    <input type="text" name="pozo" class="form-control">
                 </div>
             </div>
             <input type="submit" class="btn btn-success text-center mt-3" value="Actualizar">
@@ -115,13 +85,13 @@
             <table id="table" class="table table-hover">
                 <thead>
                     <tr>
-                        <th>Identificador</th>
                         <th>Fecha</th>
                         <th>Nombre de producto</th>
                         <th>Medida</th>
                         <th>Pozo</th>
-                        <th>Total de servicios</th>
+                        <th>Venta por litros</th>
                         <th>Precio unitario</th>
+                        <th>Acción</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -132,7 +102,7 @@
                             <td>{{ mov.2 }}</td>
                             <td>{{ mov.3 }}</td>
                             <td>{{ mov.4 }}</td>
-                            <td>{{ mov.5|floatformat:2|intcomma }}</td>
+                            <td>{{ mov.5|intcomma }}</td>
                             <td>$ {{ mov.6|floatformat:2|intcomma }}</td>
                             <td>
                                 <a href="#" class="btn btn-info modificar_venta">Actualizar</a>
