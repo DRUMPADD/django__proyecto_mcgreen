@@ -342,21 +342,18 @@ def generar_cuenta_por_cobrar(request):
         if request.method == 'POST':
             sistema = str(request.POST['sl_sistemas']).split(' ')[0]
             cliente = str(request.POST['sl_clientes'])
+            mensaje = ""
             if request.POST.get("fecha") != "" and sistema != "" and request.POST.get("pozo") != "" and request.POST.get("total_servicios") != "" and cliente != "":
                 try:
                     cursor = connection.cursor()
                     cursor.callproc("VENTA_MOD",[request.POST['email'],request.POST['fecha'],sistema,request.POST['pozo'], request.POST['total_servicios'], request.POST['sl_clientes']])
-                    mensaje = cursor.fetchone()[0]
+                    mensaje = cursor.fetchall()[0][0]
                     print(mensaje)
-                    if mensaje != 'CUENTA POR COBRAR AGREGADA CORRECTAMENTE VERIFIQUE LOS MOVIMIENTOS':
-                        return JsonResponse({"status": "success", "msg": mensaje}, status=200)
-                    else:
-                        return JsonResponse({"status": "error", "msg": "EL REGISTRO NO PUDO COMPLETARSE"}, status=200)
+
+                    return JsonResponse({"status": "success", "msg": mensaje}, status=200)
                 except (OperationalError, IntegrityError) as e:
                     print(e)
-                    return render(request, "errors/error500.html", {
-                        "mensaje": "Contacte con el servicio de sistemas"
-                    })
+                    return JsonResponse({"status": "error", "msg": "Error ocurrido en el registro de la venta"}, status=200)
                 finally:
                     cursor.close()
             else:
