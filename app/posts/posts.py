@@ -342,25 +342,25 @@ def generar_cuenta_por_cobrar(request):
         if request.method == 'POST':
             sistema = str(request.POST['sl_sistemas']).split(' ')[0]
             cliente = str(request.POST['sl_clientes'])
-            if request.POST.get("sp") != "" and request.POST.get("oc") != "" and request.POST.get("fecha") != "" and sistema != "" and request.POST.get("pozo") != "" and request.POST.get("total_servicios") != "" and request.POST.get("monto_mp_pagado") != "" and request.POST.get("fecha_de_fac") != "" and cliente != "" and request.POST.get("no_factura") != "":
+            if request.POST.get("fecha") != "" and sistema != "" and request.POST.get("pozo") != "" and request.POST.get("total_servicios") != "" and cliente != "":
                 try:
                     cursor = connection.cursor()
-                    cursor.callproc("VENTA_MOD",[request.POST['email'],request.POST['status'],request.POST['fecha_pago_fac'],request.POST['contrarecibo'],request.POST['fecha_rec_pago'],request.POST['sp'],request.POST['oc'],request.POST['fecha'],sistema,request.POST['pozo'],request.POST['total_servicios'],request.POST['no_factura'],request.POST['fecha_de_fac'],request.POST['recibo_pago_fac_mcgreen'],request.POST['fecha_r_pag'],request.POST['dolares'],request.POST['monto_mp_pagado'], request.POST['sl_clientes']])
+                    cursor.callproc("VENTA_MOD",[request.POST['email'],request.POST['fecha'],sistema,request.POST['pozo'], request.POST['total_servicios'], request.POST['sl_clientes']])
                     mensaje = cursor.fetchone()[0]
                     print(mensaje)
                     if mensaje != 'CUENTA POR COBRAR AGREGADA CORRECTAMENTE VERIFIQUE LOS MOVIMIENTOS':
-                        messages.error(request, "Ocurrió un error al realizar la venta")
+                        return JsonResponse({"status": "success", "msg": mensaje}, status=200)
                     else:
-                        messages.success(request, "Venta registrada")
-                except (OperationalError, IntegrityError):
+                        return JsonResponse({"status": "error", "msg": "EL REGISTRO NO PUDO COMPLETARSE"}, status=200)
+                except (OperationalError, IntegrityError) as e:
+                    print(e)
                     return render(request, "errors/error500.html", {
                         "mensaje": "Contacte con el servicio de sistemas"
                     })
                 finally:
                     cursor.close()
             else:
-                messages.error(request, "Debe llenar los campos requeridos")
-            return redirect("/Ventas")
+                return JsonResponse({"status": "warning", "msg": "Debe llenar todos los campos"}, status=200)
         else:
             return redirect("/Ventas")
     else:
