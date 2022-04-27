@@ -115,29 +115,13 @@
             <table id="table" class="table table-hover">
                 <thead>
                     <tr>
-                        <th>Status</th>
-                        <th>Fecha de pago de factura</th>
-                        <th>Contrarecibo</th>
-                        <th>Fecha de recibo de pago</th>
-                        <th>Sp</th>
-                        <th>Oc</th>
+                        <th>Identificador</th>
                         <th>Fecha</th>
                         <th>Nombre de producto</th>
-                        <th>medida</th>
+                        <th>Medida</th>
                         <th>Pozo</th>
                         <th>Total de servicios</th>
                         <th>Precio unitario</th>
-                        <th>Subtotal USD</th>
-                        <th>IVA</th>
-                        <th>Total USD por servicio</th>
-                        <th>Monto total</th>
-                        <th>Num. factura</th>
-                        <th>Fecha de factura</th>
-                        <th>Recibo de pago (factura McGreen)</th>
-                        <th>Fecha de pago</th>
-                        <th>Dólar</th>
-                        <th>Monto MXN</th>
-                        <th>Monto MXN pagado</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -148,25 +132,8 @@
                             <td>{{ mov.2 }}</td>
                             <td>{{ mov.3 }}</td>
                             <td>{{ mov.4 }}</td>
-                            <td>{{ mov.5 }}</td>
-                            <td>{{ mov.6 }}</td>
-                            <td>{{ mov.7 }}</td>
-                            <td>{{ mov.8 }}</td>
-                            <td>{{ mov.9 }}</td>
-                            <td>{{ mov.10 }}</td>
-                            <td>{{ mov.11|floatformat:2 }}</td>
-                            <td>$ {{ mov.12|floatformat:2|intcomma }}</td>
-                            <td>$ {{ mov.13|floatformat:2|intcomma }}</td>
-                            <td>$ {{ mov.14|floatformat:2|intcomma }}</td>
-                            <td>$ {{ mov.15|floatformat:2|intcomma }}</td>
-                            <td>$ {{ mov.16|floatformat:2|intcomma }}</td>
-                            <td>{{ mov.17 }}</td>
-                            <td>{{ mov.18 }}</td>
-                            <td>{{ mov.19 }}</td>
-                            <td>{{ mov.20 }}</td>
-                            <td>$ {{ mov.21|floatformat:2|intcomma }}</td>
-                            <td>$ {{ mov.22|floatformat:2|intcomma }}</td>
-                            <td>$ {{ mov.23|floatformat:2|intcomma }}</td>
+                            <td>{{ mov.5|floatformat:2|intcomma }}</td>
+                            <td>$ {{ mov.6|floatformat:2|intcomma }}</td>
                             <td>
                                 <a href="#" class="btn btn-info modificar_venta">Actualizar</a>
                             </td>
