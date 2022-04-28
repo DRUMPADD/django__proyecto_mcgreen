@@ -330,6 +330,36 @@ $(document).ready(function () {
         $("#directorio").fadeOut("fast").load(location.href + " #directorio>*", "").fadeIn("fast");
     }
     $("#form_crear_directorio").hide();
+    $("input[name='fec_nac']").change(function () {
+        var fecha_hoy = new Date();
+        var dia_hoy = fecha_hoy.getDate();
+        var mes_hoy = fecha_hoy.getMonth() + 1;
+        var anio_hoy = fecha_hoy.getFullYear();
+        var fecha = $(this).val().split("-");
+        
+        var dia_elegida = fecha[2];
+        var mes_elegida =  fecha[1];
+        var anio_elegida = fecha[0];
+        var edad = anio_hoy - anio_elegida;
+        if(mes_elegida > mes_hoy) {
+            $("input[name='edad']").val(edad - 1);
+        } else if (mes_elegida == mes_hoy) {
+            if(dia_elegida <= dia_hoy) {
+                $("input[name='edad']").val(edad);
+                console.log(edad);
+            } else {
+                $("input[name='edad']").val(edad - 1);
+            } 
+        } else if (mes_elegida < mes_hoy) {
+            if(dia_elegida <= dia_hoy) {
+                $("input[name='edad']").val(edad);
+            } else {
+                $("input[name='edad']").val(edad - 1);
+            }
+        } else {
+            $("input[name='edad']").val(edad - 1);
+        }
+    });
 
     $("#form_crear_directorio").submit(function (e) {
         e.preventDefault();
