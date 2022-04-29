@@ -7,11 +7,15 @@ $(document).ready(function() {
         $("#form-actualizar").show();
 
         $("#caja_mensaje").hide();
-        
+        var fecha = $(element).find("td").eq(1).text().split("-");
 
         $("input[name='id_']").val($(element).find("td").eq(0).text());
-        $("input[name='fecha_registro']").val($(element).find("td").eq(1).text());
+        $("input[name='id_producto']").val($(element).find("td").eq(7).text());
+        $("input[name='fecha_registro']").val(fecha[0] + "-" + fecha[1] + "-" + fecha[2]);
         $("input[name='pozo']").val($(element).find("td").eq(4).text());
+        $("input[name='cantidad_antes']").val(parseFloat($(element).find("td").eq(5).text()));
+        $("input[name='cantidad_nueva']").val(parseFloat($(element).find("td").eq(5).text()));
+        $("input[name='comentario']").val($(element).find("td").eq(8).text());
         e.preventDefault();
     });
 
