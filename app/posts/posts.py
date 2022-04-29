@@ -369,7 +369,7 @@ def modificar_cuenta_por_cobrar(request):
             mensaje = ""
             try:
                 cursor = connection.cursor()
-                cursor.callproc("MODIFICA_VENTA_MOD",[request.POST["id_"], request.POST.get("email"), request.POST.get("fecha_registro"), request.POST.get("pozo")])
+                cursor.callproc("MODIFICA_VENTA_MOD",[request.POST["id_"], request.POST.get("email"), request.POST.get("fecha_registro"), request.POST.get("pozo"), float(request.POST.get("cantidad_antes")), float(request.POST.get("cantidad_nueva")), request.POST.get("id_producto"), request.POST.get("comentario")])
                 mensaje = cursor.fetchall()[0][0]
             except (OperationalError, IntegrityError):
                 return render(request, "errors/error500.html", {
