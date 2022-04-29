@@ -16,7 +16,7 @@ $(document).ready(function() {
         $("input[name='pozo']").val($(element).find("td").eq(4).text());
         $("input[name='cantidad_antes']").val(parseFloat(cantidad_vieja));
         $("input[name='cantidad_nueva']").val(parseFloat(cantidad_vieja));
-        $("input[name='comentario']").val($(element).find("td").eq(8).text());
+        $("textarea[name='comentario']").val($(element).find("td").eq(8).text());
         e.preventDefault();
     });
 
