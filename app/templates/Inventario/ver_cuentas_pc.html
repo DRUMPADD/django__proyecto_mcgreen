@@ -51,9 +51,12 @@
             {% csrf_token %}
             <div class="d-flex justify-content-between mt-3 mb-3">
                 <input type="text" name="id_" style="display: none;" class="form-control">
+                <input type="text" name="id_producto" style="display: none;" class="form-control">
+                <input type="number" name="cantidad_antes" style="display: none;" class="form-control" step="any">
+                <input type="text" name="email" class="form-control" value="{{ email }}" readonly style="display: none;">
                 <div class="text-center">
-                    <label for="">Email</label>
-                    <input type="text" name="email" class="form-control" value="{{ email }}" readonly>
+                    <label for="">Cantidad</label>
+                    <input type="number" name="cantidad_nueva" class="form-control" step="any">
                 </div>
                 <div class="text-center">
                     <label for="">Fecha de registro</label>
@@ -63,6 +66,9 @@
                     <label for="">Pozo</label>
                     <input type="text" name="pozo" class="form-control">
                 </div>
+            </div>
+            <div class="mt-3 mb-3">
+                <textarea name="comentario"  cols="30" rows="5" class="form-control"></textarea>
             </div>
             <input type="submit" class="btn btn-success text-center mt-3" value="Actualizar">
         </form>
@@ -90,6 +96,7 @@
                         <th>Venta por litros</th>
                         <th>Precio unitario</th>
                         <th>Acción</th>
+                        <th>Comentario</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -102,6 +109,8 @@
                             <td>{{ mov.4 }}</td>
                             <td>{{ mov.5|intcomma }}</td>
                             <td>$ {{ mov.6|floatformat:2|intcomma }}</td>
+                            <td style="display: none;">{{ mov.7 }}</td>
+                            <td>{{ mov.8 }}</td>
                             <td>
                                 <a href="#" class="btn btn-info modificar_venta">Actualizar</a>
                             </td>
