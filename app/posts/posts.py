@@ -2,7 +2,6 @@ import io, datetime
 from django.http.response import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.contrib import messages
-from .. import models
 from django.db import IntegrityError, InternalError, OperationalError, connection
 from ..forms import formulario_cliente, formulario_proveedor, Formulario_registro
 # from openpyxl import Workbook
@@ -23,7 +22,8 @@ def registra_usuario(request):
                     cursor.callproc("AGREGAR_USUARIO",[request.session.get("email"), formulario["matricula"].value(),formulario["nombre_usuario"].value(),formulario["ap_p"].value(),formulario["ap_m"].value(),formulario["sl_puestos"].value(),formulario["email"].value()+ext_email,formulario["contra"].value(),formulario["rol"].value()])
                     mensaje = cursor.fetchall()[0][0]
                     print(mensaje)
-                except (OperationalError, IntegrityError):
+                except (OperationalError, IntegrityError) as e:
+                    print(e)
                     return render(request, "errors/error500.html", {
                         "mensaje": "Contacte con el servicio de sistemas"
                     })
@@ -88,6 +88,7 @@ def crear_evento(request):
                     asignar_evento = connection.cursor()
                     asignar_evento.callproc("ASIGNAR_EVENTO", [request.session.get("email"), ids_creados[i], usuarios[i]])
                     mensaje = asignar_evento.fetchall()[0][0]
+                    print(mensaje)
                 except (InternalError, OperationalError) as e:
                     print(e)
                     return JsonResponse({"status": "error", "mensaje": "Error al realizar el procedimiento de asignar evento"}, status=200)
@@ -371,6 +372,7 @@ def modificar_cuenta_por_cobrar(request):
                 cursor = connection.cursor()
                 cursor.callproc("MODIFICA_VENTA_MOD",[request.POST["id_"], request.POST.get("email"), request.POST.get("fecha_registro"), request.POST.get("pozo"), float(request.POST.get("cantidad_antes")), float(request.POST.get("cantidad_nueva")), request.POST.get("id_producto"), request.POST.get("comentario")])
                 mensaje = cursor.fetchall()[0][0]
+                print(mensaje)
             except (OperationalError, IntegrityError) as e:
                 print(e)
                 return render(request, "errors/error500.html", {
