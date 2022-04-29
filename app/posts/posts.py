@@ -371,7 +371,8 @@ def modificar_cuenta_por_cobrar(request):
                 cursor = connection.cursor()
                 cursor.callproc("MODIFICA_VENTA_MOD",[request.POST["id_"], request.POST.get("email"), request.POST.get("fecha_registro"), request.POST.get("pozo"), float(request.POST.get("cantidad_antes")), float(request.POST.get("cantidad_nueva")), request.POST.get("id_producto"), request.POST.get("comentario")])
                 mensaje = cursor.fetchall()[0][0]
-            except (OperationalError, IntegrityError):
+            except (OperationalError, IntegrityError) as e:
+                print(e)
                 return render(request, "errors/error500.html", {
                     "mensaje": "Contacte con el servicio de sistemas"
                 })
