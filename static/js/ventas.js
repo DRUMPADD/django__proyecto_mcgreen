@@ -24,6 +24,7 @@ $(document).ready(function () {
                             showConfirmButton: false,
                             timer: 4000
                         })
+                        $("form").trigger("reset");
                         break;
                     default:
                         swal.fire({
