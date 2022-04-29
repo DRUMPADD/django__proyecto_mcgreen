@@ -347,7 +347,7 @@ def generar_cuenta_por_cobrar(request):
             if request.POST.get("fecha") != "" and sistema != "" and request.POST.get("pozo") != "" and request.POST.get("total_servicios") != "" and cliente != "":
                 try:
                     cursor = connection.cursor()
-                    cursor.callproc("VENTA_MOD",[request.POST['email'],request.POST['fecha'],sistema,request.POST['pozo'], request.POST['total_servicios'], request.POST['sl_clientes']])
+                    cursor.callproc("VENTA_MOD",[request.POST['email'],request.POST['fecha'],sistema,request.POST['pozo'], request.POST['total_servicios'], request.POST['sl_clientes'], request.POST.get("comentario")])
                     mensaje = cursor.fetchall()[0][0]
                     print(mensaje)
 
