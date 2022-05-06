@@ -1,0 +1,130 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mantenimiento</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/estilos.css' %}" />
+</head>
+<body>
+    
+    <div class="container">
+        <div id="vista_agregar" class="d-flex justify-content-center">
+            <form id="agregar_mant" class="card card-body col-lg-8">
+                {% csrf_token %}
+                <div class="form-input d-flex justify-content-between mt-3 mb-2">
+                    <div>
+                        <input type="text" name="nserie" placeholder="No. de serie" class="form-control">
+                    </div>
+                    <div>
+                        <input type="text" name="equipo" placeholder="Nombre de equipo" class="form-control">
+                    </div>
+                    <div>
+                        <input type="date" name="fecha" class="form-control">
+                    </div>
+                </div>
+                <div class="form-input d-flex justify-content-between mt-3 mb-2">
+                    <div>
+                        <select name="sl_usuario" class="form-select s">
+                            <option selected disabled>--Seleccionar--</option>
+                            {% for usuario in usuarios %}
+                                <option value="{{ usuario.0 }}">{{ usuario.3 }} {{ usuario.4 }} {{ usuario.5 }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div>
+                        <input type="text" name="tipo_mant" placeholder="Tipo de mantenimiento" class="form-control">
+                    </div>
+                    <div>
+                        <select name="estado" class="form-select s">
+                            <option selected disabled>--Seleccionar--</option>
+                            <option value="NO REALIZADO">NO REALIZADO</option>
+                            <option value="REALIZADO">REALIZADO</option>
+                        </select>
+                    </div>
+                </div>
+                <input type="submit" value="Enviar" id="btn_enviar" ajax-target="{% url 'crear_tarea' %}">
+            </form>
+        </div>
+        <div id="vista_mod">
+            <div class="d-flex justify-content-between align-items-center">
+                <button type="button" class="btn mt-3 mb-2 btn-danger" id="btn_cerrar">X</button>
+            </div>
+            <div class="d-flex justify-content-center">
+                <form id="modificar_mant" class="card card-body col-lg-3">
+                    {% csrf_token %}
+                    <input type="text" name="id_mant" style="display: none;">
+                    <div>
+                        <select name="sl_nuevo_estado" class="form-select">
+                            <option selected disabled>--Seleccionar--</option>
+                            <option value="NO REALIZADO">NO REALIZADO</option>
+                            <option value="REALIZADO">REALIZADO</option>
+                        </select>
+                    </div>
+                    <input type="submit" value="Modificar" id="btn_mod" ajax-target="{% url 'modificar_mant' %}">
+                </form>
+            </div>
+
+        </div>
+        <div>
+            <table class="table table-bordered">
+                <thead>
+                    <th>No. Serie</th>
+                    <th>Equipo o artículo</th>
+                    <th>Asignado</th>
+                    <th>Tipo de mantenimiento</th>
+                    <th>Fecha de vencimiento</th>
+                    <th>Estado</th>
+                    <th>Acción</th>
+                </thead>
+                <tbody>
+                    {% for m in mantenimiento %}
+                    {% now 'Y-m-d' as today %}
+                        {% if m.6 == 'NO REALIZADO' %}
+                            <tr class="alert alert-danger">
+                                <td style="display: none;">{{ m.0 }}</td>
+                                <td>{{ m.1 }}</td>
+                                <td>{{ m.2 }}</td>
+                                <td>{{ m.3 }}</td>
+                                <td>{{ m.4 }}</td>
+                                {% if m.5|date:'Y-m-d' >= today %}
+                                    <td>{{ m.5|naturalday }}</td>
+                                {% else %}
+                                    <td>VENCIDO</td>
+                                {% endif %}
+                                <td>{{ m.6 }}</td>
+                                <td>
+                                    <button type="button" class="modificar btn btn-info"><i class="fa-solid fa-pencil"></i></button>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr class="alert alert-success">
+                                <td style="display: none;">{{ m.0 }}</td>
+                                <td>{{ m.1 }}</td>
+                                <td>{{ m.2 }}</td>
+                                <td>{{ m.3 }}</td>
+                                <td>{{ m.4 }}</td>
+                                {% if m.5|date:'Y-m-d' >= today %}
+                                    <td>{{ m.5|naturalday }}</td>
+                                {% else %}
+                                    <td>VENCIDO</td>
+                                {% endif %}
+                                <td>{{ m.6 }}</td>
+                                <td>
+                                    <button type="button" class="modificar btn btn-info" disabled><i class="fa-solid fa-pencil"></i></button>
+                                </td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.all.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{% static 'js/mant.js' %}"></script>
+</body>
+</html>

@@ -37,6 +37,17 @@
                 </button>
                 <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item text-white" href="{% url 'perfil_y_directorio' %}">Perfil de puesto - Directorio</a>
+                    <a class="dropdown-item text-white" href="{% url 'eventos_tareas' %}">Eventos y tareas asignados</a>
+                </div>
+            </div>
+        </ul>
+        <ul class="navbar-nav me-auto">
+            <div class="dropdown">
+                <button class="nav-link dropdown-toggle btn" type="button" id="navbarDropdown" aria-haspopup="true" data-toggle="dropdown" aria-expanded="false">
+                    Mantenimiento
+                </button>
+                <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item text-white" href="{% url 'mantenimientio' %}">Mantenimiento</a>
                 </div>
             </div>
         </ul>
