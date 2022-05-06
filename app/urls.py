@@ -6,7 +6,8 @@ from .RR_HH import vistas as vistas_rh
 from .RR_HH import posts as posts_rh
 from .indicadores import views as v_indic
 from .indicadores import posts as p_indic
-
+from .mantenimiento import views as mant
+from .mantenimiento import posts as mant_post
 
 urlpatterns = [
     path('', views.iniciar_sesion, name="iniciar_sesion"),
@@ -78,4 +79,8 @@ urlpatterns = [
     # ?? Indicadores
     path("indicadores", v_indic.vista_graficas, name="indicadores"),
     path("mostrar_grafica", p_indic.mostrar_grafica, name="mostrar_grafica"),
+    # ?? Mantenimiento
+    path("Mantenimiento", mant.vista_mantenimiento, name="mantenimiento"),
+    path("crear_tarea", mant_post.crear_tarea, name="crear_tarea"),
+    path("modificar_mant", mant_post.modificar_mant, name="modificar_mant"),
 ]
