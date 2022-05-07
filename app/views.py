@@ -414,36 +414,5 @@ def vista_quimico(request):
     else:
         return redirect("/cerrar_sesion")
 
-def vista_eventos(request):
-    if request.session.get("email") and request.session.get("privilegio") != 'EMPLEADO':
-        try:
-            cursor = connection.cursor()
-            cursor.callproc("MOSTRAR_TODOS_LOS_EVENTOS")
-            eventos = cursor.fetchall()
-        except (InternalError, OperationalError) as e:
-            return render(request, "errors/error500.html", {
-                "mensaje": "Contacte con el servicio de sistemas"
-            })
-        finally:
-            cursor.close()
-        
-        try:
-            cursor = connection.cursor()
-            cursor.callproc("MOSTRAR_TODAS_LAS_ACTIVIDADES")
-            actividades = cursor.fetchall()
-        except (InternalError, OperationalError) as e:
-            return render(request, "errors/error500.html", {
-                "mensaje": "Contacte con el servicio de sistemas"
-            })
-        finally:
-            cursor.close()
-        context = {
-            'eventos': eventos,
-            'actividades': actividades,
-        }
-        return render(request, "RRHH/eventos.html", context)
-    else:
-        return redirect("/cerrar_sesion")
-
 def error_usuario_no_existe(request):
     return render(request, 'errors/usuario_no_existe.html')
