@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.db import IntegrityError, OperationalError, connection
+from pymysql import InternalError
 
 def directorio_perfil(request):
     if request.session.get("email"):
@@ -9,11 +10,8 @@ def directorio_perfil(request):
             puestos = connection.cursor()
             puestos = cursor.execute("SELECT * from app_puestos")
             puestos = cursor.fetchall()
-        except OperationalError:
-            return render(request, "errors/error500.html", {
-                "mensaje": "Contacte con el servicio de sistemas"
-            })
-        except IntegrityError:
+        except (OperationalError, IntegrityError) as e:
+            print(e)
             return render(request, "errors/error500.html", {
                 "mensaje": "Contacte con el servicio de sistemas"
             })
@@ -24,11 +22,8 @@ def directorio_perfil(request):
             departamentos = connection.cursor()
             departamentos = cursor.execute("SELECT * from app_departamento")
             departamentos = cursor.fetchall()
-        except OperationalError:
-            return render(request, "errors/error500.html", {
-                "mensaje": "Contacte con el servicio de sistemas"
-            })
-        except IntegrityError:
+        except (OperationalError, IntegrityError) as e:
+            print(e)
             return render(request, "errors/error500.html", {
                 "mensaje": "Contacte con el servicio de sistemas"
             })
@@ -39,11 +34,8 @@ def directorio_perfil(request):
             empleados = connection.cursor()
             empleados = cursor.execute("SELECT * from app_empleados")
             empleados = cursor.fetchall()
-        except OperationalError:
-            return render(request, "errors/error500.html", {
-                "mensaje": "Contacte con el servicio de sistemas"
-            })
-        except IntegrityError:
+        except (OperationalError, IntegrityError) as e:
+            print(e)
             return render(request, "errors/error500.html", {
                 "mensaje": "Contacte con el servicio de sistemas"
             })
@@ -267,16 +259,44 @@ def vista_directorio(request, id_empleado):
                     "tel_celular": personal_d[0][20],
                 })
                 context["emp_datos"] = datos
-        except OperationalError:
-            return render(request, "errors/error500.html", {
-                "mensaje": "Contacte con el servicio de sistemas"
-            })
-        except IntegrityError:
+        except (OperationalError, IntegrityError) as e:
+            print(e)
             return render(request, "errors/error500.html", {
                 "mensaje": "Contacte con el servicio de sistemas"
             })
         finally:
             cursor.close()
         return render(request, "RRHH/ver_personal.html", context)
+    else:
+        return redirect("/cerrar_sesion")
+
+def vista_eventos(request):
+    if request.session.get("email") and request.session.get("privilegio") != 'EMPLEADO':
+        try:
+            cursor = connection.cursor()
+            cursor.callproc("MOSTRAR_TODOS_LOS_EVENTOS")
+            eventos = cursor.fetchall()
+        except (InternalError, OperationalError) as e:
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        finally:
+            cursor.close()
+        
+        try:
+            cursor = connection.cursor()
+            cursor.callproc("MOSTRAR_TODAS_LAS_ACTIVIDADES")
+            actividades = cursor.fetchall()
+        except (InternalError, OperationalError) as e:
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        finally:
+            cursor.close()
+        context = {
+            'eventos': eventos,
+            'actividades': actividades,
+        }
+        return render(request, "RRHH/eventos.html", context)
     else:
         return redirect("/cerrar_sesion")
