@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eventos y tareas</title>
     <link rel="stylesheet" type="text/css" href="{% static 'css/estilos.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}" />
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -139,12 +140,12 @@
             <li class="nav-item"><a class="nav-link" href="{% url 'cerrar_sesion' %}">Cerrar sesión</a></li>
         </ul>
     </nav>
-    <div  class="container d-flex justify-content-center" style="height: 950px; overflow: auto;">
-        <div>
-            <div class="container col-lg-4 mb-1 card card-body">
-                <h3 class="text-center">Buscar evento</h3>
-                <input type="search" id="buscar_evt" class="form-control" placeholder="Escribe el movimiento que deseas buscar..." />
-            </div>
+    <div  class="container d-flex justify-content-center">
+        <div class="container col-lg-4 mb-1 card card-body">
+            <h3 class="text-center">Buscar evento</h3>
+            <input type="search" id="buscar_evt" class="form-control" placeholder="Escribe el movimiento que deseas buscar..." />
+        </div>
+        <div class="table-wrapper-scroll-y my-custom-scrollbar">
             <table id="t_evt" class="table table-bordered">
                 <thead>
                     <tr>
@@ -174,12 +175,12 @@
             </table>
         </div>
     </div>
-    <div class="container d-flex justify-content-center mt-4 mb-2" style="height: 950px; overflow: auto;">
-        <div>
-            <div class="container col-lg-4 mb-1 card card-body">
-                <h3 class="text-center">Buscar actividad</h3>
-                <input type="search" id="buscar_act" class="form-control" placeholder="Escribe el movimiento que deseas buscar..." />
-            </div>
+    <div class="container d-flex justify-content-center mt-4 mb-2">
+        <div class="container col-lg-4 mb-1 card card-body">
+            <h3 class="text-center">Buscar actividad</h3>
+            <input type="search" id="buscar_act" class="form-control" placeholder="Escribe el movimiento que deseas buscar..." />
+        </div>
+        <div class="table-wrapper-scroll-y my-custom-scrollbar">
             <table id="t_act" class="table table-bordered">
                 <thead>
                     <tr>
@@ -229,6 +230,7 @@
             </table>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
