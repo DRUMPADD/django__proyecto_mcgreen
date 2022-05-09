@@ -7,7 +7,7 @@ def crear_tarea(request):
         mensaje = ""
         try:
             cursor = connection.cursor()
-            cursor.callproc("TAREA_MANTENIMIENTO", [request.session.get("email"), request.POST.get("nserie"), request.POST.get("equipo"), request.POST.get("fecha"), request.POST.get("sl_usuario"), request.POST.get("tipo_mant"), request.POST.get("estado")])
+            cursor.callproc("TAREA_MANTENIMIENTO", [request.session.get("email"), request.POST.get("nserie"), request.POST.get("equipo"), request.POST.get("fecha"), request.POST.get("sl_usuario"), request.POST.get("tipo_mant"), request.POST.get("estado"), request.POST.get("observaciones")])
             mensaje = cursor.fetchall()[0][0]
             print(mensaje)
             return JsonResponse({"status": "success", "msg": mensaje}, status=200)
