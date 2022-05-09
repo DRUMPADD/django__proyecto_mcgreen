@@ -175,6 +175,9 @@
                         </select>
                     </div>
                 </div>
+                <div class="form-input d-flex justify-content-between mt-3 mb-2">
+                    <textarea name="observaciones" class="form-control" cols="30" rows="5" placeholder="Observaciones realizadas"></textarea>
+                </div>
                 <input type="submit" value="Enviar" id="btn_enviar" ajax-target="{% url 'crear_tarea' %}">
             </form>
         </div>
@@ -211,6 +214,7 @@
                     <th>Tipo de mantenimiento</th>
                     <th>Fecha de vencimiento</th>
                     <th>Estado</th>
+                    <th>Observaciones</th>
                     <th>Acción</th>
                 </thead>
                 <tbody>
@@ -229,6 +233,7 @@
                                     <td>VENCIDO</td>
                                 {% endif %}
                                 <td>{{ m.6 }}</td>
+                                <td>{{ m.7 }}</td>
                                 <td>
                                     <button type="button" class="modificar btn btn-info"><i class="fa-solid fa-pencil"></i></button>
                                 </td>
