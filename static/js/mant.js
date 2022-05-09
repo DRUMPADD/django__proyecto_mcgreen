@@ -55,6 +55,7 @@ $(document).ready(function () {
     });
 
     $("#modificar_mant").submit(function(e) {
+        e.preventDefault();
         $.ajax({
             type: 'POST',
             url: $("#btn_mod").attr("ajax-target"),
