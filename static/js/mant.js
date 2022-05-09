@@ -1,5 +1,6 @@
 $(document).ready(function () {
     $("#vista_mod").hide();
+    $("#vista_agregar").hide();
 
     $(".modificar").each(function() {
         var $this = $(this);
@@ -70,7 +71,7 @@ $(document).ready(function () {
                     });
                     $("#modificar_mant").trigger("reset");
                     $("#vista_mod").hide();
-                    $("#vista_mod").show();
+                    $("#vista_agregar").show();
                 } else {
                     swal.fire({
                         position: 'center',
