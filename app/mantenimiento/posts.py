@@ -9,7 +9,7 @@ def crear_tarea(request):
             cursor = connection.cursor()
             cursor.callproc("TAREA_MANTENIMIENTO", [request.session.get("email"), request.POST.get("nserie"), request.POST.get("equipo"), request.POST.get("fecha"), request.POST.get("sl_usuario"), request.POST.get("tipo_mant"), request.POST.get("estado")])
             mensaje = cursor.fetchall()[0][0]
-
+            print(mensaje)
             return JsonResponse({"status": "success", "msg": mensaje}, status=200)
         except (InterruptedError, InternalError, OperationalError) as e:
             print(e)
@@ -26,6 +26,7 @@ def modificar_mant(request):
             cursor = connection.cursor()
             cursor.callproc("ESTADO_MANTENIMIENTO", [request.session.get("email"), request.POST.get("id_mant"), request.POST.get("sl_nuevo_estado")])
             mensaje = cursor.fetchall()[0][0]
+            print(mensaje)
             return JsonResponse({"status": "success", "msg": mensaje}, status=200)
         except (OperationalError, IntegrityError, InternalError) as e:
             print(e)
