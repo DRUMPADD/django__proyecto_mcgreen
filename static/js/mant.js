@@ -7,7 +7,7 @@ $(document).ready(function () {
             var elemento = $this.parent().parent();
             $("#vista_mod").show();
             $("#vista_agregar").hide();
-            console.log($("input[name='usuario']").val(elemento.find("td").eq(0).text()));
+            $("input[name='usuario']").val(elemento.find("td").eq(0).text());
             $("select[name='sl_nuevo_estado']").val(elemento.find("td").eq(6).text());
         });
     });
@@ -19,9 +19,8 @@ $(document).ready(function () {
 
     $("#agregar_mant").submit((e) => {
         e.preventDefault();
-        var vacios = $(".s").filter(function() {return $(this).val() != ''}).length;
-        console.log(vacios);
-        if($("input:empty").length != 0 && vacios != 0) {
+        var no_vacios = $(".s").filter(function() {return $(this).val() != ''}).length;
+        if($("input:empty").length != 0 && no_vacios != 0) {
             $.ajax({
                 type: 'POST',
                 url: $("#btn_enviar").attr("ajax-target"),
