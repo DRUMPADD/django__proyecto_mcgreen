@@ -3,21 +3,21 @@ $(document).ready(function () {
     $("#otro_usuario").hide();
 
     function validar_formulario() {
+        var inputs_no_vacios = false;
         $("form input").each(function (indexInArray, valueOfElement) { 
-            var inputs_no_vacios = false;
             if($(this).val() == '') {
                 inputs_no_vacios = true;
             }
         });
         
+        var select_no_vacio = false;
         $("form select option:selected").each(function (indexInArray, valueOfElement) { 
-            var select_no_vacio = false;
             if($(this).is("disabled")) {
                 select_no_vacio = true;
             }
         });
 
-        return inputs_no_vacios && inputs_no_vacios;
+        return inputs_no_vacios && select_no_vacio;
     }
 
     function limpiar_formulario() {
@@ -57,9 +57,9 @@ $(document).ready(function () {
 
     $("form").submit(function (e) {
         e.preventDefault();
-        const fecha_evento = $("input[name='fecha_evento']").val();
-        console.log(!fecha_evento);
-        if(validar_formulario() === true) {
+        var vacios = $("select").filter(function() {return $(this).val() != ''}).length;
+
+        if($("input:empty").length != 0 && $("textarea:empty").length != 0 && vacios != 0) {
             $.ajax({
                 method: 'POST',
                 url: $("#enviar_evento").attr("data-ajax"),
