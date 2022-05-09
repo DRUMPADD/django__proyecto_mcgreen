@@ -4,6 +4,7 @@ from django.db import connection, OperationalError, IntegrityError
 def vista_mantenimiento(request):
     if request.session.get("email"):
         context = {}
+        context["privilegio"] = request.session.get("privilegio")
         try:
             cursor = connection.cursor()
             cursor.callproc("MOSTRAR_USUARIOS")
