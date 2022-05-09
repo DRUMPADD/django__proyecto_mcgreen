@@ -139,9 +139,13 @@
             <li class="nav-item"><a class="nav-link" href="{% url 'cerrar_sesion' %}">Cerrar sesión</a></li>
         </ul>
     </nav>
-    <div class="container d-flex justify-content-center" style="height: 950px; overflow: auto;">
+    <div  class="container d-flex justify-content-center" style="height: 950px; overflow: auto;">
         <div>
-            <table class="table table-bordered">
+            <div class="container col-lg-4 mb-1 card card-body">
+                <h3 class="text-center">Buscar evento</h3>
+                <input type="search" id="buscar_evt" class="form-control" placeholder="Escribe el movimiento que deseas buscar..." />
+            </div>
+            <table id="t_evt" class="table table-bordered">
                 <thead>
                     <tr>
                         <td colspan="6" class="h3 text-center">Eventos</td>
@@ -172,7 +176,11 @@
     </div>
     <div class="container d-flex justify-content-center mt-4 mb-2" style="height: 950px; overflow: auto;">
         <div>
-            <table class="table table-bordered">
+            <div class="container col-lg-4 mb-1 card card-body">
+                <h3 class="text-center">Buscar actividad</h3>
+                <input type="search" id="buscar_act" class="form-control" placeholder="Escribe el movimiento que deseas buscar..." />
+            </div>
+            <table id="t_act" class="table table-bordered">
                 <thead>
                     <tr>
                         <td colspan="6" class="h3 text-center">Actividades</td>
