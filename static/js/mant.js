@@ -7,7 +7,7 @@ $(document).ready(function () {
             var elemento = $this.parent().parent();
             $("#vista_mod").show();
             $("#vista_agregar").hide();
-            $("input[name='usuario']").val(elemento.find("td").eq(0).text());
+            $("input[name='id_mant']").val(elemento.find("td").eq(0).text());
             $("select[name='sl_nuevo_estado']").val(elemento.find("td").eq(6).text());
         });
     });
