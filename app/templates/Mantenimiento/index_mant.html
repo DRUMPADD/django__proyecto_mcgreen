@@ -197,8 +197,12 @@
             </div>
 
         </div>
-        <div>
-            <table class="table table-bordered">
+        <div class="container mt-3">
+            <div class="container col-lg-4 mb-1 card card-body">
+                <h3 class="text-center">Buscar operación</h3>
+                <input type="search" id="buscar" class="form-control" placeholder="Escribe el movimiento que deseas buscar..." />
+            </div>
+            <table id="table" class="table table-bordered">
                 <thead>
                     <th>No. Serie</th>
                     <th>Equipo o artículo</th>
@@ -255,5 +259,6 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.all.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{% static 'js/mant.js' %}"></script>
+    <script src="{% static 'js/buscar.js' %}"></script>
 </body>
 </html>
