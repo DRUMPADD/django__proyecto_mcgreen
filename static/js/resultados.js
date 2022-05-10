@@ -417,8 +417,6 @@ $(document).ready(function () {
                                             var campo = document.createElement("td");
                                             if(res.detalles[i][j] in medidas) {
                                                 campo.innerText = medidas[res.detalles[i][j]];
-                                            } else if(typeof(res.detalles[i][2]) == 'number' && (res.detalles[i][4] == 'compra')) {
-                                                campo.innerText = "$ " + res.detalles[i][j];
                                             }  else {
                                                 campo.innerText = res.detalles[i][j];
                                             }
@@ -509,6 +507,8 @@ $(document).ready(function () {
                                     let campo_td = document.createElement("td");
                                     if(valor_dato[i] in medidas) {
                                         campo_td.innerText = medidas[valor_dato[i]];
+                                    } else {
+                                        campo_td.innerText = valor_dato[i];
                                     }
                                     elemento.appendChild(campo_td);
                                 }
