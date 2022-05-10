@@ -417,8 +417,8 @@ $(document).ready(function () {
                                             var campo = document.createElement("td");
                                             if(res.detalles[i][j] in medidas) {
                                                 campo.innerText = medidas[res.detalles[i][j]];
-                                            } else if(typeof(res.detalles[i][2]) == 'number' && (res.detalles[i][4] == 'compra' || res.detalles[i][4] == 'venta')) {
-                                                campo.innerText = "$ " + res.detalles[i][j];
+                                            } else if(typeof(res.detalles[i][2]) == 'number' && (res.detalles[i][4] == 'compra')) {
+                                                campo.innerText = "$ " + res.detalles[i][2];
                                             }  else {
                                                 campo.innerText = res.detalles[i][j];
                                             }
