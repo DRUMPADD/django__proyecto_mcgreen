@@ -37,8 +37,10 @@ def mostrar_grafica(request):
             try:
                 cursor = connection.cursor()
                 cursor.callproc("ESTADISTICAS", [request.POST.get("opcion_vista"), fecha_I, fecha_T, "", "", ""])
-                datos = cursor.fetchall()                
-            except (OperationalError, IntegrityError):
+                datos = cursor.fetchall()       
+                print("Estadisticas general\n",datos)
+            except (OperationalError, IntegrityError) as e:
+                print(e)
                 return JsonResponse({"status": "error", "datos": "No se pudo ejecutar la operación"}, status=200)
             finally:
                 cursor.close()
@@ -57,7 +59,8 @@ def mostrar_grafica(request):
                         cantidades_i.append(estadisticas_obt[est_][1])
                     if estadisticas_obt[est_][2] == 'consumo':
                         cantidades_co.append(estadisticas_obt[est_][1])
-            except (OperationalError, IntegrityError):
+            except (OperationalError, IntegrityError) as e:
+                print(e)
                 return JsonResponse({"status": "error", "datos": "No se pudo ejecutar la operación"}, status=200)
             finally:
                 est_general.close()
@@ -68,7 +71,9 @@ def mostrar_grafica(request):
                 cursor = connection.cursor()
                 cursor.callproc("ESTADISTICAS", [request.POST.get("opcion_vista"), fecha_I, fecha_T, prod_exis[0], prod_exis[1], prod_exis[2]])
                 datos = cursor.fetchall()
-            except (OperationalError, IntegrityError):
+                print("Estadisticas por producto\n",datos)
+            except (OperationalError, IntegrityError) as e:
+                print(e)
                 return render(request, "errors/error500.html", {
                     "mensaje": "Contacte con el servicio de sistemas"
                 })
@@ -80,8 +85,10 @@ def mostrar_grafica(request):
                         est_producto = connection.cursor()
                         est_producto.callproc("ESTADISTICAS_GRAFICA", [request.POST.get("opcion_vista"), producto_, fecha_I, fecha_T])
                         productos_dic[producto_] = est_producto.fetchall()
+                        print("Estadisticas grafica por producto\n",productos_dic[producto_])
                         est_producto.close()
-            except (OperationalError, IntegrityError):
+            except (OperationalError, IntegrityError) as e:
+                print(e)
                 return JsonResponse({"status": "error", "datos": "No se pudo ejecutar la operación"}, status=200)
             return JsonResponse({"datos": datos, "productos": productos_dic}, status=200)
     else:
