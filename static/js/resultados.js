@@ -418,7 +418,7 @@ $(document).ready(function () {
                                             if(res.detalles[i][j] in medidas) {
                                                 campo.innerText = medidas[res.detalles[i][j]];
                                             } else if(typeof(res.detalles[i][2]) == 'number' && (res.detalles[i][4] == 'compra')) {
-                                                campo.innerText = "$ " + res.detalles[i][2];
+                                                campo.innerText = "$ " + res.detalles[i][j];
                                             }  else {
                                                 campo.innerText = res.detalles[i][j];
                                             }
