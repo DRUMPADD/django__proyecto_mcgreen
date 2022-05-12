@@ -32,16 +32,18 @@ $(document).ready(function () {
                             position: 'center',
                             icon: res.status,
                             title: res.msg,
+                            showConfirmButton: false,
                             timer: 2000
-                        });
+                        })
                         $("#agregar_mant").trigger("reset");
                     } else {
                         swal.fire({
                             position: 'center',
                             icon: res.status,
                             title: res.msg,
+                            showConfirmButton: false,
                             timer: 2000
-                        });
+                        })
                     }
                 }
             });
@@ -67,8 +69,9 @@ $(document).ready(function () {
                         position: 'center',
                         icon: res.status,
                         title: res.msg,
+                        showConfirmButton: false,
                         timer: 2000
-                    });
+                    })
                     $("#modificar_mant").trigger("reset");
                     $("#vista_mod").hide();
                     $("#vista_agregar").show();
@@ -77,8 +80,9 @@ $(document).ready(function () {
                         position: 'center',
                         icon: res.status,
                         title: res.msg,
+                        showConfirmButton: false,
                         timer: 2000
-                    });
+                    })
                 }
             }
         });
