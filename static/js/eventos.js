@@ -52,7 +52,7 @@ $(document).ready(function() {
                         })
                         location.reload(true);
                     } else {
-                        swal.fire({
+                        await swal.fire({
                             position: 'center',
                             icon: res.status,
                             title: res.msg,
