@@ -520,4 +520,25 @@ def eliminar_requer_fis(request):
             return JsonResponse({"status": "error", "msg": "Error", "msg_salida": "El perfil no pudo ser actualizado"}, status=200)
     else:
         return JsonResponse({"status": "error", "msg": "No es posible realizar dicha acción"}, status=200)
-    
+
+def actualizar_actividad(request):
+    if request.method == 'POST':
+        actividad = request.POST.get("id_act")
+        destinatario = request.POST.get("email")
+        estado = request.POST.get("sl_estado")
+        resp = ""
+        try:
+            if actividad and destinatario and estado:
+                cursor = connection.cursor()
+                cursor.callproc("ACTUALIZA_ACTIVIDAD", [actividad, destinatario, estado])
+                resp = cursor.fetchall()[0][0]
+                return JsonResponse({"status": "success", "msg": resp}, status=200)
+            else:
+                return JsonResponse({"status": "warning", "msg": "Los datos recopilados están incompletos"}, status=200)
+        except (OperationalError, IntegrityError, InterruptedError) as e:
+            print(e)
+            return JsonResponse({"status": "error", "msg": "Surgió un error"}, status=200)
+        finally:
+            cursor.close()
+    else:
+        return HttpResponse("<h2>La petición no es de tipo post</h2>")
