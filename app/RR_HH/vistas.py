@@ -296,6 +296,8 @@ def vista_eventos(request):
         context = {
             'eventos': eventos,
             'actividades': actividades,
+            'email': request.session.get("email"),
+            'privilegio': request.session.get("privilegio"),
         }
         return render(request, "RRHH/eventos.html", context)
     else:
