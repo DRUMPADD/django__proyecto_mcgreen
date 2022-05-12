@@ -57,9 +57,20 @@ $(document).ready(function () {
 
     $("form").submit(function (e) {
         e.preventDefault();
-        var vacios = $("select").filter(function() {return $(this).val() != ''}).length;
+        var cont = 0;
+        for(let i = 0; i < $("input").length; i++) {
+            if($(this[i]).empty()) {
+                cont++;
+            }
+        }
+        var selects_ex = 0;
+        for(let i = 0; i < $("select").length; i++) {
+            if($(this[i]).empty()) {
+                selects_ex++;
+            }
+        }
 
-        if($("input:empty").length != 0 && $("textarea:empty").length != 0 && vacios != 0) {
+        if(cont == 0 && $("textarea").val().trim() != '' && selects_ex == 0) {
             $.ajax({
                 method: 'POST',
                 url: $("#enviar_evento").attr("data-ajax"),
