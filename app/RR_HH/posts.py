@@ -15,11 +15,10 @@ def crear_perfil(request):
             mensaje = cursor.fetchall()[0][0]
             print(mensaje)
             mensaje_salida = "Perfil de puesto creado!!"
-        except (OperationalError, IntegrityError):
+        except (OperationalError, IntegrityError) as e:
+            print(e)
             mensaje_error = "Error al crear el puesto"
-            return render(request, "errors/error500.html", {
-                "mensaje": "Contacte con el servicio de sistemas"
-            })
+            return JsonResponse({"msg": mensaje, "msg_salida": mensaje_salida, "msg_error": mensaje_error, "puesto_creado": ""}, status=200)
         finally:
             cursor.close()
         return JsonResponse({"msg": mensaje, "msg_salida": mensaje_salida, "msg_error": mensaje_error, "puesto_creado": ""}, status=200)
@@ -336,9 +335,7 @@ def actualizar_perfil(request):
             print(mensaje)
         except (OperationalError, IntegrityError) as e:
             print(e)
-            return render(request, "errors/error500.html", {
-                "mensaje": "Contacte con el servicio de sistemas"
-            })
+            return JsonResponse({"msg": "Error", "msg_salida": "El perfil no pudo ser actualizado", "status": "error"}, status=200)
         finally:
             cursor.close()
         if mensaje == 'PERFIL ACADEMICO / PROFESIONAL ACTUALIZADO':
@@ -359,9 +356,7 @@ def actualizar_gen(request):
             print(mensaje)
         except (OperationalError, IntegrityError) as e:
             print(e)
-            return render(request, "errors/error500.html", {
-                "mensaje": "Contacte con el servicio de sistemas"
-            })
+            return JsonResponse({"msg": "Error", "msg_salida": "El perfil no pudo ser actualizado", "status": "error"}, status=200)
         finally:
             cursor.close()
         if mensaje == 'OBJETIVO ACTUALIZADO':
@@ -381,9 +376,7 @@ def eliminar_subordinado(request):
             print(mensaje)
         except (OperationalError, IntegrityError) as e:
             print(e)
-            return render(request, "errors/error500.html", {
-                "mensaje": "Contacte con el servicio de sistemas"
-            })
+            return JsonResponse({"msg": "Error", "msg_salida": "El perfil no pudo ser actualizado", "status": "error"}, status=200)
         finally:
             cursor.close()
         if mensaje == 'SUPERVISION ELIMINADA':
@@ -421,10 +414,9 @@ def eliminar_funcion(request):
             cursor.callproc("MODIFICAR_ELIMINAR_PP", [request.session.get("email"), request.POST.get("opcion"), request.POST.get("id_p"), "", "", "", "", "", "", "", request.POST.get("funcion")])
             mensaje = cursor.fetchall()[0][0]
             print(mensaje)
-        except (OperationalError, IntegrityError):
-            return render(request, "errors/error500.html", {
-                "mensaje": "Contacte con el servicio de sistemas"
-            })
+        except (OperationalError, IntegrityError) as e:
+            print(e)
+            return JsonResponse({"msg": "Error", "msg_salida": "El perfil no pudo ser actualizado", "status": "error"}, status=200)
         finally:
             cursor.close()
         if mensaje == 'FUNCION ELIMINADA DEL PUESTO':
@@ -446,9 +438,8 @@ def eliminar_res_ad(request):
             else:
                 return JsonResponse({"msg": "Error", "msg_salida": "El perfil no pudo ser actualizado", "status": "error"}, status=500)
         except (OperationalError, IntegrityError):
-            return render(request, "errors/error500.html", {
-                "mensaje": "Contacte con el servicio de sistemas"
-            })
+            print(e)
+            return JsonResponse({"msg": "Error", "msg_salida": "El perfil no pudo ser actualizado", "status": "error"}, status=200)
         finally:
             cursor.close()
     else:
@@ -465,10 +456,9 @@ def eliminar_com_gen(request):
                 return JsonResponse({"msg": "Éxito", "msg_salida": mensaje, "status": "success"}, status=200)
             else:
                 return JsonResponse({"msg": "Error", "msg_salida": "El perfil no pudo ser actualizado", "status": "error"}, status=200)
-        except (OperationalError, IntegrityError):
-            return render(request, "errors/error500.html", {
-                "mensaje": "Contacte con el servicio de sistemas"
-            })
+        except (OperationalError, IntegrityError) as e:
+            print(e)
+            return JsonResponse({"msg": "Error", "msg_salida": "El perfil no pudo ser actualizado", "status": "error"}, status=200)
         finally:
             cursor.close()
     else:
@@ -485,10 +475,9 @@ def eliminar_com_tec(request):
                 return JsonResponse({"msg": "Éxito", "msg_salida": mensaje, "status": "success"}, status=200)
             else:
                 return JsonResponse({"msg": "Error", "msg_salida": "El perfil no pudo ser actualizado", "status": "error"}, status=500)
-        except (OperationalError, IntegrityError):
-            return render(request, "errors/error500.html", {
-                "mensaje": "Contacte con el servicio de sistemas"
-            })
+        except (OperationalError, IntegrityError) as e:
+            print(e)
+            return JsonResponse({"msg": "Error", "msg_salida": "El perfil no pudo ser actualizado", "status": "error"}, status=200)
         finally:
             cursor.close()
     else:
@@ -501,10 +490,9 @@ def eliminar_asp_ssmac(request):
             cursor.callproc("MODIFICAR_ELIMINAR_PP", [request.session.get("email"), "ELIMINAR ASP SSMAC", request.POST.get("id_p"), "", "", "", "", "", "", "", request.POST.get("aspecto")])
             mensaje = cursor.fetchall()[0][0]
             print(mensaje)
-        except (OperationalError, IntegrityError):
-            return render(request, "errors/error500.html", {
-                "mensaje": "Contacte con el servicio de sistemas"
-            })
+        except (OperationalError, IntegrityError) as e:
+            print(e)
+            return JsonResponse({"msg": "Error", "msg_salida": "El perfil no pudo ser actualizado", "status": "error"}, status=200)
         finally:
             cursor.close()
         if mensaje == 'ASPECTOS ELIMINADOS DEL PUESTO':
@@ -521,10 +509,9 @@ def eliminar_requer_fis(request):
             cursor.callproc("MODIFICAR_ELIMINAR_PP", [request.session.get("email"), "ELIMINAR REQ FIS", request.POST.get("id_p"), "", "", "", "", "", "", "", request.POST.get("req")])
             mensaje = cursor.fetchall()[0][0]
             print(mensaje)
-        except (OperationalError, IntegrityError):
-            return render(request, "errors/error500.html", {
-                "mensaje": "Contacte con el servicio de sistemas"
-            })
+        except (OperationalError, IntegrityError) as e:
+            print(e)
+            return JsonResponse({"msg": "Error", "msg_salida": "El perfil no pudo ser actualizado", "status": "error"}, status=200)
         finally:
             cursor.close()
         if mensaje == 'REQUERIMIENTOS FISICOS ELIMINADOS DEL PUESTO':
