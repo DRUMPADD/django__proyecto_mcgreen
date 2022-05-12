@@ -76,6 +76,7 @@ urlpatterns = [
     path("ver_perfil/<str:nombre_perfil>", vistas_rh.mostrar_perfil_url, name="ver_perfil"),
     path("ver_personal/<str:id_empleado>", vistas_rh.vista_directorio, name="ver_personal"),
     path("eventos", vistas_rh.vista_eventos, name="eventos_tareas"),
+    path("actualizar_tarea", posts_rh.actualizar_actividad, name="actualizar_tarea"),
     path("enviar_img", posts_rh.subir_imagen, name="enviar_img"),
     path("enviar_img", posts_rh.subir_imagen, name="enviar_img"),
     # ?? Indicadores
