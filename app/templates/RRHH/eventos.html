@@ -229,15 +229,13 @@
                                             <input type="text" name="email" value="{{ actividad.6 }}" readonly hidden>
                                             <div>
                                                 <select name="sl_estado" class="form-select">
-                                                    {% if actividad.5 == 'NO COMPLETADO' %}
                                                     <option value="{{ actividad.5 }}" selected>{{ actividad.5 }}</option>
                                                     <option value="EN PROGRESO">EN PROGRESO</option>
                                                     <option value="COMPLETADO">COMPLETADO</option>
-                                                    {% endif %}
                                                 </select>
                                             </div>
                                             <div>
-                                                <button type="submit" class="btn btn-info" target="{% url 'actualizar_tarea' %}">Act.</button>
+                                                <button type="submit" class="btn btn-info" target="{% url 'actualizar_tarea' %}"><i class="fa-solid fa-pencil"></i></button>
                                             </div>
                                         </form>
                                     </td>
@@ -260,15 +258,13 @@
                                             <input type="text" name="email" value="{{ actividad.6 }}" readonly hidden>
                                             <div>
                                                 <select name="sl_estado" class="form-select">
-                                                    {% if actividad.5 == 'NO COMPLETADO' %}
-                                                    <option value="EN PROGRESO">EN PROGRESO</option>
+                                                    <option value="NO COMPLETADO">NO COMPLETADO</option>
                                                     <option value="{{ actividad.5 }}" selected>{{ actividad.5 }}</option>
                                                     <option value="COMPLETADO">COMPLETADO</option>
-                                                    {% endif %}
                                                 </select>
                                             </div>
                                             <div>
-                                                <button type="submit" class="btn btn-info" target="{% url 'actualizar_tarea' %}">Act.</button>
+                                                <button type="submit" class="btn btn-info" target="{% url 'actualizar_tarea' %}"><i class="fa-solid fa-pencil"></i></button>
                                             </div>
                                         </form>
                                     </td>
@@ -289,11 +285,9 @@
                                             {% csrf_token %}
                                             <div>
                                                 <select name="sl_estado" class="form-select" disabled>
-                                                    {% if actividad.5 == 'NO COMPLETADO' %}
                                                     <option value="NO COMPLETADO">NO COMPLETADO</option>
                                                     <option value="EN PROGRESO">EN PROGRESO</option>
                                                     <option value="{{ actividad.5 }}" selected>{{ actividad.5 }}</option>
-                                                    {% endif %}
                                                 </select>
                                             </div>
                                         </form>
@@ -321,11 +315,9 @@
                                                 <input type="text" name="email" value="{{ actividad.6 }}" readonly hidden>
                                                 <div>
                                                     <select name="sl_estado" class="form-select">
-                                                        {% if actividad.5 == 'NO COMPLETADO' %}
                                                         <option value="{{ actividad.5 }}" selected>{{ actividad.5 }}</option>
                                                         <option value="EN PROGRESO">EN PROGRESO</option>
                                                         <option value="COMPLETADO">COMPLETADO</option>
-                                                        {% endif %}
                                                     </select>
                                                 </div>
                                                 <div>
@@ -348,11 +340,9 @@
                                                 <input type="text" name="email" value="{{ actividad.6 }}" readonly hidden>
                                                 <div>
                                                     <select name="sl_estado" class="form-select">
-                                                        {% if actividad.5 == 'NO COMPLETADO' %}
-                                                        <option value="EN PROGRESO">EN PROGRESO</option>
+                                                        <option value="NO COMPLETADO">NO COMPLETADO</option>
                                                         <option value="{{ actividad.5 }}" selected>{{ actividad.5 }}</option>
                                                         <option value="COMPLETADO">COMPLETADO</option>
-                                                        {% endif %}
                                                     </select>
                                                 </div>
                                                 <div>
@@ -373,11 +363,9 @@
                                                 {% csrf_token %}
                                                 <div>
                                                     <select name="sl_estado" class="form-select" disabled>
-                                                        {% if actividad.5 == 'NO COMPLETADO' %}
                                                         <option value="NO COMPLETADO">NO COMPLETADO</option>
                                                         <option value="EN PROGRESO">EN PROGRESO</option>
                                                         <option value="{{ actividad.5 }}" selected>{{ actividad.5 }}</option>
-                                                        {% endif %}
                                                     </select>
                                                 </div>
                                             </form>
