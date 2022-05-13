@@ -39,6 +39,13 @@ $(document).ready(function () {
         }
     });
 
+    function cerrar() {
+        $("#btn_cerrar_opc1").hide();
+        $(".usuario_agregado").remove();
+        $(".usuario").prop("selectedIndex", 0);
+        $("input[name='opciones']").prop('checked', false);
+    }
+
     $("#btn_cerrar_opc1").click(function () {
         let elemento_padre_opc1 = $(this).parent();
         console.log(elemento_padre_opc1.html());
@@ -64,6 +71,8 @@ $(document).ready(function () {
             }
         }
         var selects_ex = $('.selectmenu').filter(function(){return $(this).val() == ''}).length;
+        console.log(cont, $("textarea").val().trim() != '', selects_ex);
+        console.log(cont && $("textarea").val().trim() != '' && selects_ex);
         if(cont == 0 && $("textarea").val().trim() != '' && selects_ex == 0) {
             $.ajax({
                 method: 'POST',
@@ -98,6 +107,7 @@ $(document).ready(function () {
                 showConfirmButton: false,
                 timer: 4000
             })
+            cerrar();
         }
     })
 });
