@@ -298,82 +298,82 @@
                             </tr>
                             {% endif %}
                         {% endfor %}
-                        {% else %}
-                            {% for actividad in actividades %}
-                                {% if actividad.6 == email %}
-                                    {% if actividad.5 == 'NO COMPLETADO' %}
-                                    <tr class="alert alert-danger">
-                                        <td>{{ actividad.3|naturalday }} {{ actividad.3|date:'P' }}</td>
-                                        <td>{{ actividad.1 }}</td>
-                                        <td>{{ actividad.2 }}</td>
-                                        <td>{{ actividad.0 }}</td>
-                                        <td>{{ actividad.4 }}</td>
-                                        <td>
-                                            <form class="d-flex justify-content-between align-items-center">
-                                                {% csrf_token %}
-                                                <input type="text" name="id_act" value="{{ actividad.7 }}" readonly hidden>
-                                                <input type="text" name="email" value="{{ actividad.6 }}" readonly hidden>
-                                                <div>
-                                                    <select name="sl_estado" class="form-select">
-                                                        <option value="{{ actividad.5 }}" selected>{{ actividad.5 }}</option>
-                                                        <option value="EN PROGRESO">EN PROGRESO</option>
-                                                        <option value="COMPLETADO">COMPLETADO</option>
-                                                    </select>
-                                                </div>
-                                                <div>
-                                                    <button type="submit" class="btn btn-info form-control" target="{% url 'actualizar_tarea' %}"><i class="fa-solid fa-pencil"></i></button>
-                                                </div>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                    {% elif actividad.5 == 'EN PROGRESO' %}
-                                    <tr class="alert alert-warning">
-                                        <td>{{ actividad.3|naturalday }} {{ actividad.3|date:'P' }}</td>
-                                        <td>{{ actividad.1 }}</td>
-                                        <td>{{ actividad.2 }}</td>
-                                        <td>{{ actividad.0 }}</td>
-                                        <td>{{ actividad.4 }}</td>
-                                        <td>
-                                            <form class="d-flex justify-content-between align-items-center">
-                                                {% csrf_token %}
-                                                <input type="text" name="id_act" value="{{ actividad.7 }}" readonly hidden>
-                                                <input type="text" name="email" value="{{ actividad.6 }}" readonly hidden>
-                                                <div>
-                                                    <select name="sl_estado" class="form-select">
-                                                        <option value="NO COMPLETADO">NO COMPLETADO</option>
-                                                        <option value="{{ actividad.5 }}" selected>{{ actividad.5 }}</option>
-                                                        <option value="COMPLETADO">COMPLETADO</option>
-                                                    </select>
-                                                </div>
-                                                <div>
-                                                    <button type="submit" class="btn btn-info form-control" target="{% url 'actualizar_tarea' %}"><i class="fa-solid fa-pencil"></i></button>
-                                                </div>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                    {% else %}
-                                    <tr class="alert alert-success">
-                                        <td>{{ actividad.3|naturalday }} {{ actividad.3|date:'P' }}</td>
-                                        <td>{{ actividad.1 }}</td>
-                                        <td>{{ actividad.2 }}</td>
-                                        <td>{{ actividad.0 }}</td>
-                                        <td>{{ actividad.4 }}</td>
-                                        <td>
-                                            <form class="d-flex justify-content-between align-items-center">
-                                                {% csrf_token %}
-                                                <div>
-                                                    <select name="sl_estado" class="form-select" disabled>
-                                                        <option value="NO COMPLETADO">NO COMPLETADO</option>
-                                                        <option value="EN PROGRESO">EN PROGRESO</option>
-                                                        <option value="{{ actividad.5 }}" selected>{{ actividad.5 }}</option>
-                                                    </select>
-                                                </div>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                    {% endif %}
+                    {% else %}
+                        {% for actividad in actividades %}
+                            {% if actividad.6 == email %}
+                                {% if actividad.5 == 'NO COMPLETADO' %}
+                                <tr class="alert alert-danger">
+                                    <td>{{ actividad.3|naturalday }} {{ actividad.3|date:'P' }}</td>
+                                    <td>{{ actividad.1 }}</td>
+                                    <td>{{ actividad.2 }}</td>
+                                    <td>{{ actividad.0 }}</td>
+                                    <td>{{ actividad.4 }}</td>
+                                    <td>
+                                        <form class="d-flex justify-content-between align-items-center">
+                                            {% csrf_token %}
+                                            <input type="text" name="id_act" value="{{ actividad.7 }}" readonly hidden>
+                                            <input type="text" name="email" value="{{ actividad.6 }}" readonly hidden>
+                                            <div>
+                                                <select name="sl_estado" class="form-select">
+                                                    <option value="{{ actividad.5 }}" selected>{{ actividad.5 }}</option>
+                                                    <option value="EN PROGRESO">EN PROGRESO</option>
+                                                    <option value="COMPLETADO">COMPLETADO</option>
+                                                </select>
+                                            </div>
+                                            <div>
+                                                <button type="submit" class="btn btn-info form-control" target="{% url 'actualizar_tarea' %}"><i class="fa-solid fa-pencil"></i></button>
+                                            </div>
+                                        </form>
+                                    </td>
+                                </tr>
+                                {% elif actividad.5 == 'EN PROGRESO' %}
+                                <tr class="alert alert-warning">
+                                    <td>{{ actividad.3|naturalday }} {{ actividad.3|date:'P' }}</td>
+                                    <td>{{ actividad.1 }}</td>
+                                    <td>{{ actividad.2 }}</td>
+                                    <td>{{ actividad.0 }}</td>
+                                    <td>{{ actividad.4 }}</td>
+                                    <td>
+                                        <form class="d-flex justify-content-between align-items-center">
+                                            {% csrf_token %}
+                                            <input type="text" name="id_act" value="{{ actividad.7 }}" readonly hidden>
+                                            <input type="text" name="email" value="{{ actividad.6 }}" readonly hidden>
+                                            <div>
+                                                <select name="sl_estado" class="form-select">
+                                                    <option value="NO COMPLETADO">NO COMPLETADO</option>
+                                                    <option value="{{ actividad.5 }}" selected>{{ actividad.5 }}</option>
+                                                    <option value="COMPLETADO">COMPLETADO</option>
+                                                </select>
+                                            </div>
+                                            <div>
+                                                <button type="submit" class="btn btn-info form-control" target="{% url 'actualizar_tarea' %}"><i class="fa-solid fa-pencil"></i></button>
+                                            </div>
+                                        </form>
+                                    </td>
+                                </tr>
+                                {% else %}
+                                <tr class="alert alert-success">
+                                    <td>{{ actividad.3|naturalday }} {{ actividad.3|date:'P' }}</td>
+                                    <td>{{ actividad.1 }}</td>
+                                    <td>{{ actividad.2 }}</td>
+                                    <td>{{ actividad.0 }}</td>
+                                    <td>{{ actividad.4 }}</td>
+                                    <td>
+                                        <form class="d-flex justify-content-between align-items-center">
+                                            {% csrf_token %}
+                                            <div>
+                                                <select name="sl_estado" class="form-select" disabled>
+                                                    <option value="NO COMPLETADO">NO COMPLETADO</option>
+                                                    <option value="EN PROGRESO">EN PROGRESO</option>
+                                                    <option value="{{ actividad.5 }}" selected>{{ actividad.5 }}</option>
+                                                </select>
+                                            </div>
+                                        </form>
+                                    </td>
+                                </tr>
                                 {% endif %}
-                            {% endfor %}
+                            {% endif %}
+                        {% endfor %}
                     {% endif %}
                 </tbody>
             </table>
