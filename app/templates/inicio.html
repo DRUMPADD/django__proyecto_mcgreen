@@ -169,7 +169,7 @@
                         <button type="button" class="btn mt-3 mb-2 btn-danger" id="btn_cerrar_opc1">X</button>
                     <div class="mt-2 mb-2">
                         <label>Seleccionar usuarios</label>
-                        <select name="sl_usuarios" class="form-select usuario mt-2">
+                        <select name="sl_usuarios" class="form-select usuario mt-2 selectmenu">
                             <option selected disabled>--Seleccionar--</option>
                             {% for usuario in usuarios %}
                             <option value="{{ usuario.0 }}">{{ usuario.3 }} {{ usuario.4 }} {{ usuario.5 }}</option>
@@ -184,7 +184,7 @@
                     </div>
                     <div>
                         <label>Prioridad de la tarea o evento</label>
-                        <select name="sl_prioridades" class="form-select">
+                        <select name="sl_prioridades" class="form-select selectmenu">
                             <option selected disabled>--Seleccionar--</option>
                             <option value="Baja">Baja</option>
                             <option value="Media">Media</option>
