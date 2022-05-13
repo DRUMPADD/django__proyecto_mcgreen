@@ -1,7 +1,6 @@
 from django.db import IntegrityError, OperationalError, connection
-from django.forms import JSONField
 from django.http.response import HttpResponse, JsonResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import render
 
 def crear_perfil(request):
     if request.method == 'POST' and request.is_ajax():
@@ -522,24 +521,25 @@ def eliminar_requer_fis(request):
         return JsonResponse({"status": "error", "msg": "No es posible realizar dicha acción"}, status=200)
 
 def actualizar_actividad(request):
-    if request.method == 'POST':
+    if request.method == 'POST' and request.is_ajax():
         actividad = request.POST.get("id_act")
         destinatario = request.POST.get("email")
         estado = request.POST.get("sl_estado")
         resp = ""
-        try:
-            if actividad and destinatario and estado:
+
+        if actividad and destinatario and estado:
+            try:
                 cursor = connection.cursor()
                 cursor.callproc("ACTUALIZA_ACTIVIDAD", [actividad, destinatario, estado])
                 resp = cursor.fetchall()[0][0]
                 print(resp)
                 return JsonResponse({"status": "success", "msg": resp}, status=200)
-            else:
-                return JsonResponse({"status": "warning", "msg": "Los datos recopilados están incompletos"}, status=200)
-        except (OperationalError, IntegrityError, InterruptedError) as e:
-            print(e)
-            return JsonResponse({"status": "error", "msg": "Surgió un error"}, status=200)
-        finally:
-            cursor.close()
+            except (OperationalError, IntegrityError) as e:
+                print(e)
+                return JsonResponse({"status": "error", "msg": "Surgió un error"}, status=200)
+            finally:
+                cursor.close()
+        else:
+            return JsonResponse({"status": "warning", "msg": "Los datos recopilados están incompletos"}, status=200)
     else:
         return HttpResponse("<h2>La petición no es de tipo post</h2>")
