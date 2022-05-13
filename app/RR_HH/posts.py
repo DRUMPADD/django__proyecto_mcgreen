@@ -532,6 +532,7 @@ def actualizar_actividad(request):
                 cursor = connection.cursor()
                 cursor.callproc("ACTUALIZA_ACTIVIDAD", [actividad, destinatario, estado])
                 resp = cursor.fetchall()[0][0]
+                print(resp)
                 return JsonResponse({"status": "success", "msg": resp}, status=200)
             else:
                 return JsonResponse({"status": "warning", "msg": "Los datos recopilados están incompletos"}, status=200)
