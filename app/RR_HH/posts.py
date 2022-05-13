@@ -436,7 +436,7 @@ def eliminar_res_ad(request):
                 return JsonResponse({"msg": "Éxito", "msg_salida": mensaje, "status": "success"}, status=200)
             else:
                 return JsonResponse({"msg": "Error", "msg_salida": "El perfil no pudo ser actualizado", "status": "error"}, status=500)
-        except (OperationalError, IntegrityError):
+        except (OperationalError, IntegrityError) as e:
             print(e)
             return JsonResponse({"msg": "Error", "msg_salida": "El perfil no pudo ser actualizado", "status": "error"}, status=200)
         finally:
