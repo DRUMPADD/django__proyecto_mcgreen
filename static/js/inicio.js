@@ -63,13 +63,7 @@ $(document).ready(function () {
                 cont++;
             }
         }
-        var selects_ex = 0;
-        for(let i = 0; i < $("select").length; i++) {
-            if($(this[i]).empty()) {
-                selects_ex++;
-            }
-        }
-
+        var selects_ex = $('.selectmenu').filter(function(){return $(this).val() == ''}).length;
         if(cont == 0 && $("textarea").val().trim() != '' && selects_ex == 0) {
             $.ajax({
                 method: 'POST',
