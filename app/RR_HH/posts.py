@@ -526,7 +526,7 @@ def actualizar_actividad(request):
         destinatario = request.POST.get("email")
         estado = request.POST.get("sl_estado")
         resp = ""
-
+        print("Datos obtenidos:", actividad, destinatario, estado)
         if actividad and destinatario and estado:
             try:
                 cursor = connection.cursor()
