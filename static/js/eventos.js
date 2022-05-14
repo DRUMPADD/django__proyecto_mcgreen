@@ -39,7 +39,7 @@ $(document).ready(function() {
             e.preventDefault();
             $.ajax({
                 type: "POST",
-                url: $("button").attr("target"),
+                url: this_.find("button[type='submit']").attr("target"),
                 data: this_.serializeArray(),
                 success: async function (res) {
                     if(res.status == 'success') {
