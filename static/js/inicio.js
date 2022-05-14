@@ -64,7 +64,7 @@ $(document).ready(function () {
 
     $("form").submit(function (e) {
         e.preventDefault();
-        var cont = $("input:empty").length;
+        var cont = $('input').filter(function(){return $(this).val() == ''}).length;
         var selects_ex = $('.selectmenu').filter(function(){return $(this).val() == ''}).length;
         console.log(cont, $("textarea").val().trim() != '', selects_ex);
         console.log(cont && $("textarea").val().trim() != '' && selects_ex);
