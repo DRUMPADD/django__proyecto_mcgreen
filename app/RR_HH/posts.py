@@ -533,7 +533,11 @@ def actualizar_actividad(request):
                 cursor.callproc("ACTUALIZA_ACTIVIDAD", [actividad, destinatario, estado])
                 resp = cursor.fetchall()[0][0]
                 print(resp)
-                return JsonResponse({"status": "success", "msg": resp}, status=200)
+                if resp == 'ACTIVIDAD ACTUALIZADA':
+                    return JsonResponse({"status": "success", "msg": resp}, status=200)
+                else:
+                    return JsonResponse({"status": "warning", "msg": resp}, status=200)
+
             except (OperationalError, IntegrityError) as e:
                 print(e)
                 return JsonResponse({"status": "error", "msg": "Surgió un error"}, status=200)
