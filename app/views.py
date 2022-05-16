@@ -1,4 +1,3 @@
-from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from . import models
 from django.db import IntegrityError, InternalError, OperationalError, connection
@@ -30,11 +29,8 @@ def iniciar_sesion(request):
                 else:
                     cursor.close()
                     return redirect("usuario_no_encontrado")
-            except OperationalError:
-                return render(request, "errors/error500.html", {
-                "mensaje": "Contacte con el servicio de sistemas"
-            })
-            except IntegrityError:
+            except (OperationalError, IntegrityError) as e:
+                print(e)
                 return render(request, "errors/error500.html", {
                     "mensaje": "Contacte con el servicio de sistemas"
                 })
@@ -105,9 +101,11 @@ def cerrar_sesion(request):
         del request.session["email"]
         del request.session["departamento"]
         del request.session["privilegio"]
-    except KeyError:
-        print(KeyError)
-        pass
+    except (KeyError, IntegrityError, OperationalError) as e:
+        print(e)
+        return render(request, "errors/error500.html", {
+            "mensaje": "Contacte con el servicio de sistemas"
+        })
     return render(request, "Inventario/cerrar_sesion.html")
 
 # ?? Inventario
@@ -136,11 +134,8 @@ def Inventario_general(request):
                     'campos_inv': nombres,
                     'privilegio': request.session.get("privilegio"),
                 }
-            except OperationalError:
-                return render(request, "errors/error500.html", {
-                    "mensaje": "Contacte con el servicio de sistemas"
-                })
-            except IntegrityError:
+            except (OperationalError, IntegrityError) as e:
+                print(e)
                 return render(request, "errors/error500.html", {
                     "mensaje": "Contacte con el servicio de sistemas"
                 })
@@ -172,11 +167,8 @@ def Inventario_general(request):
                     'privilegio': request.session.get("privilegio"),
                     'departamento': request.session.get("departamento"),
                 }
-            except OperationalError:
-                return render(request, "errors/error500.html", {
-                    "mensaje": "Contacte con el servicio de sistemas"
-                })
-            except IntegrityError:
+            except (OperationalError, IntegrityError) as e:
+                print(e)
                 return render(request, "errors/error500.html", {
                     "mensaje": "Contacte con el servicio de sistemas"
                 })
@@ -201,7 +193,8 @@ def compras(request):
                     'sesion': request.session.get("email"),
                     'privilegio': request.session.get("privilegio")
                 }
-            except (OperationalError, IntegrityError):
+            except (OperationalError, IntegrityError) as e:
+                print(e)
                 return render(request, "errors/error500.html", {
                     "mensaje": "Contacte con el servicio de sistemas"
                 })
@@ -253,6 +246,11 @@ def otras_e_s(request):
                 'privilegio': request.session.get("privilegio"),
                 'productos': cursor.fetchall(),
             }
+        except (OperationalError, IntegrityError) as e:
+            print(e)
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
         finally:
             cursor.close()
         return render(request, 'Inventario/otras_e_s.html', context)
@@ -268,11 +266,8 @@ def movimientos(request):
             context = {
                 'movimientos': cursor.fetchall()
             }
-        except OperationalError:
-            return render(request, "errors/error500.html", {
-                "mensaje": "Contacte con el servicio de sistemas"
-            })
-        except IntegrityError:
+        except (OperationalError, IntegrityError) as e:
+            print(e)
             return render(request, "errors/error500.html", {
                 "mensaje": "Contacte con el servicio de sistemas"
             })
@@ -293,11 +288,8 @@ def ver_compras(request):
             context = {
                 'datos_compras': cursor.fetchall()
             }
-        except OperationalError:
-            return render(request, "errors/error500.html", {
-                "mensaje": "Contacte con el servicio de sistemas"
-            })
-        except IntegrityError:
+        except (OperationalError, IntegrityError) as e:
+            print(e)
             return render(request, "errors/error500.html", {
                 "mensaje": "Contacte con el servicio de sistemas"
             })
@@ -315,11 +307,8 @@ def ver_ventas(request):
             context = {
                 'movimientos': cursor.fetchall()
             }
-        except OperationalError:
-            return render(request, "errors/error500.html", {
-                "mensaje": "Contacte con el servicio de sistemas"
-            })
-        except IntegrityError:
+        except (OperationalError, IntegrityError) as e:
+            print(e)
             return render(request, "errors/error500.html", {
                 "mensaje": "Contacte con el servicio de sistemas"
             })
@@ -338,11 +327,8 @@ def ver_cuentas_p_c(request):
                 'movimientos': cursor.fetchall(),
                 'email': request.session.get('email')
             }
-        except OperationalError:
-            return render(request, "errors/error500.html", {
-                "mensaje": "Contacte con el servicio de sistemas"
-            })
-        except IntegrityError:
+        except (OperationalError, IntegrityError) as e:
+            print(e)
             return render(request, "errors/error500.html", {
                 "mensaje": "Contacte con el servicio de sistemas"
             })
@@ -360,11 +346,8 @@ def ver_otros(request):
             context = {
                 'movimientos': cursor.fetchall()
             }
-        except OperationalError:
-            return render(request, "errors/error500.html", {
-                "mensaje": "Contacte con el servicio de sistemas"
-            })
-        except IntegrityError:
+        except (OperationalError, IntegrityError) as e:
+            print(e)
             return render(request, "errors/error500.html", {
                 "mensaje": "Contacte con el servicio de sistemas"
             })
@@ -385,15 +368,19 @@ def vista_quimico(request):
             cursor = connection.cursor()
             cursor.execute("SELECT * from app_inventario")
             context["productos"] = cursor.fetchall()
-        except (OperationalError, IntegrityError):
-            pass
+        except (OperationalError, IntegrityError) as e:
+            print(e)
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
         finally:
             cursor.close()
         try:
             cursor = connection.cursor()
             cursor.execute("SELECT * from app_inventario where nombre_producto like '%sistema%'")
             context["sistemas"] = cursor.fetchall()
-        except (OperationalError, IntegrityError):
+        except (OperationalError, IntegrityError) as e:
+            print(e)
             return render(request, "errors/error500.html", {
                 "mensaje": "Contacte con el servicio de sistemas"
             })
@@ -403,7 +390,8 @@ def vista_quimico(request):
             cursor = connection.cursor()
             cursor.execute("SELECT * from app_departamento")
             context["departamentos"] = cursor.fetchall()
-        except (OperationalError, IntegrityError):
+        except (OperationalError, IntegrityError) as e:
+            print(e)
             return render(request, "errors/error500.html", {
                 "mensaje": "Contacte con el servicio de sistemas"
             })
