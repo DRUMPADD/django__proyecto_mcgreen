@@ -32,7 +32,7 @@ def directorio_perfil(request):
         try:
             cursor = connection.cursor()
             empleados = connection.cursor()
-            empleados = cursor.execute("SELECT * from app_empleados")
+            empleados = cursor.execute("SELECT * from app_empleados where id_empleado != 'ERICK' and id_empleado != 'RDHI-1234'")
             empleados = cursor.fetchall()
         except (OperationalError, IntegrityError) as e:
             print(e)
