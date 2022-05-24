@@ -160,21 +160,23 @@
     </nav>
     <div class="container">
         <div class="d-flex justify-content-center">
-            <form enctype="multipart/form-data">
+            <form class="card card-body" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="input-group">
                     <input type="text" name="accidentabilidad" placeholder="Accidentabilidad" class="form-control">
                 </div>
-                <div class="input-group">
+                <div class="input-group mt-3">
                     <input type="text" name="control_cambios" placeholder="Accidentabilidad" class="form-control">
                 </div>
-                <div class="input-group">
+                <div class="input-group mt-3">
                     <textarea name="informacion" class="form-control" cols="30" rows="5" placeholder="Información documentada"></textarea>
                 </div>
-                <div class="input-group">
+                <div class="input-group mt-3 mb-3">
                     <input type="file" accept="jpeg/png/jpg" name="hallazgos" class="form-control">
                 </div>
-                <input type="submit" class="btn btn-success" id="enviar_sigssmac" ajax="{% url 'sigssmac_post' %}" value="Enviar">
+                <div class="d-flex justify-content-center align-items-center">
+                    <input type="submit" class="btn btn-success" id="enviar_sigssmac" ajax="{% url 'sigssmac_post' %}" value="Registrar">
+                </div>
             </form>
         </div>
 
