@@ -1,7 +1,5 @@
-from django.http import HttpResponse
 from django.shortcuts import redirect, render
-from django.db import IntegrityError, OperationalError, connection
-from pymysql import InternalError
+from django.db import IntegrityError, OperationalError, InternalError, connection
 
 def directorio_perfil(request):
     if request.session.get("email"):
@@ -277,6 +275,7 @@ def vista_eventos(request):
             cursor.callproc("MOSTRAR_TODOS_LOS_EVENTOS")
             eventos = cursor.fetchall()
         except (InternalError, OperationalError) as e:
+            print(e)
             return render(request, "errors/error500.html", {
                 "mensaje": "Contacte con el servicio de sistemas"
             })
@@ -288,6 +287,7 @@ def vista_eventos(request):
             cursor.callproc("MOSTRAR_TODAS_LAS_ACTIVIDADES")
             actividades = cursor.fetchall()
         except (InternalError, OperationalError) as e:
+            print(e)
             return render(request, "errors/error500.html", {
                 "mensaje": "Contacte con el servicio de sistemas"
             })
