@@ -8,6 +8,8 @@ from .indicadores import views as v_indic
 from .indicadores import posts as p_indic
 from .mantenimiento import views as mant
 from .mantenimiento import posts as mant_post
+from .sigssmac import vistas as v_sigss
+from .sigssmac import posts as p_sigss
 
 urlpatterns = [
     path('', views.iniciar_sesion, name="iniciar_sesion"),
@@ -86,4 +88,7 @@ urlpatterns = [
     path("Mantenimiento", mant.vista_mantenimiento, name="mantenimiento"),
     path("crear_tarea", mant_post.crear_tarea, name="crear_tarea"),
     path("modificar_mant", mant_post.modificar_mant, name="modificar_mant"),
+    # ?? Sigssmac
+    path("sigssmac_vista", v_sigss.sigssmac_vista, name="sigssmac_vista"),
+    path("sigssmac_post", p_sigss.sigssmac_post, name="sigssmac_post"),
 ]
