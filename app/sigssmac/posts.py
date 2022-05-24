@@ -12,7 +12,7 @@ def sigssmac_post(request):
     print(hallazgos)
     try:
         cursor = connection.cursor()
-        cursor.callproc("SIGSSMAC", ["erick@sigssmac.com.mx", accident, ctrl_cambios, info, hallazgos, hallazgos.name])
+        cursor.callproc("SIGSSMAC", [request.session.get("email"), accident, ctrl_cambios, info, hallazgos, hallazgos.name])
         mensaje = cursor.fetchall()[0][0]
         img_save_path = 'media/img/sigssmac/' + hallazgos.name
         print(img_save_path)
