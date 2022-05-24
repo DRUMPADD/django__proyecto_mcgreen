@@ -18,6 +18,6 @@ def sigssmac_vista(request):
             })
         finally:
             cursor.close()
-        return render(request, "sigssmac.html", context)
+        return render(request, "SIGSSMAC/sigssmac.html", context)
     else:
         return redirect("/cerrar_sesion")
