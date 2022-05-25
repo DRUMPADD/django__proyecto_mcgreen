@@ -446,39 +446,60 @@ $(document).ready(function () {
         });
     });
 
-
-    // $("#form_subir_img").submit(function (e) {
-    //     e.preventDefault();
-    //     var img_data = $("input[name='img_']").get(0).files[0];
-    //     var empleado = $("input[name='empleado_selec']").val();
-    //     formdata = new FormData();
-    //     formdata.append("imagen", img_data);
-    //     formdata.append("empleado", empleado);
-    //     var csrftoken = $("[name=csrfmiddlewaretoken]").val();
-
-    //     $.ajax({
-    //         type: "POST",
-    //         url: $("#imagen_enviar").attr("dato-ajax"),
-    //         headers:{
-    //             "X-CSRFToken": csrftoken
-    //         },
-    //         data: formdata,
-    //         cache : false,
-    //         contentType : false,
-    //         processData: false,
-    //         async: false,
-    //         success: function (response) {
-    //             if(response.msg === "Exito") {
-    //                 $(this).trigger("reset");
-    //                 $(this).hide();
-    //                 swal(response.msg, response.msg_salida, response.status);
-    //             } else {
-    //                 swal(response.msg, response.msg_salida, response.status);
-    //             }
-    //         },
-    //         error: function (data) {
-    //         }
-    //     });
-    // });
-
+    $("#form_subir_img").submit(function (e) {
+        e.preventDefault();
+        if(window.FormData !== undefined) {
+            var formData = new FormData(this);
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', $("#_enviar").attr('dato-ajax'), true);
+            xhr.setRequestHeader('X-REQUESTED-WITH', 'XMLHttpRequest')            
+            xhr.onreadystatechange = async function() {
+                if(xhr.readyState == 4) {
+                    if(xhr.status == 200) {
+                        res = JSON.parse(xhr.responseText);
+                        // Code for success upload
+                        if(res.status == 'success') {
+                            // await alert("Resultado: " + res.msg);
+                            await swal.fire({
+                                position: 'center',
+                                icon: res.status,
+                                title: res.msg,
+                                showConfirmButton: false,
+                                timer: 3000
+                            })
+                            $("form").trigger("reset");
+                            location.reload(true);
+                        } else {
+                            // await alert("Resultado: " + res.msg);
+                            await swal.fire({
+                                position: 'center',
+                                icon: res.status,
+                                title: res.msg,
+                                showConfirmButton: false,
+                                timer: 3000
+                            })
+                        }
+                    }
+                    else {
+                        swal.fire({
+                            position: 'center',
+                            icon: "error",
+                            title: "Error en el sistema",
+                            showConfirmButton: false,
+                            timer: 3000
+                        })
+                    }
+                }
+            };
+            xhr.send(formData);
+        } else {
+            swal.fire({
+                position: 'center',
+                icon: "error",
+                title: "Error al enviar los datos",
+                showConfirmButton: false,
+                timer: 3000
+            })
+        }
+    });
 });
