@@ -62,6 +62,16 @@
         <ul class="navbar-nav me-auto">
             <div class="dropdown">
                 <button class="nav-link dropdown-toggle btn" type="button" id="navbarDropdown" aria-haspopup="true" data-toggle="dropdown" aria-expanded="false">
+                    SIGSSMAC
+                </button>
+                <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item text-white" href="{% url 'sigssmac_vista' %}">Registro de hallazgos</a>
+                </div>
+            </div>
+        </ul>
+        <ul class="navbar-nav me-auto">
+            <div class="dropdown">
+                <button class="nav-link dropdown-toggle btn" type="button" id="navbarDropdown" aria-haspopup="true" data-toggle="dropdown" aria-expanded="false">
                     Indicadores
                 </button>
                 <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
@@ -114,6 +124,16 @@
                 </button>
                 <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item text-white" href="{% url 'mantenimiento' %}">Mantenimiento</a>
+                </div>
+            </div>
+        </ul>
+        <ul class="navbar-nav me-auto">
+            <div class="dropdown">
+                <button class="nav-link dropdown-toggle btn" type="button" id="navbarDropdown" aria-haspopup="true" data-toggle="dropdown" aria-expanded="false">
+                    SIGSSMAC
+                </button>
+                <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item text-white" href="{% url 'sigssmac_vista' %}">Registro de hallazgos</a>
                 </div>
             </div>
         </ul>
@@ -188,7 +208,7 @@
                                     {% if departamento == 'RRHH' or departamento == 'GER' or privilegio == 'ADM-IN1' %}
                                     <a href="{% url 'ver_personal' id_empleado=emp.0 %}" class="btn btn-info d-flex justify-content-center"><i class="fa-solid fa-eye"></i></a>
                                     {% endif %}
-                                    <button type="button" class="mostrar_img btn btn-primary d-flex justify-content-center" disabled><i class="fa-solid fa-file-arrow-up"></i></button>
+                                    <button type="button" class="mostrar_img btn btn-primary d-flex justify-content-center"><i class="fa-solid fa-file-arrow-up"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -645,6 +665,16 @@
                     </div>
                     <div class="text-center mt-3">
                         <input type="submit" class="btn btn-success" id="enviar_direc" data-ajax-target="{% url 'crear_directorio' %}" value="Crear directorio">
+                    </div>
+                </form>
+                <form id="form_subir_img" enctype="multipart/form-data" style="height: 800px; overflow: auto;">
+                    <h1 id="nombre_emp" class="text-center"></h1>
+                    {% csrf_token %}
+                    <input type="text" name="empleado_selec" hidden readonly>
+                    <input type="file" name="img_" onchange="readURL(this)" class="form-control mt-3 mb-2" placeholder="Elegir imagen">
+                    <input type="submit" value="Subir imagen" id="_enviar" dato-ajax="{% url 'enviar_img' %}" class="btn btn-primary form-control">
+                    <div class="text-center">
+                        <img id="imagen" src="" style="width: 80%; height: auto;">
                     </div>
                 </form>
             </div>
