@@ -1,4 +1,14 @@
 $(document).ready(function () {
+    $(".ver_img").each(function(index) {
+        var $this_ = $(this);
+        $this_.click(function () {
+            var div_display = $("#display_i");
+            var img_src = $("#img_mostrar");
+            img_src.attr("src", $this_.attr("src-img"));
+            img_src.show();
+            div_display.css("display", "block");
+        });
+    });
     $("form").submit(function (e) {
         e.preventDefault();
         var cont_inputs = $('input').filter(function(){return $(this).val() == ''}).length;
@@ -12,9 +22,7 @@ $(document).ready(function () {
                     if(xhr.readyState == 4) {
                         if(xhr.status == 200) {
                             res = JSON.parse(xhr.responseText);
-                            // Code for success upload
                             if(res.status == 'success') {
-                                // await alert("Resultado: " + res.msg);
                                 await swal.fire({
                                     position: 'center',
                                     icon: res.status,
@@ -22,10 +30,9 @@ $(document).ready(function () {
                                     showConfirmButton: false,
                                     timer: 3000
                                 })
-                                $("form").trigger("reset");
+                                await $("form").trigger("reset");
                                 location.reload(true);
                             } else {
-                                // await alert("Resultado: " + res.msg);
                                 await swal.fire({
                                     position: 'center',
                                     icon: res.status,
@@ -48,7 +55,13 @@ $(document).ready(function () {
                 };
                 xhr.send(formData);
             } else {
-                console.log("No existe");
+                swal.fire({
+                    position: 'center',
+                    icon: "error",
+                    title: "La información no pudo ser enviada",
+                    showConfirmButton: false,
+                    timer: 3000
+                })
             }
         } else {
             swal.fire({
