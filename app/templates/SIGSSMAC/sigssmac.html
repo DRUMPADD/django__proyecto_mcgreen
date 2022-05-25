@@ -181,21 +181,39 @@
         </div>
 
 
+        <div class="card-image text-center display_img" id="display_i">
+            <div class="alinear_elementos">
+                <img src="" width="900" class="img_mostrar" id="img_mostrar">
+            </div>
+            <div style="margin-top: 20px;">
+                <button type="button" class="close btn btn-danger">Cerrar</button>
+            </div>
+        </div>
         <div class="d-flex justify-content-center align-items-center">
-            {% for info in detalles %}
-                <div class="card card-body">
-                    <div class="card-img">
-                        <img src="/media/img/sigssmac/{{ info.5 }}" alt="{{ info.5 }}">
-                    </div>
-                    <div>
-                        <p>{{ info.0 }}</p>
-                        <p>{{ info.1 }}</p>
-                        <p>{{ info.2 }}</p>
-                        <p>{{ info.3 }}</p>
-                        <p>{{ info.4 }}</p>
-                    </div>
-                </div>
-            {% endfor %}
+            <table class="table table-stripped" style="overflow: auto; height: 900px;">
+                <thead>
+                    <tr>
+                        <td>Identificador</td>
+                        <td>Accidentabilidad</td>
+                        <td>Control de cambios</td>
+                        <td>Información documentada</td>
+                        <td>Hallazgos</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for info in detalles %}
+                    <tr>
+                        <td>{{ info.0 }}</td>
+                        <td>{{ info.1 }}</td>
+                        <td>{{ info.2 }}</td>
+                        <td>{{ info.3 }}</td>
+                        <td>
+                            <button class="ver_img btn btn-info" src-img="media/img/{{ info.5 }}">Ver imagen</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 
