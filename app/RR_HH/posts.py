@@ -304,14 +304,16 @@ def subir_imagen(request):
         try:
             imagen = request.FILES["imagen"]
             cursor = connection.cursor()
-            cursor.callproc("GUARDAR_IMAGEN", ["erick@sigssmac.com.mx", imagen.name, imagen, "Empleado", request.POST.get("empleado")])
+            cursor.callproc("GUARDAR_IMAGEN", [request.session.get("email"), imagen.name, imagen, "Empleado", request.POST.get("empleado")])
             mensaje = cursor.fetchall()[0][0]
             print(mensaje)
+            img_save_path = 'static/img/profiles/' + imagen.name
+            with open(img_save_path, 'wb+') as f:
+                for chunk in imagen.chunks():
+                    f.write(chunk)
         except (OperationalError, IntegrityError) as e:
             print(e)
-            return render(request, "errors/error500.html", {
-                "mensaje": "Contacte con el servicio de sistemas"
-            })
+            return JsonResponse({"status": "error", "msg": "Error al guardar imagen de empleado"}, status=200)
         finally:
             cursor.close()
         if mensaje == "IMAGEN AGREGADA":
