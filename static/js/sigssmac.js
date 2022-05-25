@@ -9,6 +9,14 @@ $(document).ready(function () {
             div_display.css("display", "block");
         });
     });
+
+    $(".close").each(function () {
+        var $this_ = $(this);
+        $this_.click(function () {
+            $this_.parent().parent().hide();
+        });
+    });
+    
     $("form").submit(function (e) {
         e.preventDefault();
         var cont_inputs = $('input').filter(function(){return $(this).val() == ''}).length;
