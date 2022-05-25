@@ -8,7 +8,7 @@ def directorio_perfil(request):
             puestos = connection.cursor()
             puestos = cursor.execute("SELECT * from app_puestos")
             puestos = cursor.fetchall()
-        except (OperationalError, IntegrityError) as e:
+        except (OperationalError, IntegrityError, InternalError) as e:
             print(e)
             return render(request, "errors/error500.html", {
                 "mensaje": "Contacte con el servicio de sistemas"
@@ -20,7 +20,7 @@ def directorio_perfil(request):
             departamentos = connection.cursor()
             departamentos = cursor.execute("SELECT * from app_departamento")
             departamentos = cursor.fetchall()
-        except (OperationalError, IntegrityError) as e:
+        except (OperationalError, IntegrityError, InternalError) as e:
             print(e)
             return render(request, "errors/error500.html", {
                 "mensaje": "Contacte con el servicio de sistemas"
@@ -32,7 +32,7 @@ def directorio_perfil(request):
             empleados = connection.cursor()
             empleados = cursor.execute("SELECT * from app_empleados where id_empleado != 'ERICK' and id_empleado != 'RDHI-1234'")
             empleados = cursor.fetchall()
-        except (OperationalError, IntegrityError) as e:
+        except (OperationalError, IntegrityError, InternalError) as e:
             print(e)
             return render(request, "errors/error500.html", {
                 "mensaje": "Contacte con el servicio de sistemas"
@@ -58,11 +58,8 @@ def mostrar_perfil_url(request, nombre_perfil=""):
                 sup = connection.cursor()
                 sup.callproc("MOSTRAR_PUESTOS_V2_SUPERVISAR", [nombre_perfil])
                 supervisar = sup.fetchall()
-            except OperationalError:
-                return render(request, "errors/error500.html", {
-                    "mensaje": "Contacte con el servicio de sistemas"
-                })
-            except IntegrityError:
+            except (OperationalError, IntegrityError, InternalError) as e:
+                print(e)
                 return render(request, "errors/error500.html", {
                     "mensaje": "Contacte con el servicio de sistemas"
                 })
@@ -73,11 +70,8 @@ def mostrar_perfil_url(request, nombre_perfil=""):
                 supviso = connection.cursor()
                 supviso.callproc("MOSTRAR_PUESTOS_V2_TSUPERVISAN", [nombre_perfil])
                 superviso = supviso.fetchall()
-            except OperationalError:
-                return render(request, "errors/error500.html", {
-                    "mensaje": "Contacte con el servicio de sistemas"
-                })
-            except IntegrityError:
+            except (OperationalError, IntegrityError, InternalError) as e:
+                print(e)
                 return render(request, "errors/error500.html", {
                     "mensaje": "Contacte con el servicio de sistemas"
                 })
@@ -88,11 +82,8 @@ def mostrar_perfil_url(request, nombre_perfil=""):
                 pe = connection.cursor()
                 pe.callproc("MOSTRAR_PUESTOS_V2", [nombre_perfil])
                 mas_info = pe.fetchall()
-            except OperationalError:
-                return render(request, "errors/error500.html", {
-                    "mensaje": "Contacte con el servicio de sistemas"
-                })
-            except IntegrityError:
+            except (OperationalError, IntegrityError, InternalError) as e:
+                print(e)
                 return render(request, "errors/error500.html", {
                     "mensaje": "Contacte con el servicio de sistemas"
                 })
@@ -102,11 +93,8 @@ def mostrar_perfil_url(request, nombre_perfil=""):
                 pe1 = connection.cursor()
                 pe1.callproc("MOSTRAR_PUESTOS_V2_P1", [nombre_perfil])
                 mas_info1 = pe1.fetchall()
-            except OperationalError:
-                return render(request, "errors/error500.html", {
-                    "mensaje": "Contacte con el servicio de sistemas"
-                })
-            except IntegrityError:
+            except (OperationalError, IntegrityError, InternalError) as e:
+                print(e)
                 return render(request, "errors/error500.html", {
                     "mensaje": "Contacte con el servicio de sistemas"
                 })
@@ -116,11 +104,8 @@ def mostrar_perfil_url(request, nombre_perfil=""):
                 pe2 = connection.cursor()
                 pe2.callproc("MOSTRAR_PUESTOS_V2_P2", [nombre_perfil])
                 mas_info2 = pe2.fetchall()
-            except OperationalError:
-                return render(request, "errors/error500.html", {
-                    "mensaje": "Contacte con el servicio de sistemas"
-                })
-            except IntegrityError:
+            except (OperationalError, IntegrityError, InternalError) as e:
+                print(e)
                 return render(request, "errors/error500.html", {
                     "mensaje": "Contacte con el servicio de sistemas"
                 })
@@ -130,11 +115,8 @@ def mostrar_perfil_url(request, nombre_perfil=""):
                 pe3 = connection.cursor()
                 pe3.callproc("MOSTRAR_PUESTOS_V2_P3", [nombre_perfil])
                 mas_info3 = pe3.fetchall()
-            except OperationalError:
-                return render(request, "errors/error500.html", {
-                    "mensaje": "Contacte con el servicio de sistemas"
-                })
-            except IntegrityError:
+            except (OperationalError, IntegrityError, InternalError) as e:
+                print(e)
                 return render(request, "errors/error500.html", {
                     "mensaje": "Contacte con el servicio de sistemas"
                 })
@@ -144,11 +126,8 @@ def mostrar_perfil_url(request, nombre_perfil=""):
                 pe4 = connection.cursor()
                 pe4.callproc("MOSTRAR_PUESTOS_V2_P4", [nombre_perfil])
                 mas_info4 = pe4.fetchall()
-            except OperationalError:
-                return render(request, "errors/error500.html", {
-                    "mensaje": "Contacte con el servicio de sistemas"
-                })
-            except IntegrityError:
+            except (OperationalError, IntegrityError, InternalError) as e:
+                print(e)
                 return render(request, "errors/error500.html", {
                     "mensaje": "Contacte con el servicio de sistemas"
                 })
@@ -158,11 +137,8 @@ def mostrar_perfil_url(request, nombre_perfil=""):
                 pe5 = connection.cursor()
                 pe5.callproc("MOSTRAR_PUESTOS_V2_P5", [nombre_perfil])
                 mas_info5 = pe5.fetchall()
-            except OperationalError:
-                return render(request, "errors/error500.html", {
-                    "mensaje": "Contacte con el servicio de sistemas"
-                })
-            except IntegrityError:
+            except (OperationalError, IntegrityError, InternalError) as e:
+                print(e)
                 return render(request, "errors/error500.html", {
                     "mensaje": "Contacte con el servicio de sistemas"
                 })
@@ -172,11 +148,8 @@ def mostrar_perfil_url(request, nombre_perfil=""):
                 pe6 = connection.cursor()
                 pe6.callproc("MOSTRAR_PUESTOS_V2_P6", [nombre_perfil])
                 mas_info6 = pe6.fetchall()
-            except OperationalError:
-                return render(request, "errors/error500.html", {
-                    "mensaje": "Contacte con el servicio de sistemas"
-                })
-            except IntegrityError:
+            except (OperationalError, IntegrityError, InternalError) as e:
+                print(e)
                 return render(request, "errors/error500.html", {
                     "mensaje": "Contacte con el servicio de sistemas"
                 })
@@ -186,11 +159,8 @@ def mostrar_perfil_url(request, nombre_perfil=""):
                 pe7 = connection.cursor()
                 pe7.callproc("MOSTRAR_PUESTOS_V2_P7", [nombre_perfil])
                 mas_info7 = pe7.fetchall()
-            except OperationalError:
-                return render(request, "errors/error500.html", {
-                    "mensaje": "Contacte con el servicio de sistemas"
-                })
-            except IntegrityError:
+            except (OperationalError, IntegrityError, InternalError) as e:
+                print(e)
                 return render(request, "errors/error500.html", {
                     "mensaje": "Contacte con el servicio de sistemas"
                 })
@@ -227,6 +197,19 @@ def vista_directorio(request, id_empleado):
             "mensaje": "",
         }
         try:
+            imagen = connection.cursor()
+            imagen.callproc("MOSTRAR_IMAGEN",[id_empleado])
+            info_img = imagen.fetchall()[0][0]
+            print(info_img)
+            context["imagen_emp"] = info_img
+        except (OperationalError, IntegrityError, InternalError) as e:
+            print(e)
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        finally:
+            imagen.close()
+        try:
             cursor = connection.cursor()
             cursor.callproc("MOSTRAR_EMPLEADOS_V2", [id_empleado])
             personal_d = cursor.fetchall()
@@ -257,7 +240,7 @@ def vista_directorio(request, id_empleado):
                     "tel_celular": personal_d[0][20],
                 })
                 context["emp_datos"] = datos
-        except (OperationalError, IntegrityError) as e:
+        except (OperationalError, IntegrityError, InternalError) as e:
             print(e)
             return render(request, "errors/error500.html", {
                 "mensaje": "Contacte con el servicio de sistemas"
@@ -274,11 +257,11 @@ def vista_eventos(request):
             cursor = connection.cursor()
             cursor.callproc("MOSTRAR_TODOS_LOS_EVENTOS")
             eventos = cursor.fetchall()
-        except (InternalError, OperationalError) as e:
+        except (OperationalError, IntegrityError, InternalError) as e:
             print(e)
             return render(request, "errors/error500.html", {
-                "mensaje": "Contacte con el servicio de sistemas"
-            })
+                    "mensaje": "Contacte con el servicio de sistemas"
+                })
         finally:
             cursor.close()
         
@@ -286,7 +269,7 @@ def vista_eventos(request):
             cursor = connection.cursor()
             cursor.callproc("MOSTRAR_TODAS_LAS_ACTIVIDADES")
             actividades = cursor.fetchall()
-        except (InternalError, OperationalError) as e:
+        except (OperationalError, IntegrityError, InternalError) as e:
             print(e)
             return render(request, "errors/error500.html", {
                 "mensaje": "Contacte con el servicio de sistemas"
