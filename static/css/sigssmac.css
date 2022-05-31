@@ -23,3 +23,19 @@
 .close:focus {
     cursor: pointer;
 }
+
+textarea {
+    height: 150px;
+    resize: none;
+}
+
+.scroll-y {
+    overflow: scroll;
+    width: 80%;
+    margin: 0 auto;
+    height: 50%;
+}
+
+#table {
+    border-collapse: collapse;
+}
