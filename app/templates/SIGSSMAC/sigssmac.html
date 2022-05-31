@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/estilos.css' %}" />
     <link rel="stylesheet" href="{% static 'css/tables.css' %}">
     <link rel="stylesheet" href="{% static 'css/sigssmac.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer">
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -161,27 +162,128 @@
         </ul>
     </nav>
     <div class="container">
-        <div class="d-flex justify-content-center">
-            <form class="card card-body" enctype="multipart/form-data">
+        <div class="d-flex justify-content-center col-lg-12">
+            <form class="card card-body col-lg-5" enctype="multipart/form-data">
                 {% csrf_token %}
-                <div class="input-group">
-                    <input type="text" name="accidentabilidad" placeholder="Accidentabilidad" class="form-control">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <div>
+                        <label>Fecha</label>
+                        <input type="date" name="fecha_inicio" class="form-control">
+                    </div>
+                    <div>
+                        <label class="d-block">Fecha compromiso</label>
+                        <div class="d-flex justify-content-center align-items-center">
+                            <select name="sl_fecha" class="form-select">
+                                <option selected disabled>--Seleccionar--</option>
+                                <option value="fecha">Elegir fecha</option>
+                                <option value="INMEDIATA">INMEDIATA</option>
+                            </select>
+                            <input type="date" name="fecha_compromiso" class="form-control">
+                            <button type="button" class="btn btn-info" id="btnVolver"><i class="fa-solid fa-arrow-rotate-left"></i></button>
+                        </div>
+                    </div>
+                    <div>
+                        <label>Fecha de cierre</label>
+                        <input type="date" name="fecha_cierre" class="form-control">
+                    </div>
                 </div>
-                <div class="input-group mt-3">
-                    <input type="text" name="control_cambios" placeholder="Control de cambios" class="form-control">
+                <div class="d-flex justify-content-between align-items-center mt-2 mb-2">
+                    <div>
+                        <label>Indice de actos seguros</label>
+                        <input type="number" name="indice_actos" step="any" class="form-control">
+                    </div>
+                    <div>
+                        <label class="d-block">Origen</label>
+                        <select name="sl_origen" class="form-select">
+                            <option selected disabled>--Seleccionar origen--</option>
+                            <option value="Interno">Interno</option>
+                            <option value="Interno/Cliente">Interno/Cliente</option>
+                            <option value="Proveedor Romaga">Proveedor Romaga</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label>Tipo de instalación</label>
+                        <select name="sl_tipo_i" class="form-select">
+                            <option selected disabled>--Seleccionar origen--</option>
+                            <option value="BASE">BASE</option>
+                            <option value="MACROPERA">MACROPERA</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="input-group mt-3">
-                    <textarea name="informacion" class="form-control" cols="30" rows="5" placeholder="Información documentada"></textarea>
+                <div class="d-flex justify-content-between align-items-center mt-2 mb-2">
+                    <div>
+                        <label>Herramientas</label>
+                        <input type="text" class="form-control" name="herramientas">
+                    </div>
+                    <div>
+                        <label>Acto/Condición</label>
+                        <select name="sl_acto" class="form-select">
+                            <option selected disabled>--Seleccionar herramienta--</option>
+                            <option value="Accidente">Accidente</option>
+                            <option value="Acto">Acto</option>
+                            <option value="Condición">Condición</option>
+                            <option value="Sin observaciones">Sin observaciones</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Afecta a</label>
+                        <select name="sl_afecta" class="form-select">
+                            <option selected disabled>--Seleccionar--</option>
+                            <option value="Equipo">Equipo</option>
+                            <option value="Medio ambiente">Medio ambiente</option>
+                            <option value="Seguridad">Seguridad</option>
+                            <option value="Seguridad/Medio ambiente">Seguridad/Medio ambiente</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="input-group mt-3 mb-3">
+                <div>
+                    <div>
+                        <label>Categoría</label>
+                        <input type="text" class="form-control" name="categoria">
+                    </div>
+                    <div>
+                        <label>Acción</label>
+                        <input type="text" class="form-control" name="accion">
+                    </div>
+                    <div>
+                        <label>Hallazgo / Observación</label>
+                        <textarea name="hallazgo_obser" class="form-control" cols="30" rows="10"></textarea>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mt-2 mb-2">
+                    <div>
+                        <label>Responsable de seguimiento</label>
+                        <select name="sl_responsable" class="form-select">
+                            <option selected disabled>--Seleccionar--</option>
+                            <option value="GERENCIA/SIGSSMAC">GERENCIA/SIGSSMAC</option>
+                            <option value="OPERACION/SIGSSMAC">OPERACION/SIGSSMAC</option>
+                            <option value="SIGSSMAC">SIGSSMAC</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Prioridad</label>
+                        <select name="sl_prioridad" class="form-select">
+                            <option selected disabled>--Seleccionar--</option>
+                            <option value="Alta">Alta</option>
+                            <option value="Baja">Baja</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Estatus</label>
+                        <select name="sl_status" class="form-select">
+                            <option selected disabled>--Seleccionar--</option>
+                            <option value="Abierto">Abierto</option>
+                            <option value="Cerrado">Cerrado</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="input-group mt-2 mb-2">
                     <input type="file" accept="jpeg/png/jpg" name="hallazgos" class="form-control">
                 </div>
-                <div class="d-flex justify-content-center align-items-center">
-                    <input type="submit" class="btn btn-success" id="enviar_sigssmac" ajax="{% url 'sigssmac_post' %}" value="Registrar">
-                </div>
+                <input type="submit" class="btn btn-success" id="enviar_sigssmac" ajax="{% url 'sigssmac_post' %}" value="Enviar">
             </form>
         </div>
-
 
         <div class="card-image text-center display_img" id="display_i">
             <div class="alinear_elementos">
@@ -191,32 +293,62 @@
                 <button type="button" class="close btn btn-danger">Cerrar</button>
             </div>
         </div>
-        <div class=".my-custom-scrollbar .table-wrapper-scroll-y">
-            <table id="table" class="table table-stripped">
-                <thead>
-                    <tr>
-                        <td>Identificador</td>
-                        <td>Accidentabilidad</td>
-                        <td>Control de cambios</td>
-                        <td>Información documentada</td>
-                        <td>Hallazgos</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for info in detalles %}
-                    <tr>
-                        <td>{{ info.0 }}</td>
-                        <td>{{ info.1 }}</td>
-                        <td>{{ info.2 }}</td>
-                        <td>{{ info.3 }}</td>
-                        <td>
-                            <button class="ver_img btn btn-info" src-img="media/img/sigssmac/{{ info.5 }}">Ver imagen</button>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+    </div>
+    <div class="scroll-y">
+        <table id="table" class="table table-stripped">
+            <thead>
+                <tr>
+                    <td>Identificador</td>
+                    <td>Usuario</td>
+                    <td>Fecha</td>
+                    <td>Herramientas</td>
+                    <td>Origen</td>
+                    <td>TIpo de instalación</td>
+                    <td>Tipo de situación</td>
+                    <td>Afecta a</td>
+                    <td>Categoría</td>
+                    <td>Hallazgo</td>
+                    <td>Acción</td>
+                    <td>Índice actos seguros</td>
+                    <td>Responsable</td>
+                    <td>Prioridad</td>
+                    <td>Estatus</td>
+                    <td>Fecha compromiso</td>
+                    <td>Fecha cierre</td>
+                    <td>Evidencia antes</td>
+                    <td>Evidencia después</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for info in detalles %}
+                <tr>
+                    <td>{{ info.0 }}</td>
+                    <td>{{ info.1 }}</td>
+                    <td>{{ info.2 }}</td>
+                    <td>{{ info.3 }}</td>
+                    <td>{{ info.4 }}</td>
+                    <td>{{ info.5 }}</td>
+                    <td>{{ info.6 }}</td>
+                    <td>{{ info.7 }}</td>
+                    <td>{{ info.8 }}</td>
+                    <td>{{ info.9 }}</td>
+                    <td>{{ info.10 }}</td>
+                    <td>{{ info.11 }}</td>
+                    <td>{{ info.12 }}</td>
+                    <td>{{ info.13 }}</td>
+                    <td>{{ info.14 }}</td>
+                    <td>{{ info.15 }}</td>
+                    <td>{{ info.16 }}</td>
+                    <td>
+                        <button class="ver_img btn btn-info" src-img="media/img/sigssmac/{{ info.17 }}">Ver imagen</button>
+                    </td>
+                    <td>
+                        <button class="ver_img btn btn-info" src-img="media/img/sigssmac/{{ info.18 }}">Ver imagen</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
