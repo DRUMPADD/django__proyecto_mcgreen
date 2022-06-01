@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Directorio del personal</title>
     <link rel="stylesheet" type="text/css" href="{% static 'css/estilos.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/tables.css' %}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer">
     <style>
         a {
@@ -217,6 +218,25 @@
                 </div>
             </div>
             <div class="card card-body col-lg-8" style="height: 800px;">
+                <div id="principal">
+                    <div class="mt-4 w-100">
+                        <canvas id="detalles_rrhh" width="200" height="100"></canvas>
+                    </div>
+                    <div>
+                        <p>Empleados registrados: <span id="emp_reg"></span></p>
+                    </div>
+                    <div class="scrollbar">
+                        <table id="table_rrhh" class="table table-stripped">
+                            <thead>
+                                <th>Puesto</th>
+                                <th>Cantidad de empleados</th>
+                            </thead>
+                            <tbody id="tbody_emp">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
                 <form id="form_crear_perfil"  name="form_crear_perfil" style="height: 800px; overflow: auto;">
                     <h1 class="text-center">Agregar perfil de puesto</h1>
                     {% csrf_token %}
@@ -685,6 +705,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
     <script>
         function readURL(input) {
             if (input.files && input.files[0]) {
