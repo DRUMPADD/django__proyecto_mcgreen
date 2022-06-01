@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.db import IntegrityError, OperationalError, InternalError, connection
 
@@ -285,3 +286,14 @@ def vista_eventos(request):
         return render(request, "RRHH/eventos.html", context)
     else:
         return redirect("/cerrar_sesion")
+
+def rrhh_detalles(request):
+    mensaje = ""
+    try:
+        cursor = connection.cursor()
+        cursor.callproc("RRHH_DETALLES")
+        mensaje = cursor.fetchall()
+        return JsonResponse({"status": "success", "msg": mensaje}, status=200)
+    except (OperationalError, IntegrityError, InternalError) as e:
+        print(e)
+        return JsonResponse({"status": "error", "msg": "No se pueden mostrar los datos"}, status=200)
