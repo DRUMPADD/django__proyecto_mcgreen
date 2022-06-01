@@ -481,6 +481,7 @@ $(document).ready(function () {
         }
     });
 
+    const ctx_rrhh = document.getElementById('detalles_rrhh').getContext('2d');
     $("#table").hide();
     $.ajax({
         type: "GET",
@@ -516,7 +517,7 @@ $(document).ready(function () {
                 `)
             });
 
-            const myChart = new Chart(ctx, {
+            const myChart = new Chart(ctx_rrhh, {
                 type: 'bar',
                 data: {
                     labels: ['PUESTOS'],
