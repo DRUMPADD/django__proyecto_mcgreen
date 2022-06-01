@@ -22,6 +22,7 @@ $(document).ready(function () {
         for(let i = 1; i < 9; i++) {
             $("#funcion" + i).trigger("reset");
         }
+        $("#principal").show();
     }
     
     function ocultar_formularios_img() {
@@ -82,6 +83,7 @@ $(document).ready(function () {
             $("#" + $(this).val()).find("input[name='puesto']").val(usuario);
         }
         ocultar_formularios_img();
+        $("#principal").hide();
     });
 
     var botones_cerrar = $(".btn_cerrar");
@@ -95,34 +97,10 @@ $(document).ready(function () {
                 borrar_valor_usuario();
                 $(selects[i]).prop("selectedIndex", 0);
             });
+            $("#principal").show();
         });
     });
 
-
-    // $.each($(".formulario"), function (index) {
-    //     $(this).submit(function (e) {
-    //         e.preventDefault();
-    //         $(".formulario").trigger("reset");
-    //         $.ajax({
-    //             type: "POST",
-    //             url: $(this).find("input[name='enviar_funcion']").attr("ajax-data-target"),
-    //             data: $(this).serialize(),
-    //             success: function (response) {
-    //                 saber_seleccionado();
-    //                 ocultar_formularios();
-    //                 borrar_valor_usuario();
-    //                 swal.fire({
-    //                     position: 'center',
-    //                     icon: 'success',
-    //                     title: response.msg,
-    //                     showConfirmButton: false,
-    //                     timer: 2000
-    //                 })
-    //                 // swal("Éxito!!", response.msg, "success");
-    //             }
-    //         });
-    //     });
-    // });
 
     $("#funcion1").submit(function (e) {
         $.ajax({
@@ -500,6 +478,67 @@ $(document).ready(function () {
                 showConfirmButton: false,
                 timer: 3000
             })
+        }
+    });
+
+    $("#table").hide();
+    $.ajax({
+        type: "GET",
+        url: "{% url 'rrhh_detalles' %}",
+        success: function (response) {
+            let detalles = response.msg;
+            let datasets = [];
+            let total_ = 0;
+            let tbody_ = $("#tbody_emp");
+
+            detalles.map((d, i) => {
+                const red_ = `${Math.floor(Math.random() * (255 - 1) + 1)}`;
+                const green_ = `${Math.floor(Math.random() * (255 - 1) + 1)}`;
+                const blue_ = `${Math.floor(Math.random() * (255 - 1) + 1)}`;
+                const rgb_random = `rgba(${red_}, ${green_}, ${blue_}, .3)`;
+                const rgb_border = `rgba(${red_}, ${green_}, ${blue_}, .5)`;
+                total_ += d[0]
+                datasets.push({
+                    label: d[1],
+                    data: [d[0]],
+                    backgroundColor: rgb_random, // Color de fondo
+                    borderColor: rgb_border, // Color del borde
+                    borderWidth: 3,// Ancho del borde
+                    tension: .5,
+                    fill: true,
+                })
+
+                tbody_.append(`
+                    <tr>
+                        <td>${d[1]}</td>
+                        <td>${d[0]}</td>
+                    </tr>
+                `)
+            });
+
+            const myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['PUESTOS'],
+                    datasets 
+                },
+                options: {
+                    scales: {
+                        yAxes: {
+                            display: true,
+                            ticks: {
+                                beginAtZero: true,
+                                steps: 10,
+                                stepValue: 5,
+                                max: total_
+                            }
+                        }
+                    }
+                }
+            });
+
+            $("#table").show();
+            $("#emp_reg").text(total_);
         }
     });
 });
