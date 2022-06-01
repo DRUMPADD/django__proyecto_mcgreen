@@ -57,6 +57,7 @@ urlpatterns = [
     path("crear_perfil_puesto", posts_rh.crear_perfil, name="creacion_perfil_puesto"),
     path("crear_directorio", posts_rh.crear_directorio, name="crear_directorio"),
     path("actualizar_perfil", posts_rh.actualizar_perfil, name="actualizar_perfil"),
+    path("rrhh_detalles", vistas_rh.rrhh_detalles, name="rrhh_detalles"),
     path("funcion1", posts_rh.funcion1, name="funcion1"),
     path("funcion2", posts_rh.funcion2, name="funcion2"),
     path("funcion3", posts_rh.funcion3, name="funcion3"),
