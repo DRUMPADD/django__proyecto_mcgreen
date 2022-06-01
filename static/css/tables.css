@@ -8,3 +8,12 @@
 .table-wrapper-scroll-y {
     display: block;
 }
+
+.scrollbar {
+    overflow: scroll;
+    width: 100%;
+}
+
+#table_rrhh {
+    border-collapse: collapse;
+}
