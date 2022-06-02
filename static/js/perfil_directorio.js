@@ -3,7 +3,7 @@ $(document).ready(function () {
     $("#table").hide();
     $.ajax({
         type: "GET",
-        url: "{% url 'rrhh_detalles' %}",
+        url: $("#url_rrhh").attr("ajax-get"),
         success: function (response) {
             let detalles = response.msg;
             let datasets = [];
