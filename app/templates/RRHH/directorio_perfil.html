@@ -217,15 +217,20 @@
                     </div>
                 </div>
             </div>
-            <div class="card card-body col-lg-8" style="height: 800px;">
+            <div class="card card-body col-lg-8 scrollbar" style="height: 800px;">
                 <div id="principal">
                     <div class="mt-4 w-100">
                         <canvas id="detalles_rrhh" width="200" height="100"></canvas>
                     </div>
-                    <div>
-                        <p>Empleados registrados: <span id="emp_reg"></span></p>
+                    <div class="d-flex justify-content-around align-items-center">
+                        <div>
+                            <p>Puestos registrados: <span id="ptos_reg"></span></p>
+                        </div>
+                        <div>
+                            <p>Empleados registrados: <span id="emp_reg"></span></p>
+                        </div>
                     </div>
-                    <div class="scrollbar">
+                    <div>
                         <table id="table_rrhh" class="table table-stripped">
                             <thead>
                                 <th>Puesto</th>
