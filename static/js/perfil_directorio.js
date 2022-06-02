@@ -1,6 +1,7 @@
 $(document).ready(function () {
     const ctx = document.getElementById('detalles_rrhh').getContext('2d');
     $("#table").hide();
+    $("#principal").show();
     $.ajax({
         type: "GET",
         url: $("#url_rrhh").attr("ajax-get"),
@@ -92,6 +93,7 @@ $(document).ready(function () {
     
     function ocultar_formularios_img() {
         $("#form_subir_img").hide();
+        $("#principal").show();
     }
 
     borrar_valor_usuario();
@@ -100,6 +102,7 @@ $(document).ready(function () {
     $("#agregar").click(() => {
         $("#form_crear_directorio").hide();
         $("#form_crear_perfil").toggle();
+        $("#principal").toggle();
     })
 
     $("#form_crear_perfil").submit((e) => {
@@ -467,6 +470,7 @@ $(document).ready(function () {
     $("#agregar_directorio").click(() => {
         $("#form_crear_perfil").hide();
         $("#form_crear_directorio").toggle();
+        $("#principal").toggle();
     });
 
 
@@ -481,6 +485,7 @@ $(document).ready(function () {
         // element == this
         $(this).click(function () {
             $("#form_subir_img").toggle();
+            $("#principal").toggle();
             var empleado_seleccionado = $(this).parent().parent().find("span:first").text();
             var nombre_emp = $(this).parent().parent().find("span:last").text();
             $("input[name='empleado_selec']").val(empleado_seleccionado);
