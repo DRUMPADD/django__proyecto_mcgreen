@@ -10,7 +10,7 @@
 }
 
 .scrollbar {
-    overflow: scroll;
+    overflow-y: auto;
     width: 100%;
 }
 
