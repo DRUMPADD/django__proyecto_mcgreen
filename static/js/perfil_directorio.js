@@ -1,5 +1,70 @@
 $(document).ready(function () {
-    // Función para recargar div con id puestos
+    const ctx = document.getElementById('detalles_rrhh').getContext('2d');
+    $("#table").hide();
+    $.ajax({
+        type: "GET",
+        url: "{% url 'rrhh_detalles' %}",
+        success: function (response) {
+            let detalles = response.msg;
+            let datasets = [];
+            let total_e = 0, total_p = 0;
+            let tbody_ = $("#tbody_emp");
+
+            detalles.map((d, i) => {
+                const red_ = `${Math.floor(Math.random() * (255 - 1) + 1)}`;
+                const green_ = `${Math.floor(Math.random() * (255 - 1) + 1)}`;
+                const blue_ = `${Math.floor(Math.random() * (255 - 1) + 1)}`;
+                const rgb_random = `rgba(${red_}, ${green_}, ${blue_}, .3)`;
+                const rgb_border = `rgba(${red_}, ${green_}, ${blue_}, .5)`;
+                total_e += d[0]
+                datasets.push({
+                    label: d[1],
+                    data: [d[0]],
+                    backgroundColor: rgb_random, // Color de fondo
+                    borderColor: rgb_border, // Color del borde
+                    borderWidth: 3,// Ancho del borde
+                    tension: .5,
+                    fill: true,
+                })
+
+                tbody_.append(`
+                    <tr>
+                        <td>${d[1]}</td>
+                        <td>${d[0]}</td>
+                    </tr>
+                `)
+
+                if(d[1]) {
+                    total_p += 1;
+                }
+            });
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['PUESTOS'],
+                    datasets 
+                },
+                options: {
+                    scales: {
+                        yAxes: {
+                            display: true,
+                            ticks: {
+                                beginAtZero: true,
+                                steps: 10,
+                                stepValue: 5,
+                                max: total_e
+                            }
+                        }
+                    }
+                }
+            });
+
+            $("#table").show();
+            $("#emp_reg").text(total_e);
+            $("#ptos_reg").text(total_p);
+        }
+    });
     function recargar_() { 
         $("#puestos").fadeOut("fast").load(location.href + " #puestos>*", "").fadeIn("fast");
     }
@@ -481,65 +546,4 @@ $(document).ready(function () {
         }
     });
 
-    const ctx_rrhh = document.getElementById('detalles_rrhh').getContext('2d');
-    $("#table").hide();
-    $.ajax({
-        type: "GET",
-        url: $("#url_rrhh").attr("ajax-get"),
-        success: function (response) {
-            let detalles = response.msg;
-            let datasets = [];
-            let total_ = 0;
-            let tbody_ = $("#tbody_emp");
-
-            detalles.map((d, i) => {
-                const red_ = `${Math.floor(Math.random() * (255 - 1) + 1)}`;
-                const green_ = `${Math.floor(Math.random() * (255 - 1) + 1)}`;
-                const blue_ = `${Math.floor(Math.random() * (255 - 1) + 1)}`;
-                const rgb_random = `rgba(${red_}, ${green_}, ${blue_}, .3)`;
-                const rgb_border = `rgba(${red_}, ${green_}, ${blue_}, .5)`;
-                total_ += d[0]
-                datasets.push({
-                    label: d[1],
-                    data: [d[0]],
-                    backgroundColor: rgb_random, // Color de fondo
-                    borderColor: rgb_border, // Color del borde
-                    borderWidth: 3,// Ancho del borde
-                    tension: .5,
-                    fill: true,
-                })
-
-                tbody_.append(`
-                    <tr>
-                        <td>${d[1]}</td>
-                        <td>${d[0]}</td>
-                    </tr>
-                `)
-            });
-
-            const myChart = new Chart(ctx_rrhh, {
-                type: 'bar',
-                data: {
-                    labels: ['PUESTOS'],
-                    datasets 
-                },
-                options: {
-                    scales: {
-                        yAxes: {
-                            display: true,
-                            ticks: {
-                                beginAtZero: true,
-                                steps: 10,
-                                stepValue: 5,
-                                max: total_
-                            }
-                        }
-                    }
-                }
-            });
-
-            $("#table").show();
-            $("#emp_reg").text(total_);
-        }
-    });
 });
