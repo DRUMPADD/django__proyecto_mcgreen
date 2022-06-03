@@ -63,7 +63,9 @@ $(document).ready(function () {
 
             $("#table").show();
             $("#emp_reg").text(total_e);
+            $("#emp_total").text(response.total_empleados);
             $("#ptos_reg").text(total_p);
+            $("#ptos_total").text(response.total_puestos);
         }
     });
     function recargar_() { 
@@ -88,7 +90,7 @@ $(document).ready(function () {
         for(let i = 1; i < 9; i++) {
             $("#funcion" + i).trigger("reset");
         }
-        $("#principal").show();
+        $("#principal").toggle();
     }
     
     function ocultar_formularios_img() {
