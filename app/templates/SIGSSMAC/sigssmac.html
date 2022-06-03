@@ -322,7 +322,7 @@
             <tbody>
                 {% for info in detalles %}
                 {% now 'Y-m-d' as today %}
-                {% if info.14 == 'Abierto' and (today > info.16|date:'Y-m-d') %}
+                {% if info.14 == 'Abierto' and today > info.16|date:'Y-m-d' %}
                     <tr class="alert alert-danger">
                         <td>{{ info.0 }}</td>
                         <td>{{ info.1 }}</td>
@@ -348,7 +348,7 @@
                             <button class="ver_img btn btn-info" src-img="media/img/sigssmac/{{ info.18 }}">Ver imagen</button>
                         </td>
                     </tr>
-                {% elif info.14 == 'Abierto' and (today <= info.16|date:'Y-m-d') %}
+                {% elif info.14 == 'Abierto' and today <= info.16|date:'Y-m-d' %}
                     <tr clas="alert alert-warning">
                         <td>{{ info.0 }}</td>
                         <td>{{ info.1 }}</td>
