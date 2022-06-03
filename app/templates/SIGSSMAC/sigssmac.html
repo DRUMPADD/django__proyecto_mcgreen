@@ -320,32 +320,87 @@
                 </tr>
             </thead>
             <tbody>
+                {% now 'Y-m-d' as today %}
                 {% for info in detalles %}
-                <tr>
-                    <td>{{ info.0 }}</td>
-                    <td>{{ info.1 }}</td>
-                    <td>{{ info.2 }}</td>
-                    <td>{{ info.3 }}</td>
-                    <td>{{ info.4 }}</td>
-                    <td>{{ info.5 }}</td>
-                    <td>{{ info.6 }}</td>
-                    <td>{{ info.7 }}</td>
-                    <td>{{ info.8 }}</td>
-                    <td>{{ info.9 }}</td>
-                    <td>{{ info.10 }}</td>
-                    <td>{{ info.11 }}</td>
-                    <td>{{ info.12 }}</td>
-                    <td>{{ info.13 }}</td>
-                    <td>{{ info.14 }}</td>
-                    <td>{{ info.15 }}</td>
-                    <td>{{ info.16 }}</td>
-                    <td>
-                        <button class="ver_img btn btn-info" src-img="media/img/sigssmac/{{ info.17 }}">Ver imagen</button>
-                    </td>
-                    <td>
-                        <button class="ver_img btn btn-info" src-img="media/img/sigssmac/{{ info.18 }}">Ver imagen</button>
-                    </td>
-                </tr>
+                {% if info.14 == 'Abierto' and (today > info.16) %}
+                    <tr class="alert alert-danger">
+                        <td>{{ info.0 }}</td>
+                        <td>{{ info.1 }}</td>
+                        <td>{{ info.2 }}</td>
+                        <td>{{ info.3 }}</td>
+                        <td>{{ info.4 }}</td>
+                        <td>{{ info.5 }}</td>
+                        <td>{{ info.6 }}</td>
+                        <td>{{ info.7 }}</td>
+                        <td>{{ info.8 }}</td>
+                        <td>{{ info.9 }}</td>
+                        <td>{{ info.10 }}</td>
+                        <td>{{ info.11 }}</td>
+                        <td>{{ info.12 }}</td>
+                        <td>{{ info.13 }}</td>
+                        <td>{{ info.14 }}</td>
+                        <td>{{ info.15 }}</td>
+                        <td>{{ info.16 }}</td>
+                        <td>
+                            <button class="ver_img btn btn-info" src-img="media/img/sigssmac/{{ info.17 }}">Ver imagen</button>
+                        </td>
+                        <td>
+                            <button class="ver_img btn btn-info" src-img="media/img/sigssmac/{{ info.18 }}">Ver imagen</button>
+                        </td>
+                    </tr>
+                {% elif info.14 == 'Abierto' and (today <= info.16) %}
+                    <tr clas="alert alert-warning">
+                        <td>{{ info.0 }}</td>
+                        <td>{{ info.1 }}</td>
+                        <td>{{ info.2 }}</td>
+                        <td>{{ info.3 }}</td>
+                        <td>{{ info.4 }}</td>
+                        <td>{{ info.5 }}</td>
+                        <td>{{ info.6 }}</td>
+                        <td>{{ info.7 }}</td>
+                        <td>{{ info.8 }}</td>
+                        <td>{{ info.9 }}</td>
+                        <td>{{ info.10 }}</td>
+                        <td>{{ info.11 }}</td>
+                        <td>{{ info.12 }}</td>
+                        <td>{{ info.13 }}</td>
+                        <td>{{ info.14 }}</td>
+                        <td>{{ info.15 }}</td>
+                        <td>{{ info.16 }}</td>
+                        <td>
+                            <button class="ver_img btn btn-info" src-img="media/img/sigssmac/{{ info.17 }}">Ver imagen</button>
+                        </td>
+                        <td>
+                            <button class="ver_img btn btn-info" src-img="media/img/sigssmac/{{ info.18 }}">Ver imagen</button>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr class="alert alert-success">
+                        <td>{{ info.0 }}</td>
+                        <td>{{ info.1 }}</td>
+                        <td>{{ info.2 }}</td>
+                        <td>{{ info.3 }}</td>
+                        <td>{{ info.4 }}</td>
+                        <td>{{ info.5 }}</td>
+                        <td>{{ info.6 }}</td>
+                        <td>{{ info.7 }}</td>
+                        <td>{{ info.8 }}</td>
+                        <td>{{ info.9 }}</td>
+                        <td>{{ info.10 }}</td>
+                        <td>{{ info.11 }}</td>
+                        <td>{{ info.12 }}</td>
+                        <td>{{ info.13 }}</td>
+                        <td>{{ info.14 }}</td>
+                        <td>{{ info.15 }}</td>
+                        <td>{{ info.16 }}</td>
+                        <td>
+                            <button class="ver_img btn btn-info" src-img="media/img/sigssmac/{{ info.17 }}">Ver imagen</button>
+                        </td>
+                        <td>
+                            <button class="ver_img btn btn-info" src-img="media/img/sigssmac/{{ info.18 }}">Ver imagen</button>
+                        </td>
+                    </tr>
+                {% endif %}
                 {% endfor %}
             </tbody>
         </table>
