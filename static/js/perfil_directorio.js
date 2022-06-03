@@ -487,7 +487,6 @@ $(document).ready(function () {
         // element == this
         $(this).click(function () {
             $("#form_subir_img").toggle();
-            $("#principal").toggle();
             var empleado_seleccionado = $(this).parent().parent().find("span:first").text();
             var nombre_emp = $(this).parent().parent().find("span:last").text();
             $("input[name='empleado_selec']").val(empleado_seleccionado);
