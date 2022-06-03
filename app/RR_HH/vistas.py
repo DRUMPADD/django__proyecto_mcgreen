@@ -4,9 +4,11 @@ from django.db import IntegrityError, OperationalError, InternalError, connectio
 
 def directorio_perfil(request):
     if request.session.get("email"):
+        puestos = ""
+        departamentos = ""
+        empleados = ""
         try:
             cursor = connection.cursor()
-            puestos = connection.cursor()
             puestos = cursor.execute("SELECT * from app_puestos")
             puestos = cursor.fetchall()
         except (OperationalError, IntegrityError, InternalError) as e:
@@ -18,8 +20,7 @@ def directorio_perfil(request):
             cursor.close()
         try:
             cursor = connection.cursor()
-            departamentos = connection.cursor()
-            departamentos = cursor.execute("SELECT * from app_departamento")
+            cursor.execute("SELECT * from app_departamento")
             departamentos = cursor.fetchall()
         except (OperationalError, IntegrityError, InternalError) as e:
             print(e)
@@ -30,8 +31,7 @@ def directorio_perfil(request):
             cursor.close()
         try:
             cursor = connection.cursor()
-            empleados = connection.cursor()
-            empleados = cursor.execute("SELECT * from app_empleados where id_empleado != 'ERICK' and id_empleado != 'RDHI-1234'")
+            cursor.execute("SELECT * from app_empleados where id_empleado != 'ERICK' and id_empleado != 'RDHI-1234' and id_empleado != 'SIGSSMAC-JEFE'")
             empleados = cursor.fetchall()
         except (OperationalError, IntegrityError, InternalError) as e:
             print(e)
@@ -289,11 +289,41 @@ def vista_eventos(request):
 
 def rrhh_detalles(request):
     mensaje = ""
+    puestos = ""
+    empleados = ""
+    total_puestos = 0
+    total_empleados = 0
+    try:
+        cursor = connection.cursor()
+        cursor.execute("SELECT * from app_puestos")
+        puestos = cursor.fetchall()
+        for puesto in range(0, len(puestos)):
+            total_puestos = total_puestos + 1
+    except (OperationalError, IntegrityError, InternalError) as e:
+        print(e)
+        return render(request, "errors/error500.html", {
+            "mensaje": "Contacte con el servicio de sistemas"
+        })
+    finally:
+        cursor.close()
+    try:
+        cursor = connection.cursor()
+        cursor.execute("SELECT * from app_empleados where id_empleado != 'ERICK' and id_empleado != 'RDHI-1234' and id_empleado != 'SIGSSMAC-JEFE'")
+        empleados = cursor.fetchall()
+        for emp in range(0, len(empleados)):
+            total_empleados = total_empleados + 1
+    except (OperationalError, IntegrityError, InternalError) as e:
+        print(e)
+        return render(request, "errors/error500.html", {
+            "mensaje": "Contacte con el servicio de sistemas"
+        })
+    finally:
+        cursor.close()
     try:
         cursor = connection.cursor()
         cursor.callproc("RRHH_DETALLES")
         mensaje = cursor.fetchall()
-        return JsonResponse({"status": "success", "msg": mensaje}, status=200)
     except (OperationalError, IntegrityError, InternalError) as e:
         print(e)
         return JsonResponse({"status": "error", "msg": "No se pueden mostrar los datos"}, status=200)
+    return JsonResponse({"status": "success", "msg": mensaje, "total_puestos": total_puestos, "total_empleados": total_empleados}, status=200)
