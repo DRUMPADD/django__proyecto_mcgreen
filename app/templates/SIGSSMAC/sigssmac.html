@@ -320,8 +320,8 @@
                 </tr>
             </thead>
             <tbody>
-                {% now 'Y-m-d' as today %}
                 {% for info in detalles %}
+                {% now 'Y-m-d' as today %}
                 {% if info.14 == 'Abierto' and (today > info.16) %}
                     <tr class="alert alert-danger">
                         <td>{{ info.0 }}</td>
