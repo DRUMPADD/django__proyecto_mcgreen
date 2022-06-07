@@ -92,4 +92,5 @@ urlpatterns = [
     # ?? Sigssmac
     path("sigssmac_vista", v_sigss.sigssmac_vista, name="sigssmac_vista"),
     path("sigssmac_post", p_sigss.sigssmac_post, name="sigssmac_post"),
+    path('subir_evidencia', p_sigss.subir_evidencia_despues, name="subir_evidencia"),
 ]
