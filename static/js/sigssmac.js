@@ -1,7 +1,6 @@
-$(document).ready(function () {
-    $("input[name='fecha_compromiso']").hide();
-    $("#btnVolver").hide();
-
+$(document).ready(async function () {
+    await $("input[name='fecha_compromiso']").hide();
+    await $("#btnVolver").hide();
     $("select[name='sl_fecha']").change(function() {
         if($(this).val() == 'fecha') {
             $("input[name='fecha_compromiso']").toggle();
@@ -26,21 +25,23 @@ $(document).ready(function () {
             $("input[name='fecha_compromiso']").toggle();
         }
     });
-    $("form").submit(function (e) {
+    $("#form_sigssmac").submit(function (e) {
         e.preventDefault();
-        var cont_inputs = $('input').filter(function(){
+        var cont_inputs = $('#form_sigssmac input').filter(function(){
             var this_i = $(this);
             if(this_i.attr("name") != 'herramientas') {
                 return this_i.val() == '';
             }
         }).length;
-        var selects = $('select').filter(function(){
+        var selects = $('#form_sigssmac select').filter(function(){
             var this_sl = $(this);
             if(this_sl.attr("name") != 'sl_afecta') {
                 return this_sl.val() == null;
             }
         }).length;
-        if(cont_inputs == 0 && $("textarea").val().trim() != '' && selects == 0 && $("input[name='hallazgos']").val() != '') {
+        console.log(cont_inputs);
+        console.log(selects);
+        if(cont_inputs == 0 && $("#form_sigssmac textarea").val().trim() != '' && selects == 0 && $("#form_sigssmac input[name='hallazgos']").val() != '') {
             if(window.FormData !== undefined) {
                 var formData = new FormData(this);
                 var xhr = new XMLHttpRequest();
@@ -122,5 +123,87 @@ $(document).ready(function () {
         $this_.click(function () {
             $this_.parent().parent().hide();
         });
+    });
+
+    $(".btnSubirImg").each(function () {
+        var this_ = $(this);
+        this_.click(function () {
+            let btnSubir = this_.parent().parent();
+            const getId = btnSubir.find("td").eq(0).text();
+            let inp_sigss = $("input[name='sigss_id']");
+            inp_sigss.val(getId);
+            console.log(inp_sigss.val());
+            $("#form_subir_ev").show();
+        });
+    });
+
+    await $("#form_subir_ev").hide();
+    $("#form_subir_ev").submit(function (e) {
+        e.preventDefault();
+        if($("input[name='evidencia_despues']").val() != '') {
+            if(window.FormData !== undefined) {
+                var formData = new FormData(this);
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', $("#inpEvDes").attr('ajax-target'), true);
+                xhr.setRequestHeader('X-REQUESTED-WITH', 'XMLHttpRequest')            
+                xhr.onreadystatechange = async function() {
+                    if(xhr.readyState == 4) {
+                        if(xhr.status == 200) {
+                            res = JSON.parse(xhr.responseText);
+                            if(res.status == 'success') {
+                                await swal.fire({
+                                    position: 'center',
+                                    icon: res.status,
+                                    title: res.msg,
+                                    showConfirmButton: false,
+                                    timer: 3000
+                                })
+                                $("form").trigger("reset");
+                                location.reload(true);
+                            } else {
+                                await swal.fire({
+                                    position: 'center',
+                                    icon: res.status,
+                                    title: res.msg,
+                                    showConfirmButton: false,
+                                    timer: 3000
+                                })
+                            }
+                        }
+                        else {
+                            await swal.fire({
+                                position: 'center',
+                                icon: "error",
+                                title: "No se pudo",
+                                showConfirmButton: false,
+                                timer: 3000
+                            })
+                        }
+                    }
+                };
+                xhr.send(formData);
+            } else {
+                swal.fire({
+                    position: 'center',
+                    icon: "error",
+                    title: "No existe",
+                    showConfirmButton: false,
+                    timer: 3000
+                })
+            }
+        } else {
+            swal.fire({
+                position: 'center',
+                icon: "warning",
+                title: "Debe llenar todos los campos",
+                showConfirmButton: false,
+                timer: 3000
+            })
+        }
+    });
+
+    $("#btnCerrar").click(function () {
+        $("#form_subir_ev").hide();
+        $("#form_subir_ev").trigger("reset");
     });
 });
