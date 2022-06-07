@@ -37,13 +37,40 @@ def sigssmac_post(request):
 
     try:
         cursor = connection.cursor()
-        cursor.callproc("SIGSSMAC", [request.session.get("email"), fecha_inicio, herramientas, origen, tipo_i, acto, afecta, categoria, hallazgo_obser, accion, indice_actos, responsable, prioridad, estatus, fecha_compromiso, fecha_cierre, hallazgos, hallazgos.name])
+        cursor.callproc("SIGSSMAC", [request.session.get("email"), fecha_inicio, herramientas, origen, tipo_i, acto, afecta, categoria, hallazgo_obser, accion, indice_actos, responsable, prioridad, estatus, fecha_compromiso, fecha_cierre, hallazgos.name, hallazgos])
         mensaje = cursor.fetchall()[0][0]
         img_save_path = 'media/img/sigssmac/' + hallazgos.name
         print(img_save_path)
         if mensaje == 'Datos almacenados en el sistema':
             with open(img_save_path, 'wb+') as f:
                 for chunk in hallazgos.chunks():
+                    f.write(chunk)
+            return JsonResponse({"status": "success", "msg": mensaje}, status=200)
+        else:
+            return JsonResponse({"status": "error", "msg": mensaje}, status=200)
+    except (OperationalError, IntegrityError, InternalError) as e:
+        print(e)
+        return JsonResponse({"status": "error", "msg": "Error en el sistema"}, status=200)
+    finally:
+        cursor.close()
+
+def subir_evidencia_despues(request):
+    id_sigssmac = request.POST.get("sigss_id")
+    evidencia_despues = request.FILES["evidencia_despues"]
+    mensaje = ""
+    print(id_sigssmac)
+    print(evidencia_despues)
+    print(evidencia_despues.name)
+    try:
+        cursor = connection.cursor()
+        cursor.callproc("SIGSSMAC_EV_DES", ["erick@sigssmac.com.mx", id_sigssmac, evidencia_despues.name, evidencia_despues])
+        mensaje = cursor.fetchall()[0][0]
+        print(mensaje)
+        img_save_path = 'media/img/' + evidencia_despues.name
+        if mensaje == 'Evidencia registrada':
+            print(img_save_path)
+            with open(img_save_path, 'wb+') as f:
+                for chunk in evidencia_despues.chunks():
                     f.write(chunk)
             return JsonResponse({"status": "success", "msg": mensaje}, status=200)
         else:
