@@ -425,28 +425,22 @@ def agregar_otros(request):
 def agregar_proveedores(request):
     if request.session.get('email'):
         if request.method == 'POST':
-            form = formulario_proveedor(request.POST)
             mensaje = ""
-            if form.is_valid():
-                try:
-                    cursor = connection.cursor()
-                    cursor.callproc("Agrega_Proveedor",[request.session.get('email'), form["RFC"].value(),form["proveedor"].value(),form["telefono"].value(),form["email"].value()])
-                    mensaje = cursor.fetchall()[0][0]
-                    print(mensaje)
-                except (OperationalError, IntegrityError):
-                    return render(request, "errors/error500.html", {
-                        "mensaje": "Contacte con el servicio de sistemas"
-                    })
-                finally:
-                    cursor.close()
-                if mensaje == 'PROVEEDOR Insertado Correctamente':
-                    return JsonResponse({"status": "success", "msg": "Operación exitosa", "msg_salida": mensaje}, status=200)
-                else:
-                    return JsonResponse({"status": "warning", "msg": "Error", "msg_salida": mensaje}, status=200)
+            try:
+                cursor = connection.cursor()
+                cursor.callproc("Agrega_Proveedor",[request.session.get('email'), request.POST.get("RFC"),request.POST.get("proveedor"),request.POST.get("telefono"),request.POST.get("email"), request.POST.get("sector")])
+                mensaje = cursor.fetchall()[0][0]
+                print(mensaje)
+            except (OperationalError, IntegrityError):
+                return render(request, "errors/error500.html", {
+                    "mensaje": "Contacte con el servicio de sistemas"
+                })
+            finally:
+                cursor.close()
+            if mensaje == 'PROVEEDOR Insertado Correctamente':
+                return JsonResponse({"status": "success", "msg": "Operación exitosa", "msg_salida": mensaje}, status=200)
             else:
-                if form.errors:
-                    print(form.errors)
-                return JsonResponse({"status": "error", "msg": "Error", "msg_salida": "Los datos recibidos no son compatibles con la información que se le solicita"}, status=200)
+                return JsonResponse({"status": "warning", "msg": "Error", "msg_salida": mensaje}, status=200)
     else:
         return redirect("/cerrar_sesion")
 
