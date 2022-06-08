@@ -1,4 +1,12 @@
 $(document).ready(async function () {
+    function validarFormulario(formulario) {
+        const inputs = $(formulario + " input").filter(function () {
+            return $(this).val() == '';
+        }).length;
+
+        return inputs == 0
+    }
+
     await $("input[name='fecha_compromiso']").hide();
     await $("#btnVolver").hide();
     $("select[name='sl_fecha']").change(function() {
@@ -205,5 +213,60 @@ $(document).ready(async function () {
     $("#btnCerrar").click(function () {
         $("#form_subir_ev").hide();
         $("#form_subir_ev").trigger("reset");
+    });
+
+    $("select[name='sl_origen']").change(function() {
+        if($(this).val() == 'N') {
+            $(this).prop("selectedIndex", 0);
+            $(".box").toggle();
+        }
+    });
+
+    $(".btnClose").click(async function () {
+        await $(".form-box").trigger("reset");
+        $(".box").toggle();
+    });
+
+
+    $(".form-box").submit(function (e) {
+        e.preventDefault();
+        var this_ = $(this);
+        if(validarFormulario(".form-box")) {
+            $.ajax({
+                type: "POST",
+                url: $("#btn_provee").attr("ajax-url"),
+                data: this_.serializeArray(),
+                success: async function (response) {
+                    if(response.status == "success") {
+                        await swal.fire({
+                            position: 'center',
+                            icon: response.status,
+                            title: response.msg_salida,
+                            showConfirmButton: false,
+                            timer: 3000
+                        })
+                        this_.trigger("reset");
+                        location.reload(true);
+                    } else {
+                        await swal.fire({
+                            position: 'center',
+                            icon: response.status,
+                            title: response.msg_salida,
+                            showConfirmButton: false,
+                            timer: 3000
+                        })
+                    }
+                }
+            });
+        } else {
+            swal.fire({
+                position: 'center',
+                icon: "warning",
+                title: "Todos los campos deben estar llenos",
+                showConfirmButton: false,
+                timer: 4000
+            })
+        }
+
     });
 });
