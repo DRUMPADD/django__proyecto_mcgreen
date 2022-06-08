@@ -258,9 +258,19 @@
             <form id="form_provee" class="card card-body col-md-5">
                 <h2 class="card-title text-center">Agregar proveedor</h2>
                 {% csrf_token %}
-                {% for campo in form %}
-                    {{ campo }}
-                {% endfor %}
+                <input type="text" name="sector" hidden readonly value="VARIOS">
+                <div>
+                    <input type="text" name="RFC" placeholder="RFC O ID" class="form-control">
+                </div>
+                <div>
+                    <input type="text" name="proveedor" placeholder="Nombre" class="mt-3 form-control">
+                </div>
+                <div>
+                    <input type="text" name="telefono" placeholder="Teléfono" class="mt-3 form-control">
+                </div>
+                <div>
+                    <input type="email" name="email" placeholder="Email" class="mt-3 form-control">
+                </div>
                 <input type="submit" class="btn btn-success form-control mt-2" value="Agregar" id="enviar_provee" dato-ajax="{% url 'agregar_proveedores' %}">
             </form>
             
