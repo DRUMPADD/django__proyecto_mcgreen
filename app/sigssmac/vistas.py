@@ -9,6 +9,28 @@ def sigssmac_vista(request):
         }
         try:
             cursor = connection.cursor()
+            cursor.execute("SELECT * FROM app_clientes where sector = 'P-SIGSSMAC'")
+            context["clientes"] = cursor.fetchall()
+        except (OperationalError, IntegrityError, InternalError) as e:
+            print(e)
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        finally:
+            cursor.close()
+        try:
+            cursor = connection.cursor()
+            cursor.execute("SELECT * FROM app_clientes where sector = 'P-SIGSSMAC'")
+            context["proveedores"] = cursor.fetchall()
+        except (OperationalError, IntegrityError, InternalError) as e:
+            print(e)
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        finally:
+            cursor.close()
+        try:
+            cursor = connection.cursor()
             cursor.callproc("SIGSSMAC_REPORTES")
             context["detalles"] = cursor.fetchall()
         except (OperationalError, IntegrityError, InternalError) as e:
