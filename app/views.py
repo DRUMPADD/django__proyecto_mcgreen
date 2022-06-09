@@ -181,7 +181,7 @@ def Inventario_general(request):
 # ?? Compras
 def compras(request):
     if request.session.get('email'):
-        if request.method == 'POST':
+        if request.method != 'POST':
             try:
                 proveedores = connection.cursor()
                 cursor = connection.cursor()
@@ -213,7 +213,7 @@ def compras(request):
 # ?? Ventas
 def ventas(request):
     if request.session.get('email'):
-        if request.method == 'POST':
+        if request.method != 'POST':
             try:
                 clientes = connection.cursor()
                 cursor = connection.cursor()
