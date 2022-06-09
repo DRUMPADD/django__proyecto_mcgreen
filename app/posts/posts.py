@@ -431,7 +431,8 @@ def agregar_proveedores(request):
                 cursor.callproc("Agrega_Proveedor",[request.session.get('email'), request.POST.get("RFC"),request.POST.get("proveedor"),request.POST.get("telefono"),request.POST.get("email"), request.POST.get("sector")])
                 mensaje = cursor.fetchall()[0][0]
                 print(mensaje)
-            except (OperationalError, IntegrityError):
+            except (OperationalError, IntegrityError) as e:
+                print(e)
                 return render(request, "errors/error500.html", {
                     "mensaje": "Contacte con el servicio de sistemas"
                 })
@@ -453,10 +454,11 @@ def agregar_clientes(request):
                 if form.is_valid():
                     try:
                         cursor = connection.cursor()
-                        cursor.callproc("Agrega_CLIENTE",[form["Identificador"].value(), form["cliente"].value(), form["direccion"].value(), form["telefono"].value(), form["email"].value()])
+                        cursor.callproc("Agrega_CLIENTE",[form["Identificador"].value(), form["cliente"].value(), form["direccion"].value(), form["telefono"].value(), form["email"].value(), "VARIOS"])
                         mensaje = cursor.fetchall()[0][0]
                         print(mensaje)
-                    except (OperationalError, IntegrityError):
+                    except (OperationalError, IntegrityError) as e:
+                        print(e)
                         return render(request, "errors/error500.html", {
                             "mensaje": "Contacte con el servicio de sistemas"
                         })
