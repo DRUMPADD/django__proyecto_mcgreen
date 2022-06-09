@@ -234,6 +234,7 @@ def ventas(request):
                 })
             finally:
                 cursor.close()
+                clientes.close()
             return render(request, 'Inventario/cuentas_p_c.html', context)
     else:
         return redirect("/cerrar_sesion")
