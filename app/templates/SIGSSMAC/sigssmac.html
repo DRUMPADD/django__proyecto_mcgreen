@@ -197,7 +197,6 @@
                         <select name="sl_origen" class="form-select">
                             <option selected disabled>--Seleccionar origen--</option>
                             <option value="Interno">Interno</option>
-                            <option value="Interno/Cliente">Interno/Cliente</option>
                             {% for cli in clientes %}
                                 <option value="{{ cli.0 }}">Cliente: {{ cli.1 }}</option>
                             {% endfor %}
@@ -302,6 +301,7 @@
     </div>
     <div class="box">
         <form class="form-box container col-lg-4">
+            <h1 class="opcion_pro_cli">Agregar proveedor</h1>
             {% csrf_token %}
             <input type="text" name="sector" hidden readonly value="P-SIGSSMAC">
             <div>
