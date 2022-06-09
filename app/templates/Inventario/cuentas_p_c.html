@@ -201,8 +201,8 @@
                         <select name="sl_clientes" class="form-select">
                             <option selected disabled>--Seleccionar--</option>
                             {% for cliente in clientes %}
-                                <option value="{{ cliente.id_cliente }}">{{ cliente.nombre_cliente }}</option>
-                                {% endfor %}
+                                <option value="{{ cliente.0 }}">{{ cliente.1 }}</option>
+                            {% endfor %}
                         </select>
                     </div>
                     <div class="text-center">
