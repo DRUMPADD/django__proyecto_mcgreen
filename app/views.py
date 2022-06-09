@@ -183,12 +183,15 @@ def compras(request):
     if request.session.get('email'):
         if request.method != 'POST':
             try:
+                proveedores = connection.cursor()
+                proveedores.execute("select * from app_proveedor where sector = 'P-SIGSSMAC'")
                 cursor = connection.cursor()
                 cursor.callproc('MOSTRAR_PRODUCTOS_ACTIVOS')
                 form = formulario_proveedor()
+
                 context = {
                     'productos': cursor.fetchall(),
-                    'proveedores': models.Proveedor.objects.all(),
+                    'proveedores': proveedores.fetchall(),
                     'form': form,
                     'sesion': request.session.get("email"),
                     'privilegio': request.session.get("privilegio")
@@ -200,6 +203,7 @@ def compras(request):
                 })
             finally:
                 cursor.close()
+                proveedores.close()
             return render(request, 'Inventario/compras.html', context)
     else:
         return redirect("/cerrar_sesion")
