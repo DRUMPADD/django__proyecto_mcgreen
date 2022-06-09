@@ -181,11 +181,11 @@ def Inventario_general(request):
 # ?? Compras
 def compras(request):
     if request.session.get('email'):
-        if request.method != 'POST':
+        if request.method == 'POST':
             try:
                 proveedores = connection.cursor()
-                proveedores.execute("select * from app_proveedor where sector = 'P-SIGSSMAC'")
                 cursor = connection.cursor()
+                proveedores.execute("select * from app_proveedor where sector = 'P-SIGSSMAC'")
                 cursor.callproc('MOSTRAR_PRODUCTOS_ACTIVOS')
                 form = formulario_proveedor()
 
@@ -213,7 +213,7 @@ def compras(request):
 # ?? Ventas
 def ventas(request):
     if request.session.get('email'):
-        if request.method != 'POST':
+        if request.method == 'POST':
             try:
                 clientes = connection.cursor()
                 cursor = connection.cursor()
