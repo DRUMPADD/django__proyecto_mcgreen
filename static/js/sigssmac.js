@@ -4,11 +4,23 @@ $(document).ready(async function () {
             return $(this).val() == '';
         }).length;
 
-        return inputs == 0
+        let check_cli_pro = $(formulario);
+        if(check_cli_pro.has("input[type='checkbox']")) {
+            check_cli_pro = check_cli_pro.find("input[type='checkbox']");
+            if(check_cli_pro.is(":checked")) {
+                let textarea_direccion = $(formulario).find("textarea[name='direccion']");
+                console.log("Es todo o nada");
+                return inputs == 0 && textarea_direccion.val() != '';
+            } else {
+                console.log("Es todo o nada 2");
+                return inputs == 0;
+            }
+        }
     }
 
     await $("input[name='fecha_compromiso']").hide();
     await $("#btnVolver").hide();
+    await $("#direccion").hide();
     $("select[name='sl_fecha']").change(function() {
         if($(this).val() == 'fecha') {
             $("input[name='fecha_compromiso']").toggle();
@@ -219,6 +231,22 @@ $(document).ready(async function () {
         if($(this).val() == 'N') {
             $(this).prop("selectedIndex", 0);
             $(".box").toggle();
+        }
+    });
+
+    $("#checkSelect").change(function () {
+        if($(this).is(":checked")) {
+            $("#btn_provee").removeAttr("ajax-url");
+            $(".opcion_pro_cli").text("Agregar cliente");
+            $("#direccion").show();
+            $("#direccion").find("textarea").attr("disabled");
+            $("#btn_provee").attr("ajax-url", "/cliente_sigssmac");
+        } else {
+            $("#btn_provee").removeAttr("ajax-url");
+            $(".opcion_pro_cli").text("Agregar proveedor");
+            $("#direccion").find("textarea").removeAttr("disabled");
+            $("#btn_provee").attr("ajax-url", "/proveedores/agregar_proveedores");
+            $("#direccion").hide();
         }
     });
 
