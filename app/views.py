@@ -211,12 +211,15 @@ def ventas(request):
     if request.session.get('email'):
         if request.method != 'POST':
             try:
+                clientes = connection.cursor()
                 cursor = connection.cursor()
                 cursor.callproc('MOSTRAR_SISTEMAS_ACTIVOS')
                 form = formulario_cliente()
+                clientes.execute("SELECT id_cliente, nombre_cliente, direccion, telefono, email FROM app_clientes where sector = 'VARIOS' ")
+                res_clientes = clientes.fetchall()
                 context = {
                     'sistemas': cursor.fetchall(),
-                    'clientes': models.Clientes.objects.all(),
+                    'clientes': res_clientes,
                     'sesion': request.session.get("email"),
                     'privilegio': request.session.get("privilegio"),
                     'form': form,
