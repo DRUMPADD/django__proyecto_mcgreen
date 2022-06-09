@@ -198,7 +198,13 @@
                             <option selected disabled>--Seleccionar origen--</option>
                             <option value="Interno">Interno</option>
                             <option value="Interno/Cliente">Interno/Cliente</option>
-                            <option value="Proveedor Romaga">Proveedor Romaga</option>
+                            {% for cli in clientes %}
+                                <option value="{{ cli.0 }}">Cliente: {{ cli.1 }}</option>
+                            {% endfor %}
+                            {% for pro in proveedores %}
+                                <option value="{{ pro.0 }}">Proveedor: {{ pro.1 }}</option>
+                            {% end %}
+                            <option value="N">Nuevo proveedor o cliente</option>
                         </select>
                     </div>
                     
