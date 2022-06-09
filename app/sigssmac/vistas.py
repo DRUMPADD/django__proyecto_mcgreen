@@ -20,7 +20,7 @@ def sigssmac_vista(request):
             cursor.close()
         try:
             cursor = connection.cursor()
-            cursor.execute("SELECT * FROM app_clientes where sector = 'P-SIGSSMAC'")
+            cursor.execute("SELECT * FROM app_proveedor where sector = 'P-SIGSSMAC'")
             context["proveedores"] = cursor.fetchall()
         except (OperationalError, IntegrityError, InternalError) as e:
             print(e)

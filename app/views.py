@@ -185,7 +185,7 @@ def compras(request):
             try:
                 proveedores = connection.cursor()
                 cursor = connection.cursor()
-                proveedores.execute("select * from app_proveedor where sector = 'P-SIGSSMAC'")
+                proveedores.execute("select * from app_proveedor where sector = 'VARIOS'")
                 cursor.callproc('MOSTRAR_PRODUCTOS_ACTIVOS')
                 form = formulario_proveedor()
 
@@ -219,7 +219,7 @@ def ventas(request):
                 cursor = connection.cursor()
                 cursor.callproc('MOSTRAR_SISTEMAS_ACTIVOS')
                 form = formulario_cliente()
-                clientes.execute("SELECT id_cliente, nombre_cliente, direccion, telefono, email FROM app_clientes where sector = 'VARIOS' ")
+                clientes.execute("SELECT * FROM app_clientes where sector = 'VARIOS' ")
                 res_clientes = clientes.fetchall()
                 context = {
                     'sistemas': cursor.fetchall(),
