@@ -63,7 +63,7 @@ def subir_evidencia_despues(request):
     print(evidencia_despues.name)
     try:
         cursor = connection.cursor()
-        cursor.callproc("SIGSSMAC_EV_DES", ["erick@sigssmac.com.mx", id_sigssmac, evidencia_despues.name, evidencia_despues])
+        cursor.callproc("SIGSSMAC_EV_DES", [request.session.get("email"), id_sigssmac, evidencia_despues.name, evidencia_despues])
         mensaje = cursor.fetchall()[0][0]
         print(mensaje)
         img_save_path = 'media/img/' + evidencia_despues.name
@@ -80,3 +80,21 @@ def subir_evidencia_despues(request):
         return JsonResponse({"status": "error", "msg": "Error en el sistema"}, status=200)
     finally:
         cursor.close()
+
+
+def agregar_cliente_sigssmac(request):
+    if request.method == 'POST':
+        try:
+            cursor = connection.cursor()
+            cursor.callproc("Agrega_CLIENTE",[request.session.get("email"), request.POST.get("RFC"), request.POST.get("proveedor"), request.POST.get("direccion"), request.POST.get("telefono"), request.POST.get("email"), "P-SIGSSMAC"])
+            mensaje = cursor.fetchall()[0][0]
+            print(mensaje)
+            if mensaje == 'Cliente insertado correctamente':
+                return JsonResponse({"status": "success", "msg_salida": mensaje}, status=200)
+            else:
+                return JsonResponse({"status": "error", "msg_salida": mensaje}, status=200)
+        except (OperationalError, IntegrityError, InternalError) as e:
+            print(e)
+            return JsonResponse({"status": "error", "msg_salida": "Error en el sistema"}, status=200)
+        finally:
+            cursor.close()
