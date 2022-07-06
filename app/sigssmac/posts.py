@@ -66,7 +66,7 @@ def subir_evidencia_despues(request):
         cursor.callproc("SIGSSMAC_EV_DES", [request.session.get("email"), id_sigssmac, evidencia_despues.name, evidencia_despues])
         mensaje = cursor.fetchall()[0][0]
         print(mensaje)
-        img_save_path = 'media/img/' + evidencia_despues.name
+        img_save_path = 'media/img/sigssmac/' + evidencia_despues.name
         if mensaje == 'Evidencia registrada':
             print(img_save_path)
             with open(img_save_path, 'wb+') as f:
