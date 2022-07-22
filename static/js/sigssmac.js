@@ -61,7 +61,7 @@ $(document).ready(async function () {
         }).length;
         console.log(cont_inputs);
         console.log(selects);
-        if(cont_inputs == 0 && $("#form_sigssmac textarea").val().trim() != '' && selects == 0 && $("#form_sigssmac input[name='hallazgos']").val() != '') {
+        if(cont_inputs == 0 && $("#form_sigssmac textarea").val().trim() != '' && selects == 0) {
             if(window.FormData !== undefined) {
                 var formData = new FormData(this);
                 var xhr = new XMLHttpRequest();
