@@ -17,7 +17,7 @@ def sigssmac_post(request):
     responsable = request.POST.get("sl_responsable")
     prioridad = request.POST.get("sl_prioridad")
     estatus = request.POST.get("sl_status")
-    hallazgos = request.FILES["hallazgos"]
+    hallazgos = request.FILES.get("hallazgos", False)
     
     print(fecha_inicio)
     print(fecha_compromiso)
@@ -35,9 +35,10 @@ def sigssmac_post(request):
     print(prioridad)
     print(estatus)
 
+    
     try:
         cursor = connection.cursor()
-        cursor.callproc("SIGSSMAC", [request.session.get("email"), fecha_inicio, herramientas, origen, tipo_i, acto, afecta, categoria, hallazgo_obser, accion, indice_actos, responsable, prioridad, estatus, fecha_compromiso, fecha_cierre, hallazgos.name, hallazgos])
+        cursor.callproc("SIGSSMAC", [request.session.get("email"), fecha_inicio, herramientas, origen, tipo_i, acto, afecta, categoria, hallazgo_obser, accion, indice_actos, responsable, prioridad, estatus, fecha_compromiso, fecha_cierre, hallazgos.name if hallazgos != '' else '', hallazgos.file if hallazgos != '' else ''])
         mensaje = cursor.fetchall()[0][0]
         img_save_path = 'media/img/sigssmac/' + hallazgos.name
         print(img_save_path)
