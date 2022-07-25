@@ -34,13 +34,13 @@ def sigssmac_post(request):
     print(responsable)
     print(prioridad)
     print(estatus)
-    print(hallazgos)
-    print(hallazgos.name)
-    print(hallazgos.file)
+    print(hallazgos if hallazgos != None else '')
+    print(hallazgos.name if hallazgos != None else '')
+    print(hallazgos.file if hallazgos != None else '')
     
     try:
         cursor = connection.cursor()
-        cursor.callproc("SIGSSMAC", [request.session.get("email"), fecha_inicio, herramientas, origen, tipo_i, acto, afecta, categoria, hallazgo_obser, accion, indice_actos, responsable, prioridad, estatus, fecha_compromiso, fecha_cierre, hallazgos.name if hallazgos != '' else '', hallazgos.file if hallazgos != '' else ''])
+        cursor.callproc("SIGSSMAC", [request.session.get("email"), fecha_inicio, herramientas, origen, tipo_i, acto, afecta, categoria, hallazgo_obser, accion, indice_actos, responsable, prioridad, estatus, fecha_compromiso, fecha_cierre, hallazgos.name if hallazgos != None else '', hallazgos.file if hallazgos != None else ''])
         mensaje = cursor.fetchall()[0][0]
         img_save_path = 'media/img/sigssmac/' + hallazgos.name
         print(img_save_path)
