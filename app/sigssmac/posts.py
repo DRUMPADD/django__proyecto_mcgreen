@@ -42,12 +42,13 @@ def sigssmac_post(request):
         cursor = connection.cursor()
         cursor.callproc("SIGSSMAC", [request.session.get("email"), fecha_inicio, herramientas, origen, tipo_i, acto, afecta, categoria, hallazgo_obser, accion, indice_actos, responsable, prioridad, estatus, fecha_compromiso, fecha_cierre, hallazgos.name if hallazgos != None else '', hallazgos.file if hallazgos != None else ''])
         mensaje = cursor.fetchall()[0][0]
-        img_save_path = 'media/img/sigssmac/' + hallazgos.name
-        print(img_save_path)
-        if mensaje == 'Datos almacenados en el sistema':
+        if hallazgos != None:
+            img_save_path = 'media/img/sigssmac/' + hallazgos.name
+            print(img_save_path)
             with open(img_save_path, 'wb+') as f:
                 for chunk in hallazgos.chunks():
                     f.write(chunk)
+        if  mensaje == 'Datos almacenados en el sistema':
             return JsonResponse({"status": "success", "msg": mensaje}, status=200)
         else:
             return JsonResponse({"status": "error", "msg": mensaje}, status=200)
