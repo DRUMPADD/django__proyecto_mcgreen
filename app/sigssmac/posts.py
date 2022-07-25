@@ -17,7 +17,7 @@ def sigssmac_post(request):
     responsable = request.POST.get("sl_responsable")
     prioridad = request.POST.get("sl_prioridad")
     estatus = request.POST.get("sl_status")
-    hallazgos = request.FILES.get("hallazgos", False)
+    hallazgos = request.FILES.get("hallazgos")
     
     print(fecha_inicio)
     print(fecha_compromiso)
@@ -34,7 +34,9 @@ def sigssmac_post(request):
     print(responsable)
     print(prioridad)
     print(estatus)
-
+    print(hallazgos)
+    print(hallazgos.name)
+    print(hallazgos.file)
     
     try:
         cursor = connection.cursor()
