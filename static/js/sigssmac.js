@@ -49,7 +49,8 @@ $(document).ready(async function () {
         e.preventDefault();
         var cont_inputs = $('#form_sigssmac input').filter(function(){
             var this_i = $(this);
-            if(this_i.attr("name") != 'herramientas' || this_i.attr("name") != 'hallazgos') {
+            if(this_i.attr("name") != 'herramientas' && this_i.attr("name") != 'hallazgos') {
+                console.log(this_i.attr("name") != 'hallazgos');
                 return this_i.val() == '';
             }
         }).length;
