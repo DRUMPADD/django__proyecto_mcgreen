@@ -22,7 +22,7 @@ def sigssmac_post(request):
     print(fecha_inicio)
     print(fecha_compromiso)
     print(fecha_cierre)
-    print(indice_actos)
+    print(indice_actos if indice_actos != '' or indice_actos != None else 0)
     print(origen)
     print(herramientas)
     print(tipo_i)
