@@ -18,7 +18,8 @@ def sigssmac_vista(request):
             })
         finally:
             cursor.close()
-        sigssmac_texto = f'%@sigssmac.com%'
+        texto = 'sigssmac.com'
+        sigssmac_texto = f'%{texto}%'
         try:
             cursor = connection.cursor()
             cursor.execute("select email from app_usuarios where email like %s and email = '%s'" % (sigssmac_texto, request.session.get("email")))
