@@ -290,6 +290,14 @@ $(document).ready(async function () {
                 timer: 4000
             })
         }
-
     });
+
+    $(".btnEliminar").each(function() {
+        let this_ = $(this);
+        this_.click(function() {
+            var identificador = this_.parent().parent();
+            console.log(this_);
+            console.log(identificador);
+        })
+    })
 });
