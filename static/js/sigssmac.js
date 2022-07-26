@@ -9,10 +9,8 @@ $(document).ready(async function () {
             check_cli_pro = check_cli_pro.find("input[type='checkbox']");
             if(check_cli_pro.is(":checked")) {
                 let textarea_direccion = $(formulario).find("textarea[name='direccion']");
-                console.log("Es todo o nada");
                 return inputs == 0 && textarea_direccion.val() != '';
             } else {
-                console.log("Es todo o nada 2");
                 return inputs == 0;
             }
         }
@@ -50,7 +48,6 @@ $(document).ready(async function () {
         var cont_inputs = $('#form_sigssmac input').filter(function(){
             var this_i = $(this);
             if(this_i.attr("name") != 'herramientas' && this_i.attr("name") != 'hallazgos') {
-                console.log(this_i.attr("name") != 'hallazgos');
                 return this_i.val() == '';
             }
         }).length;
@@ -60,8 +57,6 @@ $(document).ready(async function () {
                 return this_sl.val() == null;
             }
         }).length;
-        console.log(cont_inputs);
-        console.log(selects);
         if(cont_inputs == 0 && $("#form_sigssmac textarea").val().trim() != '' && selects == 0) {
             if(window.FormData !== undefined) {
                 var formData = new FormData(this);
@@ -96,14 +91,14 @@ $(document).ready(async function () {
                             }
                         }
                         else {
-                            console.log("No se pudo");
+                            return;
                             // Code for error
                         }
                     }
                 };
                 xhr.send(formData);
             } else {
-                console.log("No existe");
+                return;
             }
         } else {
             swal.fire({
@@ -153,7 +148,6 @@ $(document).ready(async function () {
             const getId = btnSubir.find("td").eq(0).text();
             let inp_sigss = $("input[name='sigss_id']");
             inp_sigss.val(getId);
-            console.log(inp_sigss.val());
             $("#form_subir_ev").show();
         });
     });
