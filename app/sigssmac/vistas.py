@@ -20,6 +20,20 @@ def sigssmac_vista(request):
             cursor.close()
         try:
             cursor = connection.cursor()
+            cursor.execute("select email from app_usuarios where email like '%@sigssmac.com%' and email = %s" % (request.session.get("email")))
+            existe_ = cursor.fetchall()
+            print(existe_)
+            print(len(existe_))
+            context["existe"] = 'SI EXISTE' if len(existe_) > 0 else 'NO EXISTE'
+        except (OperationalError, IntegrityError, InternalError) as e:
+            print(e)
+            return render(request, "errors/error500.html", {
+                "mensaje": "Contacte con el servicio de sistemas"
+            })
+        finally:
+            cursor.close()
+        try:
+            cursor = connection.cursor()
             cursor.execute("SELECT * FROM app_proveedor where sector = 'P-SIGSSMAC'")
             context["proveedores"] = cursor.fetchall()
         except (OperationalError, IntegrityError, InternalError) as e:
