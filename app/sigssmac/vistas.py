@@ -21,7 +21,7 @@ def sigssmac_vista(request):
         sigssmac_texto = f'%@sigssmac.com%'
         try:
             cursor = connection.cursor()
-            cursor.execute("select email from app_usuarios where email like %s and email = %s" % (sigssmac_texto, request.session.get("email")))
+            cursor.execute("select email from app_usuarios where email like %s and email = '%s'" % (sigssmac_texto, request.session.get("email")))
             existe_ = cursor.fetchall()
             print(existe_)
             print(len(existe_))
