@@ -365,6 +365,9 @@
                     <td>Fecha cierre</td>
                     <td>Evidencia antes</td>
                     <td>Evidencia después</td>
+                    {% if existe == 'SI EXISTE' %}
+                        <td>Acciones</td>
+                    {% endif %}
                 </tr>
             </thead>
             <tbody>
@@ -397,6 +400,11 @@
                             Subir imagen
                         </button>
                     </td>
+                    {% if existe == 'SI EXISTE' %}
+                        <td>
+                            <button type="submit" class="btnEliminar btn btn-danger">Eliminar</button>
+                        </td>
+                    {% endif %}
                 </tr>
                 {% endfor %}
             </tbody>
