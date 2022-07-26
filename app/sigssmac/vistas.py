@@ -40,17 +40,17 @@ def sigssmac_vista(request):
             })
         finally:
             cursor.close()
-        try:
-            cursor = connection.cursor()
-            cursor.callproc("SIGSSMAC_REPORTES2")
-            context["detalles2"] = cursor.fetchall()
-        except (OperationalError, IntegrityError, InternalError) as e:
-            print(e)
-            return render(request, "errors/error500.html", {
-                "mensaje": "Contacte con el servicio de sistemas"
-            })
-        finally:
-            cursor.close()
+        # try:
+        #     cursor = connection.cursor()
+        #     cursor.callproc("SIGSSMAC_REPORTES2")
+        #     context["detalles2"] = cursor.fetchall()
+        # except (OperationalError, IntegrityError, InternalError) as e:
+        #     print(e)
+        #     return render(request, "errors/error500.html", {
+        #         "mensaje": "Contacte con el servicio de sistemas"
+        #     })
+        # finally:
+        #     cursor.close()
         return render(request, "SIGSSMAC/sigssmac.html", context)
     else:
         return redirect("/cerrar_sesion")
