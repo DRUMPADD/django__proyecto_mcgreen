@@ -387,62 +387,11 @@
                     <td>{{ info.14 }}</td>
                     <td>{{ info.15 }}</td>
                     <td>{{ info.16 }}</td>
-                    {% if info.17 != None %}
-                        <td>
-                            <button class="ver_img btn btn-info" src-img="media/img/sigssmac/{{ info.17 }}">Ver imagen</button>
-                        </td>
-                    {% else %}
-                        <td>
-                            <button class="btnSubirImg btn btn-success">
-                                Subir imagen
-                            </button>
-                        </td>
-                    {% endif %}
-                    {% if info.18 != None %}
-                        <td>
-                            <button class="ver_img btn btn-info" src-img="media/img/sigssmac/{{ info.18 }}">Ver imagen</button>
-                        </td>
-                    {% else %}
-                        <td>
-                            <button class="btnSubirImg btn btn-success">
-                                Subir imagen
-                            </button>
-                        </td>
-                    {% endif %}
-                </tr>
-                {% endfor %}
-                {% for info in detalles2 %}
-                <tr>
-                    <td>{{ info.0 }}</td>
-                    <td>{{ info.1 }}</td>
-                    <td>{{ info.2 }}</td>
-                    <td>{{ info.3 }}</td>
-                    <td>{{ info.4 }}</td>
-                    <td>{{ info.5 }}</td>
-                    <td>{{ info.6 }}</td>
-                    <td>{{ info.7 }}</td>
-                    <td>{{ info.8 }}</td>
-                    <td>{{ info.9 }}</td>
-                    <td>{{ info.10 }}</td>
-                    <td>{{ info.11 }}</td>
-                    <td>{{ info.12 }}</td>
-                    <td>{{ info.13 }}</td>
-                    <td>{{ info.14 }}</td>
-                    <td>{{ info.15 }}</td>
-                    <td>{{ info.16 }}</td>
-                    {% if info.17 != None %}
-                        <td>
-                            <button class="ver_img btn btn-info" src-img="media/img/sigssmac/{{ info.17 }}">Ver imagen</button>
-                        </td>
-                    {% else %}
-                        <td>
-                            <button class="btnSubirImg btn btn-success">
-                                Subir imagen
-                            </button>
-                        </td>
-                    {% endif %}
                     <td>
-                        <button class="btnSubirImg btn btn-success">
+                        <button class="ver_img btn btn-info" disabled>Ver imagen</button>
+                    </td>
+                    <td>
+                        <button class="btnSubirImg btn btn-success" disabled>
                             Subir imagen
                         </button>
                     </td>
