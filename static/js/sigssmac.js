@@ -45,19 +45,19 @@ $(document).ready(async function () {
     });
     $("#form_sigssmac").submit(function (e) {
         e.preventDefault();
-        var cont_inputs = $('#form_sigssmac input').filter(function(){
-            var this_i = $(this);
-            if(this_i.attr("name") != 'herramientas' && this_i.attr("name") != 'hallazgos' && this_i.attr("name") != 'indice_actos') {
-                return this_i.val() == '';
-            }
-        }).length;
-        var selects = $('#form_sigssmac select').filter(function(){
-            var this_sl = $(this);
-            if(this_sl.attr("name") != 'sl_afecta') {
-                return this_sl.val() == null;
-            }
-        }).length;
-        if(cont_inputs == 0 && $("#form_sigssmac textarea").val().trim() != '' && selects == 0) {
+        // var cont_inputs = $('#form_sigssmac input').filter(function(){
+        //     var this_i = $(this);
+        //     if(this_i.attr("name") != 'herramientas' && this_i.attr("name") != 'hallazgos' && this_i.attr("name") != 'indice_actos') {
+        //         return this_i.val() == '';
+        //     }
+        // }).length;
+        // var selects = $('#form_sigssmac select').filter(function(){
+        //     var this_sl = $(this);
+        //     if(this_sl.attr("name") != 'sl_afecta') {
+        //         return this_sl.val() == null;
+        //     }
+        // }).length;
+        // if(cont_inputs == 0 && $("#form_sigssmac textarea").val().trim() != '' && selects == 0) {
             if(window.FormData !== undefined) {
                 var formData = new FormData(this);
                 var xhr = new XMLHttpRequest();
@@ -100,15 +100,15 @@ $(document).ready(async function () {
             } else {
                 return;
             }
-        } else {
-            swal.fire({
-                position: 'center',
-                icon: "warning",
-                title: "Debe llenar todos los campos",
-                showConfirmButton: false,
-                timer: 3000
-            })
-        }
+        // } else {
+        //     swal.fire({
+        //         position: 'center',
+        //         icon: "warning",
+        //         title: "Debe llenar todos los campos",
+        //         showConfirmButton: false,
+        //         timer: 3000
+        //     })
+        // }
     });
 
     $(".ver_img").each(function(index) {
