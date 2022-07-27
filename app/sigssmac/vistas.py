@@ -18,11 +18,9 @@ def sigssmac_vista(request):
             })
         finally:
             cursor.close()
-        texto = 'sigssmac.com'
-        sigssmac_texto = f'%{texto}%'
         try:
             cursor = connection.cursor()
-            cursor.execute("select email from app_usuarios where email like %s and email = '%s'" % (sigssmac_texto, request.session.get("email")))
+            cursor.callproc("VERIFICAR_USUARIO_SIGSSMAC", [request.session.get("email")])
             existe_ = cursor.fetchall()
             print(existe_)
             print(len(existe_))
