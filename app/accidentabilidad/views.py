@@ -4,7 +4,9 @@ from django.db import InterfaceError, OperationalError, ProgrammingError, connec
 
 def accidentabilidad_vista(request):
     context = {
-        "saludo": "Accidentabilidad"
+        "saludo": "Accidentabilidad",
+        'email': request.session.get("email"),
+        'privilegio': request.session.get("privilegio"),
     }
     try:
         cursor = connection.cursor()
