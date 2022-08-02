@@ -10,6 +10,9 @@ from .mantenimiento import views as mant
 from .mantenimiento import posts as mant_post
 from .sigssmac import vistas as v_sigss
 from .sigssmac import posts as p_sigss
+from .accidentabilidad import views as v_acc
+from .accidentabilidad import posts as p_acc
+
 
 urlpatterns = [
     path('', views.iniciar_sesion, name="iniciar_sesion"),
@@ -94,4 +97,7 @@ urlpatterns = [
     path("sigssmac_post", p_sigss.sigssmac_post, name="sigssmac_post"),
     path('subir_evidencia', p_sigss.subir_evidencia_despues, name="subir_evidencia"),
     path('cliente_sigssmac', p_sigss.agregar_cliente_sigssmac, name="cliente_sigssmac"),
+    # ?? Accidentabilidad
+    path("vista_accidentabilidad", v_acc.accidentabilidad_vista, name="acci_vista"),
+    path("registrar_acci", p_acc.accidentabilidad_post, name="registrar_info"),
 ]
