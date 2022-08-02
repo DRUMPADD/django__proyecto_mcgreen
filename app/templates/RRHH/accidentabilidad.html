@@ -1,0 +1,102 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ saludo }}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/estilos.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/tables.css' %}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+</head>
+<body>
+    <div class="container">
+        <form class="card card-body form-registro">
+            <h3>Personal propio</h3>
+            <div>
+                <div class="d-flex col-lg-12">
+                    <label class="d-block col-lg-2">Cantidad de personal</label>
+                    <input type="number" class="form-control" name="c_personal">
+                </div>
+                <div class="d-flex col-lg-12">
+                    <label class="d-block col-lg-2">Horas de trabajo</label>
+                    <input type="number" class="form-control" name="h_trabajo">
+                </div>
+                <div class="d-flex col-lg-12">
+                    <label class="d-block col-lg-2">Jornada laboral</label>
+                    <input type="number" class="form-control" name="jornada">
+                </div>
+            </div>
+            <div>
+                <h3>Personal contratado</h3>
+                <div class="d-flex col-lg-12">
+                    <label class="d-block col-lg-2">Cantidad de personal</label>
+                    <input type="number" class="form-control" name="c_personal">
+                </div>
+                <div class="d-flex col-lg-12">
+                    <label class="d-block col-lg-2">Horas de trabajo</label>
+                    <input type="number" class="form-control" name="h_trabajo">
+                </div>
+                <div class="d-flex col-lg-12">
+                    <label class="d-block col-lg-2">Jornada laboral</label>
+                    <input type="number" class="form-control" name="jornada">
+                </div>
+            </div>
+            <input type="submit" id="btnEnviar" class="btn btn-success form-control mt-3" value="Registrar">
+        </form>
+    </div>
+
+    <div class="container">
+        <h2>Personal propio</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Id.</th>
+                    <th>Cantidad de personal</th>
+                    <th>Horas de trabajo</th>
+                    <th>Jornada laboral</th>
+                    <th>Cálculo total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for propio in personal_propio %}
+                    <tr>
+                        <th>{{ propio.0 }}</th>
+                        <th>{{ propio.1 }}</th>
+                        <th>{{ propio.2 }}</th>
+                        <th>{{ propio.3 }}</th>
+                        <th>{{ propio.4 }}</th>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h2>Personal contratado</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Id.</th>
+                    <th>Cantidad de personal</th>
+                    <th>Horas de trabajo</th>
+                    <th>Jornada laboral</th>
+                    <th>Cálculo total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for contratado in personal_contratado %}
+                    <tr>
+                        <th>{{ contratado.0 }}</th>
+                        <th>{{ contratado.1 }}</th>
+                        <th>{{ contratado.2 }}</th>
+                        <th>{{ contratado.3 }}</th>
+                        <th>{{ contratado.4 }}</th>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script src="{% static 'js/accidentabilidad.js' %}"></script>
+</body>
+</html>
