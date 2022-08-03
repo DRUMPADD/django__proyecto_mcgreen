@@ -9,7 +9,7 @@ def accidentabilidad_post(request):
         try:
             cursor = connection.cursor()
             cursor.callproc("ACCIDENTABILIDAD", [request.session.get("email"), res["c_personal"][0], res["h_trabajo"][0], res["jornada"][0], res["c_personal"][1], res["h_trabajo"][1], res["jornada"][1]])
-            mensaje = cursor.fetchall()[0][0]
+            mensaje = cursor.fetchall()[0]
 
             return JsonResponse({"status": "success", "res": mensaje}, status=200)
         except (OperationalError, InternalError, ProgrammingError) as e:
