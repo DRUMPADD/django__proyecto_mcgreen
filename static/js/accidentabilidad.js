@@ -94,15 +94,8 @@ function mostrar_datos() {
     let cont = new Array();
     let d_con = obtener_datos_con()[0];
     let d_pro = obtener_datos_pro()[0];
-    const ar_con = new Array(d_con);
-    const ar_pro = new Array(d_pro);
-
-    ar_con.map((d, i) => {
-        console.log(d);
-    });
-    ar_pro.map((d, i) => {
-        console.log(d);
-    });
+    console.log(d_con[0]);
+    console.log(d_pro[0]);
 
     for(let i = 0; i < obtener_datos_con.length; i++) {
         cont.push(i+1);
