@@ -96,23 +96,20 @@ async function mostrar_datos() {
     let d_pro = await obtener_datos_pro();
     let res_c = d_con.contratados;
     let res_p = d_pro.propios;
-    const ar_c = new Array(res_c);
-    const ar_p = new Array(res_p);
+    var ar_c = new Array();
+    var ar_p = new Array();
 
-    ar_c.map((d, i) => {
-        console.log(d);
-        console.log(d[0]);
-    })
-    ar_p.map((d, i) => {
-        console.log(d);
-        console.log(d[0]);
-    })
-    console.log(res_c.contratados);
-    console.log(res_p.propios);
-    console.log(res_c.contratados[0]);
-    console.log(res_p.propios[0]);
 
-    for(let i = 0; i < obtener_datos_con.length; i++) {
+    for(let i = 0; i < res_c.length; i++) {
+        ar_c.push(res_c[i][0])
+    }
+    for(let i = 0; i < res_p.length; i++) {
+        ar_p.push(res_p[i][0])
+    }
+    console.log(res_c);
+    console.log(res_p);
+
+    for(let i = 0; i < res_c.length; i++) {
         cont.push(i+1);
     }
 
