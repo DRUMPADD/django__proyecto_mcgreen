@@ -76,39 +76,59 @@ form_registro.addEventListener("submit", (e) => {
 })
 
 
-const canvas_ = document.getElementById("datos_accidentabilidad");
-var d_con = [{%for contratado in personal_contratado%} {{ contratado.4 }}, {%endfor%}];
-var d_pro = [{%for propio in personal_propio%} {{ propio.4 }}, {% endfor %}];
+async function obtener_datos_con() {
+    let datos = await fetch("/accidentabilidad_contratados");
+    return await datos.json();
+}
+async function obtener_datos_pro() {
+    let datos = await fetch("/accidentabilidad_propios");
+    return await datos.json();
+}
 
-let contratados = {
-    label: "Contratados",
-    data: d_con,
-    backgroundColor: 'rgba(218, 202, 58, .4)', // Color de fondo
-    borderColor: 'rgba(218, 202, 58, 1)',
-    borderWidth: 3,
-    tension: .5,
-    fill: true,
-};
 
-let propios = {
-    label: "Propios",
-    data: d_pro,
-    backgroundColor: 'rgba(22, 170, 133, .4)',
-    borderColor: 'rgba(22, 170, 133, 1)',
-    borderWidth: 3,
-    tension: .5,
-    fill: true,
-};
 
-window.addEventListener("DOMContentLoaded", () => {
+
+function mostrar_datos() {
+    let cont = new Array();
+    for(let i = 0; i < obtener_datos_con.length; i++) {
+        cont.push(i+1);
+    }
+    let contratados = {
+        label: "Contratados",
+        data: obtener_datos_con(),
+        backgroundColor: 'rgba(218, 202, 58, .4)', // Color de fondo
+        borderColor: 'rgba(218, 202, 58, 1)',
+        borderWidth: 3,
+        tension: .5,
+        fill: true,
+    };
+    
+    let propios = {
+        label: "Propios",
+        data: obtener_datos_pro(),
+        backgroundColor: 'rgba(22, 170, 133, .4)',
+        borderColor: 'rgba(22, 170, 133, 1)',
+        borderWidth: 3,
+        tension: .5,
+        fill: true,
+    };
+
     new Chart(canvas_, {
         type: 'line',
         data: {
-            labels: [{%for contratado in personal_contratado%} {{ contratado.0 }}, {%endfor%}],
+            labels: cont,
             datasets: [
                 contratados,
                 propios,
             ]
         }
     })
+}
+
+
+
+const canvas_ = document.getElementById("datos_accidentabilidad");
+
+window.addEventListener("DOMContentLoaded", () => {
+    
 })
