@@ -130,5 +130,5 @@ function mostrar_datos() {
 const canvas_ = document.getElementById("datos_accidentabilidad");
 
 window.addEventListener("DOMContentLoaded", () => {
-    
+    mostrar_datos();
 })
