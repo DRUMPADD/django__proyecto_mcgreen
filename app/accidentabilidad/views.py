@@ -1,6 +1,6 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
-from django.db import InterfaceError, OperationalError, ProgrammingError, connection
+from django.db import InterfaceError, InternalError, OperationalError, ProgrammingError, connection
 
 def accidentabilidad_vista(request):
     context = {
@@ -27,3 +27,26 @@ def accidentabilidad_vista(request):
             "mensaje": "Contacte con el servicio de sistemas"
         })
     return render(request, "RRHH/accidentabilidad.html", context)
+
+
+
+def accidentabilidad_contratados(request):
+    mensaje = ""
+    try:
+        cursor = connection.cursor()
+        cursor.execute("SELECT total_calculo FROM app_personal_con")
+        mensaje = cursor.fetchall()
+        print(mensaje)
+        return JsonResponse(mensaje, status=200) 
+    except (OperationalError, InternalError, ProgrammingError) as e:
+        print(e)
+def accidentabilidad_propios(request):
+    mensaje = ""
+    try:
+        cursor = connection.cursor()
+        cursor.execute("SELECT total_calculo FROM app_personal_con")
+        mensaje = cursor.fetchall()
+        print(mensaje)
+        return JsonResponse(mensaje, status=200) 
+    except (OperationalError, InternalError, ProgrammingError) as e:
+        print(e)
