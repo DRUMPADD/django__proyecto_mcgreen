@@ -78,15 +78,11 @@ form_registro.addEventListener("submit", (e) => {
 
 async function obtener_datos_con() {
     let datos = await fetch("/accidentabilidad_contratados");
-    console.log(datos.ok);
-    console.log(datos.status);
     let res = await datos.json();
     return res;
 }
 async function obtener_datos_pro() {
     let datos = await fetch("/accidentabilidad_propios");
-    console.log(datos.ok);
-    console.log(datos.status);
     let res = await datos.json();
     return res;
 }
@@ -100,12 +96,10 @@ async function mostrar_datos() {
     let d_pro = await obtener_datos_pro();
     let res_c = d_con;
     let res_p = d_pro;
-    console.log(res_c);
-    console.log(res_p);
-
-    for(let i = 0; i < res_c.length; i++) {
-        console.log(res_c[i]);
-    }
+    console.log(res_c.contratados);
+    console.log(res_p.propios);
+    console.log(res_c.contratados[0]);
+    console.log(res_p.propios[0]);
 
     for(let i = 0; i < obtener_datos_con.length; i++) {
         cont.push(i+1);
