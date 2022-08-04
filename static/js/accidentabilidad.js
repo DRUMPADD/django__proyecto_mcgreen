@@ -106,7 +106,7 @@ async function mostrar_datos() {
     }
 
     for(let i = 0; i < cont_datos; i++) {
-        if(res_c[i][0]) {
+        if(res_c[i][0] != undefined || res_c[i][0] != null) {
             ar_c.push(res_c[i][0]);
             console.log(res_c[i][0]);
         } else {
@@ -114,7 +114,7 @@ async function mostrar_datos() {
         }
     }
     for(let i = 0; i < cont_datos; i++) {
-        if(res_p[i][0]) {
+        if(res_p[i][0] != undefined || res_p[i][0] != null) {
             ar_p.push(res_p[i][0]);
             console.log(res_p[i][0]);
         } else {
