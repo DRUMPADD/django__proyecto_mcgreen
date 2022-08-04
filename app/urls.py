@@ -99,5 +99,7 @@ urlpatterns = [
     path('cliente_sigssmac', p_sigss.agregar_cliente_sigssmac, name="cliente_sigssmac"),
     # ?? Accidentabilidad
     path("vista_accidentabilidad", v_acc.accidentabilidad_vista, name="acci_vista"),
+    path("accidentabilidad_contratados", v_acc.accidentabilidad_contratados, name="accidentabilidad_contratados"),
+    path("accidentabilidad_propios", v_acc.accidentabilidad_propios, name="accidentabilidad_propios"),
     path("registrar_acci", p_acc.accidentabilidad_post, name="registrar_info"),
 ]
