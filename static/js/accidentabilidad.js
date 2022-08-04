@@ -46,12 +46,10 @@ function enviar_registro(datos) {
 
 
 function validar_personal_propio() {
-    console.log(form_registro["c_personal"][0].value != null && form_registro["h_trabajo"][0].value != null && form_registro["jornada"][0].value != null);
     return form_registro["c_personal"][0].value != null && form_registro["h_trabajo"][0].value != null && form_registro["jornada"][0].value != null;
 }
 
 function validar_personal_contratado() {
-    console.log(form_registro["c_personal"][1].value != null && form_registro["h_trabajo"][1].value != null && form_registro["jornada"][1].value != null);
     return form_registro["c_personal"][1].value != null && form_registro["h_trabajo"][1].value != null && form_registro["jornada"][1].value != null;
 }
 
@@ -75,4 +73,42 @@ form_registro.addEventListener("submit", (e) => {
             timer: 6000
         })
     }
+})
+
+
+const canvas_ = document.getElementById("datos_accidentabilidad");
+var d_con = [{%for contratado in personal_contratado%} {{ contratado.4 }}, {%endfor%}];
+var d_pro = [{%for propio in personal_propio%} {{ propio.4 }}, {% endfor %}];
+
+let contratados = {
+    label: "Contratados",
+    data: d_con,
+    backgroundColor: 'rgba(218, 202, 58, .4)', // Color de fondo
+    borderColor: 'rgba(218, 202, 58, 1)',
+    borderWidth: 3,
+    tension: .5,
+    fill: true,
+};
+
+let propios = {
+    label: "Propios",
+    data: d_pro,
+    backgroundColor: 'rgba(22, 170, 133, .4)',
+    borderColor: 'rgba(22, 170, 133, 1)',
+    borderWidth: 3,
+    tension: .5,
+    fill: true,
+};
+
+window.addEventListener("DOMContentLoaded", () => {
+    new Chart(canvas_, {
+        type: 'line',
+        data: {
+            labels: [{%for contratado in personal_contratado%} {{ contratado.0 }}, {%endfor%}],
+            datasets: [
+                contratados,
+                propios,
+            ]
+        }
+    })
 })
