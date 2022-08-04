@@ -98,26 +98,33 @@ async function mostrar_datos() {
     let res_p = d_pro.propios;
     var ar_c = new Array();
     var ar_p = new Array();
+    var cont_datos = 0;
+    if(res_c.length > res_p.length) {
+        cont_datos = res_c.length;
+    } else {
+        cont_datos = res_p.length;
+    }
 
-
-    for(let i = 0; i < res_c.length; i++) {
+    for(let i = 0; i < cont_datos; i++) {
         ar_c.push(res_c[i][0]);
         console.log(res_c[i][0]);
     }
-    for(let i = 0; i < res_p.length; i++) {
+    for(let i = 0; i < cont_datos; i++) {
         ar_p.push(res_p[i][0]);
         console.log(res_p[i][0]);
     }
     console.log(ar_c);
     console.log(ar_p);
 
-    for(let i = 0; i < res_c.length; i++) {
+    for(let i = 0; i < cont_datos; i++) {
         cont.push(i+1);
     }
 
+    
+
     let contratados = {
         label: "Contratados",
-        data: obtener_datos_con(),
+        data: ar_c,
         backgroundColor: 'rgba(218, 202, 58, .4)', // Color de fondo
         borderColor: 'rgba(218, 202, 58, 1)',
         borderWidth: 3,
@@ -127,7 +134,7 @@ async function mostrar_datos() {
     
     let propios = {
         label: "Propios",
-        data: obtener_datos_pro(),
+        data: ar_p,
         backgroundColor: 'rgba(22, 170, 133, .4)',
         borderColor: 'rgba(22, 170, 133, 1)',
         borderWidth: 3,
