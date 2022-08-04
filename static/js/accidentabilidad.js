@@ -101,13 +101,15 @@ async function mostrar_datos() {
 
 
     for(let i = 0; i < res_c.length; i++) {
-        ar_c.push(res_c[i][0])
+        ar_c.push(res_c[i][0]);
+        console.log(res_c[i][0]);
     }
     for(let i = 0; i < res_p.length; i++) {
-        ar_p.push(res_p[i][0])
+        ar_p.push(res_p[i][0]);
+        console.log(res_p[i][0]);
     }
-    console.log(res_c);
-    console.log(res_p);
+    console.log(ar_c);
+    console.log(ar_p);
 
     for(let i = 0; i < res_c.length; i++) {
         cont.push(i+1);
