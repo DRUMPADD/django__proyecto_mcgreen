@@ -37,6 +37,8 @@ def accidentabilidad_contratados(request):
         cursor.execute("SELECT total_calculo FROM app_personal_con")
         mensaje = cursor.fetchall()
         print(mensaje)
+        for con in mensaje:
+            print(con)
         return JsonResponse({"contratados": mensaje}, status=200) 
     except (OperationalError, InternalError, ProgrammingError) as e:
         print(e)
@@ -44,9 +46,11 @@ def accidentabilidad_propios(request):
     mensaje = ""
     try:
         cursor = connection.cursor()
-        cursor.execute("SELECT total_calculo FROM app_personal_con")
+        cursor.execute("SELECT total_calculo FROM app_personal_propio")
         mensaje = cursor.fetchall()
         print(mensaje)
+        for pro in mensaje:
+            print(pro)
         return JsonResponse({"propios": mensaje}, status=200) 
     except (OperationalError, InternalError, ProgrammingError) as e:
         print(e)
