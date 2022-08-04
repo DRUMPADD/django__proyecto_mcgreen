@@ -106,12 +106,20 @@ async function mostrar_datos() {
     }
 
     for(let i = 0; i < cont_datos; i++) {
-        ar_c.push(res_c[i][0]);
-        console.log(res_c[i][0]);
+        if(res_c[i][0]) {
+            ar_c.push(res_c[i][0]);
+            console.log(res_c[i][0]);
+        } else {
+            ar_c.push(0);
+        }
     }
     for(let i = 0; i < cont_datos; i++) {
-        ar_p.push(res_p[i][0]);
-        console.log(res_p[i][0]);
+        if(res_p[i][0]) {
+            ar_p.push(res_p[i][0]);
+            console.log(res_p[i][0]);
+        } else {
+            ar_p.push(0);
+        }
     }
     console.log(ar_c);
     console.log(ar_p);
