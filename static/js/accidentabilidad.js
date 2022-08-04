@@ -94,8 +94,8 @@ function mostrar_datos() {
     let cont = new Array();
     let d_con = obtener_datos_con();
     let d_pro = obtener_datos_pro();
-    let res_c = d_con.contratados;
-    let res_p = d_pro.propios;
+    let res_c = d_con;
+    let res_p = d_pro;
     console.log(res_c);
     console.log(res_p);
 
