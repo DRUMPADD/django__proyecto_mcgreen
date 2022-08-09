@@ -98,31 +98,16 @@ async function mostrar_datos() {
     let res_p = d_pro.propios;
     var ar_c = new Array();
     var ar_p = new Array();
-    var cont_datos = 0;
-    console.log("Respuesta desde servidor:",res_c);
-    console.log("Respuesta desde servidor:",res_p);
-    if(res_c.length >= res_p.length) {
-        cont_datos = res_c.length;
-    } else {
-        cont_datos = res_p.length;
-    }
-
+    var cont_datos = res_c.length >= res_p.length ? res_c.length : res_p.length;
     for(let i = 0; i < cont_datos; i++) {
-        if(res_c[i][0] != undefined || res_c[i][0] != null) {
+        if(res_c[i] != undefined || res_c[i] != null) {
             ar_c.push(res_c[i][0]);
-            console.log(res_c[i][0]);
         } else {
             ar_c.push(0);
         }
     }
     for(let i = 0; i < cont_datos; i++) {
-        console.log("Tipo de dato:",typeof res_p[i]);
-        if(Array.isArray(res_p[i])) {
-            console.log("Es arreglo");
-        } else {
-            console.log("No es arreglo");
-        }
-        if(res_p[i][0] != undefined || res_p[i][0] != null) {
+        if(res_p[i] != undefined || res_p[i] != null) {
             ar_p.push(res_p[i][0]);
             console.log(res_p[i][0]);
         } else {
