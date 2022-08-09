@@ -99,7 +99,9 @@ async function mostrar_datos() {
     var ar_c = new Array();
     var ar_p = new Array();
     var cont_datos = 0;
-    if(res_c.length > res_p.length) {
+    console.log("Respuesta desde servidor:",res_c);
+    console.log("Respuesta desde servidor:",res_p);
+    if(res_c.length >= res_p.length) {
         cont_datos = res_c.length;
     } else {
         cont_datos = res_p.length;
@@ -114,6 +116,12 @@ async function mostrar_datos() {
         }
     }
     for(let i = 0; i < cont_datos; i++) {
+        console.log("Tipo de dato:",typeof res_p[i]);
+        if(Array.isArray(res_p[i])) {
+            console.log("Es arreglo");
+        } else {
+            console.log("No es arreglo");
+        }
         if(res_p[i][0] != undefined || res_p[i][0] != null) {
             ar_p.push(res_p[i][0]);
             console.log(res_p[i][0]);
@@ -121,8 +129,8 @@ async function mostrar_datos() {
             ar_p.push(0);
         }
     }
-    console.log(ar_c);
-    console.log(ar_p);
+    console.log("Arreglo: ",ar_c);
+    console.log("Arreglo: ",ar_p);
 
     for(let i = 0; i < cont_datos; i++) {
         cont.push(i+1);
