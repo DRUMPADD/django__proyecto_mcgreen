@@ -162,6 +162,113 @@
             <li class="nav-item"><a class="nav-link" href="{% url 'cerrar_sesion' %}">Cerrar sesión</a></li>
         </ul>
     </nav>
+    <div class="mt-3 container d-flex justify-content-between align-items-center col-lg-12">
+        <div class="col-lg-6">
+            <div>
+                <canvas width="800" height="250" id="otra_cosa"></canvas>
+            </div>
+        </div>
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <canvas width="300" height="200" id="datos_accidentabilidad"></canvas>
+            </div>
+            <table class="table_res_final table-hover">
+                <thead>
+                    <tr>
+                        <th>Mes</th>
+                        <th>Empleados</th>
+                        <th>Cálculo total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>ENERO</td>
+                        <td>190</td>
+                        <td>2990</td>
+                    </tr>
+                    <tr>
+                        <td>FEBRERO</td>
+                        <td>190</td>
+                        <td>2990</td>
+                    </tr>
+                    <tr>
+                        <td>MARZO</td>
+                        <td>190</td>
+                        <td>2990</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="mt-5 container">
+        <div class="d-flex justify-content-between align-items-center col-lg-12">
+            <div class="col-lg-6">
+                <h4 class="text-center">Personal propio</h4>
+                <table class="table_res table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Id.</th>
+                            <th>Cantidad de personal</th>
+                            <th>Horas de trabajo</th>
+                            <th>Jornada laboral</th>
+                            <th>Cálculo total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for propio in personal_propio %}
+                            <tr>
+                                <th>{{ propio.0 }}</th>
+                                <th>{{ propio.1 }}</th>
+                                <th>{{ propio.2 }}</th>
+                                <th>{{ propio.3 }}</th>
+                                <th>{{ propio.4 }}</th>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-lg-6">
+                <h4 class="text-center">Personal subcontratado</h4>
+                <table class="table_res table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Id.</th>
+                            <th>Cantidad de personal</th>
+                            <th>Horas de trabajo</th>
+                            <th>Jornada laboral</th>
+                            <th>Cálculo total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for propio in personal_propio %}
+                        <tr>
+                            <th>{{ propio.0 }}</th>
+                            <th>{{ propio.1 }}</th>
+                            <th>{{ propio.2 }}</th>
+                            <th>{{ propio.3 }}</th>
+                            <th>{{ propio.4 }}</th>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="mt-3">
+            <table class="table_res table table-hover">
+                <thead>
+                    <tr>
+                        <th>Id.</th>
+                        <th>Cantidad de personal</th>
+                        <th>Horas de trabajo</th>
+                        <th>Jornada laboral</th>
+                        <th>Cálculo total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
     <div class="container">
         <form class="card card-body form-registro">
             <h1 class="text-center">Accidentabilidad</h1>
@@ -198,62 +305,6 @@
             </div>
             <input type="submit" id="btnEnviar" class="btn btn-success form-control mt-3" value="Registrar">
         </form>
-    </div>
-
-    <div class="container">
-        <h2 class="text-center">Personal propio</h2>
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>Id.</th>
-                    <th>Cantidad de personal</th>
-                    <th>Horas de trabajo</th>
-                    <th>Jornada laboral</th>
-                    <th>Cálculo total</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for propio in personal_propio %}
-                    <tr>
-                        <th>{{ propio.0 }}</th>
-                        <th>{{ propio.1 }}</th>
-                        <th>{{ propio.2 }}</th>
-                        <th>{{ propio.3 }}</th>
-                        <th>{{ propio.4 }}</th>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-
-        <h2 class="text-center">Personal contratado</h2>
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>Id.</th>
-                    <th>Cantidad de personal</th>
-                    <th>Horas de trabajo</th>
-                    <th>Jornada laboral</th>
-                    <th>Cálculo total</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for contratado in personal_contratado %}
-                    <tr>
-                        <th>{{ contratado.0 }}</th>
-                        <th>{{ contratado.1 }}</th>
-                        <th>{{ contratado.2 }}</th>
-                        <th>{{ contratado.3 }}</th>
-                        <th>{{ contratado.4 }}</th>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-
-    <div class="container">
-        <div>
-            <canvas width="200" height="100" id="datos_accidentabilidad"></canvas>
-        </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
