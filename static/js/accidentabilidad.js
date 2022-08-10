@@ -92,20 +92,10 @@ async function obtener_datos_pro() {
 
 async function mostrar_datos() {
     let cont = new Array();
-    let d_con = await obtener_datos_con();
     let d_pro = await obtener_datos_pro();
-    let res_c = d_con.contratados;
     let res_p = d_pro.propios;
-    var ar_c = new Array();
     var ar_p = new Array();
-    var cont_datos = res_c.length >= res_p.length ? res_c.length : res_p.length;
-    for(let i = 0; i < cont_datos; i++) {
-        if(res_c[i] != undefined || res_c[i] != null) {
-            ar_c.push(res_c[i][0]);
-        } else {
-            ar_c.push(0);
-        }
-    }
+    var cont_datos = res_p.length;
     for(let i = 0; i < cont_datos; i++) {
         if(res_p[i] != undefined || res_p[i] != null) {
             ar_p.push(res_p[i][0]);
@@ -121,35 +111,16 @@ async function mostrar_datos() {
         cont.push(i+1);
     }
 
-    
-
-    let contratados = {
-        label: "Contratados",
-        data: ar_c,
-        backgroundColor: 'rgba(218, 202, 58, .4)', // Color de fondo
-        borderColor: 'rgba(218, 202, 58, 1)',
-        borderWidth: 3,
-        tension: .5,
-        fill: true,
-    };
-    
-    let propios = {
-        label: "Propios",
-        data: ar_p,
-        backgroundColor: 'rgba(22, 170, 133, .4)',
-        borderColor: 'rgba(22, 170, 133, 1)',
-        borderWidth: 3,
-        tension: .5,
-        fill: true,
-    };
-
     new Chart(canvas_, {
         type: 'line',
         data: {
             labels: cont,
             datasets: [
-                contratados,
-                propios,
+                {
+                    label: "Empleados por mes",
+                    data: ar_p,
+                    borderWidth: 3,
+                }
             ]
         }
     })
