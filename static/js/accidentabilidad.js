@@ -104,7 +104,6 @@ async function mostrar_datos() {
             ar_p.push(0);
         }
     }
-    console.log("Arreglo: ",ar_c);
     console.log("Arreglo: ",ar_p);
 
     for(let i = 0; i < cont_datos; i++) {
