@@ -101,5 +101,6 @@ urlpatterns = [
     path("vista_accidentabilidad", v_acc.accidentabilidad_vista, name="acci_vista"),
     path("accidentabilidad_contratados", v_acc.accidentabilidad_contratados, name="accidentabilidad_contratados"),
     path("accidentabilidad_propios", v_acc.accidentabilidad_propios, name="accidentabilidad_propios"),
+    path("registros_totales_acci", v_acc.accidentabilidad_res_totales, name="accidentabilidad_res_totales"),
     path("registrar_acci", p_acc.accidentabilidad_post, name="registrar_info"),
 ]
