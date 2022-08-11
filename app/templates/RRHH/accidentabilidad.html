@@ -207,7 +207,7 @@
                 <table class="table_res table table-hover">
                     <thead>
                         <tr>
-                            <th>Id.</th>
+                            <th>Fecha</th>
                             <th>Cantidad de personal</th>
                             <th>Horas de trabajo</th>
                             <th>Jornada laboral</th>
@@ -215,13 +215,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for propio in personal_propio %}
+                        {% for con in personal_contratado %}
                             <tr>
-                                <th>{{ propio.0 }}</th>
-                                <th>{{ propio.1 }}</th>
-                                <th>{{ propio.2 }}</th>
-                                <th>{{ propio.3 }}</th>
-                                <th>{{ propio.4 }}</th>
+                                <th>{{ con.5 }} {{ con.6 }}</th>
+                                <th>{{ con.1 }}</th>
+                                <th>{{ con.2 }}</th>
+                                <th>{{ con.3 }}</th>
+                                <th>{{ con.4 }}</th>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -232,7 +232,7 @@
                 <table class="table_res table table-hover">
                     <thead>
                         <tr>
-                            <th>Id.</th>
+                            <th>Fecha</th>
                             <th>Cantidad de personal</th>
                             <th>Horas de trabajo</th>
                             <th>Jornada laboral</th>
@@ -242,7 +242,7 @@
                     <tbody>
                         {% for propio in personal_propio %}
                         <tr>
-                            <th>{{ propio.0 }}</th>
+                            <th>{{ propio.5 }} {{ propio.6 }}</th>
                             <th>{{ propio.1 }}</th>
                             <th>{{ propio.2 }}</th>
                             <th>{{ propio.3 }}</th>
@@ -273,6 +273,30 @@
         <form class="card card-body form-registro">
             <h1 class="text-center">Accidentabilidad</h1>
             {% csrf_token %}
+            <div class="d-flex justify-content-around align-items-center mt-1 mb-1">
+                <div>
+                    <label class="d-block text-center">Seleccionar mes</label>
+                    <select name="sl_mes" class="form-select">
+                        <option selected disabled>--Seleccionar--</option>
+                        <option value="Enero">Enero</option>
+                        <option value="Febrero">Febrero</option>
+                        <option value="Marzo">Marzo</option>
+                        <option value="Abril">Abril</option>
+                        <option value="Mayo">Mayo</option>
+                        <option value="Junio">Junio</option>
+                        <option value="Julio">Julio</option>
+                        <option value="Agosto">Agosto</option>
+                        <option value="Septiembre">Septiembre</option>
+                        <option value="Octubre">Octubre</option>
+                        <option value="Noviembre">Noviembre</option>
+                        <option value="Diciembre">Diciembre</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="d-block text-center">Año</label>
+                    <input type="text" name="anio" class="form-control">
+                </div>
+            </div>
             <h5>Personal propio</h5>
             <div class="d-flex justify-content-around align-items-center col-lg-12">
                 <div class="col-lg-3">
