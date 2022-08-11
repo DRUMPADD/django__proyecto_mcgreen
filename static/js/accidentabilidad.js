@@ -61,6 +61,8 @@ form_registro.addEventListener("submit", (e) => {
             "c_personal": [form_registro["c_personal"][0].value, form_registro["c_personal"][1].value],
             "h_trabajo": [form_registro["h_trabajo"][0].value, form_registro["h_trabajo"][1].value],
             "jornada": [form_registro["jornada"][0].value, form_registro["jornada"][1].value],
+            "mes": form_registro["sl_mes"].value != undefined || form_registro["sl_mes"].value != null ? form_registro["sl_mes"].value : '',
+            "anio": form_registro["anio"].value != '' ? form_registro["anio"].value : '',
         });
 
         form_registro.reset();
