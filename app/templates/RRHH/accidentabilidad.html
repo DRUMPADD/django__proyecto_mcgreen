@@ -181,21 +181,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>ENERO</td>
-                        <td>190</td>
-                        <td>2990</td>
-                    </tr>
-                    <tr>
-                        <td>FEBRERO</td>
-                        <td>190</td>
-                        <td>2990</td>
-                    </tr>
-                    <tr>
-                        <td>MARZO</td>
-                        <td>190</td>
-                        <td>2990</td>
-                    </tr>
+                    {% for det in detalles_acci %}
+                        <tr>
+                            <th>{{ det.0 }}</th>
+                            <th>{{ det.1 }}</th>
+                            <th>{{ det.2 }}</th>
+                        </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
@@ -249,8 +241,8 @@
                             <th>{{ propio.4 }}</th>
                         </tr>
                     {% endfor %}
-                    </tbody>
-                </table>
+                </tbody>
+            </table>
             </div>
         </div>
         <div class="mt-3">
@@ -263,6 +255,13 @@
                     </tr>
                 </thead>
                 <tbody>
+                    {% for det in detalles_acci %}
+                        <tr>
+                            <th>{{ det.0 }}</th>
+                            <th>{{ det.1 }}</th>
+                            <th>{{ det.2 }}</th>
+                        </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
