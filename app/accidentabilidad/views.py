@@ -26,6 +26,15 @@ def accidentabilidad_vista(request):
         return render(request, "errors/error500.html", {
             "mensaje": "Contacte con el servicio de sistemas"
         })
+    try:
+        cursor = connection.cursor()
+        cursor.callproc("DETALLES_ACCIDENTABILIDAD")
+        context["detalles_acci"] = cursor.fetchall()
+    except (OperationalError, InterfaceError, ProgrammingError) as e:
+        print(e)
+        return render(request, "errors/error500.html", {
+            "mensaje": "Contacte con el servicio de sistemas"
+        })
     return render(request, "RRHH/accidentabilidad.html", context)
 
 
