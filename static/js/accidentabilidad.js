@@ -77,14 +77,8 @@ form_registro.addEventListener("submit", (e) => {
     }
 })
 
-
-async function obtener_datos_con() {
-    let datos = await fetch("/accidentabilidad_contratados");
-    let res = await datos.json();
-    return res;
-}
-async function obtener_datos_pro() {
-    let datos = await fetch("/accidentabilidad_propios");
+async function obtener_datos() {
+    let datos = await fetch("/datos_generales_obtenidos");
     let res = await datos.json();
     return res;
 }
@@ -94,22 +88,18 @@ async function obtener_datos_pro() {
 
 async function mostrar_datos() {
     let cont = new Array();
-    let d_pro = await obtener_datos_pro();
-    let res_p = d_pro.propios;
-    var ar_p = new Array();
-    var cont_datos = res_p.length;
+    let d_ = await obtener_datos();
+    let res_ = d_.respuesta;
+    var ar_ = new Array();
+    var cont_datos = res_.length;
     for(let i = 0; i < cont_datos; i++) {
-        if(res_p[i] != undefined || res_p[i] != null) {
-            ar_p.push(res_p[i][0]);
-            console.log(res_p[i][0]);
-        } else {
-            ar_p.push(0);
-        }
+        ar_.push(res_[i][2]);
+        console.log(res_[i][2]);
     }
     console.log("Arreglo: ",ar_p);
 
     for(let i = 0; i < cont_datos; i++) {
-        cont.push(i+1);
+        cont.push(res_[i][0]);
     }
 
     new Chart(canvas_, {
@@ -119,7 +109,7 @@ async function mostrar_datos() {
             datasets: [
                 {
                     label: "Empleados por mes",
-                    data: ar_p,
+                    data: ar_,
                     borderWidth: 3,
                 }
             ]
