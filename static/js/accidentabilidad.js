@@ -114,7 +114,7 @@ async function mostrar_datos() {
         },
         options: {
             scales: {
-                y: [{
+                y: {
                     ticks:{
                     min : 0,
                         stepSize : 1,
@@ -128,8 +128,8 @@ async function mostrar_datos() {
                         zeroLineWidth : 2
                     },
                     stacked: true
-                }],
-                x: [{
+                },
+                x: {
                     ticks:{
                         fontColor : "#000",
                         fontSize : 20
@@ -138,7 +138,7 @@ async function mostrar_datos() {
                         color: "rgba(255, 255, 255, 0.5)",
                         lineWidth:2
                     }
-                }]
+                }
             },
             responsive:false,
             chartArea: {
