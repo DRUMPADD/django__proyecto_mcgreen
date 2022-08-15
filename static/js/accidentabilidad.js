@@ -113,34 +113,6 @@ async function mostrar_datos() {
             ]
         },
         options: {
-            scales: {
-                y: {
-                    ticks:{
-                    min : 0,
-                        stepSize : 1,
-                        fontColor : "#000",
-                        fontSize : 14
-                    },
-                    gridLines:{
-                        color: "rgba(255, 255, 255, 0.5)",
-                        lineWidth:2,
-                        zeroLineColor :"#000",
-                        zeroLineWidth : 2
-                    },
-                    stacked: true
-                },
-                x: {
-                    ticks:{
-                        fontColor : "#000",
-                        fontSize : 20
-                    },
-                    gridLines:{
-                        color: "rgba(255, 255, 255, 0.5)",
-                        lineWidth:2
-                    }
-                }
-            },
-            responsive:false,
             chartArea: {
                 backgroundColor: 'rgba(0, 0, 0, 0.7)'
             }
