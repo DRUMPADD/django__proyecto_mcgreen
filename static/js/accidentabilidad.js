@@ -114,7 +114,7 @@ async function mostrar_datos() {
         },
         options: {
             scales: {
-                yAxes: [{
+                y: [{
                     ticks:{
                     min : 0,
                         stepSize : 1,
@@ -129,7 +129,7 @@ async function mostrar_datos() {
                     },
                     stacked: true
                 }],
-                xAxes: [{
+                x: [{
                     ticks:{
                         fontColor : "#000",
                         fontSize : 20
