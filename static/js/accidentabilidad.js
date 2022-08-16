@@ -109,6 +109,7 @@ async function mostrar_datos() {
                     label: "Empleados por mes",
                     data: ar_,
                     borderWidth: 3,
+                    borderColor: 'rgba(0, 0, 0, 0.9)'
                 }
             ]
         },
