@@ -100,6 +100,5 @@ urlpatterns = [
     # ?? Accidentabilidad
     path("vista_accidentabilidad", v_acc.accidentabilidad_vista, name="acci_vista"),
     path("datos_generales_obtenidos", v_acc.datos_x_meses, name="datos_generales_obtenidos"),
-    path("registros_totales_acci", v_acc.accidentabilidad_res_totales, name="accidentabilidad_res_totales"),
     path("registrar_acci", p_acc.accidentabilidad_post, name="registrar_info"),
 ]
