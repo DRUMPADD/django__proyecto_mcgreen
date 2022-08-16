@@ -273,25 +273,29 @@
             <div class="d-flex justify-content-around align-items-center col-lg-12 mt-1 mb-1">
                 <div class="d-flex justify-content-center align-items-center">
                     <label class="col-lg-3">Seleccionar mes</label>
-                    <select name="sl_mes" class="form-select col-lg-3">
-                        <option selected disabled>--Seleccionar--</option>
-                        <option value="ENERO">ENERO</option>
-                        <option value="FEBRERO">FEBRERO</option>
-                        <option value="MARZO">MARZO</option>
-                        <option value="ABRIL">ABRIL</option>
-                        <option value="MAYO">MAYO</option>
-                        <option value="JUNIO">JUNIOo</option>
-                        <option value="JULIO">JULIO</option>
-                        <option value="AGOSTO">AGOSTO</option>
-                        <option value="SEPTIEMBRE">SEPTIEMBRE</option>
-                        <option value="OCTUBRE">OCTUBRE</option>
-                        <option value="NOVIEMBRE">NOVIEMBRE</option>
-                        <option value="DICIEMBRE">DICIEMBRE</option>
-                    </select>
+                    <div class="col-lg-3">
+                        <select name="sl_mes" class="form-select">
+                            <option selected disabled>--Seleccionar--</option>
+                            <option value="ENERO">ENERO</option>
+                            <option value="FEBRERO">FEBRERO</option>
+                            <option value="MARZO">MARZO</option>
+                            <option value="ABRIL">ABRIL</option>
+                            <option value="MAYO">MAYO</option>
+                            <option value="JUNIO">JUNIOo</option>
+                            <option value="JULIO">JULIO</option>
+                            <option value="AGOSTO">AGOSTO</option>
+                            <option value="SEPTIEMBRE">SEPTIEMBRE</option>
+                            <option value="OCTUBRE">OCTUBRE</option>
+                            <option value="NOVIEMBRE">NOVIEMBRE</option>
+                            <option value="DICIEMBRE">DICIEMBRE</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="d-flex justify-content-center align-items-center">
-                    <label class="col-lg-4">Año</label>
-                    <input type="text" name="anio" class="form-control col-lg-2">
+                    <label class="col-lg-2">Año</label>
+                    <div class="col-lg-2">
+                        <input type="text" name="anio" class="form-control">
+                    </div>
                 </div>
             </div>
             <h5>Personal propio</h5>
