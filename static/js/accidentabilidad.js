@@ -70,7 +70,7 @@ form_registro.addEventListener("submit", (e) => {
         swal.fire({
             position: 'center',
             icon: 'warning',
-            title: 'Debe llenar al menos uno de los dos formularios',
+            title: 'Debe llenar al menos una de las 2 categorías',
             showConfirmButton: false,
             timer: 6000
         })
