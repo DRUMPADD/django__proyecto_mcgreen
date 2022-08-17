@@ -46,17 +46,17 @@ function enviar_registro(datos) {
 
 
 function validar_personal_propio() {
-    return form_registro["c_personal"][0].value != null && form_registro["h_trabajo"][0].value != null && form_registro["jornada"][0].value != null;
+    return form_registro["c_personal"][0].value != '' && form_registro["h_trabajo"][0].value != '' && form_registro["jornada"][0].value != '';
 }
 
 function validar_personal_contratado() {
-    return form_registro["c_personal"][1].value != null && form_registro["h_trabajo"][1].value != null && form_registro["jornada"][1].value != null;
+    return form_registro["c_personal"][1].value != '' && form_registro["h_trabajo"][1].value != '' && form_registro["jornada"][1].value != '';
 }
 
 form_registro.addEventListener("submit", (e) => {
     e.preventDefault();
-    console.log(validar_personal_propio() || validar_personal_contratado());
-    if(validar_personal_propio() || validar_personal_contratado()) {
+    console.log((validar_personal_propio() || validar_personal_contratado()) && (form_registro["anio"].value != '' && form_registro["sl_mes"].value != null));
+    if((validar_personal_propio() || validar_personal_contratado()) && (form_registro["anio"].value != '' && form_registro["sl_mes"].value != null)) {
         enviar_registro({
             "c_personal": [form_registro["c_personal"][0].value, form_registro["c_personal"][1].value],
             "h_trabajo": [form_registro["h_trabajo"][0].value, form_registro["h_trabajo"][1].value],
