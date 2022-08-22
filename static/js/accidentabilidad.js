@@ -1,3 +1,48 @@
+async function obtener_datos() {
+    let datos = await fetch("/datos_generales_obtenidos");
+    let res = await datos.json();
+    return res;
+}
+
+async function mostrar_datos() {
+    let cont = new Array();
+    let d_ = await obtener_datos();
+    let res_ = d_.respuesta;
+    var ar_ = new Array();
+    var cont_datos = res_.length;
+    for(let i = 0; i < cont_datos; i++) {
+        ar_.push(res_[i][2]);
+    }
+
+    for(let i = 0; i < cont_datos; i++) {
+        cont.push(res_[i][0]);
+    }
+
+    new Chart(canvas_, {
+        type: 'line',
+        data: {
+            labels: cont,
+            datasets: [
+                {
+                    label: "Empleados por mes",
+                    data: ar_,
+                    borderWidth: 3,
+                    borderColor: 'rgba(0, 0, 0, 0.9)'
+                }
+            ]
+        },
+        options: {
+            chartArea: {
+                backgroundColor: 'rgba(0, 0, 0, 0.7)'
+            }
+        }
+    })
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+    mostrar_datos();
+})
+
 const form_registro = document.querySelector(".form-registro");
 
 function getCookie(name) {
@@ -46,17 +91,17 @@ function enviar_registro(datos) {
 
 
 function validar_personal_propio() {
-    return form_registro["c_personal"][0].value != '' && form_registro["h_trabajo"][0].value != '' && form_registro["jornada"][0].value != '';
+    return form_registro["c_personal"][0].value && form_registro["h_trabajo"][0].value && form_registro["jornada"][0].value;
 }
 
 function validar_personal_contratado() {
-    return form_registro["c_personal"][1].value != '' && form_registro["h_trabajo"][1].value != '' && form_registro["jornada"][1].value != '';
+    return form_registro["c_personal"][1].value && form_registro["h_trabajo"][1].value && form_registro["jornada"][1].value;
 }
 
 form_registro.addEventListener("submit", (e) => {
     e.preventDefault();
-    console.log((validar_personal_propio() || validar_personal_contratado()) && (form_registro["anio"].value != '' && form_registro["sl_mes"].value != null));
-    if((validar_personal_propio() || validar_personal_contratado()) && (form_registro["anio"].value != '' && form_registro["sl_mes"].value != null)) {
+    console.log((validar_personal_propio() || validar_personal_contratado()) && (form_registro["anio"].value && form_registro["sl_mes"].value));
+    if((validar_personal_propio() || validar_personal_contratado()) && (form_registro["anio"].value && form_registro["sl_mes"].value)) {
         enviar_registro({
             "c_personal": [form_registro["c_personal"][0].value, form_registro["c_personal"][1].value],
             "h_trabajo": [form_registro["h_trabajo"][0].value, form_registro["h_trabajo"][1].value],
@@ -77,54 +122,5 @@ form_registro.addEventListener("submit", (e) => {
     }
 })
 
-async function obtener_datos() {
-    let datos = await fetch("/datos_generales_obtenidos");
-    let res = await datos.json();
-    return res;
-}
-
-
-
-
-async function mostrar_datos() {
-    let cont = new Array();
-    let d_ = await obtener_datos();
-    let res_ = d_.respuesta;
-    var ar_ = new Array();
-    var cont_datos = res_.length;
-    for(let i = 0; i < cont_datos; i++) {
-        ar_.push(res_[i][2]);
-    }
-
-    for(let i = 0; i < cont_datos; i++) {
-        cont.push(res_[i][0]);
-    }
-
-    new Chart(canvas_, {
-        type: 'line',
-        data: {
-            labels: cont,
-            datasets: [
-                {
-                    label: "Empleados por mes",
-                    data: ar_,
-                    borderWidth: 3,
-                    borderColor: 'rgba(0, 0, 0, 0.9)'
-                }
-            ]
-        },
-        options: {
-            chartArea: {
-                backgroundColor: 'rgba(0, 0, 0, 0.7)'
-            }
-        }
-    })
-}
-
-
 
 const canvas_ = document.getElementById("datos_accidentabilidad");
-
-window.addEventListener("DOMContentLoaded", () => {
-    mostrar_datos();
-})
