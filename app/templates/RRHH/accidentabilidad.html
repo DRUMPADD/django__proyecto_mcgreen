@@ -172,24 +172,26 @@
             <div>
                 <canvas width="300" height="200" id="datos_accidentabilidad"></canvas>
             </div>
-            <table class="table_res_final table-hover">
-                <thead>
-                    <tr>
-                        <th>Mes</th>
-                        <th>Total de empleados</th>
-                        <th>Cálculo total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for det in detalles_acci %}
+            <div class="custom-scrollbar-total">
+                <table class="table_res_final table-hover">
+                    <thead>
                         <tr>
-                            <td>{{ det.0 }}</td>
-                            <td>{{ det.1 }}</td>
-                            <td>{{ det.2 }}</td>
+                            <th>Mes</th>
+                            <th>Total de empleados</th>
+                            <th>Cálculo total</th>
                         </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {% for det in detalles_acci %}
+                            <tr>
+                                <td>{{ det.0 }}</td>
+                                <td>{{ det.1 }}</td>
+                                <td>{{ det.2 }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
     <div class="mt-5 container">
