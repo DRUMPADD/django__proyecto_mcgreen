@@ -30,7 +30,15 @@ def accidentabilidad_vista(request):
         try:
             cursor = connection.cursor()
             cursor.callproc("DETALLES_ACCIDENTABILIDAD")
-            context["detalles_acci"] = cursor.fetchall()
+            estadisticas = cursor.fetchall()
+            context["detalles_acci"] = estadisticas
+            cont_total_acc = 0
+            cont_emp = 0
+            for est in estadisticas:
+                cont_total_acc = cont_total_acc + est[4]
+                cont_emp = cont_emp + est[1]
+            context["total_est"] = cont_total_acc
+            context["total_emp"] = cont_emp
         except (OperationalError, InterfaceError, ProgrammingError) as e:
             print(e)
             return render(request, "errors/error500.html", {
