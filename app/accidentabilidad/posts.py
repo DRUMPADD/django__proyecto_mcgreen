@@ -8,7 +8,7 @@ def accidentabilidad_post(request):
         mensaje = ""
         try:
             cursor = connection.cursor()
-            cursor.callproc("ACCIDENTABILIDAD", [request.session.get("email"), res["c_personal"][0], res["h_trabajo"][0], res["jornada"][0], res["c_personal"][1], res["h_trabajo"][1], res["jornada"][1], res["mes"], res["anio"]])
+            cursor.callproc("ACCIDENTABILIDAD", [request.session.get("email"), res["c_personal"][0], res["h_trabajo"][0], res["jornada"][0], res["c_personal"][1], res["h_trabajo"][1], res["jornada"][1], res["mes"], res["anio"], res["acci_c_baja"][0], res["acci_c_baja"][1], res["dias_inc"][0], res["dias_inc"][1]])
             mensaje = cursor.fetchall()[0]
 
             return JsonResponse({"status": "success", "res": mensaje}, status=200)
