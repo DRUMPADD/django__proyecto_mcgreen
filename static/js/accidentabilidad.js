@@ -74,7 +74,6 @@ function enviar_registro(datos) {
         return res.json();
     })
     .then(async (data) => {
-        console.log(data.res);
         await swal.fire({
             position: 'center',
             icon: data.status,
@@ -85,37 +84,54 @@ function enviar_registro(datos) {
         location.reload();
     })
     .catch(err => {
-        console.log(err);
+        swal.fire({
+            position: 'center',
+            icon: "error",
+            title: "Ocurrió un error en el sistema",
+            showConfirmButton: false,
+            timer: 3000
+        });
     })
 }
 
 
 function validar_personal_propio() {
-    return form_registro["c_personal"][0].value && form_registro["h_trabajo"][0].value && form_registro["jornada"][0].value;
+    return form_registro["c_personal"][0].value && form_registro["h_trabajo"][0].value && form_registro["jornada"][0].value && form_registro["acci_c_baja"][0].value && form_registro["dias_inc"][0].value;
 }
 
 function validar_personal_contratado() {
-    return form_registro["c_personal"][1].value && form_registro["h_trabajo"][1].value && form_registro["jornada"][1].value;
+    return form_registro["c_personal"][1].value && form_registro["h_trabajo"][1].value && form_registro["jornada"][1].value && form_registro["acci_c_baja"][1].value && form_registro["dias_inc"][1].value;
 }
 
 form_registro.addEventListener("submit", (e) => {
     e.preventDefault();
-    console.log((validar_personal_propio() || validar_personal_contratado()) && (form_registro["anio"].value && form_registro["sl_mes"].value));
-    if((validar_personal_propio() || validar_personal_contratado()) && (form_registro["anio"].value && form_registro["sl_mes"].value)) {
-        enviar_registro({
-            "c_personal": [form_registro["c_personal"][0].value, form_registro["c_personal"][1].value],
-            "h_trabajo": [form_registro["h_trabajo"][0].value, form_registro["h_trabajo"][1].value],
-            "jornada": [form_registro["jornada"][0].value, form_registro["jornada"][1].value],
-            "mes": form_registro["sl_mes"].value != undefined || form_registro["sl_mes"].value != null ? form_registro["sl_mes"].value : '',
-            "anio": form_registro["anio"].value != '' ? form_registro["anio"].value : '',
-        });
-
-        form_registro.reset();
+    if(form_registro["anio"].value && form_registro["sl_mes"].value) {
+        if((validar_personal_propio() || validar_personal_contratado())) {
+            enviar_registro({
+                "c_personal": [form_registro["c_personal"][0].value, form_registro["c_personal"][1].value],
+                "h_trabajo": [form_registro["h_trabajo"][0].value, form_registro["h_trabajo"][1].value],
+                "jornada": [form_registro["jornada"][0].value, form_registro["jornada"][1].value],
+                "mes": form_registro["sl_mes"].value != undefined || form_registro["sl_mes"].value != null ? form_registro["sl_mes"].value : '',
+                "anio": form_registro["anio"].value != '' ? form_registro["anio"].value : '',
+                "acci_c_baja": [form_registro["acci_c_baja"][0].value, form_registro["acci_c_baja"][1].value],
+                "dias_inc": [form_registro["dias_inc"][0].value, form_registro["dias_inc"][1].value],
+            });
+    
+            form_registro.reset();
+        } else {
+            swal.fire({
+                position: 'center',
+                icon: 'warning',
+                title: 'Debe llenar al menos una de las 2 categorías',
+                showConfirmButton: false,
+                timer: 6000
+            })
+        }
     } else {
         swal.fire({
             position: 'center',
             icon: 'warning',
-            title: 'Debe llenar al menos una de las 2 categorías',
+            title: 'Debe elegir mes y año',
             showConfirmButton: false,
             timer: 6000
         })
