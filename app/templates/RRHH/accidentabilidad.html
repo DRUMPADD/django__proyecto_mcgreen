@@ -190,6 +190,13 @@
                             </tr>
                         {% endfor %}
                     </tbody>
+                    <tfoot>
+                        <tr>
+                            <td>TOTAL</td>
+                            <td>{{ total_emp }}</td>
+                            <td>{{ total_est }}</td>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
         </div>
@@ -206,6 +213,8 @@
                             <th>Horas de trabajo</th>
                             <th>Jornada laboral</th>
                             <th>Cálculo total</th>
+                            <th>Índice de frecuencia</th>
+                            <th>Índice de gravedad</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -216,6 +225,8 @@
                                 <td>{{ con.2 }}</td>
                                 <td>{{ con.3 }}</td>
                                 <td>{{ con.4 }}</td>
+                                <td>{{ con.8 / con.2 }}</td>
+                                <td>{{ con.7 / (con.2 * 1000000) }}</td>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -231,6 +242,8 @@
                             <th>Horas de trabajo</th>
                             <th>Jornada laboral</th>
                             <th>Cálculo total</th>
+                            <th>Índice de frecuencia</th>
+                            <th>Índice de gravedad</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -241,6 +254,8 @@
                             <td>{{ propio.2 }}</td>
                             <td>{{ propio.3 }}</td>
                             <td>{{ propio.4 }}</td>
+                            <td>{{ con.8 / con.2 }}</td>
+                            <td>{{ con.7 / (con.2 * 1000000) }}</td>
                         </tr>
                     {% endfor %}
                 </tbody>
