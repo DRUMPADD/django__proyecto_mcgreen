@@ -1,4 +1,5 @@
 {% load static %}
+{% load mathfilters %}
 <!DOCTYPE html>
 <html lang="es-mx">
 <head>
@@ -225,8 +226,8 @@
                                 <td>{{ con.2 }}</td>
                                 <td>{{ con.3 }}</td>
                                 <td>{{ con.4 }}</td>
-                                <td>{{ con.8 / con.2 }}</td>
-                                <td>{{ con.7 / (con.2 * 1000000) }}</td>
+                                <td>{{ con.8|div:con.2 }}</td>
+                                <td>{{ con.7|div:(con.2|mul:1000000) }}</td>
                             </tr>
                         {% endfor %}
                     </tbody>
