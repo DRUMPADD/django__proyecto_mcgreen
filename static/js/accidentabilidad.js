@@ -11,7 +11,7 @@ async function mostrar_datos() {
     var ar_ = new Array();
     var cont_datos = res_.length;
     for(let i = 0; i < cont_datos; i++) {
-        ar_.push(res_[i][2]);
+        ar_.push(res_[i][4]);
     }
 
     for(let i = 0; i < cont_datos; i++) {
