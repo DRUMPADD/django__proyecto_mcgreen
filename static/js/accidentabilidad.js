@@ -1,3 +1,5 @@
+const indices_ = document.getElementById("indices_");
+const canvas_ = document.getElementById("datos_accidentabilidad");
 const tbody_det = document.querySelector(".tbody_det");
 async function obtener_datos() {
     let datos = await fetch("/datos_generales_obtenidos");
@@ -39,6 +41,48 @@ async function mostrar_datos() {
         }
     })
 }
+async function mostrar_datos3() {
+    let cont = new Array();
+    let d_ = await obtener_datos();
+    let res_ = d_.respuesta;
+    var ar_frecuencia = new Array();
+    var ar_gravedad = new Array();
+    var cont_datos = res_.length;
+    for(let i = 0; i < cont_datos; i++) {
+        ar_frecuencia.push(res_[i][3] / res_[i][5]);
+        ar_gravedad.push(res_[i][2] / (res_[i][5] * 1000000));
+    }
+
+    for(let i = 0; i < cont_datos; i++) {
+        cont.push(res_[i][0]);
+    }
+
+    new Chart(indices_, {
+        type: 'line',
+        data: {
+            labels: cont,
+            datasets: [
+                {
+                    label: "Índices de frecuencia",
+                    data: ar_frecuencia,
+                    borderWidth: 3,
+                    borderColor: 'rgb(186, 28, 38)'
+                },
+                {
+                    label: "Índices de gravedad",
+                    data: ar_frecuencia,
+                    borderWidth: 3,
+                    borderColor: 'rgb(4, 28, 190)'
+                },
+            ]
+        },
+        options: {
+            chartArea: {
+                backgroundColor: 'rgba(0, 0, 0, 0.7)'
+            }
+        }
+    })
+}
 
 async function mostrar_datos2() {
     let d_ = await obtener_datos();
@@ -62,6 +106,7 @@ async function mostrar_datos2() {
 window.addEventListener("DOMContentLoaded", () => {
     mostrar_datos();
     mostrar_datos2();
+    mostrar_datos3();
 })
 
 const form_registro = document.querySelector(".form-registro");
@@ -158,6 +203,3 @@ form_registro.addEventListener("submit", (e) => {
         })
     }
 })
-
-
-const canvas_ = document.getElementById("datos_accidentabilidad");
