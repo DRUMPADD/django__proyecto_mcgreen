@@ -66,13 +66,13 @@ async function mostrar_datos3() {
                     label: "Índices de frecuencia",
                     data: ar_frecuencia,
                     borderWidth: 3,
-                    borderColor: 'rgb(186, 28, 38)'
+                    borderColor: 'rgb(4, 28, 190)'
                 },
                 {
                     label: "Índices de gravedad",
                     data: ar_gravedad,
                     borderWidth: 3,
-                    borderColor: 'rgb(4, 28, 190)'
+                    borderColor: 'rgb(186, 28, 38)'
                 },
             ]
         },
