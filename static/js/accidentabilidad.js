@@ -70,7 +70,7 @@ async function mostrar_datos3() {
                 },
                 {
                     label: "Índices de gravedad",
-                    data: ar_frecuencia,
+                    data: ar_gravedad,
                     borderWidth: 3,
                     borderColor: 'rgb(4, 28, 190)'
                 },
