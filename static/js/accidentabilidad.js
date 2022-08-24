@@ -37,10 +37,47 @@ async function mostrar_datos() {
         options: {
             chartArea: {
                 backgroundColor: 'rgba(0, 0, 0, 0.7)'
+            },
+            plugins: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100
+                    }
+                },
+                datalabels: {
+                    anchor: 'end',
+                    align: 'top',
+                    formatter: Math.round,
+                    font: {
+                        weight: 'bold',
+                        size: 13
+                    }
+                }
             }
         }
     })
 }
+
+async function mostrar_datos2() {
+    let d_ = await obtener_datos();
+    let res_ = d_.respuesta;
+
+    for(let i = 0; i < res_.length; i++) {
+        tbody_det.innerHTML += `
+            <tr>
+                <td>${res_[i][0]}</td>
+                <td>${res_[i][1]}</td>
+                <td>${res_[i][2]}</td>
+                <td>${res_[i][3]}</td>
+                <td>${res_[i][4]}</td>
+                <td>${res_[i][3] / res_[i][5]}</td>
+                <td>${res_[i][2] / (res_[i][5] * 1000000)}</td>
+            </tr>
+        `;
+    }
+}
+
 async function mostrar_datos3() {
     let cont = new Array();
     let d_ = await obtener_datos();
@@ -48,10 +85,21 @@ async function mostrar_datos3() {
     var ar_frecuencia = new Array();
     var ar_gravedad = new Array();
     var cont_datos = res_.length;
+    var max_frecuencia = 0, max_gravedad = 0;
     for(let i = 0; i < cont_datos; i++) {
+        var cal_frec = res_[i][3] / res_[i][5];
+        var cal_grav = res_[i][2] / (res_[i][5] * 1000000);
+        if(cal_frec >= cal_grav) {
+            max_frecuencia = cal_frec;
+        } else {
+            max_gravedad = cal_grav;
+        }
         ar_frecuencia.push(res_[i][3] / res_[i][5]);
         ar_gravedad.push(res_[i][2] / (res_[i][5] * 1000000));
     }
+
+    console.log(max_frecuencia);
+    console.log(max_gravedad);
 
     for(let i = 0; i < cont_datos; i++) {
         cont.push(res_[i][0]);
@@ -79,28 +127,26 @@ async function mostrar_datos3() {
         options: {
             chartArea: {
                 backgroundColor: 'rgba(0, 0, 0, 0.7)'
+            },
+            plugins: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: max_frecuencia >= max_gravedad ? max_frecuencia : max_gravedad
+                    }
+                },
+                datalabels: {
+                    anchor: 'end',
+                    align: 'top',
+                    formatter: Math.round,
+                    font: {
+                        weight: 'bold',
+                        size: 13
+                    }
+                }
             }
         }
     })
-}
-
-async function mostrar_datos2() {
-    let d_ = await obtener_datos();
-    let res_ = d_.respuesta;
-
-    for(let i = 0; i < res_.length; i++) {
-        tbody_det.innerHTML += `
-            <tr>
-                <td>${res_[i][0]}</td>
-                <td>${res_[i][1]}</td>
-                <td>${res_[i][2]}</td>
-                <td>${res_[i][3]}</td>
-                <td>${res_[i][4]}</td>
-                <td>${res_[i][3] / res_[i][5]}</td>
-                <td>${res_[i][2] / (res_[i][5] * 1000000)}</td>
-            </tr>
-        `;
-    }
 }
 
 window.addEventListener("DOMContentLoaded", () => {
