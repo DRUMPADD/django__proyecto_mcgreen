@@ -254,8 +254,6 @@
                             <td>{{ propio.2 }}</td>
                             <td>{{ propio.3 }}</td>
                             <td>{{ propio.4 }}</td>
-                            <td>{{ con.8 / con.2 }}</td>
-                            <td>{{ con.7 / (con.2 * 1000000) }}</td>
                         </tr>
                     {% endfor %}
                 </tbody>
@@ -271,18 +269,11 @@
                         <th>Accidentes con baja</th>
                         <th>Días incapacitantes</th>
                         <th>Cálculo total</th>
+                        <th>Índice de frecuencia</th>
+                        <th>Índice de gravedad</th>
                     </tr>
                 </thead>
-                <tbody>
-                    {% for det in detalles_acci %}
-                        <tr>
-                            <td>{{ det.0 }}</td>
-                            <td>{{ det.1 }}</td>
-                            <td>{{ det.2 }}</td>
-                            <td>{{ det.3 }}</td>
-                            <td>{{ det.4 }}</td>
-                        </tr>
-                    {% endfor %}
+                <tbody class="tbody_det">
                 </tbody>
             </table>
         </div>
