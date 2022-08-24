@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'app.apps.AppConfig',
     'django.contrib.humanize',
-    'mathfilters',
 ]
 
 MIDDLEWARE = [
