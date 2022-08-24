@@ -1,3 +1,4 @@
+const tbody_det = document.querySelector(".tbody_det");
 async function obtener_datos() {
     let datos = await fetch("/datos_generales_obtenidos");
     let res = await datos.json();
@@ -39,8 +40,28 @@ async function mostrar_datos() {
     })
 }
 
+async function mostrar_datos2() {
+    let d_ = await obtener_datos();
+    let res_ = d_.respuesta;
+
+    for(let i = 0; i < res_.length; i++) {
+        tbody_det.innerHTML += `
+            <tr>
+                <td>${res_[i][0]}</td>
+                <td>${res_[i][1]}</td>
+                <td>${res_[i][2]}</td>
+                <td>${res_[i][3]}</td>
+                <td>${res_[i][4]}</td>
+                <td>${res_[i][3] / res_[i][5]}</td>
+                <td>${res_[i][2] / (res_[i][5] * 1000000)}</td>
+            </tr>
+        `;
+    }
+}
+
 window.addEventListener("DOMContentLoaded", () => {
     mostrar_datos();
+    mostrar_datos2();
 })
 
 const form_registro = document.querySelector(".form-registro");
