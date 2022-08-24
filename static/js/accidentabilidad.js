@@ -34,28 +34,38 @@ async function mostrar_datos() {
                 }
             ]
         },
+        plugins: [ChartDataLabels],
         options: {
-            chartArea: {
-                backgroundColor: 'rgba(0, 0, 0, 0.7)'
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    
+                },
+            },
+            distribution: 'linear',
+            responsive: true,
+            legend: {
+                display: true,
+                labels: {
+                    fontFamily: "'Arial', 'sans-serif'",
+                    fontSize: 20
+                },
             },
             plugins: {
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        max: 100
-                    }
-                },
                 datalabels: {
+                    labels: {
+                        title: {
+                            font: {
+                                weight: 'bold',
+                                size: 13
+                            }
+                        },
+                    },
                     anchor: 'end',
-                    align: 'top',
-                    formatter: Math.round,
-                    font: {
-                        weight: 'bold',
-                        size: 13
-                    }
+                    align: 'top'
                 }
             }
-        }
+        },
     })
 }
 
@@ -124,28 +134,38 @@ async function mostrar_datos3() {
                 },
             ]
         },
+        plugins: [ChartDataLabels],
         options: {
-            chartArea: {
-                backgroundColor: 'rgba(0, 0, 0, 0.7)'
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: max_frecuencia >= max_gravedad ? max_frecuencia : max_gravedad
+                },
+            },
+            distribution: 'linear',
+            responsive: true,
+            legend: {
+                display: true,
+                labels: {
+                    fontFamily: "'Arial', 'sans-serif'",
+                    fontSize: 20
+                },
             },
             plugins: {
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        max: max_frecuencia >= max_gravedad ? max_frecuencia : max_gravedad
-                    }
-                },
                 datalabels: {
+                    labels: {
+                        title: {
+                            font: {
+                                weight: 'bold',
+                                size: 13
+                            }
+                        },
+                    },
                     anchor: 'end',
-                    align: 'top',
-                    formatter: Math.round,
-                    font: {
-                        weight: 'bold',
-                        size: 13
-                    }
+                    align: 'top'
                 }
             }
-        }
+        },
     })
 }
 
