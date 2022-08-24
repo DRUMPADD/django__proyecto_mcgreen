@@ -115,6 +115,8 @@ async function mostrar_datos3() {
         cont.push(res_[i][0]);
     }
 
+    var max_grafica = max_frecuencia >= max_gravedad ? max_frecuencia : max_gravedad;
+
     new Chart(indices_, {
         type: 'line',
         data: {
@@ -139,7 +141,7 @@ async function mostrar_datos3() {
             scales: {
                 y: {
                     beginAtZero: true,
-                    max: max_frecuencia >= max_gravedad ? max_frecuencia : max_gravedad
+                    max: max_grafica != 0 ? max_grafica : 2
                 },
             },
             distribution: 'linear',
