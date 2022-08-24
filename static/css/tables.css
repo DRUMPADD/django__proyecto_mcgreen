@@ -40,14 +40,15 @@
 }
 
 .table_res_final thead tr th {
-    border: 3px solid;
     padding: 4px 19px;
-    text-align: center;
 }
-.table_res_final tbody tr td {
+.table_res_final thead tr th,
+.table_res_final tbody tr td,
+.table_res_final tfoot tr td {
     border: 3px solid;
     text-align: center;
 }
+
 
 .table_res thead tr th {
     font-size: 12px;
