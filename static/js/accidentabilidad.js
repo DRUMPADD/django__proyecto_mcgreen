@@ -53,13 +53,14 @@ async function mostrar_datos() {
             },
             plugins: {
                 datalabels: {
+                    color: 'white',
                     anchor: 'end',
                     align: 'top',
-                    formatter: Math.round,
                     font: {
                         weight: 'bold',
                         size: 13
-                    }
+                    },
+                    backgroundColor: 'rgb(23, 23, 23)'
                 }
             }
         },
@@ -152,13 +153,15 @@ async function mostrar_datos3() {
             },
             plugins: {
                 datalabels: {
+                    color: 'white',
                     anchor: 'end',
                     align: 'top',
                     formatter: Math.round,
                     font: {
                         weight: 'bold',
                         size: 13
-                    }
+                    },
+                    backgroundColor: 'rgb(23, 23, 23)',
                 }
             }
         },
