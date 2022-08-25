@@ -54,6 +54,9 @@ async function mostrar_datos() {
             plugins: {
                 datalabels: {
                     color: 'white',
+                    formatter: function(val) {
+                        return val % 1 === 0 ? Math.round : val.toFixed(2)
+                    },
                     anchor: 'end',
                     align: 'top',
                     font: {
@@ -161,7 +164,9 @@ async function mostrar_datos3() {
                     color: 'white',
                     anchor: 'end',
                     align: 'top',
-                    formatter: Math.round,
+                    formatter: function(val) {
+                        return val % 1 === 0 ? Math.round : val.toFixed(2)
+                    },
                     font: {
                         weight: 'bold',
                         size: 13
