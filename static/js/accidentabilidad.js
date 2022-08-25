@@ -97,13 +97,18 @@ async function mostrar_datos3() {
     for(let i = 0; i < cont_datos; i++) {
         var cal_frec = res_[i][3] / res_[i][5];
         var cal_grav = res_[i][2] / (res_[i][5] * 1000000);
-        if(cal_frec >= cal_grav) {
+
+        ar_frecuencia.push(cal_frec);
+        ar_gravedad.push(cal_grav);
+
+
+        if(cal_frec >= max_frecuencia) {
             max_frecuencia = cal_frec;
-        } else {
+        }
+        
+        if(cal_grav >= max_gravedad) {
             max_gravedad = cal_grav;
         }
-        ar_frecuencia.push(res_[i][3] / res_[i][5]);
-        ar_gravedad.push(res_[i][2] / (res_[i][5] * 1000000));
     }
 
     console.log(max_frecuencia);
