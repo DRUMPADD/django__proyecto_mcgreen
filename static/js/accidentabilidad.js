@@ -53,7 +53,7 @@ async function mostrar_datos() {
                 datalabels: {
                     color: 'white',
                     formatter: function(val) {
-                        return val % 1 === 0 ? Math.round : val.toFixed(2)
+                        return val % 1 === 0 ? Math.round(val) : val.toFixed(2)
                     },
                     anchor: 'end',
                     align: 'top',
@@ -161,7 +161,7 @@ async function mostrar_datos3() {
                     anchor: 'end',
                     align: 'top',
                     formatter: function(val) {
-                        return val % 1 === 0 ? Math.round : val.toFixed(2)
+                        return val % 1 === 0 ? Math.round(val) : val.toFixed(2)
                     },
                     font: {
                         weight: 'bold',
