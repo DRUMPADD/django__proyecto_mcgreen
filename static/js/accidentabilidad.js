@@ -40,10 +40,8 @@ async function mostrar_datos() {
             scales: {
                 y: {
                     beginAtZero: true,
-                    
                 },
             },
-            responsive: true,
             legend: {
                 display: true,
                 labels: {
@@ -150,8 +148,6 @@ async function mostrar_datos3() {
                     max: max_grafica != 0 ? max_grafica : 2
                 },
             },
-            distribution: 'linear',
-            responsive: true,
             legend: {
                 display: true,
                 labels: {
