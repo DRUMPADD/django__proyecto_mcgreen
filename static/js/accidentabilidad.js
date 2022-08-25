@@ -36,13 +36,13 @@ async function mostrar_datos() {
         },
         plugins: [ChartDataLabels],
         options: {
+            maintainAspectRatio: false,
             scales: {
                 y: {
                     beginAtZero: true,
                     
                 },
             },
-            distribution: 'linear',
             responsive: true,
             legend: {
                 display: true,
@@ -53,16 +53,13 @@ async function mostrar_datos() {
             },
             plugins: {
                 datalabels: {
-                    labels: {
-                        title: {
-                            font: {
-                                weight: 'bold',
-                                size: 13
-                            }
-                        },
-                    },
                     anchor: 'end',
-                    align: 'top'
+                    align: 'top',
+                    formatter: Math.round,
+                    font: {
+                        weight: 'bold',
+                        size: 13
+                    }
                 }
             }
         },
@@ -155,16 +152,13 @@ async function mostrar_datos3() {
             },
             plugins: {
                 datalabels: {
-                    labels: {
-                        title: {
-                            font: {
-                                weight: 'bold',
-                                size: 13
-                            }
-                        },
-                    },
                     anchor: 'end',
-                    align: 'top'
+                    align: 'top',
+                    formatter: Math.round,
+                    font: {
+                        weight: 'bold',
+                        size: 13
+                    }
                 }
             }
         },
