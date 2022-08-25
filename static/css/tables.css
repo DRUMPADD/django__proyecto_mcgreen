@@ -57,3 +57,11 @@
 .table_res tbody tr td {
     text-align: center;
 }
+
+.table_res_final thead tr th,
+.table_res_final tbody tr td,
+.table_res_final tfoot tr td,
+.table_res thead tr th,
+.table_res tbody tr td {
+    color: #001;
+}
