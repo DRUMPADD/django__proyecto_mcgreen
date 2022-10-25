@@ -6,6 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="https://bootswatch.com/5/zephyr/bootstrap.min.css" />
+    <style>
+        .form_box div {
+            margin: 0 auto;
+        }
+
+        .form_box h5,
+        .form_box div label {
+            text-align: center;
+        }
+
+        .cont {
+            width: 30%;
+            margin: 0 auto;
+        }
+    </style>
 </head>
 <body>
     <!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -39,7 +54,7 @@
             <li class="nav-item"><a class="nav-link" href="{% url 'cerrar_sesion' %}">Cerrar sesión</a></li>
         </ul>
     </nav> -->
-    <form class="form-actualizar col-sm-5 card card-body text-justify">
+    <!-- <form class="form-actualizar col-sm-5 card card-body text-justify">
         <div class="form-row d-flex align-items-center justify-content-around">
             <div class="form-group col-md-3">
                 <label class="col-form-label">Nombre</label>
@@ -235,79 +250,192 @@
             <input type="button" name="eliminar" class="btn btn-danger col-sm-3 " value="Eliminar">
         </div>
     </form>
+    <!-- TABLA SIGSSMAC - MOSTRAR IMAGEN EVIDENCIA -->
+    <!-- <button class="ver_img btn btn-info" disabled>Ver imagen</button> -->
+    <!-- {% if info.17 != None %}
+        <td>
+            <button class="ver_img btn btn-info" src-img="media/img/sigssmac/{{ info.17 }}">Ver imagen</button>
+        </td>
+    {% else %}
+        <td>
+            <button class="btnSubirImg btn btn-success">
+                Subir imagen
+            </button>
+        </td>
+    {% endif %}
+    {% if info.18 != None %}
+        <td>
+            <button class="ver_img btn btn-info" src-img="media/img/sigssmac/{{ info.18 }}" disabled>Ver imagen</button>
+        </td>
+    {% else %}
+        <td>
+            <button class="btnSubirImg btn btn-success" disabled>
+                Subir imagen
+            </button>
+        </td>
+    {% endif %} -->
+    <div class="cont">
+        <form class="card card-body form-registro">
+            <h1 class="text-center">Accidentabilidad</h1>
+            {% csrf_token %}
+            <div class="d-flex align-items-center col-lg-12 mt-1 mb-1">
+                <div class="d-flex justify-content-center align-items-center">
+                    <label class="col-lg-5">Seleccionar mes</label>
+                    <div class="col-lg-7">
+                        <select name="sl_mes" class="form-select">
+                            <option selected disabled>--Seleccionar--</option>
+                            <option value="ENERO">ENERO</option>
+                            <option value="FEBRERO">FEBRERO</option>
+                            <option value="MARZO">MARZO</option>
+                            <option value="ABRIL">ABRIL</option>
+                            <option value="MAYO">MAYO</option>
+                            <option value="JUNIO">JUNIOo</option>
+                            <option value="JULIO">JULIO</option>
+                            <option value="AGOSTO">AGOSTO</option>
+                            <option value="SEPTIEMBRE">SEPTIEMBRE</option>
+                            <option value="OCTUBRE">OCTUBRE</option>
+                            <option value="NOVIEMBRE">NOVIEMBRE</option>
+                            <option value="DICIEMBRE">DICIEMBRE</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center align-items-center">
+                    <label class="col-lg-2">Año</label>
+                    <div class="col-lg-4">
+                        <input type="text" name="anio" class="form-control">
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-between align-items-center col-lg-12">
+                <div class="col-lg-6 form_box">
+                    <h5>Personal propio</h5>
+                    <div class="col-lg-10">
+                        <label class="d-block">Cantidad de personal</label>
+                        <input type="number" class="form-control" name="c_personal">
+                    </div>
+                    <div class="col-lg-10">
+                        <label class="d-block">Horas de trabajo</label>
+                        <input type="number" class="form-control" name="h_trabajo">
+                    </div>
+                    <div class="col-lg-10">
+                        <label class="d-block">Dias laborados</label>
+                        <input type="number" class="form-control" name="jornada">
+                    </div>
+                </div>
+                <div class="col-lg-6 form_box">
+                    <h5>Personal subcontratado</h5>
+                    <div class="col-lg-10">
+                        <label class="d-block">Cantidad de personal</label>
+                        <input type="number" class="form-control" name="c_personal">
+                    </div>
+                    <div class="col-lg-10">
+                        <label class="d-block">Horas de trabajo</label>
+                        <input type="number" class="form-control" name="h_trabajo">
+                    </div>
+                    <div class="col-lg-10">
+                        <label class="d-block">Dias laborados</label>
+                        <input type="number" class="form-control" step="any" name="jornada">
+                    </div>
+                </div>
+            </div>
+            <input type="submit" id="btnEnviar" class="btn btn-success form-control mt-3" value="Registrar">
+        </form>
+    </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function() {
-            // $("input[name='actualizar']").on('click', function () {
-            //     let formulario = $(".form-actualizar");
-            //     $(".nombre").removeAttr("readonly");
-            //     $(".ap_p").removeAttr("readonly");
-            //     $(".ap_m").removeAttr("readonly");
-            //     $(".privilegio").removeAttr("readonly");
-            //     $(".puesto").removeAttr("readonly");
+        // $(document).ready(function() {
+        //     // $("input[name='actualizar']").on('click', function () {
+        //     //     let formulario = $(".form-actualizar");
+        //     //     $(".nombre").removeAttr("readonly");
+        //     //     $(".ap_p").removeAttr("readonly");
+        //     //     $(".ap_m").removeAttr("readonly");
+        //     //     $(".privilegio").removeAttr("readonly");
+        //     //     $(".puesto").removeAttr("readonly");
 
-            //     let nombre = $(".nombre").val();
-            //     let ap_p = $(".ap_p").val();
-            //     let ap_m = $(".ap_m").val();
-            //     let privilegio = $(".privilegio").val();
-            //     let puesto = $(".puesto").val();
+        //     //     let nombre = $(".nombre").val();
+        //     //     let ap_p = $(".ap_p").val();
+        //     //     let ap_m = $(".ap_m").val();
+        //     //     let privilegio = $(".privilegio").val();
+        //     //     let puesto = $(".puesto").val();
 
-            //     console.log(formulario);
-            //     console.log(nombre);
-            //     console.log(ap_p);
-            //     console.log(ap_m);
-            //     console.log(privilegio);
-            //     console.log(puesto);
+        //     //     console.log(formulario);
+        //     //     console.log(nombre);
+        //     //     console.log(ap_p);
+        //     //     console.log(ap_m);
+        //     //     console.log(privilegio);
+        //     //     console.log(puesto);
 
-            //     $("input[name='eliminar']").val("Cancelar");
-            // })
+        //     //     $("input[name='eliminar']").val("Cancelar");
+        //     // })
 
             
-            $("input[name='actualizar']").on('click', () => {
-                $(this).each(function () {
-                    let formulario = $(this)[0].activeElement.parentElement.parentElement;
-                    console.log($(formulario).find(":input").eq(0).val());
-                    console.log($(formulario).find(":input").eq(1).val());
-                    console.log($(formulario).find(":input").eq(2).val());
-                    console.log($(formulario).find(":input").eq(3).val());
-                    console.log($(formulario).find(":input").eq(4).val());
-                    console.log($(formulario).find(":input").eq(5).val());
-                    console.log($(formulario).find(":input").eq(6).val());
-                    $(formulario).find(":input").eq(0).removeAttr("readonly");
-                    $(formulario).find(":input").eq(1).removeAttr("readonly");
-                    $(formulario).find(":input").eq(2).removeAttr("readonly");
-                    $(formulario).find(":input").eq(3).removeAttr("readonly");
-                    $(formulario).find(":input").eq(4).removeAttr("readonly");
-                    $(formulario).find(":input").eq(5).removeAttr("readonly");
-                    $(formulario).find(":input").eq(6).removeAttr("readonly");
-                    $(formulario).find(":input").eq(6).removeAttr("name");
-                    $(formulario).find(":input").eq(6).attr("name", "cancelar");
-                    $(formulario).find(":input").eq(6).val("Cancelar");
-                    console.log($(formulario).find(":input").eq(6).val());
-                });
-            });
+        //     $("input[name='actualizar']").on('click', () => {
+        //         $(this).each(function () {
+        //             let formulario = $(this)[0].activeElement.parentElement.parentElement;
+        //             console.log($(formulario).find(":input").eq(0).val());
+        //             console.log($(formulario).find(":input").eq(1).val());
+        //             console.log($(formulario).find(":input").eq(2).val());
+        //             console.log($(formulario).find(":input").eq(3).val());
+        //             console.log($(formulario).find(":input").eq(4).val());
+        //             console.log($(formulario).find(":input").eq(5).val());
+        //             console.log($(formulario).find(":input").eq(6).val());
+        //             $(formulario).find(":input").eq(0).removeAttr("readonly");
+        //             $(formulario).find(":input").eq(1).removeAttr("readonly");
+        //             $(formulario).find(":input").eq(2).removeAttr("readonly");
+        //             $(formulario).find(":input").eq(3).removeAttr("readonly");
+        //             $(formulario).find(":input").eq(4).removeAttr("readonly");
+        //             $(formulario).find(":input").eq(5).removeAttr("readonly");
+        //             $(formulario).find(":input").eq(6).removeAttr("readonly");
+        //             $(formulario).find(":input").eq(6).removeAttr("name");
+        //             $(formulario).find(":input").eq(6).attr("name", "cancelar");
+        //             $(formulario).find(":input").eq(6).val("Cancelar");
+        //             console.log($(formulario).find(":input").eq(6).val());
+        //         });
+        //     });
 
-            $("input[name='cancelar']").on('click', () => {
-                $(this).each(function () {
-                    let formulario = $(this)[0].activeElement.parentElement.parentElement;
-                    $(formulario).find(":input").eq(0).attr("readonly", "true");
-                    $(formulario).find(":input").eq(1).attr("readonly", "true");
-                    $(formulario).find(":input").eq(2).attr("readonly", "true");
-                    $(formulario).find(":input").eq(3).attr("readonly", "true");
-                    $(formulario).find(":input").eq(4).attr("readonly", "true");
-                    $(formulario).find(":input").eq(5).attr("readonly", "true");
-                    $(formulario).find(":input").eq(6).attr("readonly", "true");
-                    $(formulario).find(":input").eq(6).removeAttr("name");
-                    $(formulario).find(":input").eq(6).attr("name", "eliminar");
-                    $(formulario).find(":input").eq(6).val("Eliminar");
-                    console.log($(formulario).find(":input").eq(6).val());
-                });
-            });
+        //     $("input[name='cancelar']").on('click', () => {
+        //         $(this).each(function () {
+        //             let formulario = $(this)[0].activeElement.parentElement.parentElement;
+        //             $(formulario).find(":input").eq(0).attr("readonly", "true");
+        //             $(formulario).find(":input").eq(1).attr("readonly", "true");
+        //             $(formulario).find(":input").eq(2).attr("readonly", "true");
+        //             $(formulario).find(":input").eq(3).attr("readonly", "true");
+        //             $(formulario).find(":input").eq(4).attr("readonly", "true");
+        //             $(formulario).find(":input").eq(5).attr("readonly", "true");
+        //             $(formulario).find(":input").eq(6).attr("readonly", "true");
+        //             $(formulario).find(":input").eq(6).removeAttr("name");
+        //             $(formulario).find(":input").eq(6).attr("name", "eliminar");
+        //             $(formulario).find(":input").eq(6).val("Eliminar");
+        //             console.log($(formulario).find(":input").eq(6).val());
+        //         });
+        //     });
 
-            if(document.querySelector("input[name='cancelar']")) {
-                console.log("Yo existo");
-            }
-        });
+        //     if(document.querySelector("input[name='cancelar']")) {
+        //         console.log("Yo existo");
+        //     }
+        // });
+        
+        
+        const form_registro = document.querySelector(".form-registro");
+
+        function validar_personal_propio() {
+            console.log(form_registro["c_personal"][0].value);
+            console.log(form_registro["h_trabajo"][0].value);
+            console.log(typeof form_registro["h_trabajo"][0].value);
+            return form_registro["c_personal"][0].value != '' && form_registro["h_trabajo"][0].value != '' && form_registro["jornada"][0].value != '';
+        }
+
+        function validar_personal_contratado() {
+            return form_registro["c_personal"][1].value != '' && form_registro["h_trabajo"][1].value != '' && form_registro["jornada"][1].value != '';
+        }
+
+
+        form_registro.addEventListener("submit", (e) => {
+            e.preventDefault();
+
+            console.log((validar_personal_propio() || validar_personal_contratado()) && (form_registro["anio"].value != '' && form_registro["sl_mes"].value != null));
+            console.log(validar_personal_propio() || validar_personal_contratado());
+        })
     </script>
 </body>
 </html>
