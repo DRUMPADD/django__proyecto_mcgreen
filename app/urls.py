@@ -12,7 +12,17 @@ from .sigssmac import vistas as v_sigss
 from .sigssmac import posts as p_sigss
 from .accidentabilidad import views as v_acc
 from .accidentabilidad import posts as p_acc
-
+from .plataforma import views as v_plat
+from .plataforma.requests import re as v_plat
+from .plataforma.requests import activity_requests as plat_act_req
+from .plataforma.requests import items_requests as plat_it_req
+from .plataforma.requests import general_requests as plat_g_req
+from .plataforma.requests import manteinment_requests as plat_mnt_req
+from .plataforma.requests import providers_requests as plat_pro_req
+from .plataforma.requests import frequences_requests as plat_fec_req
+from .plataforma.requests import novelties_requests as plat_nov_req
+from .plataforma.requests import modes_requests as plat_mod_req
+from .plataforma.requests import state_mant_requests as plat_st_req
 
 urlpatterns = [
     path('', views.iniciar_sesion, name="iniciar_sesion"),
@@ -101,4 +111,68 @@ urlpatterns = [
     path("vista_accidentabilidad", v_acc.accidentabilidad_vista, name="acci_vista"),
     path("datos_generales_obtenidos", v_acc.datos_x_meses, name="datos_generales_obtenidos"),
     path("registrar_acci", p_acc.accidentabilidad_post, name="registrar_info"),
+
+
+    # ?? Plataforma industrial
+    path("mantenimiento-general", v_plat.index, name="generalMant"),
+    path("actividades", v_plat.activities, name="activities"),
+    path("equipos", v_plat.items, name="items"),
+    path("mantenimiento-correctivo", v_plat.correc_manteinment, name="corMant"),
+    path("otros-registros", v_plat.other_views, name="otherRegisters"),
+    # ? General manteinment requests
+    path("plataforma/general/mostrarGeneral", plat_g_req.show_general_mant, name="showGeneralMnt"),
+    path("plataforma/general/crearGeneral", plat_g_req.create_general, name="createGeneralMnt"),
+    path("plataforma/general/modificarGeneral", plat_g_req.modify_general, name="modifyGeneralMnt"),
+    path("plataforma/general/eliminarGeneral", plat_g_req.delete_general, name="deleteGeneralMnt"),
+    # ? Activities requests
+    path("plataforma/actividades/crear_actividad", plat_act_req.create_activity, name="createActivity"),
+    path("plataforma/actividades/modificarActividad", plat_act_req.modify_activity, name="modifyActivity"),
+    path("plataforma/actividades/mostrarActividad", plat_act_req.show_activities, name="showAcivities"),
+    path("plataforma/actividades/buscarActividad", plat_act_req.search_activity, name="searchActivity"),
+    path("plataforma/actividades/eliminarActividad", plat_act_req.delete_activity, name="deleteActivity"),
+    path("plataforma/actividades/eliminarActividadCompleto", plat_act_req.delete_activity_with_mant, name="deleteAllActivity"),
+    # ? Items requests
+    path("plataforma/equipo/mostrarItems", plat_it_req.show_items, name="showItems"),
+    path("plataforma/equipo/modificarItem", plat_it_req.modify_item, name="modifyItems"),
+    path("plataforma/equipo/info_item/<slug:id_item>", v_plat.item_view, name="item"),
+    path("plataforma/equipo/registrarItem", plat_it_req.create_item, name="createItem"),
+    path("plataforma/equipo/buscarItem", plat_it_req.search_item, name="searchItem"),
+    path("plataforma/equipo/eliminarItem", plat_it_req.delete_item, name="deleteItem"),
+    path("plataforma/equipo/eliminarItemCompleto", plat_it_req.delete_item_complete, name="deleteCompleteItem"),
+    path("plataforma/equipo/modificarCaracteristicas", plat_it_req.modify_carateristics, name="modifyCaracteristics"),
+    # ? Manteinment requests
+    path("plataforma/correctivo/mostrarCorrectivo", plat_mnt_req.show_corrective_mant, name="showManteinments"),
+    path("plataforma/correctivo/agregarCorrectivo", plat_mnt_req.create_manteinment, name="createManteinment"),
+    path("plataforma/correctivo/modificarCorrectivo", plat_mnt_req.modify_manteinment, name="modifyManteinment"),
+    path("plataforma/correctivo/eliminarCorrectivo", plat_mnt_req.delete_manteinment, name="deleteManteinment"),
+    # ? Provider requests
+    path("plataforma/proveedor/mostrarProveedores", plat_pro_req.show_providers, name="showProviders"),
+    path("plataforma/proveedor/agregarProveedor", plat_pro_req.create_provider, name="createProviders"),
+    path("plataforma/proveedor/agregarProveedorAItem", plat_pro_req.add_provider_to_item, name="addProviderToItem"),
+    path("plataforma/proveedor/modificarProveedor", plat_pro_req.modify_provider, name="modifyProviders"),
+    path("plataforma/proveedor/eliminarProveedor", plat_pro_req.delete_provider, name="deleteProviders"),
+    path("plataforma/proveedor/cambiarProveedor", plat_pro_req.change_provider, name="changeProviderToItem"),
+    path("plataforma/proveedor/buscarProveedor", plat_pro_req.search_provider, name="searchProvider"),
+    path("plataforma/proveedor/quitarProveedor", plat_pro_req.delete_provider_from_item, name="removeProviderToItem"),
+    # ? Other requests
+    path("plataforma/estado/mostrarEstados", plat_st_req.showStates, name="showStates"),
+    path("plataforma/estado/crearEstado", plat_st_req.createState, name="createState"),
+    path("plataforma/estado/modificarEstado", plat_st_req.modifyState, name="modifyState"),
+    path("plataforma/estado/eliminarEstado", plat_st_req.deleteState, name="deleteState"),
+    path("plataforma/estado/buscarEstado", plat_st_req.searchState, name="searchState"),
+    path("plataforma/frecuencia/mostrarFrecuencias", plat_fec_req.showFrequences, name="showFrequences"),
+    path("plataforma/frecuencia/crearFrecuencia", plat_fec_req.createFrequence, name="createFrequence"),
+    path("plataforma/frecuencia/modificarFrecuencia", plat_fec_req.modifyFrequence, name="modifyFrequence"),
+    path("plataforma/frecuencia/eliminarFrecuencia", plat_fec_req.deleteFrequence, name="deleteFrequence"),
+    path("plataforma/frecuencia/buscarFrecuencia", plat_fec_req.searchFrequence, name="searchFrequence"),
+    path("plataforma/novedad/mostrarNovedades", plat_nov_req.showNovelties, name="showNovelties"),
+    path("plataforma/novedad/crearNovedad", plat_nov_req.createNovelty, name="createNovelty"),
+    path("plataforma/novedad/modificarNovedad", plat_nov_req.modifyNovelty, name="modifyNovelty"),
+    path("plataforma/novedad/eliminarNovedad", plat_nov_req.deleteNovelty, name="deleteNovelty"),
+    path("plataforma/novedad/buscarNovedad", plat_nov_req.searchNovelty, name="searchNovelty"),
+    path("plataforma/modoFallo/mostrarModos", plat_mod_req.showModes, name="showModes"),
+    path("plataforma/modoFallo/crearModo", plat_mod_req.createMode, name="createMode"),
+    path("plataforma/modoFallo/modificarModo", plat_mod_req.modifyMode, name="modifyMode"),
+    path("plataforma/modoFallo/eliminarModo", plat_mod_req.deleteMode, name="deleteMode"),
+    path("plataforma/modoFallo/buscarModo", plat_mod_req.searchMode, name="searchMode"),
 ]
