@@ -1,0 +1,70 @@
+{% extends 'Plataforma/base.html' %}
+{% load static %}
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/platform/items.css' %}">
+{% endblock %}
+{% block content %}
+<h1>Máquinas y/o equipos</h1>
+<div class="flex-cont">
+    <div class="form-content-item">
+        <form class="form-item" id="form_item">
+            {% csrf_token %}
+            <h2 class="center">Registrar equipo</h2>
+            <div class="input-box">
+                <label>Código</label>
+                <input type="text" name="cod_item" class="input">
+            </div>
+            <div class="input-box">
+                <label>Nombre</label>
+                <input type="text" name="name_item" class="input">
+            </div>
+            <div class="input-box">
+                <label>Cantidad (opcional)</label>
+                <input type="number" name="quantity_item" class="input">
+            </div>
+            <div>
+                <input type="submit" class="btnSend" value="Registrar">
+            </div>
+        </form>
+    </div>
+    <div class="scroll">
+        <table class="table">
+            <thead class="t_header">
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Cantidad</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody class="t_body" id="items">
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+{% block out-content %}
+<div class="update_hidden" id="content-hidden">
+    <form class="form_update">
+        {% csrf_token %}
+        <a class="btnClose">X</a>
+        <input type="hidden" name="id_" class="inp_hid">
+        <div class="flex">
+            <div class="content-update">
+                <label>Nombre</label>
+                <label>Cantidad</label>
+            </div>
+            <div class="content-update">
+                <input type="text" class="inp_hid" name="new_name">
+                <input type="text" class="inp_hid" name="new_stuck">
+            </div>
+        </div>
+        <div class="content-update-btn">
+            <input type="submit" class="btnUpd" value="Realizar cambios">
+        </div>
+    </form>
+</div>
+{% endblock %}
+{% block js_code %}
+<script src="{% static 'js/plataforma/items.js' %}"></script>
+{% endblock %}

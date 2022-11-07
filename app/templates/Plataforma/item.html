@@ -1,0 +1,171 @@
+{% extends 'Plataforma/base.html' %}
+{% load static %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/platform/item.css' %}">
+{% endblock %}
+
+{% block content %}
+    <h1 class="center">Equipo: {{ item }}</h1>
+    <main class="box">
+        <h2>Características generales</h2>
+        {% for c in caracteristicas %}
+        <form class="grid-area form-caracteristics">
+            {% csrf_token %}
+            <div class="flex">
+                <div>
+                    <p>Nombre:</p>
+                    <input type="text" name="name" class="inp_car" value="{% if c.2 != None %}{{ c.2 }}{% endif %}" disabled>
+                </div>
+                <div>
+                    <p>Código:</p>
+                    <input type="text" name="id" class="inp_car" value="{% if c.1 != None %}{{ c.1 }}{% endif %}" disabled>
+                </div>
+                <div>
+                    <p>Marca:</p>
+                    <input type="text" name="brand" class="inp_car" value="{% if c.4 != None %}{{ c.4 }}{% endif %}" disabled>
+                </div>
+                <div>
+                    <p>Fecha de compra:</p>
+                    <input type="text" name="bought_date" class="inp_car" value="{% if c.5 != None %}{{ c.5 }}{% endif %}" disabled>
+                </div>
+                <div>
+                    <p>Estado:</p>
+                    <select name="sl_state" disabled class="inp_car">
+                        {% for s in states %}
+                        <option value="{{ s.0 }}" {% if s.1 == c.3 %} selected {% endif %}>{{ s.1 }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="flex">
+                <div>
+                    <p>Cantidad:</p>
+                    <input type="number" name="quantity" class="inp_car" value="{% if c.11 != None %}{{ c.11 }}{% endif %}" disabled>
+                </div>
+                <div>
+                    <p>Serie:</p>
+                    <input type="text" name="serial_n" class="inp_car" value="{% if c.7 != None %}{{ c.7 }}{% endif %}" disabled>
+                </div>
+                <div>
+                    <p>Modelo:</p>
+                    <input type="text" name="model" class="inp_car" value="{% if c.6 != None %}{{ c.6 }}{% endif %}" disabled>
+                </div>
+                <div>
+                    <p>Ubicación:</p>
+                    <input type="text" name="location" class="inp_car" value="{% if c.8 != None %}{{ c.8 }}{% endif %}" disabled>
+                </div>
+                <div>
+                    <p>Fecha de vencimiento de garantía:</p>
+                    <input type="text" name="date_" class="inp_car" value="{% if c.9 != None %}{{ c.9 }}{% endif %}" disabled>
+                </div>
+            </div>
+            <div class="btns">
+                <button type="submit" class="btn update-car"><i class="upd-car fa-solid fa-pencil"></i></button>
+                <button type="button" data-title="Modificar" class="btn select-mod-car"><i class="mod-car fa-solid fa-pencil"></i></button>
+                <button type="button" data-title="Cancelar" class="btn select-del-car cancel" id="cancel-car"><i class="del-car fa-solid fa-x"></i></button>
+                <button type="button" data-title="Eliminar" class="btn select-del-car" id="delete-car"><i class="del-car fa-solid fa-trash-can"></i></button>
+            </div>
+        </form>
+        {% endfor %}
+    </main>
+    <main class="box" id="provider-content">
+        <h2>Datos del proveedor</h2>
+        {% if existe_prov %}
+        <form class="grid-area form-provider">
+            {% csrf_token %}
+            {% for prov in provider %}
+            <input type="text" name="id_prov" id="id_prov" value="{{ prov.4 }}" hidden>
+            <div class="flex">
+                <div>
+                    <label>Nombre:</label>
+                    <input type="text" class="input_prov id" name="prov_nam" value="{{ prov.0 }}" disabled>
+                </div>
+                <div>
+                    <label>Telefono:</label>
+                    <input type="text" class="input_prov" name="phone" value="{{ prov.1 }}" disabled>
+                </div>
+            </div>
+            <div class="flex">
+                <div>
+                    <label>Correo:</label>
+                    <input type="email" class="input_prov" name="email" value="{{ prov.2 }}" disabled>
+                </div>
+                <div>
+                    <label>País:</label>
+                    <input type="text" class="input_prov" name="country" value="{{ prov.3 }}" disabled>
+                </div>
+            </div>
+            <div class="btns flex">
+                <button type="submit" class="btn update-mod"><i class="upd fa-solid fa-pencil"></i></button>
+                <button type="button" data-title="Cambiar proveedor" class="btn btn-change"><i class="cha fa-solid fa-user-group"></i></button>
+                <button type="button" data-title="Modificar" class="btn select-mod"><i class="mod fa-solid fa-pencil"></i></button>
+                <button type="button" data-title="Cancelar" class="btn select-del cancel" id="cancel"><i class="del fa-solid fa-x"></i></button>
+                <button type="button" data-title="Eliminar" id-item="{{ item }}" class="btn select-del" id="delete"><i class="del fa-solid fa-trash-can"></i></button>
+            </div>
+            {% endfor %}
+        </form>
+        {% else %}
+        <form class="form_create">
+            {% csrf_token %}
+            <input type="hidden" name="item" value="{{ item }}" disabled>
+            <div class="flex_form select_box">
+                <div class="content-update-select">
+                    <label>Proveedor</label>
+                    <select name="sl_providers" class="sl_providers"></select>
+                    <button type="button" class="select_option"><i class="fa-sharp fa-solid fa-circle-check"></i></button>
+                </div>
+            </div>
+            <div class="flex_form content-new-prov">
+                <div class="content-update">
+                    <label>Código o RFC</label>
+                    <label>Nombre</label>
+                    <label>Télefono</label>
+                    <label>Email</label>
+                    <label>País</label>
+                </div>
+                <div class="content-update">
+                    <input type="text" name="id_prov" class="inp_hid">
+                    <input type="text" name="prov_name" class="inp_hid">
+                    <input type="text" name="number_phone" class="inp_hid">
+                    <input type="text" name="email" class="inp_hid">
+                    <input type="text" name="country" class="inp_hid">
+                </div>
+            </div>
+            <div class="content-update-btn">
+                <button type="submit" class="btnUpd btnSend">Realizar cambios</button>
+            </div>
+        </form>
+        {% endif %}
+    </main>
+{% endblock  %}
+{% block out-content %}
+    {% if existe_prov %}
+        <div class="update_hidden" id="prov-content">
+            <form class="form_update">
+                {% csrf_token %}
+                <a class="btnClose">X</a>
+                <input type="hidden" name="id_item" class="inp_hid" value="{{ item }}" disabled>
+                <div class="flex_form">
+                    <div class="content-update-select">
+                        <label>Nombre</label>
+                        <select name="sl_providers" class="inp_hid">
+                            {% for pro in providers %}
+                            <option value="{{ pro.0 }}">{{ pro.1 }}</option>
+                            {% endfor %}
+                            <option value="QUITAR">Sin proveedor</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="flex_form">
+                    <div class="content-update">
+                        <button type="submit" class="btnUpd">Realizar cambios</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    {% endif %}
+{% endblock %}
+{% block js_code %}
+    <script src="{% static 'js/plataforma/item.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends 'Plataforma/base.html' %}
+{% load static %}
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/platform/activity.css' %}">
+{% endblock %}
+{% block content %}
+    <h1>Actividades</h1>
+    <div class="container_activity">
+        <form class="form_act" id="form_act">
+            {% csrf_token %}
+            <h1>Agregar actividad</h1>
+            <div>
+                <label>Nombre de la actividad</label>
+                <input type="text" name="name_act" class="input_form">
+            </div>
+            <div>
+                <label>Descripción</label>
+                <textarea name="description" cols="30" rows="10"></textarea>
+            </div>
+            <div>
+                <input type="submit" class="btnAct" value="Crear actividad">
+            </div>
+        </form>
+        <div class="scroll">
+            <table class="table">
+                <thead class="t_header">
+                    <tr>
+                        <th>Código</th>
+                        <th>Nombre de actividad</th>
+                        <th>Descripción</th>
+                        <th colspan="2">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody class="t_body" id="activities">
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+{% block out-content %}
+    <div class="update_hidden" id="content-hidden">
+        <form class="form_update">
+            {% csrf_token %}
+            <a class="btnClose">X</a>
+            <input type="hidden" name="id_act" class="inp_hid">
+            <div class="content-update">
+                <label>Nombre</label>
+                <input type="text" class="inp_hid" name="new_name">
+            </div>
+            <div class="content-update">
+                <label>Descripción</label>
+                <textarea name="descrip" class="block" cols="30" rows="10"></textarea>
+            </div>
+            <div class="content-update">
+                <button type="submit" class="btnUpd">Realizar cambios</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+{% block js_code %}
+<script src="{% static 'js/plataforma/activity.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,143 @@
+{% extends 'Plataforma/base.html' %}
+{% load static %}
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/platform/manteinment.css' %}">
+{% endblock %}
+{% block content %}
+    <h1>Mantenimiento correctivo</h1>
+    <div class="manteinment">
+        <div>
+            <form class="form_manteinment">
+                {% csrf_token %}
+                <h2>Registrar mantenimiento</h2>
+                <div class="labels">
+                    <div class="input_box">
+                        <label>Seleccionar equipo</label>
+                        <select name="sl_item" class="item">
+                            <option selected disabled>--Seleccionar--</option>
+                            {% for item in items %}
+                                <option value="{{ item.0 }}">{{ item.1 }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="input_box">
+                        <label>Seleccionar modo de fallo</label>
+                        <select name="sl_fallo" class="item">
+                            <option selected disabled>--Seleccionar--</option>
+                            {% for fail in fails %}
+                                <option value="{{ fail.0 }}">{{ fail.1 }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="input_box">
+                        <label>Tipo de novedad</label>
+                        <select name="sl_fallo" class="item">
+                            <option selected disabled>--Seleccionar--</option>
+                            {% for nov in novedad %}
+                                <option value="{{ nov.0 }}">{{ nov.1 }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="labels">
+                    <div class="input_box">
+                        <label>Fecha de reporte</label>
+                        <input type="date" name="reporte" class="input">
+                    </div>
+                    <div class="input_box">
+                        <label>Fecha de entrega</label>
+                        <input type="date" name="entrega" class="input">
+                    </div>
+                    <div class="input_box">
+                        <label>Días</label>
+                        <input type="number" name="dias" class="input">
+                    </div>
+                </div>
+                <div class="labels">
+                    <label>Observaciones</label>
+                    <textarea name="observaciones" class="textarea" maxlength="300"></textarea>
+                    <div id="counter">
+                        <span id="actual">0</span>
+                        <span id="completo">/300</span>
+                    </div>
+                </div>
+                <div class="button_box">
+                    <input type="submit" class="btnMant" value="Registrar">
+                </div>
+            </form>
+            <div class="scroll">
+                <table class="table">
+                    <thead class="t_header">
+                        <tr>
+                            <th>Código</th>
+                            <th>Máquina/Equipo</th>
+                            <th>Ubicación</th>
+                            <th>Tipo de novedad</th>
+                            <th>Fecha de reporte</th>
+                            <th>Modo de fallo</th>
+                            <th>Código</th>
+                            <th>Fecha de entrega</th>
+                            <th>Faltan (días)</th>
+                            <th>Responsable del mantenimiento</th>
+                            <th>Observaciones</th>
+                        </tr>
+                    </thead>
+                    <tbody class="t_body">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block out-content %}
+<div class="update_hidden" id="content-hidden">
+    <form class="form_update">
+        {% csrf_token %}
+        <a class="btnClose">X</a>
+        <div class="content-update">
+            <input type="text" name="id_mant" class="inp_hid" disabled>
+        </div>
+        <div class="flex">
+            <div class="content-update">
+                <label>Item</label>
+                <label>Ubicación</label>
+                <label>Novedad</label>
+                <label>Modo de fallo</label>
+                <label>Fecha de reporte</label>
+                <label>Fecha de entrega</label>
+                <label>Días</label>
+            </div>
+            <div class="content-update">
+                <select name="sl_item" class="item">
+                    <option selected disabled>--Seleccionar--</option>
+                    {% for item in items %}
+                        <option value="{{ item.0 }}">{{ item.1 }}</option>
+                    {% endfor %}
+                </select>
+                <input type="text" name="ubicacion" class="input">
+                <select name="sl_nov" class="item">
+                    <option selected disabled>--Seleccionar--</option>
+                    {% for nov in novedad %}
+                        <option value="{{ nov.0 }}">{{ nov.1 }}</option>
+                    {% endfor %}
+                </select>
+                <select name="sl_fallo" class="item">
+                    <option selected disabled>--Seleccionar--</option>
+                    {% for fail in fails %}
+                        <option value="{{ fail.0 }}">{{ fail.1 }}</option>
+                    {% endfor %}
+                </select>
+                <input type="date" name="reporte" class="input">
+                <input type="date" name="entrega" class="input">
+                <input type="number" name="dias" class="input">
+            </div>
+        </div>
+        <div class="content-update-btn">
+            <button type="submit" class="btnUpd">Realizar cambios</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
+{% block js_code %}
+<script src="{% static 'js/plataforma/manteinment.js' %}"></script>
+{% endblock %}
