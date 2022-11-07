@@ -176,10 +176,10 @@ from .cdn.conf import *
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
-MEDIA_URL = '/media-mcgreen/'
-STATIC_ROOT = BASE_DIR / "staticfiles"
-MEDIA_ROOT = BASE_DIR / "staticfiles" / "media_uploads"
-STATIC_URL = '/static-mcgreen/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static-mcgreen')]
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media-mcgreen')
+MEDIA_URL = '/media/'
+STATIC_ROOT = os.path.join(BASE_DIR, '')
+MEDIA_ROOT = os.path.join(BASE_DIR, '')
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
