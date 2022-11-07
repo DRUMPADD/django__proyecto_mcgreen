@@ -96,16 +96,15 @@ SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
 
 DATABASES = {
     'default': {
+    },
+    'mcgreen_conexion': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': "fluidos4_mcgreen",
-        'USER': "fluidos4_hazardousback",
-        'PASSWORD': "0uFM&UV-G13+",
-        'HOST': "162.241.62.45",
-        'PORT': 3306,
-        'OPTIONS': {
-            'init_command': "SET sql_mode='NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'"
-        }
-    }
+        'HOST': os.environ.get('MYSQL_HOST'),
+        'USER': os.environ.get('MYSQL_USER'),
+        'PASSWORD': os.environ.get('MYSQL_PASSWORD'),
+        'NAME': os.environ.get('MYSQL_NAME2'),
+        'PORT': os.environ.get('MYSQL_PORT'),
+    },
 }
 
 MYSQL_NAME = os.environ.get('MYSQL_NAME')
@@ -136,6 +135,8 @@ if MYSQL_READY:
             }
         }
     }
+
+DATABASE_ROUTERS = ['routers.routers.McGreenRouter']
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
