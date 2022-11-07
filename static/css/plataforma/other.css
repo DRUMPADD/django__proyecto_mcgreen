@@ -1,0 +1,187 @@
+.box {
+    width: 100%;
+    padding: 15px;
+}
+
+.content-button {
+    width: 100%;
+    border-bottom: 2px solid rgb(1, 1, 22);
+}
+
+.btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    width: 7%;
+    padding: 7px 5px;
+    margin: 5px 0;
+    border-radius: 15px;
+    background-color: rgb(10, 200, 10);
+    cursor: pointer;
+    transition: all .3s ease;
+}
+
+
+.btn:hover {
+    background-color: rgb(0, 0, 0);
+}
+
+.btn:active {
+    transform: scale(.6);
+}
+
+.content-table {
+    margin-top: 10px;
+    width: 100%;
+    height: 300px;
+    overflow-y: scroll;
+}
+
+i {
+    display: inline;
+    color: #fff;
+}
+
+.h1 {
+    text-align: center;
+}
+
+.t_header {
+    border-bottom: 2px solid #000;
+}
+
+.flex-tr {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.flex-tr i {
+    color: #fff;
+    margin: 0 10px;
+    border: 1px solid #000;
+    padding: 15px;
+    border-radius: 50%;
+    transition: all .2s ease;
+}
+
+
+.i-mod:nth-child(1) {
+    background-color: rgb(10, 100, 200);
+}
+.i-del:nth-child(1) {
+    background-color: rgb(200, 10, 10);
+}
+
+.i-mod:active,
+.i-del:active {
+    transform: scale(.8);
+}
+
+
+/* Formulario escondido */
+.update_hidden {
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.9);
+    transition: opacity 500ms;
+    visibility: hidden;
+    opacity: 0;
+}
+
+.form_update {
+    width: 40%;
+    margin: 10% auto;
+    border-radius: 10px;
+    background-color: rgba(53, 57, 87, 0.701);
+    padding: 30px;
+}
+
+.flex_form {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.content-update {
+    margin-top: 15px;
+}
+
+.flex_form .content-update label {
+    width: 200px;
+    color: rgb(255, 255, 255);
+    font-size: 18px;
+}
+
+.flex_form .content-update label,
+.flex_form .content-update input {
+    display: block;
+}
+.flex_form .content-update label,
+.flex_form .content-update input,
+.flex_form .content-update-select select{
+    margin: 10px 0;
+    padding: 10px;
+}
+
+.select,
+.select_option {
+    pointer-events: visible;
+}
+
+.content-update-select {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+
+.content-update > label,
+.content-update-select > label {
+    font-size: 20px;
+}
+
+.content-update-select > input,
+.content-update > input {
+    padding: 10px;
+    font-size: 17px;
+}
+
+.content-update-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btnUpd {
+    padding: 13px 28px;
+    font-size: 18px;
+    font-weight: 700;
+    border-radius: 30px;
+    cursor: pointer;
+    border: 2px solid #000;
+    transition: all .2s ease-out;
+}
+
+.btnUpd:hover {
+    color: rgb(255, 255, 255);
+    background-color:rgb(11, 11, 23);
+}
+
+.inp_hid {
+    border-radius: 6px;
+}
+.btnClose {
+    color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #d81818;
+    cursor: pointer;
+}
+
+/* ?? Otro archivo */
