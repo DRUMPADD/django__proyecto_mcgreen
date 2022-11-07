@@ -1,0 +1,67 @@
+.my-custom-scrollbar {
+    position: relative;
+    width: 1200px;
+    height: 600px;
+    overflow: auto;
+}
+
+.custom-scrollbar {
+    position: relative;
+    height: 300px;
+    overflow: auto;
+}
+
+.custom-scrollbar-total {
+    position: relative;
+    height: 250px;
+    overflow-y: auto;
+}
+
+.table-wrapper-scroll-y {
+    display: block;
+}
+
+.scrollbar {
+    overflow-y: auto;
+    width: 100%;
+}
+
+#table_rrhh {
+    border-collapse: collapse;
+}
+
+.container1 {
+    width: 90%;
+    margin: 0 auto;
+}
+
+.table_res_final {
+    width: 40px;
+}
+
+.table_res_final thead tr th {
+    padding: 4px 19px;
+}
+.table_res_final thead tr th,
+.table_res_final tbody tr td,
+.table_res_final tfoot tr td {
+    border: 3px solid;
+    text-align: center;
+}
+
+
+.table_res thead tr th {
+    font-size: 12px;
+    text-align: center;
+}
+.table_res tbody tr td {
+    text-align: center;
+}
+
+.table_res_final thead tr th,
+.table_res_final tbody tr td,
+.table_res_final tfoot tr td,
+.table_res thead tr th,
+.table_res tbody tr td {
+    color: #001;
+}
