@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'app.apps.AppConfig',
     'django.contrib.humanize',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -96,11 +97,11 @@ SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'mcgreen',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'NAME': "fluidos4_mcgreen",
+        'USER': "fluidos4_hazardousback",
+        'PASSWORD': "0uFM&UV-G13+",
+        'HOST': "162.241.62.45",
+        'PORT': 3306,
         'OPTIONS': {
             'init_command': "SET sql_mode='NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'"
         }
@@ -171,12 +172,13 @@ USE_L10N = True
 
 USE_TZ = True
 
+from .cdn.conf import *
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 MEDIA_URL = '/media/'
-STATIC_ROOT = str(os.environ.get("ALLOWED_HOSTS")) + "/static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
