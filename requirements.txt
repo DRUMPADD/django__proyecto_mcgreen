@@ -35,4 +35,3 @@ PyMySQL
 xhtml2pdf
 XlsxWriter
 xlwt
-whitenoise
