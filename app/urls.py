@@ -13,7 +13,6 @@ from .sigssmac import posts as p_sigss
 from .accidentabilidad import views as v_acc
 from .accidentabilidad import posts as p_acc
 from .plataforma import views as v_plat
-from .plataforma.requests import re as v_plat
 from .plataforma.requests import activity_requests as plat_act_req
 from .plataforma.requests import items_requests as plat_it_req
 from .plataforma.requests import general_requests as plat_g_req
