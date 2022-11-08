@@ -45,6 +45,20 @@
         <ul class="navbar-nav me-auto">
             <div class="dropdown">
                 <button class="nav-link dropdown-toggle btn" type="button" id="navbarDropdown" aria-haspopup="true" data-toggle="dropdown" aria-expanded="false">
+                    Plataforma industrial
+                </button>
+                <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item text-white" href="{% url 'generalMant' %}" class="link"><span>General</span></a>
+                    <a class="dropdown-item text-white" href="{% url 'activities' %}" class="link"><span>Actividades</span></a>
+                    <a class="dropdown-item text-white" href="{% url 'items' %}" class="link"><span>Equipos</span></a>
+                    <a class="dropdown-item text-white" href="{% url 'corMant' %}" class="link"><span>Mantenimiento correctivo</span></a>
+                    <a class="dropdown-item text-white" href="{% url 'otherRegisters' %}" class="link"><span>Otros registros</span></a>
+                </div>
+            </div>
+        </ul>
+        <ul class="navbar-nav me-auto">
+            <div class="dropdown">
+                <button class="nav-link dropdown-toggle btn" type="button" id="navbarDropdown" aria-haspopup="true" data-toggle="dropdown" aria-expanded="false">
                     Mantenimiento
                 </button>
                 <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">

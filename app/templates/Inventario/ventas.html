@@ -43,6 +43,20 @@
         <ul class="navbar-nav me-auto">
             <div class="dropdown">
                 <button class="nav-link dropdown-toggle btn" type="button" id="navbarDropdown" aria-haspopup="true" data-toggle="dropdown" aria-expanded="false">
+                    Plataforma industrial
+                </button>
+                <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item text-white" href="{% url 'generalMant' %}" class="link"><span>General</span></a>
+                    <a class="dropdown-item text-white" href="{% url 'activities' %}" class="link"><span>Actividades</span></a>
+                    <a class="dropdown-item text-white" href="{% url 'items' %}" class="link"><span>Equipos</span></a>
+                    <a class="dropdown-item text-white" href="{% url 'corMant' %}" class="link"><span>Mantenimiento correctivo</span></a>
+                    <a class="dropdown-item text-white" href="{% url 'otherRegisters' %}" class="link"><span>Otros registros</span></a>
+                </div>
+            </div>
+        </ul>
+        <ul class="navbar-nav me-auto">
+            <div class="dropdown">
+                <button class="nav-link dropdown-toggle btn" type="button" id="navbarDropdown" aria-haspopup="true" data-toggle="dropdown" aria-expanded="false">
                     Indicadores
                 </button>
                 <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
@@ -218,71 +232,5 @@
             $('#p_u').val(parseFloat($this));
         });
     </script>
-    <!--<script>
-    const btnAddForm = document.getElementByid("btnAddForm");
-    const form = document.querySelector(".agrega_articulo");
-    const articulos = document.querySelectorAll(".articulos");
-
-    articulos.length;
-    let num = 1;
-
-    btnAddForm.addEventListener('click', () => {
-        num += 1;
-        const formulario = `
-                    <div class="input-group d-flex justify-content-around">
-                        <div>
-                            <label>Artículo: </label>
-                            <input type="text" name="comprador" class="form-control" readonly="on" value="${num}" />
-                        </div>
-                    </div>
-                    <div class="input-group mt-3 d-flex justify-content-lg-start align-items-center">
-                        Proveedor: <select name="ddw_departamentos" class="form-select">
-                            <option value="1">Opcion 1</option>
-                            <option value="2">Opcion 2</option>
-                            <option value="3">Opcion 3</option>
-                        </select> <a class="btn btn-info m-2">
-                            <i class="bi bi-question-circle">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-question-circle text-center" viewBox="0 0 16 16">
-                                  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                                  <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
-                                </svg>
-                            </i>
-                        </a>
-                    </div>
-                    <div class="input-group mt-3 d-flex justify-content-lg-start align-items-center">
-                        Producto: <select name="ddw_productos" class="form-select">
-                            <option value="1">Opcion 1</option>
-                            <option value="2">Opcion 2</option>
-                            <option value="3">Opcion 3</option>
-                        </select> <a class="btn btn-info m-2">
-                            <i class="bi bi-question-circle">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-question-circle text-center" viewBox="0 0 16 16">
-                                  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                                  <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
-                                </svg>
-                            </i>
-                        </a>
-                    </div>
-                    <div class="input-group mt-3 d-flex justify-content-around">
-                        <div>
-                            <label>Cantidad:</label>
-                            <input type="number" name="descripcion" class="form-control" />
-                        </div>
-                        <div>
-                            <label>P.U:</label>
-                            <input type="number" name="descripcion" class="form-control" />
-                        </div>
-                    </div>
-            <hr />
-    `;
-
-        console.log(num);
-        const new_article = document.createElement("div");
-        new_article.className = "articulos";
-        new_article.innerHTML += formulario;
-        form.append(new_article);
-    });
-
-</script> -->
 </body>
 </html>
